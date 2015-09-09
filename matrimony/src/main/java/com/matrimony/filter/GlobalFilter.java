@@ -25,54 +25,54 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GlobalFilter implements Filter {
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+	public void init(FilterConfig arg0) throws ServletException {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) resp;
-        System.out.println("Global filter");
-        System.out.println(new Date().toString() + ": " + request.getRemoteAddr());
-        User user = (User) request.getSession().getAttribute("user");
-        System.out.println(user);
-        if (user == null) {
-            Cookie[] allCookie = request.getCookies();
-            boolean keepLogin = false;
-            for (Cookie c : allCookie) {
-                System.out.println(c.getName() + " " + c.getValue());
-            }
-            for (Cookie c : allCookie) {
-                if ("keepLoggin".equals(c.getName())) {
-                    if ("true".equals(c.getValue())) {
-                        keepLogin = true;
-                        break;
-                    }
-                }
-            }
-            System.out.println("keep loggin confirm " + keepLogin);
-            for (Cookie c : allCookie) {
-                if (keepLogin && "loginName".equals(c.getName())) {
-                    user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
-                    System.out.println("cokie the nao roi " + user);
-                    request.getSession().setAttribute("user", user);
-                    break;
-                }
-            }
+	public void destroy() {
+		// TODO Auto-generated method stub
 
-        }
-        try {
-            chain.doFilter(request, response);
-        } catch (IOException | ServletException ex) {
-            System.out.println(ex);
-        }
-    }
+	}
 
-    @Override
-    public void destroy() {
+	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException {
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) resp;
+		System.out.println("Global filter");
+		System.out.println(new Date().toString() + ": " + request.getRemoteAddr());
+		User user = (User) request.getSession().getAttribute("user");
+		System.out.println(user);
+		if (user == null) {
+			Cookie[] allCookie = new Cookie[0];
+			allCookie = request.getCookies();
+			boolean keepLogin = false;
+			for (Cookie c : allCookie) {
+				System.out.println(c.getName() + " " + c.getValue());
+			}
+			for (Cookie c : allCookie) {
+				if ("keepLoggin".equals(c.getName())) {
+					if ("true".equals(c.getValue())) {
+						keepLogin = true;
+						break;
+					}
+				}
+			}
+			System.out.println("keep loggin confirm " + keepLogin);
+			for (Cookie c : allCookie) {
+				if (keepLogin && "loginName".equals(c.getName())) {
+					user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
+					System.out.println("cokie the nao roi " + user);
+					request.getSession().setAttribute("user", user);
+					break;
+				}
+			}
 
-    }
+		}
+		try {
+			chain.doFilter(request, response);
+		} catch (IOException | ServletException ex) {
+			System.out.println(ex);
+		}
+	}
 
 }

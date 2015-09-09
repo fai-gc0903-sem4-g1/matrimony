@@ -45,7 +45,7 @@
         <a href="${fbConn.FBAuthUrl}">Login with facebook</a>
         <div class="container-fluid col-lg-12" style="color:#ddccee">
             <div class="row">
-                <form:form modelAttribute="userLogin" id="loginForm" action="/wedding_event_prj/login" method="POST"
+                <form:form modelAttribute="userLogin" id="loginForm" action="/matrimony/login" method="POST"
                            class="form-horizontal col-md-4">
                     <h3>${requestScope.notice}</h3>
                     <div class="form-group">
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </form:form>
-                <form:form modelAttribute="userReg" id="registerForm" action="/wedding_event_prj/register" method="POST" class="form-horizontal col-md-4">
+                <form:form modelAttribute="userReg" id="registerForm" action="/matrimony/register" method="POST" class="form-horizontal col-md-4">
                     <h2>Đăng ký</h2><br/>
                     <div style="display: none;" id="myAlert" class="alert alert-danger" role="alert"></div>
 

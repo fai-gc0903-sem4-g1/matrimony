@@ -5,15 +5,16 @@
  */
 package com.matrimony.database;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import com.matrimony.entity.TableFriends;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
 import com.matrimony.util.HibernateUtil;
-import java.util.Iterator;
-import java.util.List;
-import org.hibernate.Hibernate;
-import org.hibernate.Query;
-import org.hibernate.Session;
 
 /**
  *

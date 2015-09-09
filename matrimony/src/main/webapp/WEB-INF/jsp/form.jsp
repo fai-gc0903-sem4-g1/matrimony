@@ -16,7 +16,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <form action="/wedding_event_prj/valid" method="POST">
+        <form action="/matrimony/valid" method="POST">
             <label>name</label>
             <input type="text" name="name"/><br/>
             <label>age</label>
