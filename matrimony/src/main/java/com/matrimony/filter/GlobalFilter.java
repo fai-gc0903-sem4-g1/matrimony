@@ -70,7 +70,9 @@ public class GlobalFilter implements Filter {
 		}
 		try {
 			chain.doFilter(request, response);
-		} catch (IOException | ServletException ex) {
+		} catch (IOException ex) {
+			System.out.println(ex);
+		} catch (ServletException ex) {
 			System.out.println(ex);
 		}
 	}
