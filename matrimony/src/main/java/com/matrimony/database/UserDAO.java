@@ -5,20 +5,21 @@
  */
 package com.matrimony.database;
 
+import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.Session;
+
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
 import com.matrimony.security.HashUtil;
 import com.matrimony.util.HibernateUtil;
-import java.util.List;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.hibernate.Session;
 
 /**
  *
  * @author SON
  */
+@SuppressWarnings("unchecked")
 public class UserDAO {
 
     public static void add(User a) throws STException.EmailAlready, STException.ContactNumberAlready {
@@ -43,7 +44,7 @@ public class UserDAO {
 
     public static List<User> allAccounts() {
         Session ss = HibernateUtil.openSession();
-        List<User> accounts = ss.createQuery("FROM user").list();
+		List<User> accounts = ss.createQuery("FROM user").list();
         ss.close();
         return accounts;
     }
@@ -110,19 +111,5 @@ public class UserDAO {
     }
 
     public static void main(String[] args) {
-       User user=new User();
-       user.setPassword("1234");
-       user.setEmail("asdf@yahoo.com");
-       user.setGender("male");
-//        try {
-//            add(user);
-//            System.out.println("Added");
-//        } catch (STException.EmailAlready ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (STException.ContactNumberAlready ex) {
-       
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-       User aa=findByEmail("taodienmat@yahoo.com");
     }
 }

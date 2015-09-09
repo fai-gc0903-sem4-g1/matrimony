@@ -8,13 +8,12 @@ package com.matrimony.entity;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -27,7 +26,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity(name = "user")
 public class User implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @Column(nullable = false)
     @GenericGenerator(name = "id", strategy = "uuid")
     @GeneratedValue(generator = "id")

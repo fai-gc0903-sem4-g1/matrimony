@@ -53,7 +53,8 @@ public class FriendDAO {
         return user;
     }
 
-    public static List<User> getListFriend(List<TableFriends> list) {
+    @SuppressWarnings("null")
+	public static List<User> getListFriend(List<TableFriends> list) {
         List<User> l = null;
         Iterator<TableFriends> ite = list.iterator();
         while (ite.hasNext()) {
@@ -64,8 +65,9 @@ public class FriendDAO {
         return l;
     }
 
-    public static List<User> searchBySttToGetSuggest(User user) throws STException.EmptySuggest {
-        List list = null;
+    @SuppressWarnings("unchecked")
+	public static List<User> searchBySttToGetSuggest(User user) throws STException.EmptySuggest {
+        List<TableFriends> list = null;
         List<User> listSuggest = null;
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("FROM friend WHERE status=:status and friendFromId=:friendFromId");
@@ -81,8 +83,9 @@ public class FriendDAO {
         session.close();
         return listSuggest;
     }
-    public static List<User> searchBySttToGetFriend(User user) throws STException.EmptyFriend{
-        List list = null;
+    @SuppressWarnings("unchecked")
+	public static List<User> searchBySttToGetFriend(User user) throws STException.EmptyFriend{
+        List<TableFriends> list = null;
         List<User> listFriend = null;
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("FROM friend WHERE status=:status and friendFromId=:friendFromId");
@@ -99,8 +102,9 @@ public class FriendDAO {
         return listFriend;
     }
 
-    public static List<User> searchBySttToGetRequest(User user) throws STException.EmptyRequest {
-        List list = null;
+	@SuppressWarnings("unchecked")
+	public static List<User> searchBySttToGetRequest(User user) throws STException.EmptyRequest {
+        List<TableFriends> list = null;
         List<User> listRequest = null;
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("FROM friend WHERE status=:status and friendToId=:friendToId");

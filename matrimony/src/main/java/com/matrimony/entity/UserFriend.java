@@ -19,7 +19,11 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity(name="user_friend")
 public class UserFriend implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @Column(nullable = false)
     @GenericGenerator(name="id", strategy="uuid")
     @GeneratedValue(generator="id")

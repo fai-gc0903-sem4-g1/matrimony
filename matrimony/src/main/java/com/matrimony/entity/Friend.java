@@ -7,10 +7,12 @@ package com.matrimony.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -19,7 +21,11 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity(name="friend")
 public class Friend implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @Column(nullable = false)
     @GenericGenerator(name = "id", strategy = "uuid")
     @GeneratedValue(generator = "id")
