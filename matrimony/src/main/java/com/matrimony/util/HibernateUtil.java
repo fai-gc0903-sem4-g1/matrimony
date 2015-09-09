@@ -33,6 +33,8 @@ public class HibernateUtil {
     }
 
     public static void main(String[] args) {
-        HibernateUtil.openSession();
+        Session ss=HibernateUtil.openSession();
+        ss.close();
+        sf.close();
     }
 }
