@@ -20,7 +20,7 @@
             <label>name</label>
             <input type="text" name="name"/><br/>
             <label>age</label>
-            <input type="number" name="age"/></br>           
+            <input type="number" name="age"/><br/>           
             <input type="submit" value="Valid"/>
          </form>
     </body>

@@ -43,30 +43,30 @@ public class GlobalFilter implements Filter {
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println(user);
 		if (user == null) {
-			Cookie[] allCookie = new Cookie[0];
-			allCookie = request.getCookies();
+			Cookie[] allCookie = request.getCookies();
 			boolean keepLogin = false;
-			for (Cookie c : allCookie) {
-				System.out.println(c.getName() + " " + c.getValue());
-			}
-			for (Cookie c : allCookie) {
-				if ("keepLoggin".equals(c.getName())) {
-					if ("true".equals(c.getValue())) {
-						keepLogin = true;
+			if (allCookie != null) {
+				for (Cookie c : allCookie) {
+					System.out.println(c.getName() + " " + c.getValue());
+				}
+				for (Cookie c : allCookie) {
+					if ("keepLoggin".equals(c.getName())) {
+						if ("true".equals(c.getValue())) {
+							keepLogin = true;
+							break;
+						}
+					}
+				}
+				System.out.println("keep loggin confirm " + keepLogin);
+				for (Cookie c : allCookie) {
+					if (keepLogin && "loginName".equals(c.getName())) {
+						user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
+						System.out.println("cokie the nao roi " + user);
+						request.getSession().setAttribute("user", user);
 						break;
 					}
 				}
 			}
-			System.out.println("keep loggin confirm " + keepLogin);
-			for (Cookie c : allCookie) {
-				if (keepLogin && "loginName".equals(c.getName())) {
-					user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
-					System.out.println("cokie the nao roi " + user);
-					request.getSession().setAttribute("user", user);
-					break;
-				}
-			}
-
 		}
 		try {
 			chain.doFilter(request, response);
