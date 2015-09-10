@@ -2,6 +2,7 @@
 
 <t:layout>
     <jsp:body>
+    <title>hay hay</title>
         <h1>THIS IS BODY</h1>
         ${empty sessionScope.abcxyz }
         <a href="#" class="btn btn-success">ngu nguoi</a>
