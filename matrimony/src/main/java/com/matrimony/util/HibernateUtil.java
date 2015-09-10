@@ -37,7 +37,7 @@ public class HibernateUtil {
 //        Session ss=HibernateUtil.openSession();
 //        ss.close();
 //        sf.close();
-        File f=new File("/com/cfg/hibernate.cfg");
+        File f=new File("hibernate.cfg");
         System.out.println(f.exists());
     }
 }
