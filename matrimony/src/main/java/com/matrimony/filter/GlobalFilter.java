@@ -39,9 +39,8 @@ public class GlobalFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 		System.out.println("Global filter");
-		System.out.println(new Date().toString() + ": " + request.getRemoteAddr());
 		User user = (User) request.getSession().getAttribute("user");
-		System.out.println(user);
+		System.out.println("User: " +user);
 		if (user == null) {
 			Cookie[] allCookie = request.getCookies();
 			boolean keepLogin = false;
@@ -57,11 +56,9 @@ public class GlobalFilter implements Filter {
 						}
 					}
 				}
-				System.out.println("keep loggin confirm " + keepLogin);
 				for (Cookie c : allCookie) {
 					if (keepLogin && "loginName".equals(c.getName())) {
 						user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
-						System.out.println("cokie the nao roi " + user);
 						request.getSession().setAttribute("user", user);
 						break;
 					}
