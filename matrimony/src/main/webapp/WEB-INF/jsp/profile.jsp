@@ -1,17 +1,21 @@
-<%-- 
-    Document   : profile
-    Created on : Sep 3, 2015, 3:47:23 PM
-    Author     : SON
---%>
+<%@page pageEncoding="UTF8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Đây là trang cá nhân của ${requestScope.user.name}</h1>
-    </body>
-</html>
+<t:layout>
+	<jsp:body>
+		<title>new title</title>
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<h1>User profile</h1>
+		${sessionScope.user.name }
+	</jsp:body>
+</t:layout>

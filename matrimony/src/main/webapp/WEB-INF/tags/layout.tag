@@ -1,5 +1,4 @@
-<%@tag language="java" pageEncoding="UTF-8"
-	description="Overall Page template"%>
+<%@tag pageEncoding="UTF-8"%>
 
 <jsp:include page="/WEB-INF/bundle/jstl.jsp" />
 <jsp:include page="/WEB-INF/bundle/bootstrap.jsp" />
