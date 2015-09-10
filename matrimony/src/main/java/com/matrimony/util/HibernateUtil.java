@@ -5,6 +5,7 @@
  */
 package com.matrimony.util;
 
+import java.io.File;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -33,8 +34,10 @@ public class HibernateUtil {
     }
 
     public static void main(String[] args) {
-        Session ss=HibernateUtil.openSession();
-        ss.close();
-        sf.close();
+//        Session ss=HibernateUtil.openSession();
+//        ss.close();
+//        sf.close();
+        File f=new File("/com/cfg/hibernate.cfg");
+        System.out.println(f.exists());
     }
 }
