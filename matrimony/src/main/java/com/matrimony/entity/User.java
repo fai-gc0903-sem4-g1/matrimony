@@ -95,10 +95,10 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "friend")
     private Set friendToId = new HashSet(0);
     @OneToMany(mappedBy = "friend")
-    private Set friendFromId;
+    private Set friendFromId = new HashSet(0);
 
     public User() {
-        this.friendFromId = new HashSet(0);
+        this.friendFromId = friendFromId ;
     }
 
     public Set getFriendToId() {
