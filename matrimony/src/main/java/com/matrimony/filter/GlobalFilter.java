@@ -49,8 +49,8 @@ public class GlobalFilter implements Filter {
 		System.out.println(req.getRemoteAddr());
 		CountryResponse country=GeoIP.getCountry(req.getRemoteHost());
 		CityResponse city=GeoIP.getCity(req.getRemoteAddr());
-		System.out.println(country);
-		System.out.println(city);
+//		System.out.println(country);
+//		System.out.println(city);
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("User: " +user);
 		Cookie[] allCookie = request.getCookies();
