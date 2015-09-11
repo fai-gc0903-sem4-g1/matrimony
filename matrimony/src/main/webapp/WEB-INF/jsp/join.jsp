@@ -80,7 +80,7 @@
                         <div class="col-sm-offset-2">
                             <div class="checkbox">
                                 <label><input type="checkbox" name="keepLoggin" /> Duy trì đăng nhập</label>
-                                <a class="col-sm-offset-1" style="color:#ffffff" href="/ShoppingAssignment/account/recover-account.jsp">Lấy lại mật khẩu</a>
+                                <a class="col-sm-offset-1" style="color:#ffffff" href="recover">Lấy lại mật khẩu</a>
                             </div>
                         </div>
                     </div>

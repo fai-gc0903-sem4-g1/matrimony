@@ -5,12 +5,6 @@
  */
 package com.matrimony.filter;
 
-import com.matrimony.database.UserDAO;
-import com.matrimony.entity.User;
-import com.matrimony.util.GeoIP;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.CountryResponse;
-
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -23,78 +17,66 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.matrimony.database.UserDAO;
+import com.matrimony.entity.User;
+import com.matrimony.util.GeoIP;
+import com.maxmind.geoip2.model.CountryResponse;
+
 /**
  *
  * @author SON
  */
 public class GlobalFilter implements Filter {
 
-    public void init(FilterConfig arg0) throws ServletException {
-        // TODO Auto-generated method stub
+	public void init(FilterConfig arg0) throws ServletException {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void destroy() {
-        // TODO Auto-generated method stub
+	public void destroy() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-<<<<<<< HEAD
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
-		System.out.println("Global filter");
-		System.out.println(req.getRemoteHost());
 		System.out.println(req.getRemoteAddr());
-		CountryResponse country=GeoIP.getCountry(req.getRemoteHost());
-		CityResponse city=GeoIP.getCity(req.getRemoteAddr());
-		//hello ửok
-=======
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) resp;
-        System.out.println("Global filter");
-        System.out.println(req.getRemoteHost());
-        System.out.println(req.getRemoteAddr());
-//        CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
-//        CityResponse city = GeoIP.getCity(req.getRemoteAddr());
->>>>>>> branch 'master' of https://github.com/fai-gc0903-sem4-g1/matrimony.git
-//		System.out.println(country);
-//		System.out.println(city);
-        User user = (User) request.getSession().getAttribute("user");
-        System.out.println("User: " + user);
-        Cookie[] allCookie = request.getCookies();
-        //newest
-        if (user == null) {
+		 CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
+		 System.out.println("Locate: "+country);
+//		 CityResponse city = GeoIP.getCity(req.getRemoteAddr());
+		System.out.println(country);
+		User user = (User) request.getSession().getAttribute("user");
+		System.out.println("Current user: " + user);
+		Cookie[] allCookie = request.getCookies();
+		if (user == null) {
 
-            boolean keepLogin = false;
-            if (allCookie != null) {
-                for (Cookie c : allCookie) {
-                    System.out.println(c.getName() + " " + c.getValue());
-                }
-                for (Cookie c : allCookie) {
-                    if ("keepLoggin".equals(c.getName())) {
-                        if ("true".equals(c.getValue())) {
-                            keepLogin = true;
-                            break;
-                        }
-                    }
-                }
-                for (Cookie c : allCookie) {
-                    if (keepLogin && "loginName".equals(c.getName())) {
-                        user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
-                        request.getSession().setAttribute("user", user);
-                        break;
-                    }
-                }
-            }
-        }
-        try {
-            chain.doFilter(request, response);
-        } catch (IOException ex) {
-            System.out.println(ex);
-        } catch (ServletException ex) {
-            System.out.println(ex);
-        }
-    }
+			boolean keepLogin = false;
+			if (allCookie != null) {
+				for (Cookie c : allCookie) {
+					if ("keepLoggin".equals(c.getName())) {
+						if ("true".equals(c.getValue())) {
+							keepLogin = true;
+							break;
+						}
+					}
+				}
+				for (Cookie c : allCookie) {
+					if (keepLogin && "loginName".equals(c.getName())) {
+						user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
+						request.getSession().setAttribute("user", user);
+						System.out.println("User keep login: "+user);
+						break;
+					}
+				}
+			}
+		}
+		try {
+			chain.doFilter(request, response);
+		} catch (IOException ex) {
+			System.out.println(ex);
+		} catch (ServletException ex) {
+			System.out.println(ex);
+		}
+	}
 }

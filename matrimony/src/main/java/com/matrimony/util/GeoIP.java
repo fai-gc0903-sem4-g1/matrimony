@@ -46,7 +46,6 @@ public class GeoIP {
         } catch (GeoIp2Exception e) {
             // TODO Auto-generated catch block
             System.out.println(e.getMessage());
-            System.out.println("Khong tim duoc ip nay");
         }
         return countryResponse;
     }
@@ -61,7 +60,6 @@ public class GeoIP {
             e.printStackTrace();
         } catch (GeoIp2Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Khong tim duoc ip nay");
         }
         return cityResponse;
     }
