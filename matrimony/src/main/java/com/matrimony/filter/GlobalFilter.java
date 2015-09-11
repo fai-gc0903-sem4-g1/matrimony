@@ -39,6 +39,8 @@ public class GlobalFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 		System.out.println("Global filter");
+		
+		
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("User: " +user);
 		if (user == null) {
