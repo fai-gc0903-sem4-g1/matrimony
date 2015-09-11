@@ -11,16 +11,15 @@ import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
-import com.test.TestIP;
 
 /**
  * @author SON
  *
  */
 public class GeoIP {
-	private final static String COUNTRY_DB_PATH = TestIP.class.getResource("/com/resoucres/GeoLite2-Country.mmdb")
+	private final static String COUNTRY_DB_PATH = GeoIP.class.getResource("/com/resoucres/GeoLite2-Country.mmdb")
 			.getFile();
-	private final static String CITY_DB_PATH = TestIP.class.getResource("/com/resoucres/GeoLite2-City.mmdb").getFile();
+	private final static String CITY_DB_PATH = GeoIP.class.getResource("/com/resoucres/GeoLite2-City.mmdb").getFile();
 	private final static File COUNTRY_DB = new File(COUNTRY_DB_PATH);
 	private final static File CITY_DB = new File(CITY_DB_PATH);
 	private static DatabaseReader countryReader, cityReader;

@@ -7,8 +7,12 @@ package com.matrimony.filter;
 
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
+import com.matrimony.util.GeoIP;
+import com.maxmind.geoip2.model.CountryResponse;
+
 import java.io.IOException;
 import java.util.Date;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -39,7 +43,10 @@ public class GlobalFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 		System.out.println("Global filter");
-		
+		System.out.println(req.getRemoteHost());
+		System.out.println(req.getRemoteAddr());
+		CountryResponse country=GeoIP.getCountry(req.getRemoteHost());
+		System.out.println(country);
 		
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("User: " +user);
