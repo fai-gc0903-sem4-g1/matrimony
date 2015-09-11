@@ -13,6 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
@@ -87,6 +89,17 @@ public class User implements Serializable {
     @Column(length = 1000)
     private String favoriteBook;
     private Timestamp lastUpdateHobby;
+    @ManyToOne
+    @JoinColumn(name = "list_id")
+    private TableFriends table;
+
+    public TableFriends getTable() {
+        return table;
+    }
+
+    public void setTable(TableFriends table) {
+        this.table = table;
+    }
 
     public String getUserId() {
         return userId;
