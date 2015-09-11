@@ -6,6 +6,7 @@
 package com.matrimony.controller;
 
 import com.matrimony.database.FriendDAO;
+import com.matrimony.database.UserDAO;
 import com.matrimony.entity.TableFriends;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
@@ -25,16 +26,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 public class FriendController {
 
-    @RequestMapping(value = "askFriend", method = RequestMethod.POST)
-    public String sendRequest(String nameToId, String nameFromId, TableFriends table, ModelMap mm, HttpServletRequest request, HttpSession session) throws STException.EmptySuggest, STException.EmptyRequest {
-        User friendFromId = FriendDAO.getUserById(nameFromId);
+    @RequestMapping(value = "sendRequest", method = RequestMethod.GET)
+    public String Hello(ModelMap mm){
+        mm.put("us", new User());
+        mm.put("list",UserDAO.allAccounts());
+        return "home";
+    }
+    @RequestMapping(value = "sendRequest", method = RequestMethod.POST)
+    public String sendRequest(TableFriends table, ModelMap mm, HttpServletRequest request, HttpSession session) throws STException.EmptySuggest, STException.EmptyRequest {
+        String nameToId = request.getParameter("friendToId");
+        String nameFromId = request.getParameter("friendToId");
+//        User friendFromId = FriendDAO.getUserById(nameFromId);
         table.setFriendFromId(nameFromId);
         table.setFriendToId(nameToId);
         table.setStatus(1);
         FriendDAO.addTableFriends(table);//them moi 1 bang ket ban voi thuoc tinh da gui loi moi
-        FriendController f = new FriendController();
-        f.getFriend(friendFromId, mm, request);
-        session.setAttribute("nameToId", nameToId);
+        User user = (User) session.getAttribute("user");
         session.setAttribute("message", "Da gui loi moi ket ban den"+nameToId);
         return "home";
     }
