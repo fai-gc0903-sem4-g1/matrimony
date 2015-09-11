@@ -14,7 +14,7 @@ public class TestIP {
 		System.out.println(country.getCountry());
 		Locale l=new Locale("", country.getCountry().getIsoCode());
 		System.out.println(l.getISO3Language());
-		Locale.for
+//		Locale.for
 //		for(String str:l.getISOLanguages()){
 //			System.out.println(str);
 //		}
