@@ -8,7 +8,9 @@ package com.matrimony.filter;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 import com.matrimony.util.GeoIP;
+import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.record.City;
 
 import java.io.IOException;
 import java.util.Date;
@@ -46,12 +48,15 @@ public class GlobalFilter implements Filter {
 		System.out.println(req.getRemoteHost());
 		System.out.println(req.getRemoteAddr());
 		CountryResponse country=GeoIP.getCountry(req.getRemoteHost());
+		CityResponse city=GeoIP.getCity(req.getRemoteAddr());
 		System.out.println(country);
-		
+		System.out.println(city);
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("User: " +user);
+		Cookie[] allCookie = request.getCookies();
+		
 		if (user == null) {
-			Cookie[] allCookie = request.getCookies();
+			
 			boolean keepLogin = false;
 			if (allCookie != null) {
 				for (Cookie c : allCookie) {
@@ -82,5 +87,4 @@ public class GlobalFilter implements Filter {
 			System.out.println(ex);
 		}
 	}
-
 }
