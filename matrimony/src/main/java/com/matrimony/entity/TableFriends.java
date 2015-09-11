@@ -22,45 +22,15 @@ import org.hibernate.annotations.GenericGenerator;
  *
  * @author SON
  */
-@Entity(name = "tableFriend")
 public class TableFriends implements Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(nullable = false)
-    @GenericGenerator(name = "id", strategy = "uuid")
-    @GeneratedValue(generator = "id")
-    private String friendId;
-    @Column(name = "friend_formId")
+    
     private String friendFromId;
-    @Column(name = "friend_toId")
     private String friendToId;
-    @Column(name = "status")
-    private int status = 1 ;
-    @OneToMany(mappedBy = "table")
-    private Set<User> list = new HashSet<User>();
-    private Timestamp timeInvited;
-    private Timestamp timeDenied;
-    private Timestamp timeAccepted;
-
-    public Set<User> getList() {
-        return list;
-    }
-
-    public void setList(Set<User> list) {
-        this.list = list;
-    }
-
-    public String getFriendId() {
-        return friendId;
-    }
-
-    public void setFriendId(String friendId) {
-        this.friendId = friendId;
-    }
 
     public String getFriendFromId() {
         return friendFromId;
@@ -77,37 +47,5 @@ public class TableFriends implements Serializable {
     public void setFriendToId(String friendToId) {
         this.friendToId = friendToId;
     }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public Timestamp getTimeInvited() {
-        return timeInvited;
-    }
-
-    public void setTimeInvited(Timestamp timeInvited) {
-        this.timeInvited = timeInvited;
-    }
-
-    public Timestamp getTimeDenied() {
-        return timeDenied;
-    }
-
-    public void setTimeDenied(Timestamp timeDenied) {
-        this.timeDenied = timeDenied;
-    }
-
-    public Timestamp getTimeAccepted() {
-        return timeAccepted;
-    }
-
-    public void setTimeAccepted(Timestamp timeAccepted) {
-        this.timeAccepted = timeAccepted;
-    }
-
+    
 }

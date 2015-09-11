@@ -8,6 +8,8 @@ package com.matrimony.entity;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
@@ -89,16 +92,29 @@ public class User implements Serializable {
     @Column(length = 1000)
     private String favoriteBook;
     private Timestamp lastUpdateHobby;
-    @ManyToOne
-    @JoinColumn(name = "list_id")
-    private TableFriends table;
+    @OneToMany(mappedBy = "friend")
+    private Set friendToId = new HashSet(0);
+    @OneToMany(mappedBy = "friend")
+    private Set friendFromId = new HashSet(0);
 
-    public TableFriends getTable() {
-        return table;
+    public User() {
+        this.friendFromId = friendFromId ;
     }
 
-    public void setTable(TableFriends table) {
-        this.table = table;
+    public Set getFriendToId() {
+        return friendToId;
+    }
+
+    public void setFriendToId(Set friendToId) {
+        this.friendToId = friendToId;
+    }
+
+    public Set getFriendFromId() {
+        return friendFromId;
+    }
+
+    public void setFriendFromId(Set friendFromId) {
+        this.friendFromId = friendFromId;
     }
 
     public String getUserId() {

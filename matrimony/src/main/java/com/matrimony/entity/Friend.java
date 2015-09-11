@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -30,8 +32,9 @@ public class Friend implements Serializable {
     @GenericGenerator(name = "id", strategy = "uuid")
     @GeneratedValue(generator = "id")
     private String friendId;
-    private String senderId;
-    private String receiverId;
+    @ManyToOne()
+    @JoinColumn(name = "userId")
+    private User user;
     private String status;
     private Timestamp timeInvited;
     private Timestamp timeDenied;
@@ -45,20 +48,12 @@ public class Friend implements Serializable {
         this.friendId = friendId;
     }
 
-    public String getSenderId() {
-        return senderId;
+    public User getUser() {
+        return user;
     }
 
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
-    }
-
-    public String getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(String receiverId) {
-        this.receiverId = receiverId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getStatus() {
