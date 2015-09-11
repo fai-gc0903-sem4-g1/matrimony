@@ -17,4 +17,9 @@ public class SonTestController {
 	public String example() {
 		return "example";
 	}
+	
+	@RequestMapping(value = "infinityOrb", method = RequestMethod.GET)
+	public String infinityOrb() {
+		return "infinityOrb";
+	}
 }

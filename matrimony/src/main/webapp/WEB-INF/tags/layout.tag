@@ -58,8 +58,22 @@
 						<li><a href="#"><span id="heartIcon"
 								class="glyphicon glyphicon-heart" aria-hidden="true"></span> <span
 								class="badge">42</span></a></li>
+						<li><div class="dropdown">
+								<button class="btn btn-default dropdown-toggle" type="button"
+									id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="true">
+									Dropdown <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#">Action</a></li>
+									<li><a href="#">Another action</a></li>
+									<li><a href="#">Something else here</a></li>
+									<li><a href="#">Separated link</a></li>
+								</ul>
+							</div></li>
 						<li><a href="#"><span id="heartIcon"
-								class="glyphicon glyphicon-wrench" aria-hidden="true"></span>Cài đặt</a></li>
+								class="glyphicon glyphicon-wrench" aria-hidden="true"></span>Cài
+								đặt</a></li>
 
 						<li><a href="#">${sessionScope.user.firstName }</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
