@@ -6,10 +6,43 @@
 
 <t:layout>
 	<jsp:body>
-	<title>Trang chu</title>
-        <h1>Trang chủ chính thức</h1>
-        <a href="/wedding_event_prj/${user.username}">${user.name}</a>
-        DANH SACH GOI Y KET BAN
+	<c:set var="alias" value="matrimony" />
+	<title>Trang chủ</title>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <h1>Trang chủ chính thứcassssssssssssssssssssssssssssss</h1>
+        <a href="/${alias }/${user.username}">${user.name}</a>
+        DANH SACH GOI Y KET BAN sfsdfasdfds
         <c:forEach var="list" items="${listSuggest}">
             <table>
                 <tr>
