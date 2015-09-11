@@ -25,7 +25,7 @@ public class HibernateUtil {
     public static Session openSession() {
         if (cfg == null) {
             System.out.println("Configing..");
-            cfg = new Configuration();
+            cfg = new Configuration().configure(HibernateUtil.class.getResource("/com.cfg").getFile());
             cfg.configure();
             sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
             sf = cfg.buildSessionFactory(sr);
