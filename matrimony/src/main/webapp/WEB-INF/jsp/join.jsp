@@ -5,11 +5,22 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="../bundle/bootstrap.jsp"/>
 <jsp:include page="../bundle/jstl.jsp"/>
 <jsp:useBean id="fbConn" class="facebook.api.FBConnection" />
+
+<c:set var="current" value="${param.ddlLanguage}" scope="session" />
+
+<c:if test="${not empty current}">
+    <fmt:setLocale value="${current}" scope="session"/>
+</c:if>
+<fmt:setBundle basename="com.matrimony.i18n.StringResource" scope="session"/>
+
+
 <html lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
