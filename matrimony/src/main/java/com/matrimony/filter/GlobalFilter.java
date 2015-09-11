@@ -54,7 +54,7 @@ public class GlobalFilter implements Filter {
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("User: " +user);
 		Cookie[] allCookie = request.getCookies();
-		
+		//newest
 		if (user == null) {
 			
 			boolean keepLogin = false;
