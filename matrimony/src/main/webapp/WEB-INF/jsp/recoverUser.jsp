@@ -14,7 +14,10 @@
 <body>
 	<h1>${code }</h1>
 	<c:choose>
-		<c:when test="${requestScope.code==1 }">
+		<c:when test="${not empty sessionScope.codeRecover}">
+			<c:if test="${requestScope.wrongCode == 1}">
+				<label class="alert alert-danger" style="width: 450px;">Sai code!</label>
+			</c:if>
 			<label class="alert alert-success" style="width: 450px;">Chúng
 				tôi đã gửi mật khẩu đến Email của bạn, hãy kiểm tra. Chú ý kiểm tra
 				chả mục spam!</label>
@@ -29,14 +32,14 @@
 					<div class="col-sm-5">
 						<input class="form-control" type="email" name="email" />
 					</div>
-					<input type="hidden" name="process" value="level1" /> <input
+					<input type="hidden" name="process" value="level2" /> <input
 						class="btn btn-info" type="submit" value="Xác nhận" />
 				</div>
 			</form>
 
 		</c:when>
 		<c:otherwise>
-			<c:if test="${requestScope.code == 0}">
+			<c:if test="${requestScope.wrongEmail == 1}">
 				<label class="alert alert-danger" style="width: 450px;">Email
 					Không tồn tại!</label>
 			</c:if>
@@ -50,9 +53,9 @@
 				<div class="form-group">
 					<div class="col-sm-5">
 						<input class="form-control" type="email" name="email" />
-
 					</div>
-					<input class="btn btn-info" type="submit" value="Xác nhận" />
+					<input type="hidden" name="process" value="level1" /> <input
+						class="btn btn-info" type="submit" value="Xác nhận" />
 				</div>
 			</form>
 		</c:otherwise>

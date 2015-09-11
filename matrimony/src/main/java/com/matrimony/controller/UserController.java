@@ -104,9 +104,8 @@ public class UserController {
 		System.out.println("Form register OK");
 		userReg.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
 		userReg.setRegistrationIP(request.getRemoteAddr());
-		String activeKey = UUID.randomUUID().toString().toUpperCase(); // Generate
-																		// key
-																		// active
+		String activeKey = RandomStringUtils.randomAlphanumeric(10);
+
 		userReg.setActiveKey(activeKey);
 		userReg.setRegMethod("native");
 		userReg.setBirthday(birthday);
@@ -238,18 +237,25 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "recover", method = RequestMethod.POST)
-	public String doStringRecover(HttpServletRequest request, String email, String process) {
+	public String doStringRecover(HttpServletRequest request, String email, String process, String uCode) {
 		System.out.println("process " + process);
 		if ("level1".equals(process)) {
 			User user = UserDAO.findByEmail(email);
 			if (user == null) {
 				System.out.println("Quen mat khau: khong tim thay email");
-				request.setAttribute("code", 0);
+				request.setAttribute("wrongEmail", 1);
 			} else {
 				System.out.println("Quen mat khau: tim thay email");
 				String code = recoverUser(user);
 				request.getSession().setAttribute("codeRecover", code);
-				request.setAttribute("code", 1);
+			}
+		} else if ("leve2".equals(process) && null != request.getSession().getAttribute("codeRecover")) {
+			String c = (String) request.getSession().getAttribute("codeRecover");
+			if (c.equals(uCode)) {
+				request.getSession().setAttribute("codeRecover", null);
+				request.setAttribute("recoverSuccess", 1);
+			} else {
+				request.setAttribute("wrongCode", 1);
 			}
 		}
 		return "recoverUser";
