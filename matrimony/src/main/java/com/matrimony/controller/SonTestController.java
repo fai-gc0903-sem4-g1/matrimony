@@ -22,4 +22,9 @@ public class SonTestController {
 	public String infinityOrb() {
 		return "infinityOrb";
 	}
+	
+	@RequestMapping(value = "sontest", method = RequestMethod.GET)
+	public String sontest() {
+		return "404";
+	}
 }
