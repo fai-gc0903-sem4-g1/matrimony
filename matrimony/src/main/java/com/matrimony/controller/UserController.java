@@ -90,14 +90,13 @@ public class UserController {
 			BindingResult bindingResult, String day, String month, String year) {
 		System.out.println(userReg);
 		Date birthday = null;
-		if (bindingResult.hasErrors()) {
-			try {
-				birthday = Date.valueOf(year + "-" + month + "-" + day);
-			} catch (IllegalArgumentException ex) {
-
-				System.out.println(ex + ": Date not correct");
-				request.setAttribute("birthdayValid", "Ngày tháng chọn sai");
-			}
+		try {
+			birthday = Date.valueOf(year + "-" + month + "-" + day);
+		} catch (IllegalArgumentException ex) {
+			System.out.println(ex + ": Date not correct");
+			request.setAttribute("birthdayValid", "Ngày tháng chọn sai");
+		}
+		if (bindingResult.hasErrors() || birthday == null) {
 			System.out.println("Form register error");
 			return "index";
 		}
@@ -111,6 +110,10 @@ public class UserController {
 		userReg.setBirthday(birthday);
 		try {
 			UserDAO.add(userReg);
+			// make username
+			User user = UserDAO.findByEmail(userReg.getEmail());
+			user.setUsername(user.getUserId());
+			UserDAO.Update(user);
 			sendMailActive(userReg.getEmail(), activeKey);
 			request.getSession().setAttribute("user", UserDAO.findByEmail(userReg.getEmail()));
 			return "active";
@@ -197,18 +200,6 @@ public class UserController {
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
 			return "userNotFound";
-		}
-	}
-
-	@RequestMapping(value = "{username}")
-	public String doProfile(@PathVariable("username") String username, Model model) {
-		System.out.println(username);
-		User account = UserDAO.findByUsername(username);
-		if (account == null) {
-			return "userNotFound";
-		} else {
-			model.addAttribute("account", account);
-			return "fbProfileile";
 		}
 	}
 

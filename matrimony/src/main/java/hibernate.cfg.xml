@@ -18,6 +18,5 @@
                 <mapping class="com.matrimony.entity.UserFriend" />
                 <mapping class="com.matrimony.entity.InviteAddFriend" />
                 <mapping class="com.matrimony.entity.Friend" />
-                <mapping class="com.matrimony.entity.Student" />
 	</session-factory>
 </hibernate-configuration>
