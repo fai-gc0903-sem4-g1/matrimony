@@ -32,10 +32,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class User implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Id
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    @Id
     @Column(nullable = false)
     @GenericGenerator(name = "id", strategy = "uuid")
     @GeneratedValue(generator = "id")
@@ -92,28 +92,25 @@ public class User implements Serializable {
     @Column(length = 1000)
     private String favoriteBook;
     private Timestamp lastUpdateHobby;
-    @OneToMany(mappedBy = "friend")
-    private Set friendToId = new HashSet(0);
-    @OneToMany(mappedBy = "friend")
-    private Set friendFromId = new HashSet(0);
 
-    public User() {
-        this.friendFromId = friendFromId ;
-    }
+    @OneToMany(mappedBy = "userToId")
+    private Set<Friend> friendToId = new HashSet<>(0);
 
-    public Set getFriendToId() {
+    public Set<Friend> getFriendToId() {
         return friendToId;
     }
 
-    public void setFriendToId(Set friendToId) {
+    public void setFriendToId(Set<Friend> friendToId) {
         this.friendToId = friendToId;
     }
+    @OneToMany(mappedBy = "userFromId")
+    private Set<Friend> friendFromId = new HashSet<>(0);
 
-    public Set getFriendFromId() {
+    public Set<Friend> getFriendFromId() {
         return friendFromId;
     }
 
-    public void setFriendFromId(Set friendFromId) {
+    public void setFriendFromId(Set<Friend> friendFromId) {
         this.friendFromId = friendFromId;
     }
 
@@ -125,7 +122,6 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
- 
     public String getPassword() {
         return password;
     }
