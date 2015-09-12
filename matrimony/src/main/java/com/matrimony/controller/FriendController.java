@@ -39,7 +39,7 @@ public class FriendController {
 //        User friendFromId = FriendDAO.getUserById(nameFromId);
         table.setFriendFromId(nameFromId);
         table.setFriendToId(nameToId);
-        table.setStatus(1);
+//        table.setStatus(1);
         FriendDAO.addTableFriends(table);//them moi 1 bang ket ban voi thuoc tinh da gui loi moi
         User user = (User) session.getAttribute("user");
         session.setAttribute("message", "Da gui loi moi ket ban den"+nameToId);

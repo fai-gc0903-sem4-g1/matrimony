@@ -40,7 +40,7 @@ public class TableFriends implements Serializable {
         this.friendFromId = friendFromId;
     }
 
-    public String getFriendToId() {
+    public String getFriendToId() 	{
         return friendToId;
     }
 
