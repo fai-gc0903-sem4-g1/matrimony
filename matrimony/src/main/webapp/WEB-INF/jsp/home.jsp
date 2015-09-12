@@ -114,7 +114,7 @@
                 </tr>
             </table>
         </c:forEach>
-        <form action="/wedding_event_prj/logout" method="POST">
+        <form action="logout" method="POST">
             <input type="submit" value="Đăng xuất" />
         </form>
 	</jsp:body>
