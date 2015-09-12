@@ -93,6 +93,7 @@ public class STException {
 
 		public EmptyFriend(String msg) {
             super(msg);
+            
         }
     }
 }
