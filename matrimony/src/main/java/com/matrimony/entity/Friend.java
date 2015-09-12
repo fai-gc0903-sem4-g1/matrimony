@@ -21,72 +21,83 @@ import org.hibernate.annotations.GenericGenerator;
  *
  * @author SON
  */
-@Entity(name="friend")
+@Entity(name = "friend")
 public class Friend implements Serializable {
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-    @Column(nullable = false)
-    @GenericGenerator(name = "id", strategy = "uuid")
-    @GeneratedValue(generator = "id")
-    private String friendId;
-    @ManyToOne()
-    @JoinColumn(name = "userId")
-    private User user;
-    private String status;
-    private Timestamp timeInvited;
-    private Timestamp timeDenied;
-    private Timestamp timeAccepted;
+	@Column(nullable = false)
+	@GenericGenerator(name = "id", strategy = "uuid")
+	@GeneratedValue(generator = "id")
+	private String friendId;
+	private String userFromId;
+	private String userToId;
+	private int status;
+	private Timestamp timeInvited;
+	private Timestamp timeDenied;
+	private Timestamp timeAccepted;
 
-    public String getFriendId() {
-        return friendId;
-    }
+	public String getFriendId() {
+		return friendId;
+	}
 
-    public void setFriendId(String friendId) {
-        this.friendId = friendId;
-    }
+	public void setFriendId(String friendId) {
+		this.friendId = friendId;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public String getUserFromId() {
+		return userFromId;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public void setUserFromId(String userFromId) {
+		this.userFromId = userFromId;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public String getUserToId() {
+		return userToId;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public void setUserToId(String userToId) {
+		this.userToId = userToId;
+	}
 
-    public Timestamp getTimeInvited() {
-        return timeInvited;
-    }
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
-    public void setTimeInvited(Timestamp timeInvited) {
-        this.timeInvited = timeInvited;
-    }
 
-    public Timestamp getTimeDenied() {
-        return timeDenied;
-    }
+	public int getStatus() {
+		return status;
+	}
 
-    public void setTimeDenied(Timestamp timeDenied) {
-        this.timeDenied = timeDenied;
-    }
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
-    public Timestamp getTimeAccepted() {
-        return timeAccepted;
-    }
+	public Timestamp getTimeInvited() {
+		return timeInvited;
+	}
 
-    public void setTimeAccepted(Timestamp timeAccepted) {
-        this.timeAccepted = timeAccepted;
-    }
-    
-    
+	public void setTimeInvited(Timestamp timeInvited) {
+		this.timeInvited = timeInvited;
+	}
+
+	public Timestamp getTimeDenied() {
+		return timeDenied;
+	}
+
+	public void setTimeDenied(Timestamp timeDenied) {
+		this.timeDenied = timeDenied;
+	}
+
+	public Timestamp getTimeAccepted() {
+		return timeAccepted;
+	}
+
+	public void setTimeAccepted(Timestamp timeAccepted) {
+		this.timeAccepted = timeAccepted;
+	}
+
 }

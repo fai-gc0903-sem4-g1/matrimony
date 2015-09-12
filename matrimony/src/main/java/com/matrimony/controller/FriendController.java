@@ -7,7 +7,7 @@ package com.matrimony.controller;
 
 import com.matrimony.database.FriendDAO;
 import com.matrimony.database.UserDAO;
-import com.matrimony.entity.TableFriends;
+import com.matrimony.entity.Friend;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
 import java.util.List;
@@ -33,21 +33,21 @@ public class FriendController {
         return "home";
     }
     @RequestMapping(value = "sendRequest", method = RequestMethod.POST)
-    public String sendRequest(TableFriends table, ModelMap mm, HttpServletRequest request, HttpSession session) throws STException.EmptySuggest, STException.EmptyRequest {
+    public String sendRequest(Friend friend, ModelMap mm, HttpServletRequest request, HttpSession session) throws STException.EmptySuggest, STException.EmptyRequest {
         String nameToId = request.getParameter("friendToId");
         String nameFromId = request.getParameter("friendToId");
 //        User friendFromId = FriendDAO.getUserById(nameFromId);
-        table.setFriendFromId(nameFromId);
-        table.setFriendToId(nameToId);
-//        table.setStatus(1);
-        FriendDAO.addTableFriends(table);//them moi 1 bang ket ban voi thuoc tinh da gui loi moi
+        friend.setUserFromId(nameFromId);
+        friend.setUserToId(nameToId);
+        friend.setStatus(1);
+        FriendDAO.addFriend(friend);//them moi 1 bang ket ban voi thuoc tinh da gui loi moi
         User user = (User) session.getAttribute("user");
         session.setAttribute("message", "Da gui loi moi ket ban den"+nameToId);
         return "home";
     }
 
     @RequestMapping(value = "acceptRequest/{nameToId}/{nameFromId}", method = RequestMethod.POST)
-    public String acceptRequest(@PathVariable String nameToId, ModelMap mm, HttpServletRequest request, HttpSession session, @PathVariable String nameFromId, TableFriends table) {
+    public String acceptRequest(@PathVariable String nameToId, ModelMap mm, HttpServletRequest request, HttpSession session, @PathVariable String nameFromId, Friend table) {
         FriendDAO.EditRecord(nameFromId, nameToId, 2);//sua doi thuoc tinh status thanh da dong y ket ban
         User friendFromId = FriendDAO.getUserById(nameFromId);
         FriendController f = new FriendController();
@@ -58,12 +58,12 @@ public class FriendController {
     }
     
     @RequestMapping(value = "cancelRequest/{nameToId}/{nameFromId}", method = RequestMethod.POST)
-    public String cancelRequest(@PathVariable String nameToId, ModelMap mm, HttpServletRequest request, HttpSession session, @PathVariable String nameFromId, TableFriends table) {
+    public String cancelRequest(@PathVariable String nameToId, ModelMap mm, HttpServletRequest request, HttpSession session, @PathVariable String nameFromId, Friend table) {
         return "home";
     }
     
     @RequestMapping(value = "removeFriend/{nameToId}/{nameFromId}", method = RequestMethod.POST)
-    public String removeFriend(@PathVariable String nameToId, ModelMap mm, HttpServletRequest request, HttpSession session, @PathVariable String nameFromId, TableFriends table) {
+    public String removeFriend(@PathVariable String nameToId, ModelMap mm, HttpServletRequest request, HttpSession session, @PathVariable String nameFromId, Friend table) {
         return "home";
     }
 

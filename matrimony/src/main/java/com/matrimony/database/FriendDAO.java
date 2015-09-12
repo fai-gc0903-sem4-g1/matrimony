@@ -11,7 +11,8 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.matrimony.entity.TableFriends;
+import com.matrimony.entity.Friend;
+import com.matrimony.entity.Friend;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
 import com.matrimony.util.HibernateUtil;
@@ -22,7 +23,7 @@ import com.matrimony.util.HibernateUtil;
  */
 public class FriendDAO {
 
-    public static void addTableFriends(TableFriends table) {
+    public static void addFriend(Friend table) {
         Session ss = HibernateUtil.openSession();
         ss.getTransaction().begin();
         ss.save(table);
@@ -54,11 +55,11 @@ public class FriendDAO {
     }
 
     @SuppressWarnings("null")
-	public static List<User> getListFriend(List<TableFriends> list) {
+	public static List<User> getListFriend(List<Friend> list) {
         List<User> l = null;
-        Iterator<TableFriends> ite = list.iterator();
+        Iterator<Friend> ite = list.iterator();
         while (ite.hasNext()) {
-            String nameToId = ite.next().getFriendToId();
+            String nameToId = ite.next().getFriendId();
             User u = FriendDAO.getUserById(nameToId);
             l.add(u);
         }
@@ -67,7 +68,7 @@ public class FriendDAO {
 
     @SuppressWarnings("unchecked")
 	public static List<User> searchBySttToGetSuggest(User user) throws STException.EmptySuggest {
-        List<TableFriends> list = null;
+        List<Friend> list = null;
         List<User> listSuggest = null;
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("FROM friend WHERE status=:status and friendFromId=:friendFromId");
@@ -85,7 +86,7 @@ public class FriendDAO {
     }
     @SuppressWarnings("unchecked")
 	public static List<User> searchBySttToGetFriend(User user) throws STException.EmptyFriend{
-        List<TableFriends> list = null;
+        List<Friend> list = null;
         List<User> listFriend = null;
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("FROM friend WHERE status=:status and friendFromId=:friendFromId");
@@ -104,7 +105,7 @@ public class FriendDAO {
 
 	@SuppressWarnings("unchecked")
 	public static List<User> searchBySttToGetRequest(User user) throws STException.EmptyRequest {
-        List<TableFriends> list = null;
+        List<Friend> list = null;
         List<User> listRequest = null;
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("FROM friend WHERE status=:status and friendToId=:friendToId");
@@ -121,13 +122,13 @@ public class FriendDAO {
         return listRequest;
     }
 //    public static boolean CheckRequest(String nameFromId, String nameToId) throws STException.EmailAlready{
-//        TableFriends table = null;
+//        Friend table = null;
 //        Session session = HibernateUtil.openSession();
 //        session.getTransaction().begin();
-//        Query query = session.createQuery("FROM TableFriends WHERE friendFromId=:friendFromId and friendToId=:friendToId");
+//        Query query = session.createQuery("FROM Friend WHERE friendFromId=:friendFromId and friendToId=:friendToId");
 //        query.setParameter("friendFromId", nameFromId);
 //        query.setParameter("friendToId", nameToId);
-//        table = (TableFriends) query.uniqueResult();
+//        table = (Friend) query.uniqueResult();
 //        if(table == null){
 //            throw new STException.EmailAlready("Request Sended");
 //        }
