@@ -1,18 +1,11 @@
-<%-- 
-    Document   : join
-    Created on : Aug 31, 2015, 7:44:31 PM
-    Author     : SON
---%>
-
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="../bundle/bootstrap.jsp" />
-<jsp:include page="../bundle/jstl.jsp" />
-<jsp:useBean id="fbConn" class="facebook.api.FBConnection" />
 
+
+<jsp:useBean id="fbConn" class="facebook.api.FBConnection" />
 <c:set var="current" value="${param.ddlLanguage}" scope="session" />
 
 <c:if test="${not empty current}">
@@ -20,42 +13,14 @@
 </c:if>
 <fmt:setBundle basename="com.matrimony.i18n.StringResource"
 	scope="session" />
-
-
-<html lang="en">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>Wellcome to Matrimony</title>
-</head>
+<t:layout>
+<jsp:body>
 <style>
-body {
-	background-color: #110022;
-	color: #ddccee
-}
-
-#registerForm {
-	margin-top: -21%;
-	margin-left: 65%;
-}
-
-#loginWith {
-	font-size: 17px;
-	margin: 4% -6%;
-}
-
 .error {
 	color: red;
 }
 </style>
 <body>
-	<div class="row">
-		<div class="col-lg-12 text-center v-center">
-
-			<h2>Hello Matrimony</h2>
-			<p class="lead">A sign-up free</p>
-		</div>
-
-	</div>
 	<!-- /row -->
 	<a href="${fbConn.FBAuthUrl}">Login with facebook</a>
 	<div class="container-fluid col-lg-12" style="color: #ddccee">
@@ -234,5 +199,7 @@ body {
 			</form:form>
 		</div>
 	</div>
-</body>
-</html>
+</jsp:body>
+</t:layout>
+
+
