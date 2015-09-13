@@ -38,99 +38,155 @@ public class FriendDAO {
         Query query = session.createQuery("Update friend set status = :status"
                 + "WHERE friendFromId =:friendFromId friendtoId =:friendtoId");
         query.setParameter("status", status);
-        query.setParameter("friendFromId", nameFromId);
-        query.setParameter("friendToId", nameToId);
         result = query.executeUpdate();
         session.getTransaction().commit();
         session.close();
         return result > 0;
     }
-    public static User getUserById(String userId){
+
+    public static User getUserById(String userId) {
         Session session = HibernateUtil.openSession();
-        Query query = session.createQuery("FROM user WHERE accountId=:accountId ");
+        Query query = session.createQuery("FROM user WHERE userId=:userId ");
         query.setParameter("userId", userId);
         User user = (User) query.uniqueResult();
         session.close();
         return user;
     }
 
-    @SuppressWarnings("null")
-	public static List<User> getListFriend(List<Friend> list) {
-        List<User> l = null;
-        Iterator<Friend> ite = list.iterator();
-        while (ite.hasNext()) {
-            String nameToId = ite.next().getFriendId();
-            User u = FriendDAO.getUserById(nameToId);
-            l.add(u);
-        }
-        return l;
+    public static List<Friend> allFriend() {
+        Session ss = HibernateUtil.openSession();
+        List<Friend> friends = ss.createQuery("FROM friend").list();
+        ss.close();
+        return friends;
     }
 
-    @SuppressWarnings("unchecked")
-	public static List<User> searchBySttToGetSuggest(User user) throws STException.EmptySuggest {
-        List<Friend> list = null;
-        List<User> listSuggest = null;
-        Session session = HibernateUtil.openSession();
-        Query query = session.createQuery("FROM friend WHERE status=:status and friendFromId=:friendFromId");
-        query.setParameter("status", 1);
-        query.setParameter("friendFromId", user.getUserId());
-        list = query.list();
-        if (list != null) {
-            listSuggest = FriendDAO.getListFriend(list);//lay lai danh sach nhung loi goi y
-        }
-        else{
-            throw new STException.EmptySuggest("Empty Suggest");
-        }
-        session.close();
-        return listSuggest;
-    }
-    @SuppressWarnings("unchecked")
-	public static List<User> searchBySttToGetFriend(User user) throws STException.EmptyFriend{
-        List<Friend> list = null;
-        List<User> listFriend = null;
-        Session session = HibernateUtil.openSession();
-        Query query = session.createQuery("FROM friend WHERE status=:status and friendFromId=:friendFromId");
-        query.setParameter("status", 2);
-        query.setParameter("friendFromId", user.getUserId());
-        list = query.list();
-        if (list != null) {
-            listFriend = FriendDAO.getListFriend(list);//lay lai danh sach nhung loi goi y
-        }
-        else{
-            throw new STException.EmptyFriend("Empty Friend");
-        }
-        session.close();
-        return listFriend;
-    }
-
-	@SuppressWarnings("unchecked")
-	public static List<User> searchBySttToGetRequest(User user) throws STException.EmptyRequest {
-        List<Friend> list = null;
-        List<User> listRequest = null;
-        Session session = HibernateUtil.openSession();
-        Query query = session.createQuery("FROM friend WHERE status=:status and friendToId=:friendToId");
-        query.setParameter("status", 2);
-        query.setParameter("friendToId", user.getUserId());
-        list = query.list();
-        if (list != null) {
-            listRequest = FriendDAO.getListFriend(list);
-        }
-        else{
-            throw new STException.EmptyRequest("Empty Request");
-        }
-        session.close();
-        return listRequest;
-    }
-//    public static boolean CheckRequest(String nameFromId, String nameToId) throws STException.EmailAlready{
-//        Friend table = null;
-//        Session session = HibernateUtil.openSession();
-//        session.getTransaction().begin();
-//        Query query = session.createQuery("FROM Friend WHERE friendFromId=:friendFromId and friendToId=:friendToId");
-//        query.setParameter("friendFromId", nameFromId);
-//        query.setParameter("friendToId", nameToId);
-//        table = (Friend) query.uniqueResult();
-//        if(table == null){
-//            throw new STException.EmailAlready("Request Sended");
+//    @SuppressWarnings("null")
+//	public static List<User> getListFriend(List<Friend> list) {
+//        List<User> l = null;
+//        Iterator<Friend> ite = list.iterator();
+//        while (ite.hasNext()) {
+////            String nameToId = ite.next().getFriendId();
+////            User u = FriendDAO.getUserById(nameToId);
+////            l.add(u);
 //        }
+//        return l;
 //    }
+//    @SuppressWarnings("unchecked")
+//	public static List<User> searchBySttToGetSuggest(User user) throws STException.EmptySuggest {
+//        List<Friend> list = null;
+//        List<User> listSuggest = null;
+//        Session session = HibernateUtil.openSession();
+//        Query query = session.createQuery("FROM friend WHERE status=:status and friendFromId=:friendFromId");
+//        query.setParameter("status", 1);
+//        query.setParameter("friendFromId", user.getUserId());
+//        list = query.list();
+//        if (list != null) {
+//            listSuggest = FriendDAO.getListFriend(list);//lay lai danh sach nhung loi goi y
+//        }
+//        else{
+//            throw new STException.EmptySuggest("Empty Suggest");
+//        }
+//        session.close();
+//        return listSuggest;
+//    }
+//    @SuppressWarnings("unchecked")
+//	public static List<User> searchBySttToGetFriend(User user) throws STException.EmptyFriend{
+//        List<Friend> list = null;
+//        List<User> listFriend = null;
+//        Session session = HibernateUtil.openSession();
+//        Query query = session.createQuery("FROM friend WHERE status=:status and friendFromId=:friendFromId");
+//        query.setParameter("status", 2);
+//        query.setParameter("friendFromId", user.getUserId());
+//        list = query.list();
+//        if (list != null) {
+//            listFriend = FriendDAO.getListFriend(list);//lay lai danh sach nhung loi goi y
+//        }
+//        else{
+//            throw new STException.EmptyFriend("Empty Friend");
+//        }
+//        session.close();
+//        return listFriend;
+//    }
+//	@SuppressWarnings("unchecked")
+//	public static List<User> searchBySttToGetRequest(User user) throws STException.EmptyRequest {
+//        List<Friend> list = null;
+//        List<User> listRequest = null;
+//        Session session = HibernateUtil.openSession();
+//        Query query = session.createQuery("FROM friend WHERE status=:status and friendToId=:friendToId");
+//        query.setParameter("status", 2);
+//        query.setParameter("friendToId", user.getUserId());
+//        list = query.list();
+//        if (list != null) {
+//            listRequest = FriendDAO.getListFriend(list);
+//        }
+//        else{
+//            throw new STException.EmptyRequest("Empty Request");
+//        }
+//        session.close();
+//        return listRequest;
+    public static boolean CheckToId(String nameToId) {
+        List<Friend> friend = null;
+        boolean b = false;
+        Session session = HibernateUtil.openSession();
+        session.getTransaction().begin();
+        Query query = session.createQuery("FROM friend");
+        friend = query.list();
+        for (int i = 0; i < friend.size(); i++) {
+            Friend f = friend.get(i);
+            if (f.getUserToId().getUserId().equals(nameToId)) {
+                b = true;
+                break;
+            }
+        }
+        return b;
+    }
+
+    public static boolean CheckFormId(String nameToId) {
+        List<Friend> friend = null;
+        boolean b = false;
+        Session session = HibernateUtil.openSession();
+        session.getTransaction().begin();
+        Query query = session.createQuery("FROM friend");
+        friend = query.list();
+        for (int i = 0; i < friend.size(); i++) {
+            Friend f = friend.get(i);
+            if (f.getUserFromId().getUserId().equals(nameToId)) {
+                b = true;
+                break;
+            }
+        }
+        return b;
+    }
+
+    public static boolean CheckStt(String nameFromId, String nameToId) {
+        List<Friend> friend = null;
+        boolean b = false;
+        Session session = HibernateUtil.openSession();
+        session.getTransaction().begin();
+        Query query = session.createQuery("FROM friend WHERE friendFromId=:friendFromId and friendToId=:friendToId");
+        query.setParameter("friendFromId", nameFromId);
+        query.setParameter("friendToId", nameToId);
+        friend = query.list();
+        for (int i = 0; i < friend.size(); i++) {
+            Friend f = friend.get(i);
+            if (f.getStatus() == 1) {
+                b = true;
+            }
+            break;
+        }
+        return b;
+    }
+
+    public static boolean CheckExist(String userFromId, String userToId) {
+        List<Friend> friend = FriendDAO.allFriend();
+        boolean b = false;
+        for (int i = 0; i < friend.size(); i++) {
+            Friend f = friend.get(i);
+            if (f.getUserFromId().getUserId().equals(userFromId) && f.getUserToId().getUserId().equals(userToId)) {
+                b = true;
+            }
+            break;
+        }
+        return b;
+    }
 }
