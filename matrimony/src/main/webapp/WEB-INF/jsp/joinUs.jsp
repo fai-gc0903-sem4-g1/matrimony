@@ -138,7 +138,6 @@
 								value="Đăng ký" />
 					</div>
 				</div>
-
 			</form:form>
 </div>
 </div>

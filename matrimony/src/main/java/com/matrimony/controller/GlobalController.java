@@ -5,15 +5,23 @@
  */
 package com.matrimony.controller;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -124,10 +132,7 @@ public class GlobalController {
 			return "index";
 	}
 
-	@RequestMapping(value = "test", method = RequestMethod.GET)
-	public String viewTest(HttpSession session) {
-		return "test";
-	}
+	
 
 	@RequestMapping(value = "{username}")
 	public String doProfile(@PathVariable("username") String username, Model model) {
@@ -154,5 +159,41 @@ public class GlobalController {
 		MailUtil mail = new MailUtil(email, sub, cont.toString());
 		mail.send();
 	}
-
+	@RequestMapping(value = "test", method = RequestMethod.GET)
+	public String viewTest(HttpServletRequest request, HttpSession session, ServletContext context) {
+		Collection<Part> parts;
+		try {
+			parts = request.getParts();
+			System.out.println(parts);
+		} catch (IOException | ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "test";
+	}
+	
+//	public String uploadImg(Collection<Part> collection) throws IOException {
+//		StringBuilder imageSrc = new StringBuilder();
+//		for (Part part : collection) {
+//			InputStream is = part.getInputStream();
+//			String fileName = part.getSubmittedFileName();
+//			if (is instanceof FileInputStream && fileName != null) {
+//				String filePath = getServletContext().getRealPath("/resources") + "/img/img_product_uploaded/" + fileName;
+//				String imgLinkSQL = "/ShoppingAssignment/resources/img/img_product_uploaded/" + fileName;
+//				FileOutputStream file = new FileOutputStream(filePath);
+//				int bye;
+//				while ((bye = is.read()) != -1) {
+//					file.write(bye);
+//				}
+//				file.close();
+//				is.close();
+//
+//				imageSrc.append(imgLinkSQL + ";");
+//			}
+//		}
+//		if (imageSrc.length() > 0)
+//			imageSrc.deleteCharAt(imageSrc.length() - 1);
+//		return imageSrc.toString();
+//	}
 }
