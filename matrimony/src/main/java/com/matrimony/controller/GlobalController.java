@@ -164,10 +164,11 @@ public class GlobalController {
 		Collection<Part> parts;
 		try {
 			parts = request.getParts();
-			System.out.println(parts);
+//			System.out.println(parts);
 		} catch (IOException | ServletException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e);
 		}
 		
 		return "test";
