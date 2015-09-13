@@ -5,22 +5,23 @@
  */
 package com.matrimony.controller;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.UUID;
 
-import javax.servlet.ServletContext;
+import javassist.expr.NewArray;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 
@@ -159,18 +160,43 @@ public class GlobalController {
 		MailUtil mail = new MailUtil(email, sub, cont.toString());
 		mail.send();
 	}
+	
 	@RequestMapping(value = "test", method = RequestMethod.GET)
-	public String viewTest(HttpServletRequest request, HttpSession session, ServletContext context) {
-		Collection<Part> parts;
+	public String viewTest() {
+		return "test";
+	}
+	@RequestMapping(value = "test", method = RequestMethod.POST)
+	public String doTest(HttpServletRequest request){
+		System.out.println("ngon ");
+		String avatarFolderPath = request.getServletContext().getRealPath("/resources/profile/avatar");
+		System.out.println(avatarFolderPath);
+		System.out.println(new File(avatarFolderPath).exists());
+//		File repo = new File(repoPath+"");
+//		if (!repo.exists())
+//			repo.mkdir();
 		try {
-			parts = request.getParts();
-//			System.out.println(parts);
+			Collection<Part> parts = request.getParts();
+			for (Part part : parts) {
+				String fileName = part.getSubmittedFileName();
+				if (fileName != null) {
+					InputStream is = part.getInputStream();
+					String fileNameGenerated=RandomStringUtils.randomAlphanumeric(26);
+					File file = new File(avatarFolderPath+"/"+fileNameGenerated);
+					FileOutputStream fileOutputStream = new FileOutputStream(file);
+					System.out.println(fileName);
+					int buffer;
+					while ((buffer = is.read()) != -1) {
+						fileOutputStream.write(buffer);
+					}
+					fileOutputStream.close();
+					User user=(User) request.getSession().getAttribute("user");
+					user.setAvatarPhoto(fileNameGenerated);
+					UserDAO.Update(user);
+				}
+			}
 		} catch (IOException | ServletException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println(e);
 		}
-		
 		return "test";
 	}
 	

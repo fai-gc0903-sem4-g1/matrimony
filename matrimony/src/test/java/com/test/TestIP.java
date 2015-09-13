@@ -11,6 +11,6 @@ import com.maxmind.geoip2.record.Country;
 
 public class TestIP {
 	public static void main(String[] args) {
-    	System.out.println(RandomStringUtils.randomAlphanumeric(8));
+		System.out.println(RandomStringUtils.randomAlphanumeric(26));
 	}
 }

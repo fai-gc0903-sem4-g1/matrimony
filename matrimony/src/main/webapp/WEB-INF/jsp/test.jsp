@@ -7,8 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="/matrimony" method="POST">
-	<input type="submit" />
+<form action="/matrimony/test" method="POST" enctype="multipart/form-data">
+<input type="file" name="img"/>
+<input type="submit" />
 </form>
 </body>
 </html>

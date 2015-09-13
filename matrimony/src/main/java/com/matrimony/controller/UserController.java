@@ -101,13 +101,13 @@ public class UserController {
 			return "index";
 		}
 		System.out.println("Form register OK");
+		String activeKey = RandomStringUtils.randomAlphanumeric(10);
 		userReg.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
 		userReg.setRegistrationIP(request.getRemoteAddr());
-		String activeKey = RandomStringUtils.randomAlphanumeric(10);
-
 		userReg.setActiveKey(activeKey);
 		userReg.setRegMethod("native");
 		userReg.setBirthday(birthday);
+		userReg.setAvatarPhoto(userReg.getGender().equals("Male")?"default_male_avatar":"default_female_avatar");
 		try {
 			UserDAO.add(userReg);
 			// make username

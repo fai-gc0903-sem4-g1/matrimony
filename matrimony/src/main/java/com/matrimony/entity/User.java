@@ -75,6 +75,7 @@ public class User implements Serializable {
 	private String location;
 	private String maritalStatus;
 	private String middleName;
+	private String avatarPhoto;
 	private String name;
 	@Length(min = 4, max = 100)
 	private String password;
@@ -160,6 +161,14 @@ public class User implements Serializable {
 
 	public String getIntroduction() {
 		return introduction;
+	}
+
+	public String getAvatarPhoto() {
+		return avatarPhoto;
+	}
+
+	public void setAvatarPhoto(String avatarPhoto) {
+		this.avatarPhoto = avatarPhoto;
 	}
 
 	public String getLastIPLogin() {
