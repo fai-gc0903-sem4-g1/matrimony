@@ -52,8 +52,8 @@ public class UserController {
 		}
 		try {
 			User account = UserDAO.login(userLogin.getUsername(), userLogin.getPassword());
-			account.setLastTimeLogin(new Timestamp(System.currentTimeMillis()));
-			account.setLastIPLogin(request.getRemoteAddr());
+			account.setLoginTime(new Timestamp(System.currentTimeMillis()));
+			account.setIpLogin(request.getRemoteAddr());
 			UserDAO.Update(account);
 
 			request.getSession().setAttribute("user", account);
