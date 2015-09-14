@@ -50,7 +50,6 @@ public class GlobalFilter implements Filter {
 		System.out.println("Current user: " + user);
 		Cookie[] allCookie = request.getCookies();
 		if (user == null) {
-
 			boolean keepLogin = false;
 			if (allCookie != null) {
 				for (Cookie c : allCookie) {
