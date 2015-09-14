@@ -9,6 +9,21 @@
 <link rel="stylesheet" type="text/css"
 	href="/matrimony/resources/css/layout.css">
 </head>
+<style>
+* {margin: 0;padding: 0;
+	
+}
+
+body {
+	margin: 0 auto;
+}
+
+#msg-response-error {
+	color:red;
+}
+</style>
+
+
 <body>
 	<div id="header">
 		<nav class="navbar navbar-default navbar-fixed-top">
