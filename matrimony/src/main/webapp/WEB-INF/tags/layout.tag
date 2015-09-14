@@ -31,7 +31,7 @@ body {
 	color: red;
 }
 </style>
-
+<c:set var="userAvatarFolder" value="/matrimony/resources/profile/avatar" scope="application"/>
 
 <body>
 	<div id="header">
@@ -91,6 +91,7 @@ body {
 				</nav>
 
 			</c:when>
+			
 			<c:otherwise>
 				<nav class="navbar navbar-default">
 					<div class="container-fluid">
@@ -139,7 +140,7 @@ body {
 										<li><a href="#" class="text-center">View All</a></li>
 									</ul></li>
 								<li><a href="#"><img alt='mini-avartar'
-										src='avatar.jpg'
+										src='${userAvatarFolder}/${sessionScope.user.avatarPhoto}'
 										style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;${sessionScope.user.firstName }</a></li>
 
 								<li><form id="signin" action='logout' method='POST'

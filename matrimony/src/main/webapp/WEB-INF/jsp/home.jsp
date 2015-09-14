@@ -40,7 +40,7 @@
 	<div id="container" class='row'>
 	<div id='left' class='col-lg-2' style='width: 233px;'>
 		<img id='avartar' alt='avatar' style='height: 200px; width: 200px;'
-					src='/matrimony/resources/profile/avatar/${sessionScope.user.avatarPhoto }' />
+					src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
 		<br />
 		<br />
 		<span id='name' style='font-weight: bold;'>${sessionScope.user.name }</span>
