@@ -44,13 +44,16 @@ public class FriendController {
 
     @RequestMapping(value = "acceptRequest", method = RequestMethod.POST)
     public String accpetRequest(String usToId, String usFromId, HttpSession session) {
-        FriendDAO.EditRecord(usFromId, usToId, 2);//sua doi thuoc tinh status thanh da dong y ket ban
+        Friend f = FriendDAO.getFriend(usFromId, usToId);
+        f.setStatus(2);
+        FriendDAO.EditRecord(f);
+        return "home";
+        //sua doi thuoc tinh status thanh da dong y ket ban
 //        User friendFromId = FriendDAO.getUserById(nameFromId);
 //        FriendController f = new FriendController();
 //        f.getFriend(friendFromId, mm, request);
 //        session.setAttribute("nameToId", nameToId);
-//        session.setAttribute("message", nameFromId + nameToId + "Da tro thanh ban be");
-        return "home";
+//        session.setAttribute("message", nameFromId + nameToId + "Da tro thanh ban be");     
     }
 
     @RequestMapping(value = "cancelRequest", method = RequestMethod.POST)

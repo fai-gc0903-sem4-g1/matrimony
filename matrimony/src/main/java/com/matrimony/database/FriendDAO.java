@@ -31,17 +31,12 @@ public class FriendDAO {
         ss.close();
     }
 
-    public static boolean EditRecord(String nameFromId, String nameToId, int status) {
-        int result = 0;
-        Session session = HibernateUtil.openSession();
-        session.getTransaction().begin();
-        Query query = session.createQuery("Update friend set status = :status"
-                + "WHERE friendFromId =:friendFromId friendtoId =:friendtoId");
-        query.setParameter("status", status);
-        result = query.executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-        return result > 0;
+    public static void EditRecord(Friend friend) {
+        Session ss = HibernateUtil.openSession();
+        ss.getTransaction().begin();
+        ss.update(friend);
+        ss.getTransaction().commit();
+        ss.close();
     }
 
     public static User getUserById(String userId) {
@@ -58,6 +53,50 @@ public class FriendDAO {
         List<Friend> friends = ss.createQuery("FROM friend").list();
         ss.close();
         return friends;
+    }
+    
+    public static boolean CheckStt(String nameFromId, String nameToId) {
+        List<Friend> friend = null;
+        boolean b = false;
+        Session session = HibernateUtil.openSession();
+        session.getTransaction().begin();
+        Query query = session.createQuery("FROM friend WHERE friendFromId=:friendFromId and friendToId=:friendToId");
+        query.setParameter("friendFromId", nameFromId);
+        query.setParameter("friendToId", nameToId);
+        friend = query.list();
+        for (int i = 0; i < friend.size(); i++) {
+            Friend f = friend.get(i);
+            if (f.getStatus() == 1) {
+                b = true;
+            }
+            break;
+        }
+        session.close();
+        return b;
+    }
+
+    public static boolean CheckExist(String userFromId, String userToId) {
+        List<Friend> friend = FriendDAO.allFriend();
+        boolean b = false;
+        for (int i = 0; i < friend.size(); i++) {
+            Friend f = friend.get(i);
+            if (f.getUserFromId().getUserId().equals(userFromId) && f.getUserToId().getUserId().equals(userToId)) {
+                b = true;
+            }
+            break;
+        }
+        return b;
+    }
+    
+    public static Friend getFriend(String userFromId, String userToId){
+        Friend f = null;
+        Session session = HibernateUtil.openSession();
+        Query query = session.createQuery("FROM friend WHERE friendFromId=:friendFromId and friendToId=:friendToId");
+        query.setParameter("friendFromId", userFromId);
+        query.setParameter("friendToId", userToId);
+        f = (Friend) query.uniqueResult();
+        session.close();
+        return f;    
     }
 
 //    @SuppressWarnings("null")
@@ -124,69 +163,37 @@ public class FriendDAO {
 //        }
 //        session.close();
 //        return listRequest;
-    public static boolean CheckToId(String nameToId) {
-        List<Friend> friend = null;
-        boolean b = false;
-        Session session = HibernateUtil.openSession();
-        session.getTransaction().begin();
-        Query query = session.createQuery("FROM friend");
-        friend = query.list();
-        for (int i = 0; i < friend.size(); i++) {
-            Friend f = friend.get(i);
-            if (f.getUserToId().getUserId().equals(nameToId)) {
-                b = true;
-                break;
-            }
-        }
-        return b;
-    }
+//    public static boolean CheckToId(String nameToId) {
+//        List<Friend> friend = null;
+//        boolean b = false;
+//        Session session = HibernateUtil.openSession();
+//        session.getTransaction().begin();
+//        Query query = session.createQuery("FROM friend");
+//        friend = query.list();
+//        for (int i = 0; i < friend.size(); i++) {
+//            Friend f = friend.get(i);
+//            if (f.getUserToId().getUserId().equals(nameToId)) {
+//                b = true;
+//                break;
+//            }
+//        }
+//        return b;
+//    }
 
-    public static boolean CheckFormId(String nameToId) {
-        List<Friend> friend = null;
-        boolean b = false;
-        Session session = HibernateUtil.openSession();
-        session.getTransaction().begin();
-        Query query = session.createQuery("FROM friend");
-        friend = query.list();
-        for (int i = 0; i < friend.size(); i++) {
-            Friend f = friend.get(i);
-            if (f.getUserFromId().getUserId().equals(nameToId)) {
-                b = true;
-                break;
-            }
-        }
-        return b;
-    }
-
-    public static boolean CheckStt(String nameFromId, String nameToId) {
-        List<Friend> friend = null;
-        boolean b = false;
-        Session session = HibernateUtil.openSession();
-        session.getTransaction().begin();
-        Query query = session.createQuery("FROM friend WHERE friendFromId=:friendFromId and friendToId=:friendToId");
-        query.setParameter("friendFromId", nameFromId);
-        query.setParameter("friendToId", nameToId);
-        friend = query.list();
-        for (int i = 0; i < friend.size(); i++) {
-            Friend f = friend.get(i);
-            if (f.getStatus() == 1) {
-                b = true;
-            }
-            break;
-        }
-        return b;
-    }
-
-    public static boolean CheckExist(String userFromId, String userToId) {
-        List<Friend> friend = FriendDAO.allFriend();
-        boolean b = false;
-        for (int i = 0; i < friend.size(); i++) {
-            Friend f = friend.get(i);
-            if (f.getUserFromId().getUserId().equals(userFromId) && f.getUserToId().getUserId().equals(userToId)) {
-                b = true;
-            }
-            break;
-        }
-        return b;
-    }
+//    public static boolean CheckFormId(String nameToId) {
+//        List<Friend> friend = null;
+//        boolean b = false;
+//        Session session = HibernateUtil.openSession();
+//        session.getTransaction().begin();
+//        Query query = session.createQuery("FROM friend");
+//        friend = query.list();
+//        for (int i = 0; i < friend.size(); i++) {
+//            Friend f = friend.get(i);
+//            if (f.getUserFromId().getUserId().equals(nameToId)) {
+//                b = true;
+//                break;
+//            }
+//        }
+//        return b;
+//    }
 }

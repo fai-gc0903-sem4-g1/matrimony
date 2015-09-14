@@ -59,8 +59,8 @@
                                 <td><input type="submit" value="Da la ban be"/></td>
                                 <td>
                                     <form action="removeFriend" method="POST">
-                                        <input name="usTo" type="hidden" value="${nameFromId}"/>
-                                        <input name="usFrom" type="hidden" value="${nameToId}"/>
+                                        <input name="usToId" type="hidden" value="${nameFromId}"/>
+                                        <input name="usFromId" type="hidden" value="${nameToId}"/>
                                         <input type="submit" value="Xoa ket ban"/>
                                     </form>
                                 </td>
@@ -74,16 +74,16 @@
                                     <c:when test="${FriendBean.CheckStt(nameToId,nameFromId)}">
                                         <td>${listUser.email}</td>
                                         <td>
-                                            <form action="acceptFriend" method="POST">
-                                                <input name="usTo" type="hidden" value="${nameFromId}"/>
-                                                <input name="usFrom" type="hidden" value="${nameToId}"/>
+                                            <form action="acceptRequest" method="POST">
+                                                <input name="usToId" type="hidden" value="${nameFromId}"/>
+                                                <input name="usFromId" type="hidden" value="${nameToId}"/>
                                                 <input type="submit" value="Chap nhan ket ban"/>
                                             </form>
                                         </td>
                                         <td>
                                             <form action="NoAccept" method="POST">
-                                                <input name="usTo" type="hidden" value="${list.userId}"/>
-                                                <input name="usFrom" type="hidden" value="${nameToId}"/>
+                                                <input name="usToId" type="hidden" value="${list.userId}"/>
+                                                <input name="usFromId" type="hidden" value="${nameToId}"/>
                                                 <input type="submit" value="Tu choi"/>
                                             </form>
                                         </td>
@@ -93,8 +93,8 @@
                                         <td><input type="submit" value="Da la ban be"/></td>
                                         <td>
                                             <form action="removeFriend" method="POST">
-                                                <input name="usTo" type="hidden" value="${list.userId}"/>
-                                                <input name="usFrom" type="hidden" value="${nameToId}"/>
+                                                <input name="usToId" type="hidden" value="${list.userId}"/>
+                                                <input name="usFromId" type="hidden" value="${nameToId}"/>
                                                 <input type="submit" value="Xoa ket ban"/>
                                             </form>
                                         </td>
