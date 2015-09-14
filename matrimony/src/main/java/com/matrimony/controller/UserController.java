@@ -96,7 +96,9 @@ public class UserController {
 			System.out.println(ex + ": Date not correct");
 			request.setAttribute("birthdayValid", "Ngày tháng chọn sai");
 		}
-		if (bindingResult.hasErrors() || birthday == null) {
+		if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
+				|| bindingResult.hasFieldErrors("contactNumber") || bindingResult.hasFieldErrors("email")
+				|| bindingResult.hasFieldErrors("gender") || birthday == null) {
 			System.out.println("Form register error");
 			return "index";
 		}
@@ -107,7 +109,7 @@ public class UserController {
 		userReg.setActiveKey(activeKey);
 		userReg.setRegMethod("native");
 		userReg.setBirthday(birthday);
-		userReg.setAvatarPhoto(userReg.getGender().equals("Male")?"default_male_avatar":"default_female_avatar");
+		userReg.setAvatarPhoto(userReg.getGender().equals("Male") ? "default_male_avatar" : "default_female_avatar");
 		try {
 			UserDAO.add(userReg);
 			// make username

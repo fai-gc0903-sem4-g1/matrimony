@@ -25,6 +25,7 @@
 					class="form-horizontal col-lg-12">
 				<h2>Đăng ký</h2>
 				<br />
+				<form:errors path="*" cssClass="error" />
 				<div style="display: none;" id="myAlert" class="alert alert-danger"
 						role="alert"></div>
 
@@ -77,7 +78,7 @@
 				<div class="form-group">
 					<label style="color: red;" class="control-label col-sm-1"></label>
 					<div class="col-sm-10">
-						<input id="phoneNumber" class="form-control" type="text"
+						<input id="phone" class="form-control" type="text"
 								name="contactNumber" placeholder="Số điện thoại nếu có"></input>
 						<form:errors path="contactNumber" cssClass="error" />
 					</div>
