@@ -47,14 +47,7 @@
 							cssClass="control-label col-sm-offset-4 error" />
 				</div>
 
-				<div class="form-group">
-					<label style="color: red;" class="control-label col-sm-1">(*)</label>
-					<div class="col-sm-10">
-						<input id="password" class="form-control" type="password"
-								name="password" placeholder="Mật khẩu"></input>
-						<form:errors path="password" cssClass="error" />
-					</div>
-				</div>
+				
 				<div class="form-group">
 					<label style="color: red;" class="control-label col-sm-1">(*)</label>
 					<div class="col-sm-10">
@@ -74,7 +67,14 @@
 								value="${userReg.email}" placeholder="Nhập lại địa chỉ email"></input>
 					</div>
 				</div>
-
+				<div class="form-group">
+					<label style="color: red;" class="control-label col-sm-1">(*)</label>
+					<div class="col-sm-10">
+						<input id="password" class="form-control" type="password"
+								name="password" placeholder="Mật khẩu"></input>
+						<form:errors path="password" cssClass="error" />
+					</div>
+				</div>
 				<div class="form-group">
 					<label style="color: red;" class="control-label col-sm-1"></label>
 					<div class="col-sm-10">
