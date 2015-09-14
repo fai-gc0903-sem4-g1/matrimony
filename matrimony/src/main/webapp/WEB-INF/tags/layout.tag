@@ -1,7 +1,13 @@
 <%@tag pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <jsp:include page="/WEB-INF/bundle/jstl.jsp" />
 <jsp:include page="/WEB-INF/bundle/bootstrap.jsp" />
+
+
 <html>
 <head>
 <meta charset="utf-8" />
@@ -10,7 +16,7 @@
 	href="/matrimony/resources/css/layout.css">
 </head>
 <style>
-* {margin: 0;padding: 0;
+* {margin 0;padding 0;
 	
 }
 
@@ -26,87 +32,125 @@ body {
 
 <body>
 	<div id="header">
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-						aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#"> <img alt="Brand" src="..."></a>
-				</div>
+		<c:choose>
+			<c:when test="${empty sessionScope.user}">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed"
+								data-toggle="collapse"
+								data-target="#bs-example-navbar-collapse-1">
+								<span class="sr-only">Toggle navigation</span> <span
+									class="icon-bar"></span> <span class="icon-bar"></span> <span
+									class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="#">Brand</a>
+						</div>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-1">
-					<!-- 					<ul class="nav navbar-nav"> -->
-					<!-- 						<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
-					<!-- 						<li><a href="#">Link</a></li> -->
-					<!-- 						<li class="dropdown"><a href="#" class="dropdown-toggle" -->
-					<!-- 							data-toggle="dropdown" role="button" aria-haspopup="true" -->
-					<!-- 							aria-expanded="false">Dropdown <span class="caret"></span></a> -->
-					<!-- 							<ul class="dropdown-menu"> -->
-					<!-- 								<li><a href="#">Action</a></li> -->
-					<!-- 								<li><a href="#">Another action</a></li> -->
-					<!-- 								<li><a href="#">Something else here</a></li> -->
-					<!-- 								<li role="separator" class="divider"></li> -->
-					<!-- 								<li><a href="#">Separated link</a></li> -->
-					<!-- 								<li role="separator" class="divider"></li> -->
-					<!-- 								<li><a href="#">One more separated link</a></li> -->
-					<!-- 							</ul></li> -->
-					<!-- 					</ul> -->
-					<form class="navbar-form navbar-left" role="search">
-						<div class="form-group">
-							<div class="col-sm-10">
-								<input type="text" class="form-control" placeholder="Search">
+						<div class="collapse navbar-collapse"
+							id="bs-example-navbar-collapse-1">
+
+							<form:form modelAttribute="userLogin" id="signin" action='login' method='POST'
+								class="navbar-form navbar-right" role="form">
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="glyphicon glyphicon-user"></i></span> <input id="email"
+										type="email" class="form-control" name="username"
+										value="${empty requestScope.userLogin.username?cookie.loginName.value:requestScope.userLogin.username }"
+										placeholder="Email Address">
+								</div>
+
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="glyphicon glyphicon-lock"></i></span> <input id="password"
+										type="password" class="form-control" name="password"
+										value="${empty requestScope.userLogin.password?cookie.password.value:requestScope.userLogin.password}"
+										placeholder="Password">
+								</div>
+
+								<button type="submit" class="btn btn-primary">Login</button>
+								<br />
+								<div class="checkbox">
+									<label><input type="checkbox" name='keepLoggin' />
+										keep me logged-in</label>
+								</div>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<div class="checkbox">
+									<a href="recover">Forget the password ?</a>
+								</div>
+<!-- 								<br/> -->
+<%-- 								<form:errors path="password" cssClass="error" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --%>
+<%-- 								<form:errors path="username" cssClass="error" /> --%>
+							</form:form>
+							<p id='msg-response-error' class="navbar-text navbar-right">${requestScope.notice}</p>
+						</div>
+					</div>
+				</nav>
+
+			</c:when>
+			<c:otherwise>
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed"
+								data-toggle="collapse"
+								data-target="#bs-example-navbar-collapse-1">
+								<span class="sr-only">Toggle navigation</span> <span
+									class="icon-bar"></span> <span class="icon-bar"></span> <span
+									class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="#">Brand</a>
+						</div>
+
+
+						<div class="collapse navbar-collapse"
+							id="bs-example-navbar-collapse-1">
+							<div class="col-lg-6">
+								<form class="navbar-form" role="search">
+									<div class="input-group col-lg-12">
+										<input type="text" class="form-control" placeholder="Search"
+											name="q">
+										<div class="input-group-btn">
+											<button class="btn btn-default" type="submit">
+												<i class="glyphicon glyphicon-search"></i>
+											</button>
+										</div>
+									</div>
+								</form>
 							</div>
 
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#">${sessionScope.user.firstName }</a></li>
-						<li><a href="#"><span id="heartIcon"
-								class="glyphicon glyphicon-heart" aria-hidden="true"></span> <span
-								class="badge">42</span></a></li>
-						<li><div class="dropdown">
-								<button class="btn btn-default dropdown-toggle" type="button"
-									id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="true">
-									Dropdown <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li><a href="#">Separated link</a></li>
-								</ul>
-							</div></li>
-						<li><a href="#"><span id="heartIcon"
-								class="glyphicon glyphicon-wrench" aria-hidden="true"></span>Cài
-								đặt</a></li>
+							<ul class="nav navbar-nav navbar-right">
 
-						<li><a href="#">${sessionScope.user.firstName }</a></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false">Dropdown <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-							</ul></li>
-					</ul>
-				</div>
-				<!-- /.navbar-collapse -->
-			</div>
-			<!-- /.container-fluid -->
-		</nav>
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown"><span
+										class="glyphicon glyphicon-asterisk"></span>Notification <span
+										class="label label-primary">42</span> </a>
+									<ul class="dropdown-menu">
+										<li><a href="#"><span class="label label-warning">7:00
+													AM</span>Hi :)</a></li>
+										<li><a href="#"><span class="label label-warning">8:00
+													AM</span>How are you?</a></li>
+										<li><a href="#"><span class="label label-warning">9:00
+													AM</span>What are you doing?</a></li>
+										<li class="divider"></li>
+										<li><a href="#" class="text-center">View All</a></li>
+									</ul></li>
+								<li><a href="#"><img alt='mini-avartar'
+										src='avatar.jpg'
+										style='width: 20; height: 20; border-radius: 2px;' />&nbsp;&nbsp;Sơn</a></li>
+
+								<li><form id="signin" action='logout' method='POST'
+										class="nav navbar-form navbar-right" role="form">
+										<button type="submit" class="btn btn-danger">Logout</button>
+									</form></li>
+							</ul>
+
+						</div>
+					</div>
+				</nav>
+			</c:otherwise>
+		</c:choose>
+
 	</div>
 	<div id="body">
 		<jsp:doBody />
