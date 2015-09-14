@@ -47,6 +47,8 @@ public class Friend implements Serializable {
 		this.friendId = friendId;
 	}
 
+
+
 	public User getUserFromId() {
 		return userFromId;
 	}
