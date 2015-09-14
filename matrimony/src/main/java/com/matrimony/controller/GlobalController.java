@@ -171,9 +171,6 @@ public class GlobalController {
 		String avatarFolderPath = request.getServletContext().getRealPath("/resources/profile/avatar");
 		System.out.println(avatarFolderPath);
 		System.out.println(new File(avatarFolderPath).exists());
-//		File repo = new File(repoPath+"");
-//		if (!repo.exists())
-//			repo.mkdir();
 		try {
 			Collection<Part> parts = request.getParts();
 			for (Part part : parts) {
