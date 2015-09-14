@@ -5,15 +5,17 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <jsp:include page="/WEB-INF/bundle/jstl.jsp" />
-<jsp:include page="/WEB-INF/bundle/bootstrap.jsp" />
 
 
 <html>
 <head>
 <meta charset="utf-8" />
 <title>This's layout page</title>
-<link rel="stylesheet" type="text/css"
-	href="/matrimony/resources/css/layout.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link href="maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css"href="/matrimony/resources/css/layout.css">
 </head>
 <style>
 * {
@@ -138,7 +140,7 @@ body {
 									</ul></li>
 								<li><a href="#"><img alt='mini-avartar'
 										src='avatar.jpg'
-										style='width: 20; height: 20; border-radius: 2px;' />&nbsp;&nbsp;Sơn</a></li>
+										style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;Sơn</a></li>
 
 								<li><form id="signin" action='logout' method='POST'
 										class="nav navbar-form navbar-right" role="form">

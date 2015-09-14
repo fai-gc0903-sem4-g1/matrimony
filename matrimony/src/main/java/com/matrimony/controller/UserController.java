@@ -109,10 +109,10 @@ public class UserController {
 		userReg.setActiveKey(activeKey);
 		userReg.setRegMethod("native");
 		userReg.setBirthday(birthday);
-		userReg.setAvatarPhoto(userReg.getGender().equals("Male") ? "default_male_avatar" : "default_female_avatar");
+		userReg.setAvatarPhoto(userReg.getGender().equals("male") ? "default_male_avatar.jpg": "default_female_avatar.jpg");
+		userReg.setName(userReg.getFirstName() + " " + userReg.getLastName());
 		try {
 			UserDAO.add(userReg);
-			// make username
 			User user = UserDAO.findByEmail(userReg.getEmail());
 			user.setUsername(user.getUserId());
 			UserDAO.Update(user);

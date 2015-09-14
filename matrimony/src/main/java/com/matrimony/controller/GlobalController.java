@@ -178,7 +178,7 @@ public class GlobalController {
 				if (fileName != null) {
 					InputStream is = part.getInputStream();
 					String fileNameGenerated=RandomStringUtils.randomAlphanumeric(26);
-					File file = new File(avatarFolderPath+"/"+fileNameGenerated);
+					File file = new File(avatarFolderPath+"/"+fileNameGenerated+fileName.split(".")[1]);
 					FileOutputStream fileOutputStream = new FileOutputStream(file);
 					System.out.println(fileName);
 					int buffer;
@@ -193,31 +193,8 @@ public class GlobalController {
 			}
 		} catch (IOException | ServletException e) {
 			e.printStackTrace();
+			System.out.println("Loi upfile");
 		}
 		return "test";
 	}
-	
-//	public String uploadImg(Collection<Part> collection) throws IOException {
-//		StringBuilder imageSrc = new StringBuilder();
-//		for (Part part : collection) {
-//			InputStream is = part.getInputStream();
-//			String fileName = part.getSubmittedFileName();
-//			if (is instanceof FileInputStream && fileName != null) {
-//				String filePath = getServletContext().getRealPath("/resources") + "/img/img_product_uploaded/" + fileName;
-//				String imgLinkSQL = "/ShoppingAssignment/resources/img/img_product_uploaded/" + fileName;
-//				FileOutputStream file = new FileOutputStream(filePath);
-//				int bye;
-//				while ((bye = is.read()) != -1) {
-//					file.write(bye);
-//				}
-//				file.close();
-//				is.close();
-//
-//				imageSrc.append(imgLinkSQL + ";");
-//			}
-//		}
-//		if (imageSrc.length() > 0)
-//			imageSrc.deleteCharAt(imageSrc.length() - 1);
-//		return imageSrc.toString();
-//	}
 }
