@@ -140,7 +140,7 @@ body {
 									</ul></li>
 								<li><a href="#"><img alt='mini-avartar'
 										src='avatar.jpg'
-										style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;Sơn</a></li>
+										style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;${sessionScope.user.firstName }</a></li>
 
 								<li><form id="signin" action='logout' method='POST'
 										class="nav navbar-form navbar-right" role="form">

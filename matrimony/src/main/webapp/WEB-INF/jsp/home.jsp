@@ -43,7 +43,7 @@
 					src='/matrimony/resources/profile/avatar/${sessionScope.user.avatarPhoto }' />
 		<br />
 		<br />
-		<span id='name' style='font-weight: bold;'>Đàm Sơn</span>
+		<span id='name' style='font-weight: bold;'>${sessionScope.user.name }</span>
 		<br /><br />
 		<ul class="list-group">
 		  <li class="list-group-item"><a href="#">My friend</a> <span
@@ -62,7 +62,8 @@
 			<div id='person-panel' class='row col-sm-12'>
 			
 				<div class='col-sm-2'>
-				<img id='person-avatar' alt='person-avatar' src='/matrimony/resources/profile/avatar/${i.avatarPhoto }'
+				<img id='person-avatar' alt='person-avatar'
+									src='/matrimony/resources/profile/avatar/${i.avatarPhoto }'
 									style='height: 70px; width: 70px;' />
 				</div>
 			
@@ -90,17 +91,10 @@
 		<div id='right' class='col-lg-3'>
 		<div class="panel panel-default">
 	  <div class="panel-heading">
-		<h3 class="panel-title">Panel title</h3>
+		<h3 class="panel-title">Friends</h3>
 	  </div>
 	  <div class="panel-body">
-		Panel content
-	  </div>
-		</div>
-	</div>
-	</div>
-	
-    TAT CA DANH SACH BAN BE
-    <table>
+		<table>
         <tr>
             <th>ID</th>
             <th>Ban be</th>
@@ -221,6 +215,9 @@
             </tr>
         </c:forEach>
     </table>
-	
+	  </div>
+		</div>
+	</div>
+	</div>
 	</jsp:body>
 </t:layout>
