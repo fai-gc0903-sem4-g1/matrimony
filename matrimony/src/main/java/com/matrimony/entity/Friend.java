@@ -32,8 +32,12 @@ public class Friend implements Serializable {
 	@GenericGenerator(name = "id", strategy = "uuid")
 	@GeneratedValue(generator = "id")
 	private String friendId;
-	private String userFromId;
-	private String userToId;
+        @ManyToOne
+        @JoinColumn(name = "friendFromId")
+	private User userFromId;
+        @ManyToOne
+        @JoinColumn(name = "friendToId")
+	private User userToId;
 	private int status;
 	private Timestamp timeInvited;
 	private Timestamp timeDenied;
@@ -47,19 +51,19 @@ public class Friend implements Serializable {
 		this.friendId = friendId;
 	}
 
-	public String getUserFromId() {
+	public User getUserFromId() {
 		return userFromId;
 	}
 
-	public void setUserFromId(String userFromId) {
+	public void setUserFromId(User userFromId) {
 		this.userFromId = userFromId;
 	}
 
-	public String getUserToId() {
+	public User getUserToId() {
 		return userToId;
 	}
 
-	public void setUserToId(String userToId) {
+	public void setUserToId(User userToId) {
 		this.userToId = userToId;
 	}
 
