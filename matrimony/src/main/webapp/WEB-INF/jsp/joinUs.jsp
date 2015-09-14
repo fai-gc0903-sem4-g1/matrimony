@@ -17,6 +17,27 @@
 	<jsp:body>
 	<div id='container'>
 <div id="left" class="col-lg-8">
+	<a href="#" id="show-loggin-model-trigger" data-toggle="modal" data-target="#login-modal">Login</a>
+	
+		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="loginmodal-container">
+					<h1>New password</h1><br>
+				  <form>
+					<input type="text" name="password" placeholder="Enter new password">
+					<input type="password" name="rePassword" placeholder="Re-enter new password">
+					<input type="submit" name="login" class="login loginmodal-submit" value="Login">
+				  </form>
+					
+				  <div class="login-help">
+					<div class="checkbox"><label><input type="checkbox"/> keep me logged-in</label></div>
+				  </div>
+				</div>
+			</div>
+		</div>
+	 <a class="btn btn-block btn-social btn-facebook">
+	    <i class="fa fa-facebook"></i> Sign in with Facebook
+	  </a>
 
 </div>
 <div id="right" class="col-lg-4">
