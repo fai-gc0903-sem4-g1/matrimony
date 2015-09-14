@@ -43,6 +43,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserController {
 
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String viewLogin() {
+		return "redirect:";
+	}
+	
+	@RequestMapping(value = "register", method = RequestMethod.GET)
+	public String viewRegister() {
+		return "redirect:";
+	}
+
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String doLogin(HttpServletResponse response, HttpServletRequest request,
 			@Valid @ModelAttribute("userLogin") User userLogin, BindingResult bindingResult, String keepLoggin) {
@@ -109,7 +119,8 @@ public class UserController {
 		userReg.setActiveKey(activeKey);
 		userReg.setRegMethod("native");
 		userReg.setBirthday(birthday);
-		userReg.setAvatarPhoto(userReg.getGender().equals("male") ? "default_male_avatar.jpg": "default_female_avatar.jpg");
+		userReg.setAvatarPhoto(userReg.getGender().equals("male") ? "default_male_avatar.jpg"
+				: "default_female_avatar.jpg");
 		userReg.setName(userReg.getFirstName() + " " + userReg.getLastName());
 		try {
 			UserDAO.add(userReg);

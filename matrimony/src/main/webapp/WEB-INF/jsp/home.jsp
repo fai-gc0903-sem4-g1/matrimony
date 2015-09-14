@@ -16,6 +16,8 @@
 			value="${matrimony.getSuggestUsers(sessionScope.user) }"
 			scope="request" />
 	<style>
+	body{
+	background-color:#f9f9f9;}
 #container {
 	padding: 0px 30px 0 30px;
 }
@@ -27,19 +29,44 @@
 	padding: 12px 0px;
 }
 
-#person-name {
-	font-weight: bold;
-	color: #116CBB;
-}
-
 #person-btna {
 	color: #8DBAD9;
 	cursor: pointer;
 }
+
+#label-basic {
+	font-weight: bold;
+	color: #116CBB;
+}
+
+#avatar {
+	cursor: pointer;
+}
+
+#hiddenDIV {
+	display: none;
+}
 </style>
+
+<script>
+	$(document).ready(function() {
+		$("#avatar").click(function() {
+			$("#uploadAvatarPhoto").click();
+		});
+		$("#uploadAvatarPhoto").change(function() {
+			$("#uploadPhotoForm").submit();
+		});
+	});
+</script>
+<div id="hiddenDIV">
+		<form id="uploadPhotoForm" action="changeAvatar" method="POST" enctype="multipart/form-data">
+			<input id="uploadAvatarPhoto" type="file" name="file"
+					accept="image/*" />
+		</form>
+	</div>
 	<div id="container" class='row'>
 	<div id='left' class='col-lg-2' style='width: 233px;'>
-		<img id='avartar' alt='avatar' style='height: 200px; width: 200px;'
+		<img id="avatar" alt='avatar' style='height: 200px; width: 200px;'
 					src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
 		<br />
 		<br />
@@ -53,6 +80,7 @@
 		</ul>
 	</div>
 	
+	
 	<div id='center' class='col-lg-6'
 				style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px; width: 726px;'>
 	Những người phù hợp với bạn
@@ -64,21 +92,22 @@
 				<div class='col-sm-2'>
 				<img id='person-avatar' alt='person-avatar'
 									src='/matrimony/resources/profile/avatar/${i.avatarPhoto }'
-									style='height: 70px; width: 70px;' />
+									style='height: 70px; width: 70px;' /><br /><br />
+									<span id='person-name'>${i.name }</span>
 				</div>
 			
 				<div id='person-left' class='col-sm-5'>
-					<span id='person-name'>${i.name }</span><br />
-					<span id='person-age'>${i.birthday }</span><br />
-					<span id='person-gender'>${i.gender }</span><br />
-					<span id='person-btna'>Send message</span>
+					<span id='person-name'><span id="label-basic">Name</span> ${i.name }</span><br />
+					<span id='person-age'><span id="label-basic">Age </span>${i.birthday }</span><br />
+					<span id='person-gender'><span id="label-basic">Gender </span>${i.gender }</span><br /><br />
+					<span id='person-btna'><button class="btn-success">Inbox</button></span>
 					<span id='person-btna'>1 friend</span>
 				</div>
 				<div id='person-right' class='col-sm-4'>
-					<span id='person-name'>Viet nam</span><br />
-					<span id='person-city'>Ha noi</span><br />
-					<span id='person-status'>Alone</span><br />
-					<span id='person-btna'>Add friend</span>
+					<span id='person-name'><span id="label-basic">Country </span>Viet nam</span><br />
+					<span id='person-city'><span id="label-basic">City </span>Ha noi</span><br />
+					<span id='person-status'><span id="label-basic">Marital </span> No infomation</span><br /><br />
+					<span id='person-btna'><button class="btn-info">Add friend</button></span>
 				</div>
 			</div>
 			</c:forEach>
@@ -103,44 +132,44 @@
         <c:forEach var="listUser" items="${UserBean.allAccounts()}">
             <tr>
                 <c:set var="nameFromId"
-						value="${sessionScope.user.userId}" />
+										value="${sessionScope.user.userId}" />
                 <c:set var="nameToId" value="${listUser.userId}" />
                 <c:choose>
                     <c:when
-							test="${FriendBean.CheckExist(nameFromId,nameToId)}">
+											test="${FriendBean.CheckExist(nameFromId,nameToId)}">
                         <c:choose>
                             <c:when
-									test="${FriendBean.CheckStt(nameFromId,nameToId)}">
+													test="${FriendBean.CheckStt(nameFromId,nameToId)}">
                                 <td>${listUser.email}</td> 
                                 <td>
                                     <input type="submit"
-										value="Da dui loi moi ket ban" />
+														value="Da dui loi moi ket ban" />
                                 </td>
                                 <td>
                                     <form action="cancelRequest"
-											method="POST">
+															method="POST">
                                         <input name="usTo" type="hidden"
-												value="${nameToId}" />
+																value="${nameToId}" />
                                         <input name="usFrom"
-												type="hidden" value="${nameFromId}" />
+																type="hidden" value="${nameFromId}" />
                                         <input type="submit"
-												value="Cancel Request" />
+																value="Cancel Request" />
                                     </form>
                                 </td>
                             </c:when>
                             <c:otherwise>
                                 <td>${listUser.email}</td>
                                 <td><input type="submit"
-										value="Da la ban be" /></td>
+														value="Da la ban be" /></td>
                                 <td>
                                     <form action="removeFriend"
-											method="POST">
+															method="POST">
                                         <input name="usToId"
-												type="hidden" value="${nameFromId}" />
+																type="hidden" value="${nameFromId}" />
                                         <input name="usFromId"
-												type="hidden" value="${nameToId}" />
+																type="hidden" value="${nameToId}" />
                                         <input type="submit"
-												value="Xoa ket ban" />
+																value="Xoa ket ban" />
                                     </form>
                                 </td>
                             </c:otherwise>
@@ -149,47 +178,47 @@
                     <c:otherwise>
                         <c:choose>
                             <c:when
-									test="${FriendBean.CheckExist(nameToId,nameFromId)}">
+													test="${FriendBean.CheckExist(nameToId,nameFromId)}">
                                 <c:choose>
                                     <c:when
-											test="${FriendBean.CheckStt(nameToId,nameFromId)}">
+															test="${FriendBean.CheckStt(nameToId,nameFromId)}">
                                         <td>${listUser.email}</td>
                                         <td>
                                             <form action="acceptRequest"
-													method="POST">
+																	method="POST">
                                                 <input name="usToId"
-														type="hidden" value="${nameFromId}" />
+																		type="hidden" value="${nameFromId}" />
                                                 <input name="usFromId"
-														type="hidden" value="${nameToId}" />
+																		type="hidden" value="${nameToId}" />
                                                 <input type="submit"
-														value="Chap nhan ket ban" />
+																		value="Chap nhan ket ban" />
                                             </form>
                                         </td>
                                         <td>
                                             <form action="NoAccept"
-													method="POST">
+																	method="POST">
                                                 <input name="usToId"
-														type="hidden" value="${list.userId}" />
+																		type="hidden" value="${list.userId}" />
                                                 <input name="usFromId"
-														type="hidden" value="${nameToId}" />
+																		type="hidden" value="${nameToId}" />
                                                 <input type="submit"
-														value="Tu choi" />
+																		value="Tu choi" />
                                             </form>
                                         </td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>${listUser.email}</td>
                                         <td><input type="submit"
-												value="Da la ban be" /></td>
+																value="Da la ban be" /></td>
                                         <td>
                                             <form action="removeFriend"
-													method="POST">
+																	method="POST">
                                                 <input name="usToId"
-														type="hidden" value="${list.userId}" />
+																		type="hidden" value="${list.userId}" />
                                                 <input name="usFromId"
-														type="hidden" value="${nameToId}" />
+																		type="hidden" value="${nameToId}" />
                                                 <input type="submit"
-														value="Xoa ket ban" />
+																		value="Xoa ket ban" />
                                             </form>
                                         </td>
                                     </c:otherwise>
@@ -199,13 +228,13 @@
                                 <td>${listUser.email}</td>    
                                 <td>
                                     <form action="sendRequest"
-											method="POST">
+															method="POST">
                                         <input name="usToId"
-												type="hidden" value="${nameToId}" />
+																type="hidden" value="${nameToId}" />
                                         <input name="usFromId"
-												type="hidden" value="${nameFromId}" />
+																type="hidden" value="${nameFromId}" />
                                         <input type="submit"
-												value="Send Request" />
+																value="Send Request" />
                                     </form>
                                 </td>
                             </c:otherwise>

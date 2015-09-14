@@ -161,11 +161,11 @@ public class GlobalController {
 		mail.send();
 	}
 	
-	@RequestMapping(value = "test", method = RequestMethod.GET)
+	@RequestMapping(value = "changeAvatar", method = RequestMethod.GET)
 	public String viewTest() {
-		return "test";
+		return "redirect:";
 	}
-	@RequestMapping(value = "test", method = RequestMethod.POST)
+	@RequestMapping(value = "changeAvatar", method = RequestMethod.POST)
 	public String doTest(HttpServletRequest request){
 		System.out.println("ngon ");
 		String avatarFolderPath = request.getServletContext().getRealPath("/resources/profile/avatar");
@@ -177,10 +177,10 @@ public class GlobalController {
 				String fileName = part.getSubmittedFileName();
 				if (fileName != null) {
 					InputStream is = part.getInputStream();
-					String fileNameGenerated=RandomStringUtils.randomAlphanumeric(26);
-					File file = new File(avatarFolderPath+"/"+fileNameGenerated+fileName.split(".")[1]);
-					FileOutputStream fileOutputStream = new FileOutputStream(file);
+					String fileNameGenerated=RandomStringUtils.randomAlphanumeric(26)+fileName.split("\\.")[1];
 					System.out.println(fileName);
+					File file = new File(avatarFolderPath+"/"+fileNameGenerated);
+					FileOutputStream fileOutputStream = new FileOutputStream(file);
 					int buffer;
 					while ((buffer = is.read()) != -1) {
 						fileOutputStream.write(buffer);
@@ -195,6 +195,6 @@ public class GlobalController {
 			e.printStackTrace();
 			System.out.println("Loi upfile");
 		}
-		return "test";
+		return "redirect:";
 	}
 }
