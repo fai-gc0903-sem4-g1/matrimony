@@ -17,7 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
  *
  * @author SON
  */
-@Entity(name="user_friend")
+@Entity(name="friend")
 public class UserFriend implements Serializable {
     /**
 	 * 
