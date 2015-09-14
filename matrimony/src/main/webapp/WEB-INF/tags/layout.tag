@@ -16,8 +16,9 @@
 	href="/matrimony/resources/css/layout.css">
 </head>
 <style>
-* {margin 0;padding 0;
-	
+* {
+	margin: 0;
+	padding: 0;
 }
 
 body {
@@ -25,7 +26,7 @@ body {
 }
 
 #msg-response-error {
-	color:red;
+	color: red;
 }
 </style>
 
@@ -50,8 +51,8 @@ body {
 						<div class="collapse navbar-collapse"
 							id="bs-example-navbar-collapse-1">
 
-							<form:form modelAttribute="userLogin" id="signin" action='login' method='POST'
-								class="navbar-form navbar-right" role="form">
+							<form:form modelAttribute="userLogin" id="signin" action='login'
+								method='POST' class="navbar-form navbar-right" role="form">
 								<div class="input-group">
 									<span class="input-group-addon"><i
 										class="glyphicon glyphicon-user"></i></span> <input id="email"
@@ -78,9 +79,9 @@ body {
 								<div class="checkbox">
 									<a href="recover">Forget the password ?</a>
 								</div>
-<!-- 								<br/> -->
-<%-- 								<form:errors path="password" cssClass="error" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --%>
-<%-- 								<form:errors path="username" cssClass="error" /> --%>
+								<!-- 								<br/> -->
+								<%-- 								<form:errors path="password" cssClass="error" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --%>
+								<%-- 								<form:errors path="username" cssClass="error" /> --%>
 							</form:form>
 							<p id='msg-response-error' class="navbar-text navbar-right">${requestScope.notice}</p>
 						</div>
