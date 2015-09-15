@@ -57,7 +57,7 @@ public class UserController {
 			@Valid @ModelAttribute("userLogin") User userLogin, BindingResult bindingResult, String keepLoggin) {
 		if (bindingResult.hasFieldErrors("username") || bindingResult.hasFieldErrors("password")) {
 			System.out.println("form login error");
-			return "index";
+			return "index"; 
 		}
 		try {
 			User account = UserDAO.login(userLogin.getUsername(), userLogin.getPassword());
