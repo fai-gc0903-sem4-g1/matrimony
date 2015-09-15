@@ -22,7 +22,7 @@ public class FBConnection {
 
     public static final String FB_APP_ID = "1604300546376987";
     public static final String FB_APP_SECRET = "2951336ef374df4f51bd3727ddd7b133";
-    public static final String REDIRECT_URI = "http://localhost:8080/wedding_event_prj/FBRedirect";
+    public static final String REDIRECT_URI = "http://localhost:8080/matrimony/FBRedirect";
 
     public String getFBAuthUrl() {
         String fbLoginUrl = "";

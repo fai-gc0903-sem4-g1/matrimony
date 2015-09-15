@@ -1,4 +1,5 @@
 <%@tag pageEncoding="UTF-8"%>
+<%@attribute name="head" fragment="true" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -10,22 +11,20 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>This's layout page</title>
 	<!-- Jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	
 	<!-- twitter bootstrap -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link href="maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	
 	<!-- style -->
 	<link rel="stylesheet" type="text/css"href="/matrimony/resources/css/layout.css">
 	
 	<!-- 	font awesome -->
-	<link rel='stylesheet' href='bootstrap-social.css'/>
+	<link rel='stylesheet' href='/matrimony/resources/css/bootstrap-social.css'/>
 	<link rel="stylesheet" href="/matrimony/resources/font-awesome/css/font-awesome.min.css">
-	
+	<jsp:invoke fragment="head" />
 </head>
 <style>
 * {
@@ -136,8 +135,7 @@ body {
 							<ul class="nav navbar-nav navbar-right">
 
 								<li class="dropdown"><a href="#" class="dropdown-toggle"
-									data-toggle="dropdown"><span
-										class="glyphicon glyphicon-asterisk"></span>Notification <span
+									data-toggle="dropdown"><i class="fa fa-globe" style='font-size:19px'></i>Notification <span
 										class="label label-primary">42</span> </a>
 									<ul class="dropdown-menu">
 										<li><a href="#"><span class="label label-warning">7:00

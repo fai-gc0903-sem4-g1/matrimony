@@ -5,19 +5,9 @@
  */
 package com.matrimony.controller;
 
-import com.matrimony.database.UserDAO;
-import com.matrimony.entity.User;
-import com.matrimony.exception.STException;
-import com.matrimony.util.MailUtil;
-
-import facebook.api.FBConnection;
-import facebook.api.FBGraph;
-import facebook.entity.FBProfile;
-
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,12 +19,21 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.matrimony.database.UserDAO;
+import com.matrimony.entity.User;
+import com.matrimony.exception.STException;
+import com.matrimony.exception.STException.ContactNumberAlready;
+import com.matrimony.exception.STException.EmailAlready;
+import com.matrimony.util.MailUtil;
+
+import facebook.api.FBConnection;
+import facebook.api.FBGraph;
+import facebook.entity.FBProfile;
 
 /**
  *
@@ -70,14 +69,7 @@ public class UserController {
 			System.out.println(account.getEmail() + " logged in");
 			if (account.isVerified()) {
 				if (keepLoggin != null) {
-					Cookie[] cookies = new Cookie[3];
-					cookies[0] = new Cookie("loginName", userLogin.getUsername());
-					cookies[1] = new Cookie("password", userLogin.getPassword());
-					cookies[2] = new Cookie("keepLoggin", "true");
-					for (Cookie c : cookies) {
-						c.setMaxAge(60 * 60 * 24 * 365);
-						response.addCookie(c);
-					}
+					keepMeLoggedIn(response, userLogin);
 				}
 				return "redirect:";
 			} else {
@@ -124,9 +116,10 @@ public class UserController {
 		userReg.setName(userReg.getFirstName() + " " + userReg.getLastName());
 		try {
 			UserDAO.add(userReg);
-			User user = UserDAO.findByEmail(userReg.getEmail());
-			user.setUsername(user.getUserId());
-			UserDAO.Update(user);
+			User tempUser=UserDAO.findByEmail(userReg.getEmail());
+			tempUser.setUsername(userReg.getUserId());
+			UserDAO.Update(tempUser);
+			
 			sendMailActive(userReg.getEmail(), activeKey);
 			request.getSession().setAttribute("user", UserDAO.findByEmail(userReg.getEmail()));
 			return "active";
@@ -171,7 +164,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "FBRedirect", method = RequestMethod.GET)
-	public String FBRedirect(String code, HttpSession session, HttpServletResponse response) {
+	public String FBRedirect(HttpServletRequest request, String code, HttpSession session, HttpServletResponse response) {
 		FBConnection fBConnection = new FBConnection();
 		try {
 			String accessToken = fBConnection.getAccessToken(code);
@@ -179,40 +172,57 @@ public class UserController {
 			FBGraph fBGraph = new FBGraph();
 			FBProfile fbProfile = fBGraph.getFBProfile(accessToken);
 			System.out.println(fbProfile);
-			User userFBReg = new User();
-			userFBReg.setEmail(fbProfile.getEmail());
-			userFBReg.setVerified(fbProfile.isVerified());
-			userFBReg.setFirstName(fbProfile.getFirst_name());
-			userFBReg.setLastName(fbProfile.getLast_name());
-			userFBReg.setGender(fbProfile.getGender());
-			userFBReg.setLocale(fbProfile.getLocale());
-			userFBReg.setRegMethod("Facebook");
-			userFBReg.setSocialNetwork(fbProfile.getLink());
-			userFBReg.setContactNumber("");
+			User userRegUsingFB = new User();
+			userRegUsingFB.setEmail(fbProfile.getEmail());
+			userRegUsingFB.setVerified(true);//verified always true
+			userRegUsingFB.setFirstName(fbProfile.getFirst_name());
+			userRegUsingFB.setLastName(fbProfile.getLast_name());
+			userRegUsingFB.setGender(fbProfile.getGender());
+			userRegUsingFB.setLocale(fbProfile.getLocale());
+			userRegUsingFB.setRegMethod("Facebook");
+			userRegUsingFB.setSocialNetwork(fbProfile.getLink());
+			userRegUsingFB.setContactNumber("");
+			userRegUsingFB.setName(fbProfile.getName());
 			System.out.println("Create user from facebook OK");
-			try {
-				UserDAO.add(userFBReg);
-				System.out.println("Added user " + userFBReg.getEmail());
-				Cookie[] cookies = new Cookie[3];
-				cookies[0] = new Cookie("loginName", userFBReg.getEmail());
-				cookies[1] = new Cookie("password", "");
-				cookies[2] = new Cookie("keepLoggin", "true");
-				for (Cookie c : cookies) {
-					c.setMaxAge(60 * 60 * 24 * 365);
-					response.addCookie(c);
-				}
-				System.out.println("saved cookie");
-				session.setAttribute("user", UserDAO.findByEmail(userFBReg.getEmail()));
-				return "redirect:";
-			} catch (STException.EmailAlready ex) {
-				System.out.println("Hinh nhu ban do co tai khoan roi");
-			} catch (STException.ContactNumberAlready ex) {
-				System.out.println("Hinh nhu ban da co so dien thoai");
+			request.getSession().setAttribute("userRegUsingFB", userRegUsingFB);
+			User checkUser=UserDAO.findByEmail(userRegUsingFB.getEmail());
+			if(checkUser==null){
+				request.setAttribute("fbPass", true);
+			}else{
+				request.setAttribute("fblog", 1);
 			}
-			return "failed";
+			return "index";
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
 			return "userNotFound";
+		}
+	}
+	
+	@RequestMapping(value = "loginWithFacebook", method = RequestMethod.POST)
+	public String doSaveUserFB(HttpServletRequest request, @ModelAttribute("user")User user, BindingResult bindingResult) {
+		if(bindingResult.hasFieldErrors("password")){
+			request.setAttribute("fbPass", true);
+			return "index"; //purpose join us
+		}else{
+			User userRegUsingFB=(User) request.getSession().getAttribute("userRegUsingFB");
+			if(userRegUsingFB!=null){
+				userRegUsingFB.setPassword(user.getPassword());
+				try {
+					UserDAO.add(userRegUsingFB);
+					User tempUser=UserDAO.findByEmail(userRegUsingFB.getEmail());
+					tempUser.setUsername(tempUser.getUserId());
+					UserDAO.Update(tempUser);
+				} catch (EmailAlready e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ContactNumberAlready e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return "index"; //purpose home
+			}else{
+				return "exception";
+			}
 		}
 	}
 
@@ -265,6 +275,17 @@ public class UserController {
 		return "recoverUser";
 	}
 
+	public void keepMeLoggedIn(HttpServletResponse response, User user){
+		Cookie[] cookies = new Cookie[3];
+		cookies[0] = new Cookie("loginName", user.getEmail());
+		cookies[1] = new Cookie("password", "");
+		cookies[2] = new Cookie("keepLoggin", "true");
+		for (Cookie c : cookies) {
+			c.setMaxAge(60 * 60 * 24 * 365);
+			response.addCookie(c);
+		}
+		System.out.println("saved cookie");
+	}
 	public void sendMailActive(String email, String key) {
 		String sub = "Chao mung den voi matrimony, kich hoat tai khoan";
 		StringBuilder cont = new StringBuilder();
