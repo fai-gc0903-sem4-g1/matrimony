@@ -7,7 +7,6 @@
 
 <jsp:include page="/WEB-INF/bundle/jstl.jsp" />
 
-
 <html>
 <head>
 <meta charset="utf-8" />
@@ -137,10 +136,35 @@ body {
 							</div>
 
 							<ul class="nav navbar-nav navbar-right">
-
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown"><i class="fa fa-users" style='font-size:19px'></i> <span
+										class="label label-primary">5</span> </a>
+									<ul class="dropdown-menu">
+										<li><a href="#"><span class="label label-warning">7:00
+													AM</span>Hi :)</a></li>
+										<li><a href="#"><span class="label label-warning">8:00
+													AM</span>How are you?</a></li>
+										<li><a href="#"><span class="label label-warning">9:00
+													AM</span>What are you doing?</a></li>
+										<li class="divider"></li>
+										<li><a href="#" class="text-center">View All</a></li>
+									</ul></li>
 								<li class="dropdown"><a href="#" class="dropdown-toggle"
-									data-toggle="dropdown"><i class="fa fa-globe" style='font-size:19px'></i>Notification <span
-										class="label label-primary">42</span> </a>
+									data-toggle="dropdown"><i class="fa fa-globe" style='font-size:19px'></i> <span
+										class="label label-primary">26</span> </a>
+									<ul class="dropdown-menu">
+										<li><a href="#"><span class="label label-warning">7:00
+													AM</span>Hi :)</a></li>
+										<li><a href="#"><span class="label label-warning">8:00
+													AM</span>How are you?</a></li>
+										<li><a href="#"><span class="label label-warning">9:00
+													AM</span>What are you doing?</a></li>
+										<li class="divider"></li>
+										<li><a href="#" class="text-center">View All</a></li>
+									</ul></li>
+									<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown"><i class="fa fa-comments-o" style='font-size:19px'></i> <span
+										class="label label-primary">0</span> </a>
 									<ul class="dropdown-menu">
 										<li><a href="#"><span class="label label-warning">7:00
 													AM</span>Hi :)</a></li>
@@ -160,7 +184,6 @@ body {
 										<button type="submit" class="btn btn-danger">Logout</button>
 									</form></li>
 							</ul>
-
 						</div>
 					</div>
 				</nav>
