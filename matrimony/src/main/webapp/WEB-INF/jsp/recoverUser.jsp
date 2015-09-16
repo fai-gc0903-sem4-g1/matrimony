@@ -69,6 +69,47 @@
 
 	</c:choose>
 	
+	<c:choose>
+	<c:set var="fieldType" value="email" scope="page" />
+	<c:set var="process" value="level1" scope="page" />
+	<c:when test="${recoverRespCode==0 }">
+		<label class="alert alert-danger">Email Không tồn tại!</label>
+				<br />
+		<label class="label-control">Nhập địa chỉ Email</label>
+				<br />
+	</c:when>
+	<c:when test="${recoverRespCode==1 }">
+		${fieldType='text' }
+		${process='level2' }
+		<label class="alert alert-success">Chúng tôi đã gửi mật khẩu đến Email của bạn, hãy kiểm tra. Chú ý kiểm tra cả mục spam!</label>
+			<br />
+		<label class="label-control">Nhập code</label>
+			<br />
+	</c:when>
+	<c:when test="${recoverRespCode==3 }">
+		${fieldType='text' }
+		${process='level2' }
+		<label class="alert alert-danger">Code sai, hay nhập lại</label>
+			<br />
+		<label class="label-control">Nhập code</label>
+			<br />
+	</c:when>
+	<c:otherwise>
+		<label>Nhập địa chỉ Email</label>
+				<br />
+	</c:otherwise>
+	
+	<form action="/matrimony/recover" method="post" class="form-horizontal">
+				<div class="form-group">
+					<div class="col-sm-5">
+						<input class="form-control" type="${fieldType }" name="textField" />
+					</div>
+					<input type="hidden" name="process" value="${process }" /> <input
+						class="btn btn-info" type="submit" value="Xác nhận" />
+				</div>
+			</form>
+	</c:choose>
+	
 	
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog"
 			aria-hidden="true" style="display: none;">

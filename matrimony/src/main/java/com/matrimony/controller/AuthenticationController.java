@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * 
  */
 package com.matrimony.controller;
 
@@ -36,12 +34,11 @@ import facebook.api.FBGraph;
 import facebook.entity.FBProfile;
 
 /**
- *
  * @author SON
+ *
  */
 @Controller
-public class UserController {
-
+public class AuthenticationController {
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String viewLogin() {
 		return "redirect:";
@@ -77,11 +74,11 @@ public class UserController {
 			}
 
 		} catch (STException.UsernameNotExist ex) {
-			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(RecoverController.class.getName()).log(Level.SEVERE, null, ex);
 			request.setAttribute("notice",
 					"Tài khoản không tồn tại, chúng tôi k tìm thấy tên tài khoản, email hay số điện thoại");
 		} catch (STException.WrongPassword ex) {
-			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(RecoverController.class.getName()).log(Level.SEVERE, null, ex);
 			request.setAttribute("notice", "Sai password");
 		}
 		return "index";
@@ -245,38 +242,6 @@ public class UserController {
 		return "active";
 	}
 
-	@RequestMapping(value = "recover", method = RequestMethod.GET)
-	public String viewRecover() {
-		return "recoverUser";
-	}
-
-	@RequestMapping(value = "recover", method = RequestMethod.POST)
-	public String doStringRecover(HttpServletRequest request, String textField, String process, String uCode) {
-		
-		if ("level1".equals(process)) {
-			System.out.println("process " + process);
-			User user = UserDAO.findByEmail(textField);
-			if (user == null) {
-				System.out.println("Quen mat khau: khong tim thay email");
-				request.setAttribute("respCode", 1);
-			} else {
-				System.out.println("Quen mat khau: tim thay email");
-				String code = recoverUser(user);
-				request.getSession().setAttribute("codeRecover", code);
-			}
-		} else if ("level2".equals(process) && null != request.getSession().getAttribute("codeRecover")) {
-			System.out.println("process " + process);
-			String c = (String) request.getSession().getAttribute("codeRecover");
-			if (c.equals(uCode)) {
-				request.getSession().setAttribute("codeRecover", null);
-				request.setAttribute("recoverSuccess", true);
-			} else {
-				request.setAttribute("respCode", 2);
-			}
-		}
-		return "recoverUser";
-	}
-
 	public void keepMeLoggedIn(HttpServletResponse response, User user){
 		Cookie[] cookies = new Cookie[3];
 		cookies[0] = new Cookie("loginName", user.getEmail());
@@ -297,19 +262,6 @@ public class UserController {
 		cont.append("Cam on da su dung dich vu cua chung toi!");
 		MailUtil mail = new MailUtil(email, sub, cont.toString());
 		mail.send();
-	}
-
-	public String recoverUser(User user) {
-		String code = RandomStringUtils.randomAlphanumeric(8);
-		String sub = "Khôi phục tài khoản";
-		StringBuilder cont = new StringBuilder();
-		cont.append("Mã: ");
-		cont.append(code);
-		cont.append("\n");
-		cont.append("Cam on da su dung dich vu cua chung toi!");
-		MailUtil mail = new MailUtil(user.getEmail(), sub, cont.toString());
-		mail.send();
-		return code;
 	}
 
 }
