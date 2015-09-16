@@ -39,6 +39,10 @@ body {
 #msg-response-error {
 	color: red;
 }
+
+#hidden-div{
+	display:none;
+}
 </style>
 <c:set var="userAvatarFolder" value="/matrimony/resources/profile/avatar" scope="application"/>
 

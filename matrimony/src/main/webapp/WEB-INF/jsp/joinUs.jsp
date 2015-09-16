@@ -32,9 +32,9 @@
 	<jsp:body>
 	<script>
 	$(document).ready(function(){
-		if(${requestScope.fbPass}){
+		if(${requestScope.fbResp==1}){
 			$('#show-loggin-model-trigger').click();
-		}
+		};
 	});
 	</script>
 	

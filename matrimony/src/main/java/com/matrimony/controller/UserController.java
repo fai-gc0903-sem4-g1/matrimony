@@ -187,9 +187,9 @@ public class UserController {
 			request.getSession().setAttribute("userRegUsingFB", userRegUsingFB);
 			User checkUser=UserDAO.findByEmail(userRegUsingFB.getEmail());
 			if(checkUser==null){
-				request.setAttribute("fbPass", true);
+				request.setAttribute("fbResp", 1);
 			}else{
-				request.setAttribute("fblog", 1);
+				request.setAttribute("fbResp", 0);
 			}
 			return "index";
 		} catch (IOException ex) {
@@ -251,25 +251,27 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "recover", method = RequestMethod.POST)
-	public String doStringRecover(HttpServletRequest request, String email, String process, String uCode) {
-		System.out.println("process " + process);
+	public String doStringRecover(HttpServletRequest request, String textField, String process, String uCode) {
+		
 		if ("level1".equals(process)) {
-			User user = UserDAO.findByEmail(email);
+			System.out.println("process " + process);
+			User user = UserDAO.findByEmail(textField);
 			if (user == null) {
 				System.out.println("Quen mat khau: khong tim thay email");
-				request.setAttribute("wrongEmail", 1);
+				request.setAttribute("respCode", 1);
 			} else {
 				System.out.println("Quen mat khau: tim thay email");
 				String code = recoverUser(user);
 				request.getSession().setAttribute("codeRecover", code);
 			}
-		} else if ("leve2".equals(process) && null != request.getSession().getAttribute("codeRecover")) {
+		} else if ("level2".equals(process) && null != request.getSession().getAttribute("codeRecover")) {
+			System.out.println("process " + process);
 			String c = (String) request.getSession().getAttribute("codeRecover");
 			if (c.equals(uCode)) {
 				request.getSession().setAttribute("codeRecover", null);
-				request.setAttribute("recoverSuccess", 1);
+				request.setAttribute("recoverSuccess", true);
 			} else {
-				request.setAttribute("wrongCode", 1);
+				request.setAttribute("respCode", 2);
 			}
 		}
 		return "recoverUser";
