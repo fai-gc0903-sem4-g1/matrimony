@@ -41,12 +41,11 @@ public class GlobalFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
-		System.out.println(req.getRemoteAddr());
-		 CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
-		 System.out.println("Locate: "+country);
-//		 CityResponse city = GeoIP.getCity(req.getRemoteAddr());
+		System.out.println("Filter: IP client: "+req.getRemoteAddr());
+		CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
+		System.out.println("Filter: Locate: " + country);
 		User user = (User) request.getSession().getAttribute("user");
-		System.out.println("Current user: " + user);
+		System.out.println("Filter: Current user: " + user);
 		Cookie[] allCookie = request.getCookies();
 		if (user == null) {
 			boolean keepLogin = false;
@@ -63,7 +62,7 @@ public class GlobalFilter implements Filter {
 					if (keepLogin && "loginName".equals(c.getName())) {
 						user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
 						request.getSession().setAttribute("user", user);
-						System.out.println("User keep login: "+user);
+						System.out.println("Filter: User keep login: " + user);
 						break;
 					}
 				}
@@ -72,9 +71,9 @@ public class GlobalFilter implements Filter {
 		try {
 			chain.doFilter(request, response);
 		} catch (IOException ex) {
-			System.out.println(ex);
+			System.out.println("Filter: "+ex);
 		} catch (ServletException ex) {
-			System.out.println(ex);
+			System.out.println("Filter: "+ex);
 		}
 	}
 }

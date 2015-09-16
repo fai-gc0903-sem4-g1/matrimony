@@ -7,7 +7,7 @@ import com.matrimony.entity.User;
 
 public class Matrimony {
 	public List<User> getSuggestUsers(User user) {
-		List<User> users = UserDAO.allAccounts().stream()
+		List<User> users = UserDAO.allUsers().stream()
 				.filter(u -> !u.getUserId().equals(user.getUserId()) && !u.getGender().equals(user.getGender()))
 				.collect(Collectors.toList());
 		System.out.println(users.size());

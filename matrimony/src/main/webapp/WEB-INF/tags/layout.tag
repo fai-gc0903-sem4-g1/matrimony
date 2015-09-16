@@ -5,8 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<jsp:include page="/WEB-INF/bundle/jstl.jsp" />
-
+<jsp:useBean id="test" class="com.matrimony.database.UserDAO" />
 <html>
 <head>
 <meta charset="utf-8" />

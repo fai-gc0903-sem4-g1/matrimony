@@ -22,27 +22,26 @@ import com.matrimony.util.HibernateUtil;
 @SuppressWarnings("unchecked")
 public class UserDAO {
 
-    public static void add(User a) throws STException.EmailAlready, STException.ContactNumberAlready {
-        if (findByEmail(a.getEmail()) != null) {
-            throw new STException.EmailAlready("email already");
-        } else if (findByContactNumber(a.getContactNumber()) != null) {
-            throw new STException.ContactNumberAlready("contact number already");
+    public static void add(User user) throws STException.EmailAlready, STException.ContactNumberAlready {
+        if (findByEmail(user.getEmail()) != null) {
+            throw new STException.EmailAlready("Add user: email already");
+        } else if (findByContactNumber(user.getContactNumber()) != null) {
+            throw new STException.ContactNumberAlready("Add user: contact number already");
         } else {
-            System.out.println("User not exist");
-            a.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
-            System.out.println("Salt generated");
-            a.setPassword(HashUtil.hashPassword(a.getPassword(), a.getSalt()));
-            System.out.println("Password hashed");
+        	user.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
+            System.out.println("Add user: Salt generated");
+            user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
+            System.out.println("Add user: Password hashed");
             Session ss = HibernateUtil.openSession();
             ss.getTransaction().begin();
-            ss.save(a);
+            ss.save(user);
             ss.getTransaction().commit();
             ss.close();
-            System.out.println("Added user " + a.getEmail());
+            System.out.println("Added user " + user.getEmail());
         }
     }
 
-    public static List<User> allAccounts() {
+    public static List<User> allUsers() {
         Session ss = HibernateUtil.openSession();
 		List<User> accounts = ss.createQuery("FROM user").list();
         ss.close();
@@ -78,25 +77,25 @@ public class UserDAO {
         return user;
     }
 
-    public static void Update(User account) {
+    public static void Update(User user) {
         Session ss = HibernateUtil.openSession();
         ss.getTransaction().begin();
-        ss.update(account);
+        ss.update(user);
         ss.getTransaction().commit();
         ss.close();
     }
 
     public static User login(String loginName, String password) throws STException.UsernameNotExist, STException.WrongPassword {
         System.out.println("Login name "+loginName);
-        User account = findByEmailOrContactNumberOrUsername(loginName);
-        if (account == null) {
-            throw new STException.UsernameNotExist("username not exists");
+        User user = findByEmailOrContactNumberOrUsername(loginName);
+        if (user == null) {
+            throw new STException.UsernameNotExist("Login: username not exists");
         }
-        String passwordTemp = HashUtil.hashPassword(password, account.getSalt());
-        if (account.getPassword().equals(passwordTemp)) {
-            return account;
+        String passwordTemp = HashUtil.hashPassword(password, user.getSalt());
+        if (user.getPassword().equals(passwordTemp)) {
+            return user;
         } else {
-            throw new STException.WrongPassword("Wrong password");
+            throw new STException.WrongPassword("Login: Wrong password");
         }
     }
 

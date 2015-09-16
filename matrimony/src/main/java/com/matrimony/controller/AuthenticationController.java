@@ -6,8 +6,6 @@ package com.matrimony.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +41,7 @@ public class AuthenticationController {
 	public String viewLogin() {
 		return "redirect:";
 	}
-	
+
 	@RequestMapping(value = "register", method = RequestMethod.GET)
 	public String viewRegister() {
 		return "redirect:";
@@ -54,17 +52,18 @@ public class AuthenticationController {
 			@Valid @ModelAttribute("userLogin") User userLogin, BindingResult bindingResult, String keepLoggin) {
 		if (bindingResult.hasFieldErrors("username") || bindingResult.hasFieldErrors("password")) {
 			System.out.println("form login error");
-			return "index"; 
+			return "index";
 		}
 		try {
-			User account = UserDAO.login(userLogin.getUsername(), userLogin.getPassword());
-			account.setLoginTime(new Timestamp(System.currentTimeMillis()));
-			account.setIpLogin(request.getRemoteAddr());
-			UserDAO.Update(account);
+			User user = UserDAO.login(userLogin.getUsername(), userLogin.getPassword());
+			user.setLoginTime(new Timestamp(System.currentTimeMillis()));
+			user.setIpLogin(request.getRemoteAddr());
+			System.out.println("Login: password hashed: "+user.getPassword());
+			UserDAO.Update(user);
 
-			request.getSession().setAttribute("user", account);
-			System.out.println(account.getEmail() + " logged in");
-			if (account.isVerified()) {
+			request.getSession().setAttribute("user", user);
+			System.out.println(user.getEmail() + " logged in");
+			if (user.isVerified()) {
 				if (keepLoggin != null) {
 					keepMeLoggedIn(response, userLogin);
 				}
@@ -74,11 +73,11 @@ public class AuthenticationController {
 			}
 
 		} catch (STException.UsernameNotExist ex) {
-			Logger.getLogger(RecoverController.class.getName()).log(Level.SEVERE, null, ex);
+			System.out.println(ex);
 			request.setAttribute("notice",
 					"Tài khoản không tồn tại, chúng tôi k tìm thấy tên tài khoản, email hay số điện thoại");
 		} catch (STException.WrongPassword ex) {
-			Logger.getLogger(RecoverController.class.getName()).log(Level.SEVERE, null, ex);
+			System.out.println(ex);
 			request.setAttribute("notice", "Sai password");
 		}
 		return "index";
@@ -87,60 +86,51 @@ public class AuthenticationController {
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String doRegister(HttpServletRequest request, @Valid @ModelAttribute("userReg") User userReg,
 			BindingResult bindingResult, String day, String month, String year) {
-		System.out.println(userReg);
 		Date birthday = null;
 		try {
 			birthday = Date.valueOf(year + "-" + month + "-" + day);
 		} catch (IllegalArgumentException ex) {
-			System.out.println(ex + ": Date not correct");
+			System.out.println("Register: " + ex);
 			request.setAttribute("birthdayValid", "Ngày tháng chọn sai");
 		}
 		if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
 				|| bindingResult.hasFieldErrors("contactNumber") || bindingResult.hasFieldErrors("email")
 				|| bindingResult.hasFieldErrors("gender") || birthday == null) {
-			System.out.println("Form register error");
-			return "index";
+			System.out.println("Register: Form register error");
 		}
-		System.out.println("Form register OK");
-		String activeKey = RandomStringUtils.randomAlphanumeric(10);
-		userReg.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
-		userReg.setRegistrationIP(request.getRemoteAddr());
-		userReg.setActiveKey(activeKey);
-		userReg.setRegMethod("native");
+		System.out.println("Register: Form register OK");
 		userReg.setBirthday(birthday);
-		userReg.setAvatarPhoto(userReg.getGender().equals("male") ? "default_male_avatar.jpg"
-				: "default_female_avatar.jpg");
-		userReg.setName(userReg.getFirstName() + " " + userReg.getLastName());
+		User userBuilt = buildNewUser(userReg, request);
 		try {
-			UserDAO.add(userReg);
-			User tempUser=UserDAO.findByEmail(userReg.getEmail());
-			tempUser.setUsername(userReg.getUserId());
+			UserDAO.add(userBuilt);
+			User tempUser = UserDAO.findByEmail(userBuilt.getEmail());
+			tempUser.setUsername(userBuilt.getUserId());
 			UserDAO.Update(tempUser);
-			
-			sendMailActive(userReg.getEmail(), activeKey);
-			request.getSession().setAttribute("user", UserDAO.findByEmail(userReg.getEmail()));
-			return "active";
+
+			sendMailActive(userBuilt.getEmail(), userBuilt.getActiveKey());
+			request.getSession().setAttribute("user", UserDAO.findByEmail(userBuilt.getEmail()));
 		} catch (STException.EmailAlready ex) {
 			System.out.println(ex.getMessage());
 			request.setAttribute("notice", "EmailAlready");
-			return "failed";
+			request.setAttribute("registerRespCode", 1);
 		} catch (STException.ContactNumberAlready ex) {
 			System.out.println(ex.getMessage());
 			request.setAttribute("notice", "ContactNumberAlready");
-			return "failed";
+			request.setAttribute("registerRespCode", 2);
 		}
+		return "index";
 	}
 
 	@RequestMapping(value = "active", method = RequestMethod.POST)
 	public String doActive(HttpServletRequest request, String activeKey) {
 		System.out.println(activeKey);
-		User curAccount = (User) request.getSession().getAttribute("user");
-		System.out.println(curAccount.getEmail() + " want to active");
-		if (curAccount.getActiveKey().equals(activeKey)) {
-			curAccount.setVerified(true);
-			curAccount.setVerifiedTime(new Timestamp(System.currentTimeMillis()));
-			UserDAO.Update(curAccount);
-			System.out.println(curAccount.getEmail() + " activated");
+		User curuser = (User) request.getSession().getAttribute("user");
+		System.out.println(curuser.getEmail() + " want to active");
+		if (curuser.getActiveKey().equals(activeKey)) {
+			curuser.setVerified(true);
+			curuser.setVerifiedTime(new Timestamp(System.currentTimeMillis()));
+			UserDAO.Update(curuser);
+			System.out.println(curuser.getEmail() + " activated");
 			return "redirect:";
 		} else {
 			return "active";
@@ -168,10 +158,10 @@ public class AuthenticationController {
 			System.out.println(accessToken);
 			FBGraph fBGraph = new FBGraph();
 			FBProfile fbProfile = fBGraph.getFBProfile(accessToken);
-			System.out.println(fbProfile);
+			System.out.println("Login with facebook" + fbProfile);
 			User userRegUsingFB = new User();
 			userRegUsingFB.setEmail(fbProfile.getEmail());
-			userRegUsingFB.setVerified(true);//verified always true
+			userRegUsingFB.setVerified(true);// verified always true
 			userRegUsingFB.setFirstName(fbProfile.getFirst_name());
 			userRegUsingFB.setLastName(fbProfile.getLast_name());
 			userRegUsingFB.setGender(fbProfile.getGender());
@@ -180,12 +170,18 @@ public class AuthenticationController {
 			userRegUsingFB.setSocialNetwork(fbProfile.getLink());
 			userRegUsingFB.setContactNumber("");
 			userRegUsingFB.setName(fbProfile.getName());
-			System.out.println("Create user from facebook OK");
+
+			userRegUsingFB.setAvatarPhoto(userRegUsingFB.getGender().equals("male") ? "default_male_avatar.jpg"
+					: "default_female_avatar.jpg");
+			userRegUsingFB.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
+			userRegUsingFB.setRegistrationIP(request.getRemoteAddr());
+			
+			System.out.println("Login with facebook Create user from facebook OK");
 			request.getSession().setAttribute("userRegUsingFB", userRegUsingFB);
-			User checkUser=UserDAO.findByEmail(userRegUsingFB.getEmail());
-			if(checkUser==null){
+			User checkUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
+			if (checkUser == null) {
 				request.setAttribute("fbResp", 1);
-			}else{
+			} else {
 				request.setAttribute("fbResp", 0);
 			}
 			return "index";
@@ -194,19 +190,20 @@ public class AuthenticationController {
 			return "userNotFound";
 		}
 	}
-	
+
 	@RequestMapping(value = "loginWithFacebook", method = RequestMethod.POST)
-	public String doSaveUserFB(HttpServletRequest request, @ModelAttribute("user")User user, BindingResult bindingResult) {
-		if(bindingResult.hasFieldErrors("password")){
+	public String doSaveUserFB(HttpServletRequest request, @ModelAttribute("user") User user,
+			BindingResult bindingResult) {
+		if (bindingResult.hasFieldErrors("password")) {
 			request.setAttribute("fbPass", true);
-			return "index"; //purpose join us
-		}else{
-			User userRegUsingFB=(User) request.getSession().getAttribute("userRegUsingFB");
-			if(userRegUsingFB!=null){
+			return "index"; // purpose join us
+		} else {
+			User userRegUsingFB = (User) request.getSession().getAttribute("userRegUsingFB");
+			if (userRegUsingFB != null) {
 				userRegUsingFB.setPassword(user.getPassword());
 				try {
 					UserDAO.add(userRegUsingFB);
-					User tempUser=UserDAO.findByEmail(userRegUsingFB.getEmail());
+					User tempUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
 					tempUser.setUsername(tempUser.getUserId());
 					UserDAO.Update(tempUser);
 				} catch (EmailAlready e) {
@@ -216,8 +213,8 @@ public class AuthenticationController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				return "index"; //purpose home
-			}else{
+				return "index"; // purpose home
+			} else {
 				return "exception";
 			}
 		}
@@ -226,9 +223,9 @@ public class AuthenticationController {
 	@RequestMapping(value = "settings", method = RequestMethod.POST)
 	public String viewSettings(HttpServletRequest request) {
 		System.out.println("sau day la session");
-		User account = (User) request.getSession().getAttribute("account");
+		User user = (User) request.getSession().getAttribute("user");
 		try {
-			System.out.println(account);
+			System.out.println(user);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -242,7 +239,18 @@ public class AuthenticationController {
 		return "active";
 	}
 
-	public void keepMeLoggedIn(HttpServletResponse response, User user){
+	public User buildNewUser(User user, HttpServletRequest request) {
+		String activeKey = RandomStringUtils.randomAlphanumeric(10);
+		user.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
+		user.setRegistrationIP(request.getRemoteAddr());
+		user.setActiveKey(activeKey);
+		user.setRegMethod("native");
+		user.setAvatarPhoto(user.getGender().equals("male") ? "default_male_avatar.jpg" : "default_female_avatar.jpg");
+		user.setName(user.getFirstName() + " " + user.getLastName());
+		return user;
+	}
+
+	public void keepMeLoggedIn(HttpServletResponse response, User user) {
 		Cookie[] cookies = new Cookie[3];
 		cookies[0] = new Cookie("loginName", user.getEmail());
 		cookies[1] = new Cookie("password", "");
@@ -253,6 +261,7 @@ public class AuthenticationController {
 		}
 		System.out.println("saved cookie");
 	}
+
 	public void sendMailActive(String email, String key) {
 		String sub = "Chao mung den voi matrimony, kich hoat tai khoan";
 		StringBuilder cont = new StringBuilder();

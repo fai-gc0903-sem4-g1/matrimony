@@ -129,7 +129,7 @@
             <th>Ban be</th>
             <th>Yeu cau</th>
         </tr>        
-        <c:forEach var="listUser" items="${UserBean.allAccounts()}">
+        <c:forEach var="listUser" items="${UserBean.allUsers()}">
             <tr>
                 <c:set var="nameFromId"
 										value="${sessionScope.user.userId}" />

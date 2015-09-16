@@ -5,17 +5,9 @@
  */
 package com.matrimony.controller;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.UUID;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
@@ -26,14 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
-import com.matrimony.exception.STException;
-import com.matrimony.exception.STException.ContactNumberAlready;
-import com.matrimony.exception.STException.EmailAlready;
+import com.matrimony.security.HashUtil;
 import com.matrimony.util.MailUtil;
-
-import facebook.api.FBConnection;
-import facebook.api.FBGraph;
-import facebook.entity.FBProfile;
 
 /**
  *
@@ -48,37 +34,39 @@ public class RecoverController {
 	}
 
 	@RequestMapping(value = "recover", method = RequestMethod.POST)
-	public String doStringRecover(HttpServletRequest request, String textField, String process, String uCode, User recoverUser) {
+	public String doStringRecover(HttpServletRequest request, String textField, String process,
+			@ModelAttribute("recoverUser") User ruser, BindingResult bindingResult) {
 		if ("level1".equals(process)) {
 			System.out.println("process " + process);
-			User temp = UserDAO.findByEmail(textField);
-			if (temp == null) {
+			User userRecover = UserDAO.findByEmail(textField);
+			if (userRecover == null) {
 				request.setAttribute("recoverRespCode", 0);
 			} else {
 				request.setAttribute("recoverRespCode", 1);
-				String code = recoverUser(temp);
+				String code = recoverUser(userRecover);
+				request.getSession().setAttribute("userRecover", userRecover);
 				request.getSession().setAttribute("codeRecover", code);
 			}
 		} else if ("level2".equals(process) && null != request.getSession().getAttribute("codeRecover")) {
 			System.out.println("process " + process);
 			String c = (String) request.getSession().getAttribute("codeRecover");
-			if (c.equals(uCode)) {
+			if (c.equals(textField)) {
 				request.getSession().setAttribute("codeRecover", null);
 				request.getSession().setAttribute("recoverSuccess", true);
 				request.setAttribute("recoverRespCode", 4);
 			} else {
 				request.setAttribute("recoverRespCode", 3);
 			}
-		}
-		else if ("level3".equals(process) && null != request.getSession().getAttribute("recoverSuccess")) {
-			System.out.println("process " + process);
-			String c = (String) request.getSession().getAttribute("codeRecover");
-			if (c.equals(uCode)) {
-				request.getSession().setAttribute("codeRecover", null);
-				request.getSession().setAttribute("recoverSuccess", true);
+		} else if ("level3".equals(process) && null != request.getSession().getAttribute("recoverSuccess")) {
+			if (bindingResult.hasFieldErrors("username") && bindingResult.hasFieldErrors("password")) {
 				request.setAttribute("recoverRespCode", 4);
+				return "recoverUser";
 			} else {
-				request.setAttribute("recoverRespCode", 3);
+				User userRecover = (User) request.getSession().getAttribute("userRecover");
+				userRecover.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
+				userRecover.setPassword(HashUtil.hashPassword(ruser.getPassword(), userRecover.getSalt()));
+				UserDAO.Update(userRecover);
+				return "redirect:";
 			}
 		}
 		return "recoverUser";
