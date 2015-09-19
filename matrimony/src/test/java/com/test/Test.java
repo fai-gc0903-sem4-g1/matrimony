@@ -12,7 +12,7 @@ import com.matrimony.util.GeoIP;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
 
-public class TestIP {
+public class Test {
 	public static void main(String[] args) {
 		Date current=new Date(System.currentTimeMillis());
 		int year=DateUtils.toCalendar(current).get(Calendar.YEAR);

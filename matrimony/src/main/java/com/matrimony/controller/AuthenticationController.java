@@ -122,7 +122,7 @@ public class AuthenticationController {
 		try {
 			UserDAO.add(userBuilt);
 			User tempUser = UserDAO.findByEmail(userBuilt.getEmail());
-			tempUser.setUsername(userBuilt.getUserId());
+			tempUser.setUsername(userBuilt.getId());
 			UserDAO.Update(tempUser);
 
 			sendMailActive(userBuilt.getEmail(), userBuilt.getActiveKey());
@@ -231,7 +231,7 @@ public class AuthenticationController {
 					System.out.println(userRegUsingFB);
 					UserDAO.add(userRegUsingFB);
 					User tempUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
-					tempUser.setUsername(tempUser.getUserId());
+					tempUser.setUsername(tempUser.getId());
 					UserDAO.Update(tempUser);
 					request.getSession().setAttribute("user", tempUser);
 				} catch (EmailAlready e) {

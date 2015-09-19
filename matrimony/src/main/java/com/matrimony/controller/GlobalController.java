@@ -114,7 +114,7 @@ public class GlobalController {
 				UserDAO.add(userReg);
 				// make username
 				User user = UserDAO.findByEmail(userReg.getEmail());
-				user.setUsername(user.getUserId());
+				user.setUsername(user.getId());
 				UserDAO.Update(user);
 				sendMailActive(userReg.getEmail(), activeKey);
 				request.getSession().setAttribute("user", UserDAO.findByEmail(userReg.getEmail()));
