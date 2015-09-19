@@ -217,7 +217,7 @@
 							<form:errors path="password" id="validError" />
 						<input id="txtRePassword" type="password" name="rePassword"
 							placeholder="Re-enter new password">
-							${rePasswordInvalid }
+							<div id="validError">${rePasswordInvalid }</div>
 						<input id="btnSubmitPassword" type="submit" name="login"
 							class="login loginmodal-submit" value="Login">
 					  </form:form>

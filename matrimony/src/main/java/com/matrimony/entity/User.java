@@ -40,7 +40,7 @@ public class User implements Serializable {
 	private String userId;
 	private int weight;
 	private int height;
-	@Length(min = 8, max = 32, message="Mật khẩu phải từ 8 -> 32 ký tự")
+	@Length(min = 8, max = 64, message="Mật khẩu phải từ 8 -> 64 ký tự")
 	private String password;
 	private String registrationIP;
 	@Length(min = 2, max = 20,message="Tên phải từ 2 -> 20 ký tự")
@@ -54,16 +54,6 @@ public class User implements Serializable {
 	@NotEmpty(message="Email không được bỏ trống")
 	@Email(message="Email sai định dạng")
 	private String email;
-	@Column(length = 1000)
-	private String favoriteBook;
-	@Column(length = 1000)
-	private String favoriteFitness;
-	@Column(length = 1000)
-	private String favoriteMovie;
-	@Column(length = 1000)
-	private String favoriteMusic;
-	@Column(length = 1000)
-	private String favoriteTVshow;
 	@NotEmpty(message="Xin chọn giới tính")
 	private String gender;
 	@NotEmpty
@@ -87,14 +77,35 @@ public class User implements Serializable {
 	private Timestamp loginTime;
 	private Timestamp updateTime;
 	private Timestamp logoutTime;
-	private Timestamp registrationTime;
 	private Timestamp verifiedTime;
+	private Timestamp expiresLicence;
+	private Timestamp createAt;
 	private boolean verified;
 
 	@OneToMany(mappedBy = "userFromId")
 	private Set<Friend> friendFromId;
 	@OneToMany(mappedBy = "userToId")
 	private Set<Friend> friendToId;
+	@OneToMany(mappedBy="userId")
+	private Set<TransactionHistory> transactionHistories;
+	@OneToMany(mappedBy="userId")
+	private Set<SocialNetwork> socialNetworks;
+	
+	public Set<SocialNetwork> getSocialNetworks() {
+		return socialNetworks;
+	}
+
+	public void setSocialNetworks(Set<SocialNetwork> socialNetworks) {
+		this.socialNetworks = socialNetworks;
+	}
+
+	public Set<TransactionHistory> getTransactionHistories() {
+		return transactionHistories;
+	}
+
+	public void setTransactionHistories(Set<TransactionHistory> transactionHistories) {
+		this.transactionHistories = transactionHistories;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -182,46 +193,6 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getFavoriteBook() {
-		return favoriteBook;
-	}
-
-	public void setFavoriteBook(String favoriteBook) {
-		this.favoriteBook = favoriteBook;
-	}
-
-	public String getFavoriteFitness() {
-		return favoriteFitness;
-	}
-
-	public void setFavoriteFitness(String favoriteFitness) {
-		this.favoriteFitness = favoriteFitness;
-	}
-
-	public String getFavoriteMovie() {
-		return favoriteMovie;
-	}
-
-	public void setFavoriteMovie(String favoriteMovie) {
-		this.favoriteMovie = favoriteMovie;
-	}
-
-	public String getFavoriteMusic() {
-		return favoriteMusic;
-	}
-
-	public void setFavoriteMusic(String favoriteMusic) {
-		this.favoriteMusic = favoriteMusic;
-	}
-
-	public String getFavoriteTVshow() {
-		return favoriteTVshow;
-	}
-
-	public void setFavoriteTVshow(String favoriteTVshow) {
-		this.favoriteTVshow = favoriteTVshow;
 	}
 
 	public String getFirstName() {
@@ -392,14 +363,6 @@ public class User implements Serializable {
 		this.logoutTime = logoutTime;
 	}
 
-	public Timestamp getRegistrationTime() {
-		return registrationTime;
-	}
-
-	public void setRegistrationTime(Timestamp registrationTime) {
-		this.registrationTime = registrationTime;
-	}
-
 	public Timestamp getVerifiedTime() {
 		return verifiedTime;
 	}
@@ -434,6 +397,22 @@ public class User implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Timestamp getExpiresLicence() {
+		return expiresLicence;
+	}
+
+	public void setExpiresLicence(Timestamp expiresLicence) {
+		this.expiresLicence = expiresLicence;
+	}
+
+	public Timestamp getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Timestamp createAt) {
+		this.createAt = createAt;
 	}
 
 

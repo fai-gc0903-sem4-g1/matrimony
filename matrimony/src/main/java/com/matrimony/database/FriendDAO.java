@@ -5,16 +5,13 @@
  */
 package com.matrimony.database;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.matrimony.entity.Friend;
-import com.matrimony.entity.Friend;
 import com.matrimony.entity.User;
-import com.matrimony.exception.STException;
 import com.matrimony.util.HibernateUtil;
 
 /**
@@ -80,7 +77,7 @@ public class FriendDAO {
 		boolean b = false;
 		for (int i = 0; i < friend.size(); i++) {
 			Friend f = friend.get(i);
-			if (f.getUserFromId().getUserId().equals(userFromId) && f.getUserToId().getUserId().equals(userToId)) {
+			if (f.getUserFromId().equals(userFromId) && f.getUserToId().equals(userToId)) {
 				b = true;
 			}
 			break;

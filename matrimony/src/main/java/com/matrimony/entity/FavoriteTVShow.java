@@ -16,26 +16,16 @@ import org.hibernate.annotations.GenericGenerator;
  * @author SON
  *
  */
-@Entity
-public class TransactionHistory {
+@Entity(name="favorite_tv_show")
+public class FavoriteTVShow {
 	@Id
 	@Column(nullable = false)
 	@GenericGenerator(name = "id", strategy = "uuid")
 	@GeneratedValue(generator = "id")
 	private String id;
 	private String userId;
-	private String method;
-	private double amount;
-	private Timestamp time;
-	private Timestamp createAt;
-	
-	
-	public Timestamp getCreateAt() {
-		return createAt;
-	}
-	public void setCreateAt(Timestamp createAt) {
-		this.createAt = createAt;
-	}
+	private String name;
+	private Timestamp creatAt;
 	public String getId() {
 		return id;
 	}
@@ -48,25 +38,16 @@ public class TransactionHistory {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getMethod() {
-		return method;
+	public String getName() {
+		return name;
 	}
-	public void setMethod(String method) {
-		this.method = method;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public double getAmount() {
-		return amount;
+	public Timestamp getCreatAt() {
+		return creatAt;
 	}
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setCreatAt(Timestamp creatAt) {
+		this.creatAt = creatAt;
 	}
-	public Timestamp getTime() {
-		return time;
-	}
-	public void setTime(Timestamp time) {
-		this.time = time;
-	}
-	
-	
-	
 }

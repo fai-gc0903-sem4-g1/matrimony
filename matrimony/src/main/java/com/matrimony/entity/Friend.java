@@ -30,8 +30,8 @@ public class Friend implements Serializable {
 	@GenericGenerator(name = "id", strategy = "uuid")
 	@GeneratedValue(generator = "id")
 	private String friendId;
-	private User userFromId;
-	private User userToId;
+	private String userFromId;
+	private String userToId;
 	private int status;
 	private Timestamp timeInvited;
 	private Timestamp timeDenied;
@@ -47,19 +47,19 @@ public class Friend implements Serializable {
 
 
 
-	public User getUserFromId() {
+	public String getUserFromId() {
 		return userFromId;
 	}
 
-	public void setUserFromId(User userFromId) {
+	public void setUserFromId(String userFromId) {
 		this.userFromId = userFromId;
 	}
 
-	public User getUserToId() {
+	public String getUserToId() {
 		return userToId;
 	}
 
-	public void setUserToId(User userToId) {
+	public void setUserToId(String userToId) {
 		this.userToId = userToId;
 	}
 

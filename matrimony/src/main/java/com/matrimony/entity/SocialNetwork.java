@@ -16,17 +16,18 @@ import org.hibernate.annotations.GenericGenerator;
  * @author SON
  *
  */
-@Entity
-public class TransactionHistory {
+@Entity(name="social_network")
+public class SocialNetwork {
 	@Id
 	@Column(nullable = false)
 	@GenericGenerator(name = "id", strategy = "uuid")
 	@GeneratedValue(generator = "id")
 	private String id;
 	private String userId;
-	private String method;
-	private double amount;
-	private Timestamp time;
+	private String socialName;
+	private String socialId;
+	private String link;
+	private Timestamp updateTime;
 	private Timestamp createAt;
 	
 	
@@ -48,25 +49,30 @@ public class TransactionHistory {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getMethod() {
-		return method;
+	public String getSocialName() {
+		return socialName;
 	}
-	public void setMethod(String method) {
-		this.method = method;
+	public void setSocialName(String socialName) {
+		this.socialName = socialName;
 	}
-	public double getAmount() {
-		return amount;
+	public String getSocialId() {
+		return socialId;
 	}
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setSocialId(String socialId) {
+		this.socialId = socialId;
 	}
-	public Timestamp getTime() {
-		return time;
+	public String getLink() {
+		return link;
 	}
-	public void setTime(Timestamp time) {
-		this.time = time;
+	public void setLink(String link) {
+		this.link = link;
 	}
-	
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
+	}
 	
 	
 }

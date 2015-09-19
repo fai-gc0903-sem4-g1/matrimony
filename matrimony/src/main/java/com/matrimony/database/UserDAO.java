@@ -5,6 +5,7 @@
  */
 package com.matrimony.database;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,9 +30,11 @@ public class UserDAO {
             throw new STException.ContactNumberAlready("Add user: contact number already");
         } else {
         	user.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
-            System.out.println("Add user: Salt generated");
             user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
-            System.out.println("Add user: Password hashed");
+            long currentMillis=System.currentTimeMillis();
+            user.setCreateAt(new Timestamp(currentMillis));
+            user.setExpiresLicence(new Timestamp(currentMillis));
+            
             Session ss = HibernateUtil.openSession();
             ss.getTransaction().begin();
             ss.save(user);

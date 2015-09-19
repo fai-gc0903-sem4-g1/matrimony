@@ -43,14 +43,7 @@ public class HibernateUtil {
 	}
 
 	public static void main(String[] args) {
-//		cfg = new Configuration();
-//		cfg.configure();
-//		sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
-//		SessionFactory sf1 = cfg.buildSessionFactory(sr);
-//		System.out.println(sf1);
-//		sf1.close();
-//		SessionFactory sf2 = cfg.buildSessionFactory(sr);
-//		System.out.println(sf2);
-//		sf2.close();
+		SessionFactory factory=HibernateUtil.buildSessionFactory();
+		factory.close();
 	}
 }

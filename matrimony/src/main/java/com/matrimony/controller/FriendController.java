@@ -32,10 +32,8 @@ public class FriendController {
     @RequestMapping(value = "sendRequest", method = RequestMethod.POST)
     public String sendRequest(String usToId, String usFromId, HttpSession session) {
         Friend friend = new Friend();
-        User from = FriendDAO.getUserById(usFromId);
-        User to = FriendDAO.getUserById(usToId);
-        friend.setUserFromId(from);
-        friend.setUserToId(to);
+        friend.setUserFromId(usFromId);
+        friend.setUserToId(usToId);
         friend.setStatus(1);
         FriendDAO.addFriend(friend);//them moi 1 bang ket ban voi thuoc tinh da gui loi moi
         return "home";

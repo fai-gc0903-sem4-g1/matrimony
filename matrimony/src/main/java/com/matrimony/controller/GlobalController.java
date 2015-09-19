@@ -104,7 +104,6 @@ public class GlobalController {
 				return "index";
 			}
 			System.out.println("Form register OK");
-			userReg.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
 			userReg.setRegistrationIP(request.getRemoteAddr());
 			String activeKey = RandomStringUtils.randomAlphanumeric(10);
 

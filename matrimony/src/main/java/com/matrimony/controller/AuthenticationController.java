@@ -90,23 +90,25 @@ public class AuthenticationController {
 	public String doRegister(HttpServletRequest request, @Valid @ModelAttribute("userReg") User userReg,
 			BindingResult bindingResult, String day, String month, String year, String reEmail) {
 		Date birthday = null;
-		boolean ageEnought=false, twinEmail=false;
+		boolean ageEnought = false, twinEmail = false;
 		try {
 			birthday = Date.valueOf(year + "-" + month + "-" + day);
-			int thisYear =0, bornYear=0;
-			thisYear= DateUtils.toCalendar(new java.util.Date(System.currentTimeMillis())).get(Calendar.YEAR);
+			int thisYear = 0, bornYear = 0;
+			thisYear = DateUtils.toCalendar(new java.util.Date(System.currentTimeMillis())).get(Calendar.YEAR);
 			bornYear = DateUtils.toCalendar(birthday).get(Calendar.YEAR);
-			if(thisYear-bornYear<18){
-				ageEnought=false;
+			if (thisYear - bornYear < 18) {
+				ageEnought = false;
 				request.setAttribute("birthdayNotEnough", "Bạn chưa đủ tuổi thể tham gia!");
-			}else ageEnought=true;
+			} else
+				ageEnought = true;
 		} catch (IllegalArgumentException ex) {
 			System.out.println("Register: " + ex.getMessage());
 			request.setAttribute("birthdayInvalid", "Ngày tháng chọn sai");
 		}
-		if(reEmail.equals(userReg.getEmail()))
-				twinEmail=true;
-		else request.setAttribute("reEmailInvalid", "2 email không giống nhau");
+		if (reEmail.equals(userReg.getEmail()))
+			twinEmail = true;
+		else
+			request.setAttribute("reEmailInvalid", "2 email không giống nhau");
 		if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
 				|| bindingResult.hasFieldErrors("contactNumber") || bindingResult.hasFieldErrors("email")
 				|| bindingResult.hasFieldErrors("gender") || null == birthday || !ageEnought || !twinEmail) {
@@ -189,7 +191,6 @@ public class AuthenticationController {
 
 			userRegUsingFB.setAvatarPhoto(userRegUsingFB.getGender().equals("male") ? "default_male_avatar.jpg"
 					: "default_female_avatar.jpg");
-			userRegUsingFB.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
 			userRegUsingFB.setRegistrationIP(request.getRemoteAddr());
 
 			System.out.println("Login with facebook Create user from facebook OK");
@@ -209,10 +210,14 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "loginWithFacebook", method = RequestMethod.POST)
-	public String doSaveUserFB(HttpServletRequest request, @ModelAttribute("logginFBUser") User user,
-			BindingResult bindingResult) {
-		System.out.println(user.getPassword());
-		if (bindingResult.hasFieldErrors("password")) {
+	public String doSaveUserFB(HttpServletRequest request, @Valid @ModelAttribute("logginFBUser") User user,
+			BindingResult bindingResult, String rePassword) {
+		boolean rePass = false;
+		if (rePassword.equals(user.getPassword()))
+			rePass = true;
+		else
+			request.setAttribute("rePasswordInvalid", "Nhập lại mật khẩu không chính xác");
+		if (bindingResult.hasFieldErrors("password") || !rePass) {
 			request.setAttribute("fbPass", true);
 			request.setAttribute("fbResp", 1);
 			System.out.println("loginWithFacebook: form error");
@@ -223,10 +228,12 @@ public class AuthenticationController {
 			if (userRegUsingFB != null) {
 				userRegUsingFB.setPassword(user.getPassword());
 				try {
+					System.out.println(userRegUsingFB);
 					UserDAO.add(userRegUsingFB);
 					User tempUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
 					tempUser.setUsername(tempUser.getUserId());
 					UserDAO.Update(tempUser);
+					request.getSession().setAttribute("user", tempUser);
 				} catch (EmailAlready e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -234,10 +241,8 @@ public class AuthenticationController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				return "index"; // purpose home
-			} else {
-				return "exception";
 			}
+			return "redirect:";
 		}
 	}
 
@@ -261,7 +266,6 @@ public class AuthenticationController {
 
 	public User buildNewUser(User user, HttpServletRequest request) {
 		String activeKey = RandomStringUtils.randomAlphanumeric(10);
-		user.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
 		user.setRegistrationIP(request.getRemoteAddr());
 		user.setActiveKey(activeKey);
 		user.setRegMethod("native");
