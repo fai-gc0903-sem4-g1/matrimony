@@ -41,6 +41,9 @@ body {
 #hidden-div{
 	display:none;
 }
+#validError{
+	color:red;
+}
 </style>
 <c:set var="userAvatarFolder" value="/matrimony/resources/profile/avatar" scope="application"/>
 
@@ -69,17 +72,19 @@ body {
 								<div class="input-group">
 									<span class="input-group-addon"><i
 										class="glyphicon glyphicon-user"></i></span> <input id="email"
-										type="email" class="form-control" name="username"
+										type="text" class="form-control" name="username"
 										value="${empty requestScope.userLogin.username?cookie.loginName.value:requestScope.userLogin.username }"
 										placeholder="Email Address">
 								</div>
 
 								<div class="input-group">
 									<span class="input-group-addon"><i
-										class="glyphicon glyphicon-lock"></i></span> <input id="password"
+										class="glyphicon glyphicon-lock"></i></span> 
+										<input id="password"
 										type="password" class="form-control" name="password"
 										value="${empty requestScope.userLogin.password?cookie.password.value:requestScope.userLogin.password}"
-										placeholder="Password">
+										placeholder="Password" />
+										
 								</div>
 
 								<button type="submit" class="btn btn-primary">Login</button>
@@ -92,9 +97,8 @@ body {
 								<div class="checkbox">
 									<a href="recover">Forget the password ?</a>
 								</div>
-								<!-- 								<br/> -->
-								<%-- 								<form:errors path="password" cssClass="error" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --%>
-								<%-- 								<form:errors path="username" cssClass="error" /> --%>
+																<br/>
+																<form:errors path="password" id="validError" cssClass="col-lg-offset-5" />
 							</form:form>
 							<p id='msg-response-error' class="navbar-text navbar-right">${requestScope.notice}</p>
 						</div>

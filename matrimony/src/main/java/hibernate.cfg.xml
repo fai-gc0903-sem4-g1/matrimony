@@ -16,5 +16,6 @@
 
 		<mapping class="com.matrimony.entity.User" />
 		<mapping class="com.matrimony.entity.Friend" />
+		<mapping class="com.matrimony.entity.TransactionHistory" />
 	</session-factory>
 </hibernate-configuration>

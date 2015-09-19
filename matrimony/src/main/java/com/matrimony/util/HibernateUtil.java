@@ -17,21 +17,40 @@ import org.hibernate.service.ServiceRegistry;
  */
 public class HibernateUtil {
 
-    protected static ServiceRegistry sr;
-    protected static SessionFactory sf;
-    protected static Configuration cfg;
-    
-    public static Session openSession() {
-        if (cfg == null) {
-            System.out.println("Configing..");
-            cfg = new Configuration();
-            cfg.configure();
-            sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
-            sf = cfg.buildSessionFactory(sr);
-        }
-        return sf.openSession();
-    }
+	protected static ServiceRegistry sr;
+	protected static SessionFactory sf;
+	protected static Configuration cfg;
 
-    public static void main(String[] args) {
-    }
+	public static Session openSession() {
+		if (cfg == null) {
+			System.out.println("Configing..");
+			cfg = new Configuration();
+			cfg.configure();
+			sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
+			sf = cfg.buildSessionFactory(sr);
+		}
+		return sf.openSession();
+	}
+
+	public static SessionFactory buildSessionFactory() {
+		if (cfg == null) {
+			System.out.println("Configing..");
+			cfg = new Configuration();
+			cfg.configure();
+			sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
+		}
+		return cfg.buildSessionFactory(sr);
+	}
+
+	public static void main(String[] args) {
+//		cfg = new Configuration();
+//		cfg.configure();
+//		sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
+//		SessionFactory sf1 = cfg.buildSessionFactory(sr);
+//		System.out.println(sf1);
+//		sf1.close();
+//		SessionFactory sf2 = cfg.buildSessionFactory(sr);
+//		System.out.println(sf2);
+//		sf2.close();
+	}
 }

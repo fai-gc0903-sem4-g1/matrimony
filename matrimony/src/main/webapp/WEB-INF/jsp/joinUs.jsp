@@ -16,7 +16,8 @@
 <t:layout>
 	<jsp:attribute name="head">
 		<title>Welcome to matrimony</title>
-		<link rel="stylesheet" href="/matrimony/resources/css/login-form-dialog.css"/>
+		<link rel="stylesheet"
+			href="/matrimony/resources/css/login-form-dialog.css" />
 			<style>
 #hidden-div {
 	display: none;
@@ -32,7 +33,7 @@
 	<jsp:body>
 	<script>
 	$(document).ready(function(){
-		if(${requestScope.fbResp==1}){
+		if(${fbResp==1}){
 			$('#show-loggin-model-trigger').click();
 		};
 	});
@@ -50,20 +51,38 @@
 							class="btn btn-block btn-social btn-facebook">
 			    <i class="fa fa-facebook"></i> Log-in with Facebook
 			  </a>
+			  <c:if test="${fbResp == 0 }">
+					  <div class="alert alert-danger" role="alert">
+					 		Bạn đã đăng ký bằng facebook, hãy nhập email và mật khẩu
+					  </div>
+			  </c:if>
+			  </div>
 			  
 			  </div>
-			  <div class="col-lg-2 pull-right">
-			  <h4>OR</h4>
-			  </div>
 		</div>
-</div>
 <div id="right" class="col-lg-4">
 <form:form modelAttribute="userReg" id="registerForm"
 					action="/matrimony/register" method="POST"
 					class="form-horizontal col-lg-12">
 				<h2>Đăng ký</h2>
 				<br />
-				<form:errors path="*" cssClass="error" />
+				<c:if test="${registerFormError }">
+				<div class="alert alert-danger" role="alert">
+				<form:errors path="firstName" id="validError" />
+							<br />
+				<form:errors path="lastName" id="validError" />
+							<br />
+				<form:errors path="email" id="validError" />
+							<br />
+				<form:errors path="password" id="validError" />
+							<br />
+				<form:errors path="gender" id="validError" />
+							<br />
+				${birthdayNotEnough }<br />
+				${birthdayInvalid }<br />
+				${reEmailInvalid }
+				</div>
+				</c:if>
 				<div style="display: none;" id="myAlert" class="alert alert-danger"
 						role="alert"></div>
 
@@ -79,10 +98,10 @@
 								name="lastName" placeholder="Họ"
 								value="${requestScope.userReg.lastName}"></input>
 					</div>
-					<form:errors path="firstName" cssStyle="error"
-							cssClass="control-label col-sm-offset-2 error" />
-					<form:errors path="lastName" cssStyle="error"
-							cssClass="control-label col-sm-offset-4 error" />
+					<form:errors path="firstName" id="validError"
+							cssClass="control-label col-lg-offset-1" />
+					<form:errors path="lastName" id="validError"
+							cssClass="control-label col-lg-offset-1" />
 				</div>
 
 				
@@ -91,9 +110,10 @@
 					<div class="col-sm-10">
 						<input id="email" onkeyup="" class="form-control" type="email"
 								name="email" value="${userReg.email}"
-								placeholder="Địa chỉ email"></input>
+								placeholder="Địa chỉ email">
+						</input>
 						<div>
-							<form:errors path="email" cssClass="error" />
+							<form:errors path="email" id="validError" />
 						</div>
 					</div>
 				</div>
@@ -101,8 +121,11 @@
 				<div class="form-group">
 					<label style="color: red;" class="control-label col-sm-1">(*)</label>
 					<div class="col-sm-10">
-						<input id="reEmail" class="form-control" type="email"
-								value="${userReg.email}" placeholder="Nhập lại địa chỉ email"></input>
+						<input id="reEmail" name="reEmail" class="form-control"
+								type="email" placeholder="Nhập lại địa chỉ email" />
+						<div id="validError">
+							${reEmailInvalid }
+						</div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -110,7 +133,7 @@
 					<div class="col-sm-10">
 						<input id="password" class="form-control" type="password"
 								name="password" placeholder="Mật khẩu"></input>
-						<form:errors path="password" cssClass="error" />
+						<form:errors path="password" id="validError" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -118,7 +141,7 @@
 					<div class="col-sm-10">
 						<input id="phone" class="form-control" type="text"
 								name="contactNumber" placeholder="Số điện thoại nếu có"></input>
-						<form:errors path="contactNumber" cssClass="error" />
+						<form:errors path="contactNumber" id="validError" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -151,7 +174,7 @@
 
 						</select>
 					</div>
-					<div class="error col-sm-5 col-sm-offset-2">${requestScope.birthdayValid}</div>
+					<div class="col-lg-5 col-lg-offset-1" id="validError">${requestScope.birthdayInvalid}</div>
 				</div>
 				<div class="form-group">
 					<label style="color: red;" class="control-label col-sm-1"></label>
@@ -166,7 +189,7 @@
 						</label> <label class="control-label"> <input id="sex"
 								type="radio" name="gender" value="male" /> Nam
 						</label> <label class="control-label"><form:errors path="gender"
-									cssClass="error" /></label>
+									id="validError" /></label>
 					</div>
 				</div>
 
@@ -187,14 +210,16 @@
 					<div class="loginmodal-container">
 						<h1>New password</h1>
 								<br>
-					  <form:form modelAttribute="user" action="loginWithFacebook" method="POST">
+					  <form:form modelAttribute="logginFBUser" action="loginWithFacebook"
+						method="POST">
 						<input id="txtPassword" type="password" name="password"
 							placeholder="Enter new password">
+							<form:errors path="password" id="validError" />
 						<input id="txtRePassword" type="password" name="rePassword"
 							placeholder="Re-enter new password">
-							<form:errors path="password" />
-						<input id="btnSubmitPassword" type="submit" name="login" class="login loginmodal-submit"
-							value="Login">
+							${rePasswordInvalid }
+						<input id="btnSubmitPassword" type="submit" name="login"
+							class="login loginmodal-submit" value="Login">
 					  </form:form>
 						
 					  <div class="login-help">

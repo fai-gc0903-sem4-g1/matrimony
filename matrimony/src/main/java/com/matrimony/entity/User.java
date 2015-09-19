@@ -40,17 +40,19 @@ public class User implements Serializable {
 	private String userId;
 	private int weight;
 	private int height;
-	@Length(min = 4, max = 100)
+	@Length(min = 8, max = 32, message="Mật khẩu phải từ 8 -> 32 ký tự")
 	private String password;
 	private String registrationIP;
-	@Length(min = 2, max = 30)
+	@Length(min = 2, max = 20,message="Tên phải từ 2 -> 20 ký tự")
+	private String firstName;
+	@Length(min = 2, max = 20, message="Họ phải từ 2 -> 20 ký tự")
 	private String lastName;
 	private String username;
 	private String activeKey;
 	private String caste;
 	private String contactNumber;
-	@NotEmpty
-	@Email
+	@NotEmpty(message="Email không được bỏ trống")
+	@Email(message="Email sai định dạng")
 	private String email;
 	@Column(length = 1000)
 	private String favoriteBook;
@@ -62,9 +64,7 @@ public class User implements Serializable {
 	private String favoriteMusic;
 	@Column(length = 1000)
 	private String favoriteTVshow;
-	@Length(min = 2, max = 30)
-	private String firstName;
-	@NotEmpty
+	@NotEmpty(message="Xin chọn giới tính")
 	private String gender;
 	@NotEmpty
 	private String regMethod;

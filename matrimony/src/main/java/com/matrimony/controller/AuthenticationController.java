@@ -6,6 +6,7 @@ package com.matrimony.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,15 +52,16 @@ public class AuthenticationController {
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String doLogin(HttpServletResponse response, HttpServletRequest request,
 			@Valid @ModelAttribute("userLogin") User userLogin, BindingResult bindingResult, String keepLoggin) {
-		if (bindingResult.hasFieldErrors("username") || bindingResult.hasFieldErrors("password")) {
+		if (bindingResult.hasFieldErrors("password")) {
 			System.out.println("form login error");
+			request.setAttribute("loginFormError", true);
 			return "index";
 		}
 		try {
 			User user = UserDAO.login(userLogin.getUsername(), userLogin.getPassword());
 			user.setLoginTime(new Timestamp(System.currentTimeMillis()));
 			user.setIpLogin(request.getRemoteAddr());
-			System.out.println("Login: password hashed: "+user.getPassword());
+			System.out.println("Login: password hashed: " + user.getPassword());
 			UserDAO.Update(user);
 
 			request.getSession().setAttribute("user", user);
@@ -78,25 +81,38 @@ public class AuthenticationController {
 					"Tài khoản không tồn tại, chúng tôi k tìm thấy tên tài khoản, email hay số điện thoại");
 		} catch (STException.WrongPassword ex) {
 			System.out.println(ex);
-			request.setAttribute("notice", "Sai password");
+			request.setAttribute("notice", "Sai mật khẩu");
 		}
 		return "index";
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String doRegister(HttpServletRequest request, @Valid @ModelAttribute("userReg") User userReg,
-			BindingResult bindingResult, String day, String month, String year) {
+			BindingResult bindingResult, String day, String month, String year, String reEmail) {
 		Date birthday = null;
+		boolean ageEnought=false, twinEmail=false;
 		try {
 			birthday = Date.valueOf(year + "-" + month + "-" + day);
+			int thisYear =0, bornYear=0;
+			thisYear= DateUtils.toCalendar(new java.util.Date(System.currentTimeMillis())).get(Calendar.YEAR);
+			bornYear = DateUtils.toCalendar(birthday).get(Calendar.YEAR);
+			if(thisYear-bornYear<18){
+				ageEnought=false;
+				request.setAttribute("birthdayNotEnough", "Bạn chưa đủ tuổi thể tham gia!");
+			}else ageEnought=true;
 		} catch (IllegalArgumentException ex) {
-			System.out.println("Register: " + ex);
-			request.setAttribute("birthdayValid", "Ngày tháng chọn sai");
+			System.out.println("Register: " + ex.getMessage());
+			request.setAttribute("birthdayInvalid", "Ngày tháng chọn sai");
 		}
+		if(reEmail.equals(userReg.getEmail()))
+				twinEmail=true;
+		else request.setAttribute("reEmailInvalid", "2 email không giống nhau");
 		if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
 				|| bindingResult.hasFieldErrors("contactNumber") || bindingResult.hasFieldErrors("email")
-				|| bindingResult.hasFieldErrors("gender") || birthday == null) {
+				|| bindingResult.hasFieldErrors("gender") || null == birthday || !ageEnought || !twinEmail) {
 			System.out.println("Register: Form register error");
+			request.setAttribute("registerFormError", true);
+			return "index";
 		}
 		System.out.println("Register: Form register OK");
 		userReg.setBirthday(birthday);
@@ -175,7 +191,7 @@ public class AuthenticationController {
 					: "default_female_avatar.jpg");
 			userRegUsingFB.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
 			userRegUsingFB.setRegistrationIP(request.getRemoteAddr());
-			
+
 			System.out.println("Login with facebook Create user from facebook OK");
 			request.getSession().setAttribute("userRegUsingFB", userRegUsingFB);
 			User checkUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
@@ -183,6 +199,7 @@ public class AuthenticationController {
 				request.setAttribute("fbResp", 1);
 			} else {
 				request.setAttribute("fbResp", 0);
+				System.out.println("Login with facebook: User have already");
 			}
 			return "index";
 		} catch (IOException ex) {
@@ -192,12 +209,16 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "loginWithFacebook", method = RequestMethod.POST)
-	public String doSaveUserFB(HttpServletRequest request, @ModelAttribute("user") User user,
+	public String doSaveUserFB(HttpServletRequest request, @ModelAttribute("logginFBUser") User user,
 			BindingResult bindingResult) {
+		System.out.println(user.getPassword());
 		if (bindingResult.hasFieldErrors("password")) {
 			request.setAttribute("fbPass", true);
+			request.setAttribute("fbResp", 1);
+			System.out.println("loginWithFacebook: form error");
 			return "index"; // purpose join us
 		} else {
+			System.out.println("loginWithFacebook: form OK");
 			User userRegUsingFB = (User) request.getSession().getAttribute("userRegUsingFB");
 			if (userRegUsingFB != null) {
 				userRegUsingFB.setPassword(user.getPassword());
@@ -222,7 +243,6 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "settings", method = RequestMethod.POST)
 	public String viewSettings(HttpServletRequest request) {
-		System.out.println("sau day la session");
 		User user = (User) request.getSession().getAttribute("user");
 		try {
 			System.out.println(user);
