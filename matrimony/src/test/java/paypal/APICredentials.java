@@ -3,6 +3,7 @@
  */
 package paypal;
 
+
 import java.util.Properties;
 
 import org.eclipse.jdt.internal.compiler.ast.ThisReference;
@@ -37,7 +38,4 @@ public class APICredentials {
 		}
 		return adaptivePaymentsService;
 	}
-	
-	
-	
 }

@@ -70,7 +70,7 @@ public class PaymentController {
 	}
 	
 	@RequestMapping(value = "paymentVerify", method = RequestMethod.GET)
-	public String doPaymentVerify(HttpServletRequest request) {
+	public String doPaymentVerify(HttpServletRequest request, String paymentVerify) {
 		if (null != request.getSession().getAttribute("paypalPayKey")) {
 			try {
 				String checkString=payment.checkPayment((String) request.getSession().getAttribute("paypalPayKey"));
