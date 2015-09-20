@@ -33,13 +33,12 @@ public class UserDAO {
             user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
             long currentMillis=System.currentTimeMillis();
             user.setCreateAt(new Timestamp(currentMillis));
-            user.setExpiresLicence(new Timestamp(currentMillis));
             
             Session ss = HibernateUtil.openSession();
             ss.getTransaction().begin();
             ss.save(user);
             ss.getTransaction().commit();
-            ss.close();
+            //ss.close();
             System.out.println("Added user " + user.getEmail());
         }
     }
@@ -47,35 +46,35 @@ public class UserDAO {
     public static List<User> allUsers() {
         Session ss = HibernateUtil.openSession();
 		List<User> accounts = ss.createQuery("FROM user").list();
-        ss.close();
+        //ss.close();
         return accounts;
     }
 
     public static User findByUsername(String id) {
         Session ss = HibernateUtil.openSession();
         User account = (User) ss.createQuery("from user where username=?").setString(0, id).uniqueResult();
-        ss.close();
+        //ss.close();
         return account;
     }
 
     public static User findById(String id) {
         Session ss = HibernateUtil.openSession();
-        User account = (User) ss.createQuery("from user where userId=?").setString(0, id).uniqueResult();
-        ss.close();
+        User account = (User) ss.get(User.class, id);
+//        //ss.close();
         return account;
     }
 
     public static User findByEmail(String email) {
         Session ss = HibernateUtil.openSession();
         User account = (User) ss.createQuery("from user where email=?").setString(0, email).uniqueResult();
-        ss.close();
+        //ss.close();
         return account;
     }
 
     public static User findByContactNumber(String contactNumber) {
         Session ss = HibernateUtil.openSession();
         User user = (User) ss.createQuery("from user where contactNumber=? and contactNumber!=''").setString(0, contactNumber).uniqueResult();
-        ss.close();
+        //ss.close();
         System.out.println(user);
         return user;
     }
@@ -85,7 +84,7 @@ public class UserDAO {
         ss.getTransaction().begin();
         ss.update(user);
         ss.getTransaction().commit();
-        ss.close();
+        //ss.close();
     }
 
     public static User login(String loginName, String password) throws STException.UsernameNotExist, STException.WrongPassword {

@@ -17,11 +17,8 @@ import org.hibernate.annotations.GenericGenerator;
  *
  */
 @Entity
-public class TransactionHistory {
+public class Transaction {
 	@Id
-	@Column(nullable = false)
-	@GenericGenerator(name = "id", strategy = "uuid")
-	@GeneratedValue(generator = "id")
 	private String id;
 	private String userId;
 	private String method;

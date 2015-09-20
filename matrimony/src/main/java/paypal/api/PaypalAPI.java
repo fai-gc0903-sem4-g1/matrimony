@@ -10,7 +10,9 @@ import com.paypal.svcs.services.AdaptivePaymentsService;
  *
  */
 public class PaypalAPI {
-	public static AdaptivePaymentsService service(){
+	public final static String SUCCESS="SUCCESS";
+	public final static String COMPLETED="COMPLETED";
+	public static AdaptivePaymentsService getService(){
 		AdaptivePaymentsService adaptivePaymentsService=new AdaptivePaymentsService(CredentialsConfiguration.getConfig());
 		return adaptivePaymentsService;
 	}

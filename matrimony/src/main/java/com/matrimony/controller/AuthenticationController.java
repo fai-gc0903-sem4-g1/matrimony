@@ -205,7 +205,7 @@ public class AuthenticationController {
 			return "index";
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
-			return "userNotFound";
+			return "404";
 		}
 	}
 
