@@ -10,6 +10,18 @@ package com.matrimony.exception;
  * @author SON
  */
 public class STException {
+	
+	public static class EntityIDHaveAlready extends Exception {
+
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public EntityIDHaveAlready(String msg) {
+            super(msg);
+        }
+    }
 
     public static class UsernameNotExist extends Exception {
 

@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 import org.apache.commons.lang3.time.DateUtils;
 
+import com.matrimony.database.TransactionDAO;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.Transaction;
 import com.matrimony.entity.User;
@@ -34,6 +35,13 @@ public class Test {
 		User getUser=UserDAO.findById("990258dd4feab9d7014feaba409f0000");
 		System.out.println(getUser);
 		System.out.println(getUser.getTransactions());
+		Transaction transaction=new Transaction();
+		transaction.setId("12345");
+		transaction.setMethod("ABC");
+		transaction.setCreateAt(new Timestamp(System.currentTimeMillis()));
+		transaction.setAmount(49.99);
+		transaction.setUserId("990258dd4feab9d7014feaba409f0000");
+
 		
 		
 	}

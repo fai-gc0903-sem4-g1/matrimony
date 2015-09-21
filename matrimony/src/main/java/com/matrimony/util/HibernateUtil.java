@@ -20,6 +20,7 @@ public class HibernateUtil {
 	protected static ServiceRegistry sr;
 	protected static SessionFactory sf;
 	protected static Configuration cfg;
+	public static Session session=getCurrentSession();
 
 	public static Session openSession() {
 		if (cfg == null) {
@@ -41,9 +42,21 @@ public class HibernateUtil {
 		}
 		return cfg.buildSessionFactory(sr);
 	}
+	
+	protected static Session getCurrentSession(){
+		if (cfg == null) {
+			System.out.println("Configing..");
+			cfg = new Configuration();
+			cfg.configure();
+			sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
+			sf = cfg.buildSessionFactory(sr);
+			session=sf.openSession();
+		}
+			return session;
+	}
 
 	public static void main(String[] args) {
-		SessionFactory factory=HibernateUtil.buildSessionFactory();
-		factory.close();
+		Session ss=getCurrentSession();
+		System.out.println(ss);
 	}
 }

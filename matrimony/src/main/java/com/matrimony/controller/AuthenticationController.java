@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import model.SessionKey;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
@@ -64,7 +66,7 @@ public class AuthenticationController {
 			System.out.println("Login: password hashed: " + user.getPassword());
 			UserDAO.Update(user);
 
-			request.getSession().setAttribute("user", user);
+			request.getSession().setAttribute(SessionKey.USER, user);
 			System.out.println(user.getEmail() + " logged in");
 			if (user.isVerified()) {
 				if (keepLoggin != null) {
@@ -126,7 +128,7 @@ public class AuthenticationController {
 			UserDAO.Update(tempUser);
 
 			sendMailActive(userBuilt.getEmail(), userBuilt.getActiveKey());
-			request.getSession().setAttribute("user", UserDAO.findByEmail(userBuilt.getEmail()));
+			request.getSession().setAttribute(SessionKey.USER, UserDAO.findByEmail(userBuilt.getEmail()));
 		} catch (STException.EmailAlready ex) {
 			System.out.println(ex.getMessage());
 			request.setAttribute("notice", "EmailAlready");
@@ -142,7 +144,7 @@ public class AuthenticationController {
 	@RequestMapping(value = "active", method = RequestMethod.POST)
 	public String doActive(HttpServletRequest request, String activeKey) {
 		System.out.println(activeKey);
-		User curuser = (User) request.getSession().getAttribute("user");
+		User curuser = (User) request.getSession().getAttribute(SessionKey.USER);
 		System.out.println(curuser.getEmail() + " want to active");
 		if (curuser.getActiveKey().equals(activeKey)) {
 			curuser.setVerified(true);
@@ -164,7 +166,7 @@ public class AuthenticationController {
 				response.addCookie(c);
 			}
 		}
-		session.setAttribute("user", null);
+		session.setAttribute(SessionKey.USER, null);
 		return "redirect:";
 	}
 
@@ -233,7 +235,7 @@ public class AuthenticationController {
 					User tempUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
 					tempUser.setUsername(tempUser.getId());
 					UserDAO.Update(tempUser);
-					request.getSession().setAttribute("user", tempUser);
+					request.getSession().setAttribute(SessionKey.USER, tempUser);
 				} catch (EmailAlready e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -248,7 +250,7 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "settings", method = RequestMethod.POST)
 	public String viewSettings(HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute(SessionKey.USER);
 		try {
 			System.out.println(user);
 		} catch (Exception e) {
@@ -259,7 +261,7 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "resend", method = RequestMethod.POST)
 	public String resend(HttpSession session) {
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute(SessionKey.USER);
 		sendMailActive(user.getEmail(), user.getActiveKey());
 		return "active";
 	}

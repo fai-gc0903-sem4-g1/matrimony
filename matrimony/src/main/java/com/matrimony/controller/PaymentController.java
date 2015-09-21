@@ -4,13 +4,28 @@
 package com.matrimony.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 
+import model.SessionKey;
+
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import paypal.api.CredentialsConfiguration;
+import paypal.api.PaypalPayment;
+import paypal.api.PaypalAPI;
+
+import com.matrimony.database.TransactionDAO;
+import com.matrimony.database.UserDAO;
+import com.matrimony.entity.Transaction;
+import com.matrimony.entity.User;
+import com.matrimony.exception.STException.EntityIDHaveAlready;
 import com.paypal.exception.ClientActionRequiredException;
 import com.paypal.exception.HttpErrorException;
 import com.paypal.exception.InvalidCredentialException;
@@ -18,9 +33,8 @@ import com.paypal.exception.InvalidResponseDataException;
 import com.paypal.exception.MissingCredentialException;
 import com.paypal.exception.SSLConfigurationException;
 import com.paypal.sdk.exceptions.OAuthException;
-
-import paypal.api.CredentialsConfiguration;
-import paypal.api.Payment;
+import com.paypal.svcs.types.ap.PayResponse;
+import com.paypal.svcs.types.ap.PaymentDetailsResponse;
 
 /**
  * @author SON
@@ -28,10 +42,14 @@ import paypal.api.Payment;
  */
 @Controller
 public class PaymentController {
-	private final Payment payment = new Payment();
+	private final PaypalPayment payment = new PaypalPayment();
+
 	@RequestMapping(value = "payment", method = RequestMethod.GET)
-	public String viewPayment() {
-		return "payment";
+	public String viewPayment(HttpServletRequest request) {
+		if (null == request.getSession().getAttribute(SessionKey.USER))
+			return "joinUs";
+		else
+			return "payment";
 	}
 
 	@RequestMapping(value = "payment", method = RequestMethod.POST)
@@ -40,7 +58,6 @@ public class PaymentController {
 		System.out.println(payWith);
 		switch (payWith) {
 		case "Paypal":
-			
 			double moneyToPay;
 			if ("1".equals(productValue)) {
 				moneyToPay = 49.99;
@@ -49,12 +66,11 @@ public class PaymentController {
 			} else {
 				return "404";
 			}
-			String payKey;
 			try {
-				payKey = payment.pay(moneyToPay);
-				if (null != payKey) {
-					request.getSession().setAttribute("paypalPayKey", payKey);
-					return "redirect:" + CredentialsConfiguration.SAND_BOX_STRING + payKey;
+				PayResponse payResponse = payment.pay(moneyToPay);
+				if (null != payResponse) {
+					request.getSession().setAttribute(SessionKey.PAYPAL_PAY_RESPONSE, payResponse);
+					return "redirect:" + CredentialsConfiguration.SAND_BOX_STRING + payResponse.getPayKey();
 				}
 			} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
 					| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
@@ -68,22 +84,59 @@ public class PaymentController {
 		}
 		return "payment";
 	}
-	
-	@RequestMapping(value = "paymentVerify", method = RequestMethod.GET)
-	public String doPaymentVerify(HttpServletRequest request, String paymentVerify) {
-		if (null != request.getSession().getAttribute("paypalPayKey")) {
-			try {
-				String checkString=payment.checkPayment((String) request.getSession().getAttribute("paypalPayKey"));
-				System.out.println(checkString);
-			} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
-					| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
-					| OAuthException | IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-		}
-		return "payment";
-	}
 
+	@RequestMapping(value = "paymentVerify", method = RequestMethod.GET)
+	public String doPaymentVerify(HttpServletRequest request, @ModelAttribute("transaction") Transaction transaction) {
+		try {
+			PaymentDetailsResponse paymentDetailsResponse = payment.checkPayment(transaction.getId());
+			if (null != paymentDetailsResponse) {
+				if (PaypalAPI.SUCCESS.equals(paymentDetailsResponse)) {
+					User currentUser = (User) request.getSession().getAttribute(SessionKey.USER);
+
+					double amount = paymentDetailsResponse.getPaymentInfoList().getPaymentInfo().get(0).getReceiver()
+							.getAmount();
+
+					transaction.setCreateAt(new Timestamp(System.currentTimeMillis()));
+					transaction.setUserId(currentUser.getId());
+					transaction.setCurrencyCode(paymentDetailsResponse.getCurrencyCode());
+					transaction.setMethod("PAYPAL");
+					transaction.setDecription("ghi chú");
+					transaction.setAmount(amount);
+					TransactionDAO.add(transaction);
+
+					Timestamp expiries = currentUser.getExpiries();
+					Calendar calendar;
+					if (expiries.after(new Timestamp(System.currentTimeMillis())))
+						calendar = DateUtils.toCalendar(expiries);
+					else
+						calendar = DateUtils.toCalendar(new Timestamp(System.currentTimeMillis()));
+
+					if (49.99 == transaction.getAmount())
+						calendar.set(Calendar.MONTH, 1);
+					else if (499.99 == transaction.getAmount())
+						calendar.set(Calendar.MONTH, 12);
+
+					currentUser.setExpiries(new Timestamp(calendar.getTimeInMillis()));
+
+					// UPDATE USER EXPIRES
+					UserDAO.Update(currentUser);
+					// RESET USER
+					request.getSession().setAttribute(SessionKey.USER, currentUser);
+					// CLEAR SESSION
+					request.getSession().setAttribute(SessionKey.PAYPAL_AMOUNT_PAY, null);
+					request.getSession().setAttribute(SessionKey.PAYPAL_PAY_RESPONSE, null);
+					return "da_thanh_toan_ok";
+				}
+			}
+		} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
+				| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
+				| OAuthException | IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EntityIDHaveAlready e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "Co_loi_xay_ra";
+	}
 }

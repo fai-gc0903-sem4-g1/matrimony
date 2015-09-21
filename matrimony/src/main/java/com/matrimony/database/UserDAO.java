@@ -34,7 +34,7 @@ public class UserDAO {
             long currentMillis=System.currentTimeMillis();
             user.setCreateAt(new Timestamp(currentMillis));
             
-            Session ss = HibernateUtil.openSession();
+            Session ss = HibernateUtil.session;
             ss.getTransaction().begin();
             ss.save(user);
             ss.getTransaction().commit();
@@ -44,35 +44,34 @@ public class UserDAO {
     }
 
     public static List<User> allUsers() {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
 		List<User> accounts = ss.createQuery("FROM user").list();
         //ss.close();
         return accounts;
     }
 
     public static User findByUsername(String id) {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         User account = (User) ss.createQuery("from user where username=?").setString(0, id).uniqueResult();
         //ss.close();
         return account;
     }
 
     public static User findById(String id) {
-        Session ss = HibernateUtil.openSession();
-        User account = (User) ss.get(User.class, id);
+        User account = (User) HibernateUtil.session.get(User.class, id);
 //        //ss.close();
         return account;
     }
 
     public static User findByEmail(String email) {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         User account = (User) ss.createQuery("from user where email=?").setString(0, email).uniqueResult();
         //ss.close();
         return account;
     }
 
     public static User findByContactNumber(String contactNumber) {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         User user = (User) ss.createQuery("from user where contactNumber=? and contactNumber!=''").setString(0, contactNumber).uniqueResult();
         //ss.close();
         System.out.println(user);
@@ -80,7 +79,7 @@ public class UserDAO {
     }
 
     public static void Update(User user) {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         ss.getTransaction().begin();
         ss.update(user);
         ss.getTransaction().commit();

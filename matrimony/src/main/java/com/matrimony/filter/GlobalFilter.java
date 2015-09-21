@@ -17,6 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.SessionKey;
+
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 import com.matrimony.util.GeoIP;
@@ -44,7 +46,7 @@ public class GlobalFilter implements Filter {
 		System.out.println("Filter: IP client: "+req.getRemoteAddr());
 		CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
 		System.out.println("Filter: Locate: " + country);
-		User user = (User) request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute(SessionKey.USER);
 		System.out.println("Filter: Current user: " + user);
 		Cookie[] allCookie = request.getCookies();
 		if (user == null) {
@@ -61,7 +63,7 @@ public class GlobalFilter implements Filter {
 				for (Cookie c : allCookie) {
 					if (keepLogin && "loginName".equals(c.getName())) {
 						user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
-						request.getSession().setAttribute("user", user);
+						request.getSession().setAttribute(SessionKey.USER, user);
 						System.out.println("Filter: User keep login: " + user);
 						break;
 					}

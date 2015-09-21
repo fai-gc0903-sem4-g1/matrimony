@@ -67,6 +67,7 @@ public class User implements Serializable {
 	private String activeKey;
 	private String ipLogin;
 	private String registrationIP;
+	private Timestamp expiries;
 	private Timestamp changedPasswordTime;
 	private Timestamp loginTime;
 	private Timestamp updateTime;
@@ -293,6 +294,14 @@ public class User implements Serializable {
 		this.registrationIP = registrationIP;
 	}
 
+	public Timestamp getExpiries() {
+		return expiries;
+	}
+
+	public void setExpiries(Timestamp expiries) {
+		this.expiries = expiries;
+	}
+
 	public Timestamp getChangedPasswordTime() {
 		return changedPasswordTime;
 	}
@@ -429,11 +438,9 @@ public class User implements Serializable {
 				+ registrationIP + ", changedPasswordTime=" + changedPasswordTime + ", loginTime=" + loginTime
 				+ ", updateTime=" + updateTime + ", verifiedTime=" + verifiedTime + ", createAt=" + createAt
 				+ ", verified=" + verified + ", friendFromId=" + friendFromId + ", friendToId=" + friendToId
-				+ ", transactionHistories=" + transactions + ", socialNetworks=" + socialNetworks
-				+ ", favoriteBooks=" + favoriteBooks + ", favoriteFitnesses=" + favoriteFitnesses + ", favoriteMusics="
-				+ favoriteMusics + ", favoriteTVShows=" + favoriteTVShows + ", favoriteMovies=" + favoriteMovies + "]";
+				+ ", transactionHistories=" + transactions + ", socialNetworks=" + socialNetworks + ", favoriteBooks="
+				+ favoriteBooks + ", favoriteFitnesses=" + favoriteFitnesses + ", favoriteMusics=" + favoriteMusics
+				+ ", favoriteTVShows=" + favoriteTVShows + ", favoriteMovies=" + favoriteMovies + "]";
 	}
-
-	
 
 }
