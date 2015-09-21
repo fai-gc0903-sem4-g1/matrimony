@@ -49,7 +49,7 @@ public class PaypalPayment {
 		payRequest.setCurrencyCode("USD");
 		payRequest.setActionType("PAY");
 		payRequest.setCancelUrl("http://localhost:8080/matrimony/payment");
-		payRequest.setReturnUrl("http://localhost:8080/matrimony/paymentVerify");
+		payRequest.setReturnUrl("http://localhost:8080/matrimony/payment");
 
 		PayResponse payResponse;
 

@@ -48,8 +48,15 @@ public class PaymentController {
 	public String viewPayment(HttpServletRequest request) {
 		if (null == request.getSession().getAttribute(SessionKey.USER))
 			return "joinUs";
-		else
+		else{
+			if(null==request.getSession().getAttribute(SessionKey.PAYPAL_PAY_RESPONSE)){
+				
+			}else{
+				request.setAttribute("psCode", 1);
+			}
 			return "payment";
+		}
+			
 	}
 
 	@RequestMapping(value = "payment", method = RequestMethod.POST)
