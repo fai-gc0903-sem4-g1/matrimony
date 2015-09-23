@@ -3,6 +3,7 @@
  */
 package com.matrimony.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -60,12 +61,9 @@ public class AuthenticationController {
 			return "index";
 		}
 		try {
-			User user = UserDAO.login(userLogin.getUsername(), userLogin.getPassword());
-			user.setLoginTime(new Timestamp(System.currentTimeMillis()));
-			user.setIpLogin(request.getRemoteAddr());
-			System.out.println("Login: password hashed: " + user.getPassword());
-			UserDAO.Update(user);
-
+			userLogin.setLoginTime(new Timestamp(System.currentTimeMillis()));
+			userLogin.setIpLogin(request.getRemoteAddr());
+			User user = UserDAO.login(userLogin);
 			request.getSession().setAttribute(SessionKey.USER, user);
 			System.out.println(user.getEmail() + " logged in");
 			if (user.isVerified()) {
@@ -122,13 +120,9 @@ public class AuthenticationController {
 		userReg.setBirthday(birthday);
 		User userBuilt = buildNewUser(userReg, request);
 		try {
-			UserDAO.add(userBuilt);
-			User tempUser = UserDAO.findByEmail(userBuilt.getEmail());
-			tempUser.setUsername(userBuilt.getId());
-			UserDAO.Update(tempUser);
-
+			User userFromDB=UserDAO.register(userBuilt);
 			sendMailActive(userBuilt.getEmail(), userBuilt.getActiveKey());
-			request.getSession().setAttribute(SessionKey.USER, UserDAO.findByEmail(userBuilt.getEmail()));
+			request.getSession().setAttribute(SessionKey.USER, userFromDB);
 		} catch (STException.EmailAlready ex) {
 			System.out.println(ex.getMessage());
 			request.setAttribute("notice", "EmailAlready");
@@ -190,6 +184,7 @@ public class AuthenticationController {
 			userRegUsingFB.setSocialNetwork(fbProfile.getLink());
 			userRegUsingFB.setContactNumber("");
 			userRegUsingFB.setName(fbProfile.getName());
+			userRegUsingFB.setId(fbProfile.getId());
 
 			userRegUsingFB.setAvatarPhoto(userRegUsingFB.getGender().equals("male") ? "default_male_avatar.jpg"
 					: "default_female_avatar.jpg");
@@ -231,11 +226,10 @@ public class AuthenticationController {
 				userRegUsingFB.setPassword(user.getPassword());
 				try {
 					System.out.println(userRegUsingFB);
-					UserDAO.add(userRegUsingFB);
-					User tempUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
-					tempUser.setUsername(tempUser.getId());
-					UserDAO.Update(tempUser);
-					request.getSession().setAttribute(SessionKey.USER, tempUser);
+					FBGraph fbGraph=new FBGraph();
+					BufferedImage avatarImg=fbGraph.getFbGraphAvatar(userRegUsingFB.getId());
+					User userGen=UserDAO.register(userRegUsingFB);
+					request.getSession().setAttribute(SessionKey.USER, userGen);
 				} catch (EmailAlready e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

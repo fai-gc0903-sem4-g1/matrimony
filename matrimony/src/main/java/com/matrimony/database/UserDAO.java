@@ -13,6 +13,8 @@ import org.hibernate.Session;
 
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
+import com.matrimony.exception.STException.ContactNumberAlready;
+import com.matrimony.exception.STException.EmailAlready;
 import com.matrimony.security.HashUtil;
 import com.matrimony.util.HibernateUtil;
 
@@ -22,94 +24,112 @@ import com.matrimony.util.HibernateUtil;
  */
 @SuppressWarnings("unchecked")
 public class UserDAO {
-
-    public static void add(User user) throws STException.EmailAlready, STException.ContactNumberAlready {
-        if (findByEmail(user.getEmail()) != null) {
-            throw new STException.EmailAlready("Add user: email already");
-        } else if (findByContactNumber(user.getContactNumber()) != null) {
-            throw new STException.ContactNumberAlready("Add user: contact number already");
-        } else {
-        	user.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
-            user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
-            long currentMillis=System.currentTimeMillis();
-            user.setCreateAt(new Timestamp(currentMillis));
-            
-            Session ss = HibernateUtil.session;
-            ss.getTransaction().begin();
-            ss.save(user);
-            ss.getTransaction().commit();
-            //ss.close();
-            System.out.println("Added user " + user.getEmail());
-        }
-    }
-
-    public static List<User> allUsers() {
-        Session ss = HibernateUtil.session;
+	public static List<User> allUsers() {
+		Session ss = HibernateUtil.session;
 		List<User> accounts = ss.createQuery("FROM user").list();
-        //ss.close();
-        return accounts;
-    }
+		// ss.close();
+		return accounts;
+	}
 
-    public static User findByUsername(String id) {
-        Session ss = HibernateUtil.session;
-        User account = (User) ss.createQuery("from user where username=?").setString(0, id).uniqueResult();
-        //ss.close();
-        return account;
-    }
+	public static void add(User user) {
+		Session ss = HibernateUtil.session;
+		ss.getTransaction().begin();
+		ss.save(user);
+		ss.getTransaction().commit();
+	}
 
-    public static User findById(String id) {
-        User account = (User) HibernateUtil.session.get(User.class, id);
-//        //ss.close();
-        return account;
-    }
+	public static void Update(User user) {
+		Session ss = HibernateUtil.session;
+		ss.getTransaction().begin();
+		ss.update(user);
+		ss.getTransaction().commit();
+		// ss.close();
+	}
 
-    public static User findByEmail(String email) {
-        Session ss = HibernateUtil.session;
-        User account = (User) ss.createQuery("from user where email=?").setString(0, email).uniqueResult();
-        //ss.close();
-        return account;
-    }
+	public static User findByUsername(String id) {
+		Session ss = HibernateUtil.session;
+		User account = (User) ss.createQuery("from user where username=?").setString(0, id).uniqueResult();
+		// ss.close();
+		return account;
+	}
 
-    public static User findByContactNumber(String contactNumber) {
-        Session ss = HibernateUtil.session;
-        User user = (User) ss.createQuery("from user where contactNumber=? and contactNumber!=''").setString(0, contactNumber).uniqueResult();
-        //ss.close();
-        System.out.println(user);
-        return user;
-    }
+	public static User findById(String id) {
+		User account = (User) HibernateUtil.session.get(User.class, id);
+		// //ss.close();
+		return account;
+	}
 
-    public static void Update(User user) {
-        Session ss = HibernateUtil.session;
-        ss.getTransaction().begin();
-        ss.update(user);
-        ss.getTransaction().commit();
-        //ss.close();
-    }
+	public static User findByEmail(String email) {
+		Session ss = HibernateUtil.session;
+		User account = (User) ss.createQuery("from user where email=?").setString(0, email).uniqueResult();
+		// ss.close();
+		return account;
+	}
 
-    public static User login(String loginName, String password) throws STException.UsernameNotExist, STException.WrongPassword {
-        System.out.println("Login name "+loginName);
-        User user = findByEmailOrContactNumberOrUsername(loginName);
-        if (user == null) {
-            throw new STException.UsernameNotExist("Login: username not exists");
-        }
-        String passwordTemp = HashUtil.hashPassword(password, user.getSalt());
-        if (user.getPassword().equals(passwordTemp)) {
-            return user;
-        } else {
-            throw new STException.WrongPassword("Login: Wrong password");
-        }
-    }
+	public static User findByContactNumber(String contactNumber) {
+		Session ss = HibernateUtil.session;
+		User user = (User) ss.createQuery("from user where contactNumber=? and contactNumber!=''")
+				.setString(0, contactNumber).uniqueResult();
+		// ss.close();
+		System.out.println(user);
+		return user;
+	}
 
-    public static User findByEmailOrContactNumberOrUsername(String string) {
-        User account;
-        if ((account = findByEmail(string)) == null) {
-            if ((account = findByContactNumber(string)) == null) {
-                account = findByUsername(string);
-            }
-        }
-        return account;
-    }
+	public static User findByEmailOrContactNumberOrUsername(String string) {
+		User account;
+		if ((account = findByEmail(string)) == null) {
+			if ((account = findByContactNumber(string)) == null) {
+				account = findByUsername(string);
+			}
+		}
+		return account;
+	}
 
-    public static void main(String[] args) {
-    }
+	public static User register(User user) throws EmailAlready, ContactNumberAlready {
+		if (findByEmail(user.getEmail()) != null) {
+			throw new STException.EmailAlready("Add user: email already");
+		} else if (findByContactNumber(user.getContactNumber()) != null) {
+			throw new STException.ContactNumberAlready("Add user: contact number already");
+		} else {
+			user.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
+			user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
+			long currentMillis = System.currentTimeMillis();
+			user.setCreateAt(new Timestamp(currentMillis));
+			
+			//ADD USER
+			add(user);
+			String emailOrPhone=user.getEmail()!=null?user.getEmail():user.getContactNumber();
+			User temp=findByEmailOrContactNumberOrUsername(emailOrPhone);
+			temp.setUsername(temp.getId());
+			
+			//UPDATE USERNAME FOR USER
+			Update(temp);
+			return temp;
+		}
+	}
+
+	public static User login(User user) throws STException.UsernameNotExist,
+			STException.WrongPassword {
+		
+		User userFind = findByEmailOrContactNumberOrUsername(user.getUsername());
+		if (userFind == null) {
+			throw new STException.UsernameNotExist("Login: username not exists");
+		}
+		
+		System.out.println(user);
+		String passwordHased= HashUtil.hashPassword(user.getPassword(), userFind.getSalt());
+		if (userFind.getPassword().equals(passwordHased)) {
+			userFind.setLoginTime(new Timestamp(System.currentTimeMillis()));
+			userFind.setIpLogin(user.getIpLogin());
+			//UPDATE USER WHEN LOGGED IN
+			Update(userFind);
+			return userFind;
+		} else {
+			throw new STException.WrongPassword("Login: Wrong password");
+		}
+	}
+
+	public static void main(String[] args) {
+		System.out.println(findByEmailOrContactNumberOrUsername("kunedo_95@yahoo.com"));
+	}
 }

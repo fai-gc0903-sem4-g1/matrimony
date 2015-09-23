@@ -44,7 +44,6 @@ public class User implements Serializable {
 	@Length(min = 2, max = 20, message = "Họ phải từ 2 -> 20 ký tự")
 	private String lastName;
 	private String username;
-	@NotEmpty(message = "Email không được bỏ trống")
 	@Email(message = "Email sai định dạng")
 	private String email;
 	@Length(min = 8, max = 64, message = "Mật khẩu phải từ 8 -> 64 ký tự")
@@ -58,6 +57,7 @@ public class User implements Serializable {
 	private String roleName;
 	private String socialNetwork;
 	private String hometown;
+	private String countryside; 
 	private String introduction;
 	private String locale;
 	private String maritalStatus;
@@ -220,6 +220,16 @@ public class User implements Serializable {
 
 	public void setHometown(String hometown) {
 		this.hometown = hometown;
+	}
+	
+	
+
+	public String getCountryside() {
+		return countryside;
+	}
+
+	public void setCountryside(String countryside) {
+		this.countryside = countryside;
 	}
 
 	public String getIntroduction() {
@@ -432,15 +442,37 @@ public class User implements Serializable {
 				+ ", lastName=" + lastName + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", salt=" + salt + ", contactNumber=" + contactNumber + ", gender=" + gender + ", regMethod="
 				+ regMethod + ", religion=" + religion + ", roleName=" + roleName + ", socialNetwork=" + socialNetwork
-				+ ", hometown=" + hometown + ", introduction=" + introduction + ", locale=" + locale
-				+ ", maritalStatus=" + maritalStatus + ", avatarPhoto=" + avatarPhoto + ", name=" + name
-				+ ", birthday=" + birthday + ", activeKey=" + activeKey + ", ipLogin=" + ipLogin + ", registrationIP="
-				+ registrationIP + ", changedPasswordTime=" + changedPasswordTime + ", loginTime=" + loginTime
-				+ ", updateTime=" + updateTime + ", verifiedTime=" + verifiedTime + ", createAt=" + createAt
-				+ ", verified=" + verified + ", friendFromId=" + friendFromId + ", friendToId=" + friendToId
-				+ ", transactionHistories=" + transactions + ", socialNetworks=" + socialNetworks + ", favoriteBooks="
-				+ favoriteBooks + ", favoriteFitnesses=" + favoriteFitnesses + ", favoriteMusics=" + favoriteMusics
-				+ ", favoriteTVShows=" + favoriteTVShows + ", favoriteMovies=" + favoriteMovies + "]";
+				+ ", hometown=" + hometown + ", countryside=" + countryside + ", introduction=" + introduction
+				+ ", locale=" + locale + ", maritalStatus=" + maritalStatus + ", avatarPhoto=" + avatarPhoto
+				+ ", name=" + name + ", birthday=" + birthday + ", activeKey=" + activeKey + ", ipLogin=" + ipLogin
+				+ ", registrationIP=" + registrationIP + ", expiries=" + expiries + ", changedPasswordTime="
+				+ changedPasswordTime + ", loginTime=" + loginTime + ", updateTime=" + updateTime + ", verifiedTime="
+				+ verifiedTime + ", createAt=" + createAt + ", verified=" + verified + ", friendFromId=" + friendFromId
+				+ ", friendToId=" + friendToId + ", transactions=" + transactions + ", socialNetworks="
+				+ socialNetworks + ", favoriteBooks=" + favoriteBooks + ", favoriteFitnesses=" + favoriteFitnesses
+				+ ", favoriteMusics=" + favoriteMusics + ", favoriteTVShows=" + favoriteTVShows + ", favoriteMovies="
+				+ favoriteMovies + ", getId()=" + getId() + ", getWeight()=" + getWeight() + ", getHeight()="
+				+ getHeight() + ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName()
+				+ ", getUsername()=" + getUsername() + ", getEmail()=" + getEmail() + ", getPassword()="
+				+ getPassword() + ", getSalt()=" + getSalt() + ", getContactNumber()=" + getContactNumber()
+				+ ", getGender()=" + getGender() + ", getRegMethod()=" + getRegMethod() + ", getReligion()="
+				+ getReligion() + ", getRoleName()=" + getRoleName() + ", getSocialNetwork()=" + getSocialNetwork()
+				+ ", getHometown()=" + getHometown() + ", getCountryside()=" + getCountryside()
+				+ ", getIntroduction()=" + getIntroduction() + ", getLocale()=" + getLocale() + ", getMaritalStatus()="
+				+ getMaritalStatus() + ", getAvatarPhoto()=" + getAvatarPhoto() + ", getName()=" + getName()
+				+ ", getBirthday()=" + getBirthday() + ", getActiveKey()=" + getActiveKey() + ", getIpLogin()="
+				+ getIpLogin() + ", getRegistrationIP()=" + getRegistrationIP() + ", getExpiries()=" + getExpiries()
+				+ ", getChangedPasswordTime()=" + getChangedPasswordTime() + ", getLoginTime()=" + getLoginTime()
+				+ ", getUpdateTime()=" + getUpdateTime() + ", getVerifiedTime()=" + getVerifiedTime()
+				+ ", getCreateAt()=" + getCreateAt() + ", isVerified()=" + isVerified() + ", getFriendFromId()="
+				+ getFriendFromId() + ", getFriendToId()=" + getFriendToId() + ", getTransactions()="
+				+ getTransactions() + ", getSocialNetworks()=" + getSocialNetworks() + ", getFavoriteBooks()="
+				+ getFavoriteBooks() + ", getFavoriteFitnesses()=" + getFavoriteFitnesses() + ", getFavoriteMusics()="
+				+ getFavoriteMusics() + ", getFavoriteTVShows()=" + getFavoriteTVShows() + ", getFavoriteMovies()="
+				+ getFavoriteMovies() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
+
+	
 
 }

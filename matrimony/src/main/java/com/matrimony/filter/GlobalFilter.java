@@ -73,9 +73,11 @@ public class GlobalFilter implements Filter {
 		try {
 			chain.doFilter(request, response);
 		} catch (IOException ex) {
-			System.out.println("Filter: "+ex);
+			System.out.println("Global Filter:");
+			ex.printStackTrace();
 		} catch (ServletException ex) {
-			System.out.println("Filter: "+ex);
+			System.out.println("Global Filter:");
+			ex.printStackTrace();
 		}
 	}
 }

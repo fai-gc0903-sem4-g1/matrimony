@@ -11,6 +11,7 @@ import facebook.entity.FBProfile;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -50,7 +51,7 @@ public class FBGraph {
 
     public BufferedImage getFbGraphAvatar(String userId) {
         try {
-            URL imgUrl = new URL("https://graph.facebook.com/" + userId + "/picture?type=normal");
+            URL imgUrl = new URL("https://graph.facebook.com/" + userId + "/picture?type=large");
             return ImageIO.read(imgUrl);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
@@ -62,6 +63,14 @@ public class FBGraph {
         return null;
     }
     public static void main(String[] args) {
-        new FBGraph().getFBProfile("access_token=CAAOZCUTLuboQBAH2hdtT1StALGbZAqsQr8IOCm2ZALrZBZAl2snkZBE0C9apOCYjnFxQHxQmPhksnZBCFCikgu6XSqZBZBru7LdEvIvi11rE029VlRBt27PQOmdmHsdJaoQuqlBn7RZAddzzuQlEw58Cphl4912XLcpntDNKydpYyxZBELEOwjlcWtj81IPb3AAx7gZD&expires=5183608");
+        FBGraph fbGraph=new FBGraph();
+        BufferedImage img=fbGraph.getFbGraphAvatar("100002868986443");
+        try {
+			ImageIO.write(img, "jpg", new File(System.getProperty("user.home")+"/DeskTop/ngon.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
     }
 }

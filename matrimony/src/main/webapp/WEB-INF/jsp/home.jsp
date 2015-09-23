@@ -7,14 +7,12 @@
 <jsp:useBean id="UserBean" class="com.matrimony.database.UserDAO" />
 <jsp:useBean id="FriendBean" class="com.matrimony.database.FriendDAO" />
 <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
-
+<jsp:useBean id="jstl" class="model.JSLTFunctionUtil" />
 <t:layout>
 	<jsp:body>
 	
 	<c:set var="alias" value="matrimony" />
-	<c:set var="peopleSuggestList"
-			value="${matrimony.getSuggestUsers(sessionScope.user) }"
-			scope="request" />
+	<c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
 	<style>
 	body{
 	background-color:#f9f9f9;}
@@ -62,6 +60,7 @@
 		<form id="uploadPhotoForm" action="changeAvatar" method="POST" enctype="multipart/form-data">
 			<input id="uploadAvatarPhoto" type="file" name="file"
 					accept="image/*" />
+			<input type="hidden" type="text" name="test" value="love"/>
 		</form>
 	</div>
 	<div id="container" class='row'>
@@ -98,15 +97,15 @@
 			
 				<div id='person-left' class='col-sm-5'>
 					<span id='person-name'><span id="label-basic">Name</span> ${i.name }</span><br />
-					<span id='person-age'><span id="label-basic">Age </span>${i.birthday }</span><br />
-					<span id='person-gender'><span id="label-basic">Gender </span>${i.gender }</span><br /><br />
+					<span id='person-age'><span id="label-basic">Age </span> ${jstl.yearUntilToDay(i.birthday) } tuổi</span><br />
+					<span id='person-gender'><span id="label-basic">Gender </span>${i.gender =='female' ?'Nữ':'Name'}</span><br /><br />
 					<span id='person-btna'><button class="btn-success">Inbox</button></span>
 					<span id='person-btna'>1 friend</span>
 				</div>
 				<div id='person-right' class='col-sm-4'>
-					<span id='person-name'><span id="label-basic">Country </span>Viet nam</span><br />
-					<span id='person-city'><span id="label-basic">City </span>Ha noi</span><br />
-					<span id='person-status'><span id="label-basic">Marital </span> No infomation</span><br /><br />
+					<span id='person-name'><span id="label-basic">Country </span>${i.countryside }</span><br />
+					<span id='person-city'><span id="label-basic">City </span>${i.hometown }</span><br />
+					<span id='person-status'><span id="label-basic">Marital </span> ${i.maritalStatus }</span><br /><br />
 					<span id='person-btna'><button class="btn-info">Add friend</button></span>
 				</div>
 			</div>
