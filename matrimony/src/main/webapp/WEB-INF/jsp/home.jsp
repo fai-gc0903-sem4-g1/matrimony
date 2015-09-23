@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:useBean id="UserBean" class="com.matrimony.database.UserDAO" />
+<jsp:useBean id="userDAO" class="com.matrimony.database.UserDAO" />
 <jsp:useBean id="FriendBean" class="com.matrimony.database.FriendDAO" />
 <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
 <jsp:useBean id="jstl" class="model.JSLTFunctionUtil" />
@@ -12,10 +12,13 @@
 	<jsp:body>
 	
 	<c:set var="alias" value="matrimony" />
-	<c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
+	<c:set var="peopleSuggestList"
+			value="${matrimony.getSuggestUsers(sessionScope.user) }" />
 	<style>
-	body{
-	background-color:#f9f9f9;}
+body {
+	background-color: #f9f9f9;
+}
+
 #container {
 	padding: 0px 30px 0 30px;
 }
@@ -57,10 +60,11 @@
 	});
 </script>
 <div id="hiddenDIV">
-		<form id="uploadPhotoForm" action="changeAvatar" method="POST" enctype="multipart/form-data">
+		<form id="uploadPhotoForm" action="changeAvatar" method="POST"
+				enctype="multipart/form-data">
 			<input id="uploadAvatarPhoto" type="file" name="file"
 					accept="image/*" />
-			<input type="hidden" type="text" name="test" value="love"/>
+			<input type="hidden" type="text" name="test" value="love" />
 		</form>
 	</div>
 	<div id="container" class='row'>
@@ -76,13 +80,22 @@
 						class="badge">14</span></li>
 		  <li class="list-group-item"><a href="#">My favorite people</a> <span
 						class="badge">33</span></li>
+						<li class="list-group-item"><a href="#">Licence</a></li>
+						<li class="list-group-item"><a href="#">Last login<fmt:formatDate
+								pattern="dd-MM-yyyy HH:mm:ss" value="${session.user.loginTime}" /></a></li>
 		</ul>
 	</div>
 	
 	
 	<div id='center' class='col-lg-6'
 				style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px; width: 726px;'>
-	Những người phù hợp với bạn
+				<c:choose>
+				<c:when test="${userDAO.hasExpiries(sessionScope.user)}">
+					<span>tài khoản của bạn đã hết hạn, vui lòng thanh toán để sử tiếp tục sử dụng</span><br/>
+					<a href="payment">click vào đây để thanh toán</a>
+				</c:when>
+				<c:otherwise>
+				Những người phù hợp với bạn
 	
 		<div id='tblPeople'>
 		<c:forEach var="i" items="${peopleSuggestList }">
@@ -90,8 +103,8 @@
 			
 				<div class='col-sm-2'>
 				<img id='person-avatar' alt='person-avatar'
-									src='/matrimony/resources/profile/avatar/${i.avatarPhoto }'
-									style='height: 70px; width: 70px;' /><br /><br />
+										src='/matrimony/resources/profile/avatar/${i.avatarPhoto }'
+										style='height: 70px; width: 70px;' /><br /><br />
 									<span id='person-name'>${i.name }</span>
 				</div>
 			
@@ -114,7 +127,8 @@
 				<h4>Trống</h4>
 			</div>
 			</div>
-			
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div id='right' class='col-lg-3'>
 		<div class="panel panel-default">

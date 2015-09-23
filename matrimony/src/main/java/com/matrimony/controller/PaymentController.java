@@ -46,21 +46,25 @@ public class PaymentController {
 
 	@RequestMapping(value = "payment", method = RequestMethod.GET)
 	public String viewPayment(HttpServletRequest request) {
-		if (null == request.getSession().getAttribute(SessionKey.USER))
+		User currentUser = (User) request.getSession().getAttribute(SessionKey.USER);
+		if (currentUser == null)
 			return "joinUs";
-		else{
-			if(null==request.getSession().getAttribute(SessionKey.PAYPAL_PAY_RESPONSE)){
-				
-			}else{
+		else {
+			if (null == request.getSession().getAttribute(SessionKey.PAYPAL_PAY_RESPONSE)) {
+
+			} else {
 				request.setAttribute("psCode", 1);
 			}
 			return "payment";
 		}
-			
+
 	}
 
 	@RequestMapping(value = "payment", method = RequestMethod.POST)
 	public String doPayment(HttpServletRequest request, String productValue, String payWith) {
+		User currentUser = (User) request.getSession().getAttribute(SessionKey.USER);
+		if (currentUser == null)
+			return "joinUs";
 		System.out.println(productValue);
 		System.out.println(payWith);
 		switch (payWith) {
@@ -94,6 +98,7 @@ public class PaymentController {
 
 	@RequestMapping(value = "paymentVerify", method = RequestMethod.GET)
 	public String doPaymentVerify(HttpServletRequest request, @ModelAttribute("transaction") Transaction transaction) {
+		System.out.println(transaction);
 		try {
 			PaymentDetailsResponse paymentDetailsResponse = payment.checkPayment(transaction.getId());
 			if (null != paymentDetailsResponse) {
@@ -124,7 +129,6 @@ public class PaymentController {
 						calendar.set(Calendar.MONTH, 12);
 
 					currentUser.setExpiries(new Timestamp(calendar.getTimeInMillis()));
-
 					// UPDATE USER EXPIRES
 					UserDAO.Update(currentUser);
 					// RESET USER
@@ -132,18 +136,33 @@ public class PaymentController {
 					// CLEAR SESSION
 					request.getSession().setAttribute(SessionKey.PAYPAL_AMOUNT_PAY, null);
 					request.getSession().setAttribute(SessionKey.PAYPAL_PAY_RESPONSE, null);
-					return "da_thanh_toan_ok";
+					request.setAttribute("psCode", 2);
+					return "payment";
 				}
 			}
 		} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
 				| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
 				| OAuthException | IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (EntityIDHaveAlready e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "Co_loi_xay_ra";
+	}
+
+	@RequestMapping(value = "paymentVerify2", method = RequestMethod.GET)
+	public String doPaymentVerify2(HttpServletRequest request, @ModelAttribute("transaction") Transaction transaction) {
+		User currentUser = (User) request.getSession().getAttribute(SessionKey.USER);
+		Timestamp news = new Timestamp(System.currentTimeMillis());
+		Calendar calendar = DateUtils.toCalendar(news);
+		calendar.add(Calendar.MONTH, 1);
+		currentUser.setExpiries(new Timestamp(calendar.getTimeInMillis()));
+		// UPDATE USER EXPIRES
+		UserDAO.Update(currentUser);
+		// RESET USER
+		request.getSession().setAttribute(SessionKey.USER, currentUser);
+		request.setAttribute("psCode", 2);
+		return "payment";
 	}
 }

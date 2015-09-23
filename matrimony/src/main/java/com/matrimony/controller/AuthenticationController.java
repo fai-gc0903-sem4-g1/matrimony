@@ -4,11 +4,13 @@
 package com.matrimony.controller;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -120,7 +122,7 @@ public class AuthenticationController {
 		userReg.setBirthday(birthday);
 		User userBuilt = buildNewUser(userReg, request);
 		try {
-			User userFromDB=UserDAO.register(userBuilt);
+			User userFromDB = UserDAO.register(userBuilt);
 			sendMailActive(userBuilt.getEmail(), userBuilt.getActiveKey());
 			request.getSession().setAttribute(SessionKey.USER, userFromDB);
 		} catch (STException.EmailAlready ex) {
@@ -185,7 +187,6 @@ public class AuthenticationController {
 			userRegUsingFB.setContactNumber("");
 			userRegUsingFB.setName(fbProfile.getName());
 			userRegUsingFB.setId(fbProfile.getId());
-
 			userRegUsingFB.setAvatarPhoto(userRegUsingFB.getGender().equals("male") ? "default_male_avatar.jpg"
 					: "default_female_avatar.jpg");
 			userRegUsingFB.setRegistrationIP(request.getRemoteAddr());
@@ -226,9 +227,25 @@ public class AuthenticationController {
 				userRegUsingFB.setPassword(user.getPassword());
 				try {
 					System.out.println(userRegUsingFB);
-					FBGraph fbGraph=new FBGraph();
-					BufferedImage avatarImg=fbGraph.getFbGraphAvatar(userRegUsingFB.getId());
-					User userGen=UserDAO.register(userRegUsingFB);
+					//GET AVATAR OF USER FROM FACEBOOK
+//					FBGraph fbGraph = new FBGraph();
+//					BufferedImage im = fbGraph.getFbGraphAvatar(userRegUsingFB.getId());
+//					String obfImageName = RandomStringUtils.randomAlphabetic(26);
+//					String avatarPath = request.getServletContext().getRealPath("/resources/profile/avatar");
+//					StringBuilder uploadLocation = new StringBuilder(avatarPath);
+//					uploadLocation.append(obfImageName);
+//					uploadLocation.append(".jpg");
+//					try {
+//						System.out.println(im);
+//						ImageIO.write(im, "jpg", new File(uploadLocation.toString()));
+//						user.setAvatarPhoto(obfImageName + ".jpg");
+//						System.out.println(user.getAvatarPhoto());
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+					User userGen = UserDAO.register(userRegUsingFB);
+					// SET USER TO SESSION
 					request.getSession().setAttribute(SessionKey.USER, userGen);
 				} catch (EmailAlready e) {
 					// TODO Auto-generated catch block

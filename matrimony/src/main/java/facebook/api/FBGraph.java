@@ -52,6 +52,7 @@ public class FBGraph {
     public BufferedImage getFbGraphAvatar(String userId) {
         try {
             URL imgUrl = new URL("https://graph.facebook.com/" + userId + "/picture?type=large");
+            System.out.println(imgUrl);
             return ImageIO.read(imgUrl);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
@@ -65,12 +66,7 @@ public class FBGraph {
     public static void main(String[] args) {
         FBGraph fbGraph=new FBGraph();
         BufferedImage img=fbGraph.getFbGraphAvatar("100002868986443");
-        try {
-			ImageIO.write(img, "jpg", new File(System.getProperty("user.home")+"/DeskTop/ngon.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+       
         
     }
 }

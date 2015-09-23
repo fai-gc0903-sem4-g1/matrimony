@@ -5,10 +5,13 @@
  */
 package com.matrimony.database;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Session;
 
 import com.matrimony.entity.User;
@@ -91,42 +94,50 @@ public class UserDAO {
 		} else if (findByContactNumber(user.getContactNumber()) != null) {
 			throw new STException.ContactNumberAlready("Add user: contact number already");
 		} else {
+			Timestamp now=new Timestamp(System.currentTimeMillis());
 			user.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
 			user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
-			long currentMillis = System.currentTimeMillis();
-			user.setCreateAt(new Timestamp(currentMillis));
-			
-			//ADD USER
+			user.setCreateAt(now);
+			user.setExpiries(now);
+
+			// ADD USER
 			add(user);
-			String emailOrPhone=user.getEmail()!=null?user.getEmail():user.getContactNumber();
-			User temp=findByEmailOrContactNumberOrUsername(emailOrPhone);
+			String emailOrPhone = user.getEmail() != null ? user.getEmail() : user.getContactNumber();
+			User temp = findByEmailOrContactNumberOrUsername(emailOrPhone);
 			temp.setUsername(temp.getId());
-			
-			//UPDATE USERNAME FOR USER
+
+			// UPDATE USERNAME FOR USER
 			Update(temp);
 			return temp;
 		}
 	}
 
-	public static User login(User user) throws STException.UsernameNotExist,
-			STException.WrongPassword {
-		
+	public static User login(User user) throws STException.UsernameNotExist, STException.WrongPassword {
+
 		User userFind = findByEmailOrContactNumberOrUsername(user.getUsername());
 		if (userFind == null) {
 			throw new STException.UsernameNotExist("Login: username not exists");
 		}
-		
+
 		System.out.println(user);
-		String passwordHased= HashUtil.hashPassword(user.getPassword(), userFind.getSalt());
+		String passwordHased = HashUtil.hashPassword(user.getPassword(), userFind.getSalt());
 		if (userFind.getPassword().equals(passwordHased)) {
 			userFind.setLoginTime(new Timestamp(System.currentTimeMillis()));
 			userFind.setIpLogin(user.getIpLogin());
-			//UPDATE USER WHEN LOGGED IN
+			// UPDATE USER WHEN LOGGED IN
 			Update(userFind);
 			return userFind;
 		} else {
 			throw new STException.WrongPassword("Login: Wrong password");
 		}
+	}
+
+	public static boolean hasExpiries(User user) {
+		Timestamp now = new Timestamp(System.currentTimeMillis());
+		if (user.getExpiries().after(now))
+			return false;
+		else
+			return true;
 	}
 
 	public static void main(String[] args) {

@@ -41,6 +41,13 @@
 			var $active = $('.wizard .nav-tabs li.active');
 			$active.next().removeClass('disabled');
 			nextTab($active);
+		}else if(${psCode==2}){
+			var $active = $('.wizard .nav-tabs li.active');
+			$active.next().removeClass('disabled');
+			nextTab($active);
+			var $active = $('.wizard .nav-tabs li.active');
+			$active.next().removeClass('disabled');
+			nextTab($active);
 		}
 	});
 
@@ -106,7 +113,7 @@ span.round-tab {
 
 span.round-tab i {
 	color: #555555;
-	margin-top:26%;
+	margin-top: 26%;
 }
 
 .wizard li.active span.round-tab {
@@ -207,8 +214,9 @@ span.round-tab:hover {
                 <ul class="nav nav-tabs" role="tablist">
 
                     <li role="presentation" class="active">
-                        <a href="#step1" data-toggle="tab" id="triggerStep1"
-									aria-controls="step1" role="tab" title="Step 1">
+                        <a href="#step1" data-toggle="tab"
+									id="triggerStep1" aria-controls="step1" role="tab"
+									title="Step 1">
                             <span class="round-tab">
                                 <i
 											class="glyphicon glyphicon-folder-open"></i>
@@ -217,8 +225,9 @@ span.round-tab:hover {
                     </li>
 
                     <li role="presentation" class="disabled">
-                        <a href="#step2" data-toggle="tab" id="triggerStep2"
-									aria-controls="step2" role="tab" title="Step 2">
+                        <a href="#step2" data-toggle="tab"
+									id="triggerStep2" aria-controls="step2" role="tab"
+									title="Step 2">
                             <span class="round-tab">
                                 <i class="glyphicon glyphicon-pencil"></i>
                             </span>
@@ -241,14 +250,21 @@ span.round-tab:hover {
 								id="step1">
                         <form:form modelAttribute="transaction"
 									action="payment" method="POST">
+									 <h3>thánh toán sử dụng</h3>
 			<span class="alert-danger">${paymentResponse }</span>
 			<label>Loại</label>
 			<br />
-			<input type="radio" name="productValue" value="1" />
-			<span id="price"><span id="currencyCode">USD</span>&nbsp;49.99</span>
-			<br />
-			<input type="radio" name="productValue" value="12" />
-			<span id="price"><span id="currencyCode">USD</span>&nbsp;499.99</span>
+			<div class="checkbox">
+			<label>
+				<input type="radio" name="productValue" value="1" />
+				<span id="price"> 1 tháng <span id="currencyCode">USD</span>&nbsp;49.99</span>
+				</label>
+			</div>
+			<div class="checkbox">
+			<label>
+				<input type="radio" name="productValue" value="12" />
+				<span id="price"> 12 tháng <span id="currencyCode">USD</span>&nbsp;499.99</span></label>
+			</div>
 			<br />
 			<label>Thanh toán bằng</label>
 			<br />
@@ -258,21 +274,26 @@ span.round-tab:hover {
 			</select>
 		
              <ul class="list-inline pull-right">
-                 <li><input type="submit" class="btn btn-primary" value="Pay now" /></li>
+                 <li><input type="submit" class="btn btn-primary"
+											value="Pay now" /></li>
              </ul>
              </form:form>
                     </div>
                     <div class="tab-pane" role="tabpanel" id="step2">
-                        <h3>Step 2</h3>
-                        <p>This is step 2</p>
+                    <form:form modelAttribute="transaction" action="paymentVerify2" method="POST">
+                        <h3>Xác nhận thanh toán</h3>
+                        <p>Hãy nhập mã giao dịch vào bên dưới</p>
+                        	<input type="text" name="id"/>
+                       
                         <ul class="list-inline pull-right">
-                            <li><button type="button"
-											class="btn btn-primary">Save and continue</button></li>
+                            <li><input type="submit"
+											class="btn btn-primary" value="Verify" /></li>
                         </ul>
+                         </form:form>
                     </div>
                     <div class="tab-pane" role="tabpanel" id="complete">
-                        <h3>Complete</h3>
-                        <p>You have successfully completed all steps.</p>
+                        <h3>Thanh toán hoàn tất</h3>
+                        <a href="/matrimony">Quay về trang chủ</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>

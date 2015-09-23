@@ -33,7 +33,8 @@ public class UserMaker {
 	private final String[] phoneHeader = { "096", "0167", "098" };
 	private final String[] gender = { "male", "female" };
 	private final String[] emailTypes = { "@yahoo.com", "@yahoo.com.vn", "@gmail.com", "@gmail.com.vn" };
-	private final String[] maritalStatus = { "widowed", "separated", "maried", "single", "divorced" };
+	// private final String[] maritalStatus = { "widowed", "separated",
+	// "maried", "single", "divorced" };
 	private List<String> nameList, emailList, cityList;
 
 	/**
@@ -132,6 +133,7 @@ public class UserMaker {
 		user.setFirstName(nameList.get(random.nextInt(nameList.size())) + " "
 				+ nameList.get(random.nextInt(nameList.size())));
 		user.setLastName(nameList.get(random.nextInt(nameList.size())));
+		user.setName(user.getLastName() + " " + user.getFirstName());
 		user.setEmail(randomEmail());
 		user.setContactNumber(randomPhone());
 		user.setMaritalStatus(randomMaritalStatus(user.getBirthday()));
@@ -148,7 +150,7 @@ public class UserMaker {
 	public static void main(String[] args) {
 		UserMaker maker = new UserMaker();
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 200; i++) {
 			User userRand = maker.randomUser();
 			try {
 				System.out.println("Adding " + userRand.getLastName() + " " + userRand.getFirstName());
