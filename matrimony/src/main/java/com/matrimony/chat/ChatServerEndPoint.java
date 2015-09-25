@@ -3,6 +3,10 @@
  */
 package com.matrimony.chat;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 /**
@@ -11,5 +15,20 @@ import javax.websocket.server.ServerEndpoint;
  */
 @ServerEndpoint("/chatserver")
 public class ChatServerEndPoint {
-
+	private static Set<Session> userOnlineChat=new HashSet<Session>();
+	
+	public void handleOpen(Session session){
+		userOnlineChat.add(session);
+		System.out.println(session.getId()+" connected.");
+	}
+	
+	public void handleMessage(String data, Session session){
+		
+	}
+	
+	public void handleClose(Session session){
+		userOnlineChat.remove(session);
+		System.out.println(session.getId()+" closed.");
+	}
+	
 }
