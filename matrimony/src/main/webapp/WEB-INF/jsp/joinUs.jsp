@@ -5,7 +5,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
-<jsp:useBean id="fbConn" class="facebook.api.FBConnection" />
+<jsp:useBean id="fbConn" class="com.facebook.api.FBConnection" />
 <c:set var="current" value="${param.ddlLanguage}" scope="session" />
 
 <c:if test="${not empty current}">

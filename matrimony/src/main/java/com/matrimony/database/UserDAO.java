@@ -5,13 +5,10 @@
  */
 package com.matrimony.database;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Session;
 
 import com.matrimony.entity.User;

@@ -7,7 +7,7 @@
 <jsp:useBean id="userDAO" class="com.matrimony.database.UserDAO" />
 <jsp:useBean id="FriendBean" class="com.matrimony.database.FriendDAO" />
 <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
-<jsp:useBean id="jstl" class="model.JSLTFunctionUtil" />
+<jsp:useBean id="jstl" class="com.matrimony.model.JSLTFunctionUtil" />
 <t:layout>
 	<jsp:body>
 	
