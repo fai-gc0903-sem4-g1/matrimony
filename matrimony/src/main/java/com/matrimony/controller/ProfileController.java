@@ -33,6 +33,11 @@ public class ProfileController {
 	public String infor() {
 		return "profile";
 	}
+	
+	@RequestMapping(value = "sontest", method = RequestMethod.GET)
+	public String sontest() {
+		return "sontest";
+	}
 
 	@RequestMapping(value = "changeAvatar", method = RequestMethod.POST)
 	public String doChangeAvatar(HttpServletRequest request) {
