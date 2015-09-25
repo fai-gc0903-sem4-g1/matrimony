@@ -1,7 +1,7 @@
 /**
  * 
  */
-package model;
+package com.matrimony.model;
 
 /**
  * @author SON

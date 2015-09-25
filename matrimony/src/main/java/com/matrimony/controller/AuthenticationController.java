@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import model.SessionKey;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
@@ -27,16 +25,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.facebook.api.FBConnection;
+import com.facebook.api.FBGraph;
+import com.facebook.entity.FBProfile;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
 import com.matrimony.exception.STException.ContactNumberAlready;
 import com.matrimony.exception.STException.EmailAlready;
+import com.matrimony.model.SessionKey;
 import com.matrimony.util.MailUtil;
-
-import facebook.api.FBConnection;
-import facebook.api.FBGraph;
-import facebook.entity.FBProfile;
 
 /**
  * @author SON

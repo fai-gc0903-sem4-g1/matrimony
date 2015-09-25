@@ -1,7 +1,7 @@
 /**
  * 
  */
-package paypal.api;
+package com.paypal.api;
 
 import com.paypal.svcs.services.AdaptivePaymentsService;
 

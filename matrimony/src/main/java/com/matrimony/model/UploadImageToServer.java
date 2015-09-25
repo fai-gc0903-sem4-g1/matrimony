@@ -1,7 +1,7 @@
 /**
  * 
  */
-package model;
+package com.matrimony.model;
 
 import java.io.Closeable;
 import java.io.File;

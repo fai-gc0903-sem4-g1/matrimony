@@ -1,4 +1,4 @@
-package paypal.api;
+package com.paypal.api;
 
 import java.util.Properties;
 

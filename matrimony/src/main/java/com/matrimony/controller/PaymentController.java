@@ -9,23 +9,21 @@ import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 
-import model.SessionKey;
-
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import paypal.api.CredentialsConfiguration;
-import paypal.api.PaypalPayment;
-import paypal.api.PaypalAPI;
-
 import com.matrimony.database.TransactionDAO;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.Transaction;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException.EntityIDHaveAlready;
+import com.matrimony.model.SessionKey;
+import com.paypal.api.CredentialsConfiguration;
+import com.paypal.api.PaypalAPI;
+import com.paypal.api.PaypalPayment;
 import com.paypal.exception.ClientActionRequiredException;
 import com.paypal.exception.HttpErrorException;
 import com.paypal.exception.InvalidCredentialException;

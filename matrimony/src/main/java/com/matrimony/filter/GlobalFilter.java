@@ -17,10 +17,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.SessionKey;
-
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
+import com.matrimony.model.SessionKey;
 import com.matrimony.util.GeoIP;
 import com.maxmind.geoip2.model.CountryResponse;
 

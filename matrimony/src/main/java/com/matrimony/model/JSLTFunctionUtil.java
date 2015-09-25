@@ -1,7 +1,7 @@
 /**
  * 
  */
-package model;
+package com.matrimony.model;
 
 import java.sql.Date;
 import java.util.Calendar;

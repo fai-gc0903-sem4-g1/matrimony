@@ -12,9 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
-import model.SessionKey;
-import model.UploadImageToServer;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
+import com.matrimony.model.SessionKey;
+import com.matrimony.model.UploadImageToServer;
 
 /**
  *

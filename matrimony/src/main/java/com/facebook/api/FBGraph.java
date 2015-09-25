@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package facebook.api;
+package com.facebook.api;
 
+import com.facebook.entity.FBProfile;
 import com.google.gson.Gson;
-
-import facebook.entity.FBProfile;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
