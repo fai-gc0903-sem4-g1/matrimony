@@ -5,12 +5,8 @@
  */
 package com.facebook.api;
 
-import com.facebook.entity.FBProfile;
-import com.google.gson.Gson;
-
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -18,6 +14,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
+
+import com.facebook.entity.FBProfile;
+import com.google.gson.Gson;
 
 /**
  *
@@ -63,9 +62,6 @@ public class FBGraph {
         return null;
     }
     public static void main(String[] args) {
-        FBGraph fbGraph=new FBGraph();
-        BufferedImage img=fbGraph.getFbGraphAvatar("100002868986443");
-       
         
     }
 }

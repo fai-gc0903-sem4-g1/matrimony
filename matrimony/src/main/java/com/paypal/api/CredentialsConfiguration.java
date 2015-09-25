@@ -2,8 +2,6 @@ package com.paypal.api;
 
 import java.util.Properties;
 
-import com.paypal.svcs.services.AdaptivePaymentsService;
-
 public class CredentialsConfiguration {
 	private final static String USERNAME_STRING="matrimony_master_api1.gmail.com";
 	private final static String PASSWORD_STRING="VVHHZGZRV4FWZLVX";
