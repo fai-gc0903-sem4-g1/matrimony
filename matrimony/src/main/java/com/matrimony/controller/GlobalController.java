@@ -5,6 +5,8 @@
  */
 package com.matrimony.controller;
 
+import javax.websocket.WebSocketContainer;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
-
+import javax.websocket.*;
 /**
  *
  * @author SON
@@ -38,5 +40,10 @@ public class GlobalController {
 		} else {
 			return "404";
 		}
+	}
+	
+	@RequestMapping(value = "chat", method = RequestMethod.GET)
+	public String viewChat() {
+		return "chatSnippet";
 	}
 }

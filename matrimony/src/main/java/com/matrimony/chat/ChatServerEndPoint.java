@@ -13,7 +13,7 @@ import javax.websocket.server.ServerEndpoint;
  * @author SON
  *
  */
-@ServerEndpoint("/chatserver")
+@ServerEndpoint("/websocketserver")
 public class ChatServerEndPoint {
 	private static Set<Session> userOnlineChat=new HashSet<Session>();
 	
@@ -23,6 +23,7 @@ public class ChatServerEndPoint {
 	}
 	
 	public void handleMessage(String data, Session session){
+		System.out.println("Data: "+data);
 		
 	}
 	
