@@ -18,9 +18,9 @@ import com.maxmind.geoip2.model.CountryResponse;
  */
 public class GeoIP {
 
-    private final static String COUNTRY_DB_PATH = GeoIP.class.getResource("/com/resoucres/GeoLite2-Country.mmdb")
+    private final static String COUNTRY_DB_PATH = GeoIP.class.getResource("/resoucres/GeoLite2-Country.mmdb")
             .getFile();
-    private final static String CITY_DB_PATH = GeoIP.class.getResource("/com/resoucres/GeoLite2-City.mmdb").getFile();
+    private final static String CITY_DB_PATH = GeoIP.class.getResource("/resoucres/GeoLite2-City.mmdb").getFile();
     private final static File COUNTRY_DB = new File(COUNTRY_DB_PATH);
     private final static File CITY_DB = new File(CITY_DB_PATH);
     private static DatabaseReader countryReader, cityReader;

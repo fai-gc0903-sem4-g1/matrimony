@@ -44,9 +44,18 @@ $(document).on('click', '.icon_close', function (e) {
 
 <script>
 $(document).ready(function(){
-	var ws=new WebSocket('ws://localhost:8080/matrimony/websocketserver');
+	var ws=new WebSocket('ws://localhost:8080/websocket_chat/chatserver');
 	ws.onopen=function processOpen(){
 		console.log('connected');
+	}
+	ws.onmessage=function processMessage(message){
+		console.log('data '+message.data);
+	}
+	ws.onclose=function processClose(){
+		console.log('closed');
+	}
+	ws.onerror=function processError(){
+		console.log('has error');
 	}
 });
 </script>
