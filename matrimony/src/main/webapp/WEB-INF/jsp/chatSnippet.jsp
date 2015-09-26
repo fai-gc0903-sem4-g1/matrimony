@@ -44,7 +44,7 @@ $(document).on('click', '.icon_close', function (e) {
 
 <script>
 $(document).ready(function(){
-	var ws=new WebSocket('ws://localhost:8080/websocket_chat/chatserver');
+	var ws=new WebSocket('ws://localhost:8080/matrimony/chatserver');
 	ws.onopen=function processOpen(){
 		console.log('connected');
 	}
@@ -56,6 +56,14 @@ $(document).ready(function(){
 	}
 	ws.onerror=function processError(){
 		console.log('has error');
+	}
+	
+	$('#btnSendMsg').click(function(){sendMessage();});
+	
+	function sendMessage(){
+		var msg=$('#txtMsg');
+		ws.send(msg.val());
+		alert(msg.val());
 	}
 });
 </script>
@@ -235,9 +243,9 @@ img {
                 </div>
                 <div class="panel-footer">
                     <div class="input-group">
-                        <input id="btn-input" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+                        <input id="txtMsg" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
                         <span class="input-group-btn">
-                        <button class="btn btn-primary btn-sm" id="btn-chat">Send</button>
+                        <button class="btn btn-primary btn-sm" id="btnSendMsg">Send</button>
                         </span>
                     </div>
                 </div>

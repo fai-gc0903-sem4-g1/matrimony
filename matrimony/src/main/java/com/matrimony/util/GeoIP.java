@@ -29,6 +29,7 @@ public class GeoIP {
         try {
             countryReader = new DatabaseReader.Builder(COUNTRY_DB).build();
             cityReader = new DatabaseReader.Builder(CITY_DB).build();
+            
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
