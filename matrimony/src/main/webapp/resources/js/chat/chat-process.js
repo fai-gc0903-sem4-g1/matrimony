@@ -37,9 +37,9 @@ ws.onerror = function() {
 }
 
 function processOpen() {
-	var senderId = sessionUserId;
-	var messageObj = new Message(senderId, null, null, null);
-	ws.send(JSON.stringify(messageObj));
+	var senderId = 'sessionUserId';
+	var msgObj = new Message(senderId, null, null, null);
+	ws.send(JSON.stringify(msgObj));
 	console.log('ws connected');
 };
 
@@ -60,9 +60,10 @@ function processMessage(obj) {
 	if (chatWindow == null) {
 		chatWindow = createChatWindow(msgObj.senderId);
 	}
+	var str=emoticonDecode(msgObj.content);
 	var receiverClone = $('#base-receive-message').clone().appendTo(
 			chatWindow.find('.msg-container-base'));
-	receiverClone.find('p').html(msgObj.content);
+	receiverClone.find('p').html(str);
 	receiverClone.css('display', 'block');
 };
 
@@ -80,14 +81,26 @@ function sendMessage(chatWindow) {
 	var receiverId = chatWindow.data('user-id');
 	var senderId = sessionUserId;
 	var content = chatWindow.find('#txt-chat-msg').val();
-	var messageObj = new Message(senderId, receiverId, 'text-chat', content,
-			Date.now());
-	ws.send(JSON.stringify(messageObj));
+	var msgObj = new Message(senderId, receiverId, 'text-chat', content, Date
+			.now());
+	ws.send(JSON.stringify(msgObj));
+	var str=emoticonDecode(content);
+	
 	var sentClone = $('#base-sent-message').clone().appendTo(
 			chatWindow.find('.msg-container-base'));
-	sentClone.find('p').html(messageObj.content);
+	sentClone.find('p').html(str);
 	sentClone.css('display', 'block');
+
 };
+
+function emoticonDecode(str){
+	var content=str;
+	for (var kbd in emoticons) {
+//		var regex = new RegExp( '(' + kbd + ')', 'gi' );
+		content = content.replace(kbd,'<img src="http://localhost:8080/matrimony/resources/emoticons/'+ emoticons[kbd] + '.gif" />')
+	}
+	return content;
+}
 
 // INITIALIZE CHAT GUI
 function showAndHideChat(obj) {

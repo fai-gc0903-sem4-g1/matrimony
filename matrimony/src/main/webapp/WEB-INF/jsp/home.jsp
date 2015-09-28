@@ -13,6 +13,7 @@
                         <link rel="stylesheet" type="text/css" href="/matrimony/resources/css/home-style.css">
                                 <script src="/matrimony/resources/js/chat/entity.js"></script>
                                 <script src="/matrimony/resources/js/chat/chat-process.js"></script>
+                                <script src="/matrimony/resources/js/chat/emoticon.js"></script>
                         </jsp:attribute>
                             <jsp:body>
                                 <c:set var="alias" value="matrimony" />

@@ -9,43 +9,19 @@
 <html>
 <head>
 <meta charset="utf-8" />
-	<!-- Jquery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	
-	<!-- twitter bootstrap -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<!-- 	<script src="/resources/bootstrap/js/bootstrap.min.js"></script> -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<!-- 	<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css"> -->
-	<!-- style -->
-	<link rel="stylesheet" type="text/css"href="/matrimony/resources/css/layout.css">
-	
-	<!-- 	font awesome -->
+	<!-- ===========JQUERY=========== -->
+	<script src="/matrimony/resources/js/jquery.min.js"></script>
+	<!-- ===========TWITTER BOOTSTRAP=========== -->
+	<script src="/matrimony/resources/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/matrimony/resources/bootstrap/css/bootstrap.min.css">
+<!-- 	===========FONT AWSOME=========== -->
 	<link rel='stylesheet' href='/matrimony/resources/css/bootstrap-social.css'/>
 	<link rel="stylesheet" href="/matrimony/resources/font-awesome/css/font-awesome.min.css">
+<!-- 	===========CUSTOM CSS=========== -->
+	<link rel='stylesheet' href='/matrimony/resources/css/layout-style.css'/>
+	
 	<jsp:invoke fragment="head" />
 </head>
-<style>
-* {
-	margin: 0;
-	padding: 0;
-}
-
-body {
-	margin: 0 auto;
-}
-
-#msg-response-error {
-	color: red;
-}
-
-#hidden-div{
-	display:none;
-}
-#validError{
-	color:red;
-}
-</style>
 <c:set var="userAvatarFolder" value="/matrimony/resources/profile/avatar" scope="application"/>
 
 <body>
