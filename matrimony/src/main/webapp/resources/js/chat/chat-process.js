@@ -8,7 +8,8 @@ $(document).on('click', '#close_chat_window', function(e) {
 });
 
 $(document).on('click', '#btn-chat-inbox', function(e) {
-	createChatWindow($(this).parents('#person-panel').data('user-id'));
+	var chatWindow=createChatWindow($(this).parents('#person-panel').data('user-id'));
+	chatWindow.find('#txt-chat-msg').focus();
 });
 
 // $(document).on('click', "#btn-chat-send-msg", function(e) {
@@ -37,7 +38,7 @@ ws.onerror = function() {
 }
 
 function processOpen() {
-	var senderId = 'sessionUserId';
+	var senderId = sessionUserId;
 	var msgObj = new Message(senderId, null, null, null);
 	ws.send(JSON.stringify(msgObj));
 	console.log('ws connected');
@@ -96,8 +97,9 @@ function sendMessage(chatWindow) {
 function emoticonDecode(str){
 	var content=str;
 	for (var kbd in emoticons) {
-//		var regex = new RegExp( '(' + kbd + ')', 'gi' );
-		content = content.replace(kbd,'<img src="http://localhost:8080/matrimony/resources/emoticons/'+ emoticons[kbd] + '.gif" />')
+//		var reg=new RegExp(+"\\"+kbd+"\\",'g');
+//		console.log(reg);
+		content = content.replace(kbd,'<img src="http://10.22.36.205:8080/matrimony/resources/emoticons/'+ emoticons[kbd] + '.gif" />')
 	}
 	return content;
 }
