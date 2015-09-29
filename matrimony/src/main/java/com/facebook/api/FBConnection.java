@@ -19,9 +19,8 @@ import java.net.URLEncoder;
  * @author SON
  */
 public class FBConnection {
-
-    public static final String FB_APP_ID = "1604300546376987";
-    public static final String FB_APP_SECRET = "2951336ef374df4f51bd3727ddd7b133";
+    public static final String FB_APP_ID = "1054780397874820";
+    public static final String FB_APP_SECRET = "7f3633387fcb4d112913233a5efb19bb";
     public static final String REDIRECT_URI = "http://localhost:8080/matrimony/FBRedirect";
 
     public String getFBAuthUrl() {

@@ -39,8 +39,8 @@ public class GlobalController {
 		}
 	}
 	
-	@RequestMapping(value = "chat", method = RequestMethod.GET)
-	public String viewChat() {
-		return "chatSnippet";
+	@RequestMapping(value = "facebooktest", method = RequestMethod.GET)
+	public String viewFacebooktest() {
+		return "facebooktest";
 	}
 }
