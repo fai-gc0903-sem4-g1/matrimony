@@ -11,8 +11,8 @@ import java.io.InputStream;
  * @author SON
  *
  */
-public class UploadImageToServer {
-	public void upload(String filePath, InputStream is) throws IOException{
+public class UploadToServer {
+	public static void upFile(String filePath, InputStream is) throws IOException{
 			FileOutputStream fos=new FileOutputStream(filePath);
 			int buffer;
 			while((buffer=is.read())!=-1){

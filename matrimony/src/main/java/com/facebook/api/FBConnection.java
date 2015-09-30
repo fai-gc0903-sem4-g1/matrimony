@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 public class FBConnection {
     public static final String FB_APP_ID = "1054780397874820";
     public static final String FB_APP_SECRET = "7f3633387fcb4d112913233a5efb19bb";
-    public static final String REDIRECT_URI = "http://localhost:8080/matrimony/fbredirect";
+    public static final String REDIRECT_URI = "http://localhost/matrimony/fbredirect";
 
     public String getFBAuthUrl() {
         String fbLoginUrl = "";
@@ -67,7 +67,8 @@ public class FBConnection {
         if (accessToken.startsWith("{")) {
             throw new RuntimeException("ERROR: Access token invalid: " + accessToken);
         }
-        return accessToken;
+        
+        return accessToken.split("=")[1];
     }
     
     public static void main(String[] args) {
