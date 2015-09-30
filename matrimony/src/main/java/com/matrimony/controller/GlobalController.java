@@ -5,12 +5,17 @@
  */
 package com.matrimony.controller;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.facebook.api.FBConnection;
+import com.facebook.api.FBGraph;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 /**
@@ -41,6 +46,27 @@ public class GlobalController {
 	
 	@RequestMapping(value = "facebooktest", method = RequestMethod.GET)
 	public String viewFacebooktest() {
+		return "facebooktest";
+	}
+	
+	@RequestMapping(value="fbredirect", method=RequestMethod.GET)
+	public String getFbredirect(String code){
+		FBConnection fbConn=new FBConnection();
+		FBGraph fbGraph=new FBGraph();
+		System.out.println("Code: "+code);
+		String accessToken;
+		try {
+			accessToken = fbConn.getAccessToken(code);
+			System.out.println("Access Token: "+accessToken);
+			fbGraph.getFBProfile(accessToken);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return "facebooktest";
 	}
 }

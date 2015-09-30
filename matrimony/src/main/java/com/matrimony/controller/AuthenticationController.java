@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.facebook.api.FBConnection;
 import com.facebook.api.FBGraph;
 import com.facebook.entity.FBProfile;
+import com.facebook.entity.UserProfile;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
@@ -160,99 +161,112 @@ public class AuthenticationController {
 		session.setAttribute(SessionKey.USER, null);
 		return "redirect:";
 	}
-
-	@RequestMapping(value = "FBRedirect", method = RequestMethod.GET)
-	public String FBRedirect(HttpServletRequest request, String code, HttpSession session, HttpServletResponse response) {
-		FBConnection fBConnection = new FBConnection();
-		try {
-			String accessToken = fBConnection.getAccessToken(code);
-			System.out.println(accessToken);
-			FBGraph fBGraph = new FBGraph();
-			FBProfile fbProfile = fBGraph.getFBProfile(accessToken);
-			System.out.println("Login with facebook" + fbProfile);
-			User userRegUsingFB = new User();
-			userRegUsingFB.setEmail(fbProfile.getEmail());
-			userRegUsingFB.setVerified(true);// verified always true
-			userRegUsingFB.setFirstName(fbProfile.getFirst_name());
-			userRegUsingFB.setLastName(fbProfile.getLast_name());
-			userRegUsingFB.setGender(fbProfile.getGender());
-			userRegUsingFB.setLocale(fbProfile.getLocale());
-			userRegUsingFB.setRegMethod("Facebook");
-			userRegUsingFB.setSocialNetwork(fbProfile.getLink());
-			userRegUsingFB.setContactNumber("");
-			userRegUsingFB.setName(fbProfile.getName());
-			userRegUsingFB.setId(fbProfile.getId());
-			userRegUsingFB.setAvatarPhoto(userRegUsingFB.getGender().equals("male") ? "default_male_avatar.jpg"
-					: "default_female_avatar.jpg");
-			userRegUsingFB.setRegistrationIP(request.getRemoteAddr());
-
-			System.out.println("Login with facebook Create user from facebook OK");
-			request.getSession().setAttribute("userRegUsingFB", userRegUsingFB);
-			User checkUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
-			if (checkUser == null) {
-				request.setAttribute("fbResp", 1);
-			} else {
-				request.setAttribute("fbResp", 0);
-				System.out.println("Login with facebook: User have already");
-			}
-			return "index";
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-			return "404";
+	@RequestMapping(value = "fbredirect", method = RequestMethod.GET)
+	public String fbredirect(HttpServletRequest request, HttpServletResponse response, String code){
+		FBConnection conn=new FBConnection();
+		FBGraph graph=new FBGraph();
+		try {System.out.println(code);
+			String accessToken=conn.getAccessToken(code);
+			UserProfile userProfile=graph.gatherUserProfile(accessToken);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return null;
 	}
 
-	@RequestMapping(value = "loginWithFacebook", method = RequestMethod.POST)
-	public String doSaveUserFB(HttpServletRequest request, @Valid @ModelAttribute("logginFBUser") User user,
-			BindingResult bindingResult, String rePassword) {
-		boolean rePass = false;
-		if (rePassword.equals(user.getPassword()))
-			rePass = true;
-		else
-			request.setAttribute("rePasswordInvalid", "Nhập lại mật khẩu không chính xác");
-		if (bindingResult.hasFieldErrors("password") || !rePass) {
-			request.setAttribute("fbPass", true);
-			request.setAttribute("fbResp", 1);
-			System.out.println("loginWithFacebook: form error");
-			return "index"; // purpose join us
-		} else {
-			System.out.println("loginWithFacebook: form OK");
-			User userRegUsingFB = (User) request.getSession().getAttribute("userRegUsingFB");
-			if (userRegUsingFB != null) {
-				userRegUsingFB.setPassword(user.getPassword());
-				try {
-					System.out.println(userRegUsingFB);
-					//GET AVATAR OF USER FROM FACEBOOK
-//					FBGraph fbGraph = new FBGraph();
-//					BufferedImage im = fbGraph.getFbGraphAvatar(userRegUsingFB.getId());
-//					String obfImageName = RandomStringUtils.randomAlphabetic(26);
-//					String avatarPath = request.getServletContext().getRealPath("/resources/profile/avatar");
-//					StringBuilder uploadLocation = new StringBuilder(avatarPath);
-//					uploadLocation.append(obfImageName);
-//					uploadLocation.append(".jpg");
-//					try {
-//						System.out.println(im);
-//						ImageIO.write(im, "jpg", new File(uploadLocation.toString()));
-//						user.setAvatarPhoto(obfImageName + ".jpg");
-//						System.out.println(user.getAvatarPhoto());
-//					} catch (IOException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-					User userGen = UserDAO.register(userRegUsingFB);
-					// SET USER TO SESSION
-					request.getSession().setAttribute(SessionKey.USER, userGen);
-				} catch (EmailAlready e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ContactNumberAlready e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			return "redirect:";
-		}
-	}
+//	@RequestMapping(value = "FBRedirect", method = RequestMethod.GET)
+//	public String FBRedirect(HttpServletRequest request, String code, HttpSession session, HttpServletResponse response) {
+//		FBConnection fBConnection = new FBConnection();
+//		try {
+//			String accessToken = fBConnection.getAccessToken(code);
+//			System.out.println(accessToken);
+//			FBGraph fBGraph = new FBGraph();
+//			FBProfile fbProfile = fBGraph.getFBProfile(accessToken);
+//			System.out.println("Login with facebook" + fbProfile);
+//			User userRegUsingFB = new User();
+//			userRegUsingFB.setEmail(fbProfile.getEmail());
+//			userRegUsingFB.setVerified(true);// verified always true
+//			userRegUsingFB.setFirstName(fbProfile.getFirst_name());
+//			userRegUsingFB.setLastName(fbProfile.getLast_name());
+//			userRegUsingFB.setGender(fbProfile.getGender());
+//			userRegUsingFB.setLocale(fbProfile.getLocale());
+//			userRegUsingFB.setRegMethod("Facebook");
+//			userRegUsingFB.setSocialNetwork(fbProfile.getLink());
+//			userRegUsingFB.setContactNumber("");
+//			userRegUsingFB.setName(fbProfile.getName());
+//			userRegUsingFB.setId(fbProfile.getId());
+//			userRegUsingFB.setAvatarPhoto(userRegUsingFB.getGender().equals("male") ? "default_male_avatar.jpg"
+//					: "default_female_avatar.jpg");
+//			userRegUsingFB.setRegistrationIP(request.getRemoteAddr());
+//
+//			System.out.println("Login with facebook Create user from facebook OK");
+//			request.getSession().setAttribute("userRegUsingFB", userRegUsingFB);
+//			User checkUser = UserDAO.findByEmail(userRegUsingFB.getEmail());
+//			if (checkUser == null) {
+//				request.setAttribute("fbResp", 1);
+//			} else {
+//				request.setAttribute("fbResp", 0);
+//				System.out.println("Login with facebook: User have already");
+//			}
+//			return "index";
+//		} catch (IOException ex) {
+//			System.out.println(ex.getMessage());
+//			return "404";
+//		}
+//	}
+
+//	@RequestMapping(value = "loginWithFacebook", method = RequestMethod.POST)
+//	public String doSaveUserFB(HttpServletRequest request, @Valid @ModelAttribute("logginFBUser") User user,
+//			BindingResult bindingResult, String rePassword) {
+//		boolean rePass = false;
+//		if (rePassword.equals(user.getPassword()))
+//			rePass = true;
+//		else
+//			request.setAttribute("rePasswordInvalid", "Nhập lại mật khẩu không chính xác");
+//		if (bindingResult.hasFieldErrors("password") || !rePass) {
+//			request.setAttribute("fbPass", true);
+//			request.setAttribute("fbResp", 1);
+//			System.out.println("loginWithFacebook: form error");
+//			return "index"; // purpose join us
+//		} else {
+//			System.out.println("loginWithFacebook: form OK");
+//			User userRegUsingFB = (User) request.getSession().getAttribute("userRegUsingFB");
+//			if (userRegUsingFB != null) {
+//				userRegUsingFB.setPassword(user.getPassword());
+//				try {
+//					System.out.println(userRegUsingFB);
+//					//GET AVATAR OF USER FROM FACEBOOK
+////					FBGraph fbGraph = new FBGraph();
+////					BufferedImage im = fbGraph.getFbGraphAvatar(userRegUsingFB.getId());
+////					String obfImageName = RandomStringUtils.randomAlphabetic(26);
+////					String avatarPath = request.getServletContext().getRealPath("/resources/profile/avatar");
+////					StringBuilder uploadLocation = new StringBuilder(avatarPath);
+////					uploadLocation.append(obfImageName);
+////					uploadLocation.append(".jpg");
+////					try {
+////						System.out.println(im);
+////						ImageIO.write(im, "jpg", new File(uploadLocation.toString()));
+////						user.setAvatarPhoto(obfImageName + ".jpg");
+////						System.out.println(user.getAvatarPhoto());
+////					} catch (IOException e) {
+////						// TODO Auto-generated catch block
+////						e.printStackTrace();
+////					}
+//					User userGen = UserDAO.register(userRegUsingFB);
+//					// SET USER TO SESSION
+//					request.getSession().setAttribute(SessionKey.USER, userGen);
+//				} catch (EmailAlready e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (ContactNumberAlready e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			return "redirect:";
+//		}
+//	}
 
 	@RequestMapping(value = "settings", method = RequestMethod.POST)
 	public String viewSettings(HttpServletRequest request) {
