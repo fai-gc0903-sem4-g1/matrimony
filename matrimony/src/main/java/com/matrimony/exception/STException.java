@@ -34,6 +34,30 @@ public class STException {
             super(msg);
         }
     }
+    
+    public static class NotNativeAccount extends Exception {
+
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public NotNativeAccount(String msg) {
+            super(msg);
+        }
+    }
+    
+    public static class UserNotExists extends Exception {
+
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public UserNotExists(String msg) {
+            super(msg);
+        }
+    }
 
     public static class WrongPassword extends Exception {
 

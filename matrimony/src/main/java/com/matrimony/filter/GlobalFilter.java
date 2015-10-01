@@ -6,6 +6,8 @@
 package com.matrimony.filter;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -42,41 +44,44 @@ public class GlobalFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
-		System.out.println("Filter: IP client: "+req.getRemoteAddr());
 		CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
-		System.out.println("Filter: Locate: " + country);
 		User user = (User) request.getSession().getAttribute(SessionKey.USER);
-		System.out.println("Filter: Current user: " + user);
-		Cookie[] allCookie = request.getCookies();
-		if (user == null) {
-			boolean keepLogin = false;
-			if (allCookie != null) {
-				for (Cookie c : allCookie) {
-					if ("keepLoggin".equals(c.getName())) {
-						if ("true".equals(c.getValue())) {
-							keepLogin = true;
-							break;
-						}
-					}
+		System.out.println("Country info client: " + country);
+		System.out.println(user);
+		Cookie[] cookies = request.getCookies();
+		Map<String, String> retriedCookies = new HashMap<String, String>();
+		if (user == null && cookies!=null) {
+			System.out.println("Number cookie: "+cookies.length);
+			for (int i = 0; i < cookies.length; i++) {
+				Cookie c = cookies[i];
+				if (c.getName().equals("id")) {
+					System.out.println("id "+c.getValue());
+					retriedCookies.put(c.getName(), c.getValue());
+				} else if (c.getName().equals("login")) {
+					System.out.println("login "+c.getValue());
+					retriedCookies.put(c.getName(), c.getValue());
+				} else if (c.getName().equals("password")) {
+					System.out.println("password "+c.getValue());
+					retriedCookies.put(c.getName(), c.getValue());
+				} else if (c.getName().equals("keepLoggin")) {
+					System.out.println("keepLoggin "+c.getValue());
+					retriedCookies.put(c.getName(), c.getValue());
 				}
-				for (Cookie c : allCookie) {
-					if (keepLogin && "loginName".equals(c.getName())) {
-						user = UserDAO.findByEmailOrContactNumberOrUsername(c.getValue());
-						request.getSession().setAttribute(SessionKey.USER, user);
-						System.out.println("Filter: User keep login: " + user);
-						break;
-					}
+			}
+			System.out.println(retriedCookies.size());
+			if (retriedCookies.size() >= 4) {
+				System.out.println("keeplogin: "+retriedCookies.get("keepLoggin"));
+				if (retriedCookies.get("keepLoggin").equals("true")) {
+					User ssUser = UserDAO.findById(retriedCookies.get("id"));
+					request.getSession().setAttribute(SessionKey.USER, ssUser);
 				}
 			}
 		}
 		try {
 			chain.doFilter(request, response);
-		} catch (IOException ex) {
-			System.out.println("Global Filter:");
-			ex.printStackTrace();
-		} catch (ServletException ex) {
-			System.out.println("Global Filter:");
-			ex.printStackTrace();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

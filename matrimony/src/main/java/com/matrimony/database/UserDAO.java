@@ -9,12 +9,15 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.taglibs.standard.lang.jstl.EqualityOperator;
 import org.hibernate.Session;
 
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
 import com.matrimony.exception.STException.ContactNumberAlready;
 import com.matrimony.exception.STException.EmailAlready;
+import com.matrimony.exception.STException.NotNativeAccount;
+import com.matrimony.exception.STException.UserNotExists;
 import com.matrimony.security.HashUtil;
 import com.matrimony.util.HibernateUtil;
 
@@ -109,11 +112,13 @@ public class UserDAO {
 		}
 	}
 
-	public static User login(User user) throws STException.UsernameNotExist, STException.WrongPassword {
+	public static User login(User user) throws STException.WrongPassword, NotNativeAccount, UserNotExists {
 
 		User userFind = findByEmailOrContactNumberOrUsername(user.getUsername());
 		if (userFind == null) {
-			throw new STException.UsernameNotExist("Login: username not exists");
+			throw new STException.UserNotExists("Login: user not exists");
+		}else if(!userFind.getRegMethod().equalsIgnoreCase("Native")){
+			throw new STException.NotNativeAccount("Login: This account login with social network");
 		}
 
 		System.out.println(user);

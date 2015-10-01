@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
@@ -39,14 +41,14 @@ public class User implements Serializable {
 	private String id;
 	private int weight;
 	private int height;
-	@Length(min = 2, max = 20, message = "Tên phải từ 2 -> 20 ký tự")
+	@Size(min=2,max=30, message="Tên quá ngắn")
 	private String firstName;
-	@Length(min = 2, max = 20, message = "Họ phải từ 2 -> 20 ký tự")
+	@Size(min=2,max=30, message="Họ quá ngắn")
 	private String lastName;
 	private String username;
 	@Email(message = "Email sai định dạng")
 	private String email;
-	@Length(min = 8, max = 64, message = "Mật khẩu phải từ 8 -> 64 ký tự")
+	@Size(min=2,max=64, message="Mật khẩu quá ngắn hoăc quá dài")
 	private String password;
 	private String salt;
 	private String contactNumber;

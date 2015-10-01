@@ -4,7 +4,6 @@
 package com.matrimony.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -29,8 +28,10 @@ import com.facebook.entity.UserProfile;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException;
+import com.matrimony.exception.STException.ContactNumberAlready;
+import com.matrimony.exception.STException.EmailAlready;
+import com.matrimony.exception.STException.NotNativeAccount;
 import com.matrimony.model.SessionKey;
-import com.matrimony.util.IOUtils;
 import com.matrimony.util.MailUtil;
 
 /**
@@ -55,32 +56,33 @@ public class AuthenticationController {
 		if (bindingResult.hasFieldErrors("password")) {
 			System.out.println("form login error");
 			request.setAttribute("loginFormError", true);
-			return "index";
+			return "joinUs";
 		}
 		try {
 			userLogin.setLoginTime(new Timestamp(System.currentTimeMillis()));
 			userLogin.setIpLogin(request.getRemoteAddr());
 			User user = UserDAO.login(userLogin);
 			request.getSession().setAttribute(SessionKey.USER, user);
-			System.out.println(user.getEmail() + " logged in");
 			if (user.isVerified()) {
 				if (keepLoggin != null) {
-					keepMeLoggedIn(response, userLogin);
+					keepMeLoggedIn(response, user);
 				}
 				return "redirect:";
 			} else {
 				return "active";
 			}
 
-		} catch (STException.UsernameNotExist ex) {
+		} catch (STException.UserNotExists ex) {
 			System.out.println(ex);
-			request.setAttribute("notice",
-					"Tài khoản không tồn tại, chúng tôi k tìm thấy tên tài khoản, email hay số điện thoại");
+			request.setAttribute("loginUserNotExists", "true");
 		} catch (STException.WrongPassword ex) {
 			System.out.println(ex);
-			request.setAttribute("notice", "Sai mật khẩu");
+			request.setAttribute("loginWrongPassword", "true");
+		} catch (NotNativeAccount e) {
+			System.out.println(e);
+			request.setAttribute("loginNotNativeAccount", "true");
 		}
-		return "index";
+		return "joinUs";
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
@@ -148,13 +150,13 @@ public class AuthenticationController {
 	@RequestMapping(value = "active", method = RequestMethod.POST)
 	public String doActive(HttpServletRequest request, String activeKey) {
 		System.out.println(activeKey);
-		User curuser = (User) request.getSession().getAttribute(SessionKey.USER);
-		System.out.println(curuser.getEmail() + " want to active");
-		if (curuser.getActiveKey().equals(activeKey)) {
-			curuser.setVerified(true);
-			curuser.setVerifiedTime(new Timestamp(System.currentTimeMillis()));
-			UserDAO.Update(curuser);
-			System.out.println(curuser.getEmail() + " activated");
+		User ssUser = (User) request.getSession().getAttribute(SessionKey.USER);
+		System.out.println(ssUser.getEmail() + " want to active");
+		if (ssUser.getActiveKey().equals(activeKey)) {
+			ssUser.setVerified(true);
+			ssUser.setVerifiedTime(new Timestamp(System.currentTimeMillis()));
+			UserDAO.Update(ssUser);
+			System.out.println(ssUser.getEmail() + " activated");
 			return "redirect:";
 		} else {
 			return "active";
@@ -176,10 +178,29 @@ public class AuthenticationController {
 			user.setGender(userProfile.getGender());
 			user.setRegMethod("Facebook");
 			user.setExpiries(new Timestamp(System.currentTimeMillis()));
-			InputStream image = FBGraph.gatherAvatarImage(userProfile.getId());
-			String path=request.getServletContext().getContextPath();
-			System.out.println(path);
+			// InputStream image =
+			// FBGraph.gatherAvatarImage(userProfile.getId());
+			// String avatarPath =
+			// request.getServletContext().getRealPath("/resoucres/profile/avatar");
+			// String newFileName = RandomStringUtils.randomAlphanumeric(26);
+			// UploadToServer.upFile(avatarPath + "/" + newFileName + ".jpg",
+			// image);
+			// user.setAvatarPhoto(newFileName);
+			user.setAvatarPhoto(user.getGender().equals("male") ? "default_male_avatar.jpg"
+					: "default_female_avatar.jpg");
+			User ssUser = null;
+			try {
+				ssUser = UserDAO.register(user);
+			} catch (EmailAlready | ContactNumberAlready e) {
+				request.setAttribute("accAlready", "true");
+				System.out.println(e);
+				ssUser = UserDAO.findByEmail(user.getEmail());
+			}
+			keepMeLoggedIn(response, ssUser);
+			request.getSession().setAttribute("user", ssUser);
+			return "redirect:";
 		} catch (IOException e) {
+			System.out.println("fbredirect gap exception");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -204,7 +225,6 @@ public class AuthenticationController {
 		return "active";
 	}
 
-
 	public User buildNewUser(User user, HttpServletRequest request) {
 		String activeKey = RandomStringUtils.randomAlphanumeric(10);
 		user.setRegistrationIP(request.getRemoteAddr());
@@ -217,15 +237,17 @@ public class AuthenticationController {
 	}
 
 	public void keepMeLoggedIn(HttpServletResponse response, User user) {
-		Cookie[] cookies = new Cookie[3];
-		cookies[0] = new Cookie("loginName", user.getEmail());
-		cookies[1] = new Cookie("password", "");
-		cookies[2] = new Cookie("keepLoggin", "true");
+		Cookie[] cookies = new Cookie[5];
+		cookies[0] = new Cookie("id", user.getId());
+		cookies[1] = new Cookie("login", user.getUsername());
+		cookies[2] = new Cookie("password", user.getPassword());
+		cookies[3] = new Cookie("keepLoggin", "true");
+		cookies[4] = new Cookie("type", user.getRegMethod());
 		for (Cookie c : cookies) {
 			c.setMaxAge(60 * 60 * 24 * 365);
+			System.out.println("added cookie: " + c.getName());
 			response.addCookie(c);
 		}
-		System.out.println("saved cookie");
 	}
 
 	public void sendMailActive(String email, String key) {

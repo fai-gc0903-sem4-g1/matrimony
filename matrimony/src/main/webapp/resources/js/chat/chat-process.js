@@ -23,7 +23,7 @@ $(document).on('keypress', '#txt-chat-msg', function(e) {
 	}
 });
 // CHAT PROCESS
-var ws = new WebSocket('ws://localhost:8080/matrimony/chatserver');
+var ws = new WebSocket('ws://localhost/matrimony/chatserver');
 ws.onopen = function() {
 	processOpen();
 }

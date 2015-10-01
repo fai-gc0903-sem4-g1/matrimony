@@ -26,7 +26,7 @@ public class FBGraph {
 	public static UserProfile gatherUserProfile(String accessToken) throws MalformedURLException, IOException {
 		UserProfile userProfile = null;
 		StringBuilder link = new StringBuilder("https://graph.facebook.com/me?");
-		link.append("fields=name,first_name,last_name,middle_name,age_range,email,link,birthday,locale");
+		link.append("fields=name,first_name,last_name,middle_name,age_range,email,link,birthday,locale,gender");
 		link.append("&access_token=");
 		link.append(accessToken);
 		HttpURLConnection conn = (HttpURLConnection) new URL(link.toString()).openConnection();
@@ -39,12 +39,21 @@ public class FBGraph {
 	public static InputStream gatherAvatarImage(String facebookId) throws IOException{
 		StringBuilder link=new StringBuilder("https://graph.facebook.com/");
 		link.append(facebookId);
-		link.append("/picture?type=large");
+		link.append("/picture?type=small");
 		HttpURLConnection conn=(HttpURLConnection) new URL(link.toString()).openConnection();
+		conn.setRequestMethod("GET");
+		conn.setReadTimeout(5000);
+		System.out.println(conn.getResponseCode());
 		return conn.getInputStream();
 	}
 
 	public static void main(String[] args) {
-		
+		System.out.println("gathering...");
+		try {
+			System.out.println(gatherAvatarImage("916006255158632"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

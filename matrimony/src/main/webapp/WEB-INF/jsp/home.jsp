@@ -9,18 +9,18 @@
                         <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
                         <jsp:useBean id="jstl" class="com.matrimony.model.JSLTFunctionUtil" />
                         <t:layout>
-                        <jsp:attribute name="head">
-                        <link rel="stylesheet" type="text/css" href="/matrimony/resources/css/home-style.css">
+                            <jsp:attribute name="head">
+                                <link rel="stylesheet" type="text/css" href="/matrimony/resources/css/home-style.css">
                                 <script src="/matrimony/resources/js/chat/entity.js"></script>
                                 <script src="/matrimony/resources/js/chat/chat-process.js"></script>
                                 <script src="/matrimony/resources/js/chat/emoticon.js"></script>
-                        </jsp:attribute>
+                            </jsp:attribute>
                             <jsp:body>
                                 <c:set var="alias" value="matrimony" />
                                 <c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
                                 <script>
-//                                 	======================SOME CODE INIT======================
-                                	var sessionUserId='${sessionScope.user.id}';
+                                    //                                 	======================SOME CODE INIT======================
+                                    var sessionUserId = '${sessionScope.user.id}';
                                     $(document).ready(function() {
                                         $("#avatar").click(function() {
                                             $("#uploadAvatarPhoto").click();
@@ -28,6 +28,23 @@
                                         $("#uploadAvatarPhoto").change(function() {
                                             $("#uploadPhotoForm").submit();
                                         });
+                                        $(document).on('click', '#btn-logout', function(e) {
+                                            e.preventDefault();
+                                            $("<form action='logout' method='POST'></form>").submit();
+                                        });
+                                        $(document).on('change', '#cbx-pay-with', function(e){
+                                        	var value=$(this).val();
+                                        	if(value=='credit')
+                                        		$('#credit-box').slideDown('slow');
+                                        	else
+												$('#credit-box').slideUp('slow');
+                                        })
+                                        $(document).on('change', '.checkboxPack',function(e){
+                                        	if($(this).val()==1)
+                                        	$('#final-payment').html('$ 49.99');
+                                        	else
+                                        		$('#final-payment').html('$ 499.99');
+                                        })
                                     });
                                 </script>
                                 <div id="hiddenDIV">
@@ -41,28 +58,139 @@
                                         <img id="avatar" alt='avatar' style='height: 170px; width: 170px;' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
                                         <br />
                                         <br />
-                                        <span id='name' style='font-weight: bold;'>${sessionScope.user.name }</span>
+                                        <span id='name' class='col-lg-21 style='font-weight: bold;'>${sessionScope.user.name }</span>
                                         <br />
                                         <br />
-                                        <ul class="list-group">
-                                            <li class="list-group-item"><a href="#">My friend</a> <span class="badge">14</span>
-                                            </li>
-                                            <li class="list-group-item"><a href="#">Licence</a>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <a href="#">Last login<fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${session.user.loginTime}" /></a>
-                                            </li>
-                                        </ul>
+                                        <div class="list-group">
+                                            <a class="list-group-item" href="#"><i class="fa fa-user"></i>&nbsp;Thông tin cá nhân</a>
+                                            <a class="list-group-item" href="#"> <i class="fa fa-cog"></i>&nbsp;Cài đặt</a>
+                                            <a class="list-group-item" id='btn-logout' href="#"><i class="fa fa-sign-out"></i>&nbsp;Thoát</a>
+                                        </div>
                                     </div>
                                     <div id='center' class='col-lg-7' style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px;'>
                                         <c:choose>
                                             <c:when test="${userDAO.hasExpiries(sessionScope.user)}">
-                                                <span>tài khoản của bạn đã hết hạn, vui lòng thanh toán để sử tiếp tục sử dụng</span>
+                                                <div class='container col-lg-12'>
                                                 <br/>
-                                                <a href="payment">click vào đây để thanh toán</a>
+                                                <div class="alert alert-danger" role="alert">Tài khoản của bạn đã hết hạn, vui lòng thanh toán để sử tiếp tục sử dụng</div>
+                                                <form method='POST' action='payment' class='col-lg-6 form-horizontal'>
+<!--                                                     <label>Chọn gói sử dụng</label> -->
+                                                    <p><h3>Chọn gói sử dụng:</h3>
+                                                    <div class='form-group' style='font-size: 17px;'>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input class='checkboxPack' type="radio" name="pack" value="1" />
+                                                                <span id="price"> 1 tháng <span id="currencyCode">$</span>&nbsp;49.99</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input class='checkboxPack' type="radio" name="pack" value="12" />
+                                                                <span id="price"> 12 tháng <span id="currencyCode">$</span>&nbsp;499.99</span> (Tiết kiệm 15%)</label>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <ul class="list-group">
+													  <li class="list-group-item list-group-item-info">Final payment<span id='final-payment' class="badge"></span></li>
+													</ul>
+                                                   
+                                                    <div class='form-group '>
+                                                        <select id="cbx-pay-with" name="payWith" class='selectpicker col-lg-12' data-style='btn-warning'>
+                                                            <option disabled selected>Chọn loại thanh toán</option>
+                                                            <option value='paypal'>Paypal</option>
+                                                            <option value='credit'>Credit card</option>
+                                                        </select>
+                                                    </div>
+													
+													<div id='credit-box' style='display:none;'>
+													<img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+									                        <div class="row">
+									                            <div class="col-xs-12">
+									                                <div class="form-group">
+									                                    <label for="cardNumber">CARD NUMBER</label>
+									                                    <div class="input-group">
+									                                        <input 
+									                                            type="tel"
+									                                            class="form-control"
+									                                            name="cardNumber"
+									                                            placeholder="Valid Card Number"
+									                                            autocomplete="cc-number"
+									                                            required autofocus 
+									                                        />
+									                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+									                                    </div>
+									                                </div>                            
+									                            </div>
+									                        </div>
+									                        <div class="row">
+									                            <div class="col-xs-7 col-md-7">
+									                                <div class="form-group">
+									                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+									                                    <input 
+									                                        type="tel" 
+									                                        class="form-control" 
+									                                        name="cardExpiry"
+									                                        placeholder="MM / YY"
+									                                        autocomplete="cc-exp"
+									                                        required 
+									                                    />
+									                                </div>
+									                            </div>
+									                            <div class="col-xs-5 col-md-5 pull-right">
+									                                <div class="form-group">
+									                                    <label for="cardCVC">CV CODE</label>
+									                                    <input 
+									                                        type="tel" 
+									                                        class="form-control"
+									                                        name="cardCVC"
+									                                        placeholder="CVC"
+									                                        autocomplete="cc-csc"
+									                                        required
+									                                    />
+									                                </div>
+									                            </div>
+									                        </div>
+									                        <div class="row">
+									                            <div class="col-xs-12">
+									                                <div class="form-group">
+									                                    <label for="couponCode">COUPON CODE</label>
+									                                    <input type="text" class="form-control" name="couponCode" />
+									                                </div>
+									                            </div>                        
+									                        </div>
+									                        
+									                        <div class="row" style="display:block;">
+									                            <div class="col-xs-12">
+									                                <p class="payment-errors">co loi xay ra</p>
+									                            </div>
+									                        </div>
+									                        </div>
+													<input type='submit' class='btn btn-success col-lg-12' value='Pay now'/>
+													
+                                                </form>
+                                        <div class='col-lg-6'>
+                                                	 <p><h3>Features:</h3>
+										                <ul>
+										                    <li>As-you-type, input formatting</li>
+										                    <li>Form field validation (also as you type)</li>
+										                    <li>Graceful error feedback for declined card, etc</li>
+										                    <li>AJAX form submission w/ visual feedback</li>
+										                    <li>Creates a Stripe credit card token</li>
+										                </ul>
+										            </p>
+										            <p>Be sure to replace the dummy API key with a valid Stripe API key.</p>
+										            
+										            <p>Built upon: Bootstrap, jQuery, 
+										                <a href="http://jqueryvalidation.org/">jQuery Validation Plugin</a>, 
+										                <a href="https://github.com/stripe/jquery.payment">jQuery.payment library</a>,
+										                and <a href="https://stripe.com/docs/stripe.js">Stripe.js</a>
+										            </p>
+                                        </div>
+                                                </div>
+                                                
                                             </c:when>
                                             <c:otherwise>
-                                                Những người phù hợp với bạn
+                                                <span>Những người phù hợp với bạn</span>
                                                 <div id='tblPeople'>
                                                     <c:forEach var="i" items="${peopleSuggestList }">
                                                         <div id='person-panel' class='row col-sm-12' data-user-id='${i.id}'>
@@ -113,10 +241,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
+
+
                                 <!-- CHAT BOX START HERE -->
-                                
+
                                 <div style='z-index:9999'>
                                     <div id='chat-container' class="container">
                                         <div class="row col-lg-3 css-chat-window" id="chat-window" style='display:none;'>
@@ -158,12 +286,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="panel-footer">
-<!--                                                         <div class="input-group"> -->
-                                                            <input id="txt-chat-msg" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
-<!--                                                             <span class="input-group-btn"> -->
-<!-- 	                          									 <button class="btn btn-primary btn-sm" id="btn-chat-send-msg">Send</button> -->
-<!-- 	                           								</span> -->
-<!--                                                         </div> -->
+                                                        <!--                                                         <div class="input-group"> -->
+                                                        <input id="txt-chat-msg" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+                                                        <!--                                                             <span class="input-group-btn"> -->
+                                                        <!-- 	                          									 <button class="btn btn-primary btn-sm" id="btn-chat-send-msg">Send</button> -->
+                                                        <!-- 	                           								</span> -->
+                                                        <!--                                                         </div> -->
                                                     </div>
                                                 </div>
                                             </div>
