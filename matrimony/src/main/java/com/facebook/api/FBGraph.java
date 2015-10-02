@@ -31,6 +31,7 @@ public class FBGraph {
 		link.append(accessToken);
 		HttpURLConnection conn = (HttpURLConnection) new URL(link.toString()).openConnection();
 		String json = IOUtils.toString(conn.getInputStream());
+		System.out.println(link.toString());
 		System.out.println(json);
 		userProfile=Global.gson.fromJson(json, UserProfile.class);
 		return userProfile;
