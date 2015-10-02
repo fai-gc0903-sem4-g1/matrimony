@@ -59,40 +59,49 @@ public class PaymentController {
 	}
 
 	@RequestMapping(value = "payment", method = RequestMethod.POST)
-	public String doPayment(HttpServletRequest request, String productValue, String payWith) {
+	public String doPayment(HttpServletRequest request, String pack, String payWith) {
+		boolean verify = true;
 		User currentUser = (User) request.getSession().getAttribute(SessionKey.USER);
 		if (currentUser == null)
 			return "joinUs";
-		System.out.println(productValue);
-		System.out.println(payWith);
-		// MAJOR
-		switch (payWith) {
-		case "paypal":
-			double moneyToPay;
-			if ("1".equals(productValue)) {
-				moneyToPay = 49.99;
-			} else if ("12".equals(productValue)) {
-				moneyToPay = 499.99;
-			} else {
-				return "404";
-			}
-			try {
-				PayResponse payResponse = payment.pay(moneyToPay);
-				if (null != payResponse) {
-					request.getSession().setAttribute(SessionKey.PAYPAL_PAY_RESPONSE, payResponse);
-					return "redirect:" + CredentialsConfiguration.SAND_BOX_STRING + payResponse.getPayKey();
-				}
-			} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
-					| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
-					| OAuthException | IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			break;
-		case "credit":
-			break;
+		System.out.println("pack: " + pack);
+		System.out.println("payWith: " + payWith);
+
+		double finalPayment=0;
+		if ("1".equals(pack))
+			finalPayment = 49.99;
+		else if ("12".equals(pack))
+			finalPayment = 499.99;
+		else {
+			System.out.println("final payment invalid");
+			verify = false;
 		}
-		return "payment";
+		// MAJOR
+		if (verify) {
+			switch (payWith) {
+			case "paypal":
+				try {
+					PayResponse payResponse = payment.pay(finalPayment);
+					if (null != payResponse) {
+						request.getSession().setAttribute(SessionKey.PAYPAL_PAY_RESPONSE, payResponse);
+						return "redirect:" + CredentialsConfiguration.SAND_BOX_STRING + payResponse.getPayKey();
+					}
+					return "time out";
+				} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
+						| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
+						| OAuthException | IOException | InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return "paypal error";
+				}
+			case "credit":
+				return"credit payment";
+			
+			default: return "paywith invalid";
+			}
+		} else
+			return "invalid payment";
+		
 	}
 
 	@RequestMapping(value = "paymentVerify", method = RequestMethod.GET)

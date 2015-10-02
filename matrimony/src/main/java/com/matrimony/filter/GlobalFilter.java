@@ -80,7 +80,11 @@ public class GlobalFilter implements Filter {
 		try {
 			chain.doFilter(request, response);
 		} catch (ServletException e) {
+			System.out.println("Global filter error-ServletException: ");
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (IOException e) {
+			System.out.println("Global filter error-IOException: ");
 			e.printStackTrace();
 		}
 	}
