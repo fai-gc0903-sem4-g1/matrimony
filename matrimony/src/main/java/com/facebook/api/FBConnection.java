@@ -25,7 +25,7 @@ public class FBConnection {
 
     private String makeGraphUrl(String code) {
         String fbGraphUrl = "";
-        try {
+        try { 
             fbGraphUrl = "https://graph.facebook.com/oauth/access_token?"
                     + "client_id=" + FB_APP_ID
                     + "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, "utf-8")
