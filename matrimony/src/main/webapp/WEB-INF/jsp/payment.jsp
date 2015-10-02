@@ -69,9 +69,17 @@
                                                 	<div class="alert alert-info" role="alert">Tài khoản của bạn còn hạn đến ${sessionScope.user.expiries }</div>
                                                 </c:otherwise>
                                                 </c:choose>
+                                                <p><h3>Thanh toán sử dụng sản phẩm</h3></p>
                                                 <form method='POST' action='payment' class='col-lg-6 form-horizontal'>
 <!--                                                     <label>Chọn gói sử dụng</label> -->
-                                                    <p><h3>Chọn gói sử dụng:</h3>
+												
+												<c:if test="${not empty paymentTimeOut }"><div class="alert alert-warning" role="alert">Đường truyền quá yếu, xin kiểm tra lại</div></c:if>
+												<c:if test="${not empty paypalError }"><div class="alert alert-warning" role="alert">Lỗi hệ thống, xin thử lại sau</div></c:if>
+												<c:if test="${not empty finalPaymentInvalid }"><div class="alert alert-warning" role="alert">Gói sử dụng không được bỏ trống</div></c:if>
+												<c:if test="${not empty payWithInvalid }"><div class="alert alert-warning" role="alert">Loại thanh toán không hợp lệ</div></c:if>
+												<c:if test="${not empty payWithNotNull }"><div class="alert alert-warning" role="alert">Loại thanh toán không được bỏ trống</div></c:if>
+												<c:if test="${not empty creditNotSupport }"><div class="alert alert-warning" role="alert">Thanh toán qua credit chưa hỗ trợ</div></c:if>
+                                                    <p><h4>Chọn gói sử dụng:</h4>
                                                     <div class='form-group' style='font-size: 17px;'>
                                                         <div class="checkbox">
                                                             <label>
@@ -144,7 +152,7 @@
 													
                                                 </form>
                                         <div class='col-lg-6'>
-                                                	 <p><h3>Features:</h3>
+                                                	 <p><h4>Features:</h4>
 										                <ul>
 										                    <li>As-you-type, input formatting</li>
 										                    <li>Form field validation (also as you type)</li>

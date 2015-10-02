@@ -60,7 +60,7 @@ public class PaymentController {
 
 	@RequestMapping(value = "payment", method = RequestMethod.POST)
 	public String doPayment(HttpServletRequest request, String pack, String payWith) {
-		boolean verify = true;
+		boolean verifyForm = true;
 		User currentUser = (User) request.getSession().getAttribute(SessionKey.USER);
 		if (currentUser == null)
 			return "joinUs";
@@ -73,11 +73,16 @@ public class PaymentController {
 		else if ("12".equals(pack))
 			finalPayment = 499.99;
 		else {
-			System.out.println("final payment invalid");
-			verify = false;
+			request.setAttribute("finalPaymentInvalid", 1);
+			verifyForm = false;
+		}
+		
+		if (payWith == null) {
+			request.setAttribute("payWithNotNull", 1);
+			verifyForm = false;
 		}
 		// MAJOR
-		if (verify) {
+		if (verifyForm) {
 			switch (payWith) {
 			case "paypal":
 				try {
@@ -89,22 +94,22 @@ public class PaymentController {
 						request.getSession().setAttribute("returnKey", returnKey);
 						return "redirect:" + CredentialsConfiguration.SAND_BOX + payResponse.getPayKey();
 					}
-					return "time out";
+					request.setAttribute("paymentTimeOut", 1);
 				} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
 						| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
 						| OAuthException | IOException | InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					return "paypal error";
+					request.setAttribute("paypalError", 1);
 				}
 			case "credit":
-				return "credit payment";
-
+				request.setAttribute("creditNotSupport", 1);
 			default:
-				return "paywith invalid";
+				request.setAttribute("payWithInvalid", 1);
+				break;
 			}
-		} else
-			return "invalid payment";
+		}
+		return "payment";
 
 	}
 

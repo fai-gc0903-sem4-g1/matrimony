@@ -67,7 +67,7 @@ public class FBConnection {
         if (accessToken.startsWith("{")) {
             throw new RuntimeException("ERROR: Access token invalid: " + accessToken);
         }
-        return accessToken;
+        return accessToken.split("=")[1];
     }
     
     public static void main(String[] args) {
