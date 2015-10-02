@@ -65,8 +65,9 @@ public class PaymentController {
 			return "joinUs";
 		System.out.println(productValue);
 		System.out.println(payWith);
+		// MAJOR
 		switch (payWith) {
-		case "Paypal":
+		case "paypal":
 			double moneyToPay;
 			if ("1".equals(productValue)) {
 				moneyToPay = 49.99;
@@ -88,7 +89,7 @@ public class PaymentController {
 				e.printStackTrace();
 			}
 			break;
-		default:
+		case "credit":
 			break;
 		}
 		return "payment";

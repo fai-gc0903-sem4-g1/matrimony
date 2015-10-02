@@ -20,7 +20,7 @@
                                 <c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
                                 <script>
                                     //                                 	======================SOME CODE INIT======================
-                                    var sessionUserId = '${sessionScope.user.id}';
+                                    var sessionUserId ='${sessionScope.user.id}';
                                     $(document).ready(function() {
                                         $("#avatar").click(function() {
                                             $("#uploadAvatarPhoto").click();
@@ -28,22 +28,22 @@
                                         $("#uploadAvatarPhoto").change(function() {
                                             $("#uploadPhotoForm").submit();
                                         });
-                                        $(document).on('click', '#btn-logout', function(e) {
+                                        $(document).on('click','#btn-logout', function(e) {
                                             e.preventDefault();
                                             $("<form action='logout' method='POST'></form>").submit();
                                         });
-                                        $(document).on('change', '#cbx-pay-with', function(e){
-                                        	var value=$(this).val();
-                                        	if(value=='credit')
-                                        		$('#credit-box').slideDown('slow');
-                                        	else
-												$('#credit-box').slideUp('slow');
+                                        $(document).on('change','#cbx-pay-with', function(e) {
+                                            var value = $(this).val();
+                                            if (value =='credit')
+                                                $('#credit-box').slideDown('slow');
+                                            else
+                                                $('#credit-box').slideUp('slow');
                                         })
-                                        $(document).on('change', '.checkboxPack',function(e){
-                                        	if($(this).val()==1)
-                                        	$('#final-payment').html('$ 49.99');
-                                        	else
-                                        		$('#final-payment').html('$ 499.99');
+                                        $(document).on('change','.checkboxPack', function(e) {
+                                            if ($(this).val() == 1)
+                                                $('#final-payment').html('$ 49.99');
+                                            else
+                                                $('#final-payment').html('$ 499.99');
                                         })
                                     });
                                 </script>
@@ -58,7 +58,7 @@
                                         <img id="avatar" alt='avatar' style='height: 170px; width: 170px;' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
                                         <br />
                                         <br />
-                                        <span id='name' class='col-lg-21 style='font-weight: bold;'>${sessionScope.user.name }</span>
+                                        <span id='name' class='col-lg-21'>${sessionScope.user.name }</span>
                                         <br />
                                         <br />
                                         <div class="list-group">
@@ -94,7 +94,7 @@
 													  <li class="list-group-item list-group-item-info">Final payment<span id='final-payment' class="badge"></span></li>
 													</ul>
                                                    
-                                                    <div class='form-group '>
+                                                    <div class='form-group'>
                                                         <select id="cbx-pay-with" name="payWith" class='selectpicker col-lg-12' data-style='btn-warning'>
                                                             <option disabled selected>Chọn loại thanh toán</option>
                                                             <option value='paypal'>Paypal</option>
@@ -107,16 +107,9 @@
 									                        <div class="row">
 									                            <div class="col-xs-12">
 									                                <div class="form-group">
-									                                    <label for="cardNumber">CARD NUMBER</label>
+									                                    <label>CARD NUMBER</label>
 									                                    <div class="input-group">
-									                                        <input 
-									                                            type="tel"
-									                                            class="form-control"
-									                                            name="cardNumber"
-									                                            placeholder="Valid Card Number"
-									                                            autocomplete="cc-number"
-									                                            required autofocus 
-									                                        />
+									                                        <input type="tel" class="form-control" name="cardNumber" placeholder="Valid Card Number" />
 									                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
 									                                    </div>
 									                                </div>                            
@@ -125,35 +118,21 @@
 									                        <div class="row">
 									                            <div class="col-xs-7 col-md-7">
 									                                <div class="form-group">
-									                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
-									                                    <input 
-									                                        type="tel" 
-									                                        class="form-control" 
-									                                        name="cardExpiry"
-									                                        placeholder="MM / YY"
-									                                        autocomplete="cc-exp"
-									                                        required 
-									                                    />
+									                                    <label><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+									                                    <input  type="tel" class="form-control" name="cardExpiry" placeholder="MM / YY" />
 									                                </div>
 									                            </div>
 									                            <div class="col-xs-5 col-md-5 pull-right">
 									                                <div class="form-group">
-									                                    <label for="cardCVC">CV CODE</label>
-									                                    <input 
-									                                        type="tel" 
-									                                        class="form-control"
-									                                        name="cardCVC"
-									                                        placeholder="CVC"
-									                                        autocomplete="cc-csc"
-									                                        required
-									                                    />
+									                                    <label>CV CODE</label>
+									                                    <input type="tel" class="form-control" name="cardCVC" placeholder="CVC"/>
 									                                </div>
 									                            </div>
 									                        </div>
 									                        <div class="row">
 									                            <div class="col-xs-12">
 									                                <div class="form-group">
-									                                    <label for="couponCode">COUPON CODE</label>
+									                                    <label>COUPON CODE</label>
 									                                    <input type="text" class="form-control" name="couponCode" />
 									                                </div>
 									                            </div>                        
@@ -161,7 +140,7 @@
 									                        
 									                        <div class="row" style="display:block;">
 									                            <div class="col-xs-12">
-									                                <p class="payment-errors">co loi xay ra</p>
+									                                <p class="payment-errors">ERROR</p>
 									                            </div>
 									                        </div>
 									                        </div>
