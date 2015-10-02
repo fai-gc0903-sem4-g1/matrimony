@@ -23,6 +23,17 @@ public class FBConnection {
     public static final String FB_APP_SECRET = "7f3633387fcb4d112913233a5efb19bb";
     public static final String REDIRECT_URI = "http://localhost/matrimony/fbredirect";
 
+    public String getFBAuthUrl() {
+        String fbLoginUrl = "";
+        try {
+            fbLoginUrl = "http://www.facebook.com/dialog/oauth?" + "client_id=" + FB_APP_ID + "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return fbLoginUrl;
+    }
+    
     private String makeGraphUrl(String code) {
         String fbGraphUrl = "";
         try { 
