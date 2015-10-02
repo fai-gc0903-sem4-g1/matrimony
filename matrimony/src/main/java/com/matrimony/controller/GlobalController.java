@@ -58,4 +58,6 @@ public class GlobalController {
 	public String viewFacebooktest() {
 		return "facebooktest";
 	}
+	
+	
 }

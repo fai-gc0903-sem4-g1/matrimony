@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 import com.matrimony.model.SessionKey;
-import com.matrimony.model.UploadToServer;
+import com.matrimony.model.UploadImageToServer;
 
 /**
  *
@@ -58,7 +58,8 @@ public class ProfileController {
 						filePath.append(obfName);
 						filePath.append(".");
 						filePath.append(extensionFile[1]);
-						UploadToServer.upFile(filePath.toString(), p.getInputStream());
+						UploadImageToServer upload = new UploadImageToServer();
+						upload.upload(filePath.toString(), p.getInputStream());
 						System.out.println("Uploaded " + filePath.toString());
 						// UPDATE AVATAR
 						ssUser.setAvatarPhoto(obfName+"."+extensionFile[1]);

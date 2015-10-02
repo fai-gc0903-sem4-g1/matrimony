@@ -4,7 +4,6 @@
             <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-
                     <jsp:useBean id="fbConn" class="com.facebook.api.FBConnection" />
                     <c:set var="current" value="${param.ddlLanguage}" scope="session" />
 

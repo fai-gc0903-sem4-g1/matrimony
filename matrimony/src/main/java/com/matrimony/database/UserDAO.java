@@ -94,12 +94,12 @@ public class UserDAO {
 		} else if (findByContactNumber(user.getContactNumber()) != null) {
 			throw new STException.ContactNumberAlready("Add user: contact number already");
 		} else {
-			Timestamp now = new Timestamp(System.currentTimeMillis());
-			if (user.getPassword() != null) {
-				user.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
-				user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
-			}
+			Timestamp now=new Timestamp(System.currentTimeMillis());
+			user.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
+			user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
 			user.setCreateAt(now);
+			user.setExpiries(now);
+
 			// ADD USER
 			add(user);
 			String emailOrPhone = user.getEmail() != null ? user.getEmail() : user.getContactNumber();

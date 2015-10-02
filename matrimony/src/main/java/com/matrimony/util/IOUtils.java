@@ -4,8 +4,6 @@
 package com.matrimony.util;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,15 +23,5 @@ public class IOUtils {
 		}
 		br.close();
 		return sb.toString();
-	}
-	
-	public static byte[] toByteArray(InputStream is) throws IOException{
-		ByteArrayOutputStream baos=new ByteArrayOutputStream();
-		int buffer;
-		while((buffer=is.read())!=-1){
-			baos.write(buffer);
-		}
-		baos.close();
-		return baos.toByteArray();
 	}
 }
