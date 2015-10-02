@@ -5,8 +5,7 @@
  */
 package com.matrimony.controller;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.facebook.api.FBConnection;
-import com.facebook.api.FBGraph;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
+
 /**
  *
  * @author SON
@@ -25,8 +23,20 @@ import com.matrimony.entity.User;
 @Controller
 public class GlobalController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String viewIndex() {
-		return "index";
+	public String viewIndex(HttpServletRequest request) {
+		User ssUser = (User) request.getSession().getAttribute("user");
+//		boolean hasExpiries = !UserDAO.hasExpiries(ssUser);
+//		System.out.println("user: "+ssUser);
+
+		if (ssUser == null)
+			return "joinUs";
+		else if (UserDAO.hasExpiries(ssUser)){
+			System.out.println(UserDAO.hasExpiries(ssUser));
+			return "redirect:payment";
+		}
+			
+		else
+			return "home";
 	}
 
 	@RequestMapping(value = "{username}")
@@ -43,7 +53,7 @@ public class GlobalController {
 			return "404";
 		}
 	}
-	
+
 	@RequestMapping(value = "facebooktest", method = RequestMethod.GET)
 	public String viewFacebooktest() {
 		return "facebooktest";

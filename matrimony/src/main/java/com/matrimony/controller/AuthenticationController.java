@@ -113,7 +113,7 @@ public class AuthenticationController {
 				|| bindingResult.hasFieldErrors("gender") || null == birthday || !ageEnought || !twinEmail) {
 			System.out.println("Register: Form register error");
 			request.setAttribute("registerFormError", true);
-			return "index";
+			return "joinUs";
 		}
 		System.out.println("Register: Form register OK");
 		userReg.setBirthday(birthday);
@@ -131,7 +131,7 @@ public class AuthenticationController {
 			request.setAttribute("notice", "ContactNumberAlready");
 			request.setAttribute("registerRespCode", 2);
 		}
-		return "index";
+		return "joinUs";
 	}
 
 	@RequestMapping(value = "logout", method = RequestMethod.POST)

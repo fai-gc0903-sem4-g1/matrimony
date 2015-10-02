@@ -8,6 +8,7 @@
                         <jsp:useBean id="FriendBean" class="com.matrimony.database.FriendDAO" />
                         <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
                         <jsp:useBean id="jstl" class="com.matrimony.model.JSLTFunctionUtil" />
+                     
                         <t:layout>
                             <jsp:attribute name="head">
                                 <link rel="stylesheet" type="text/css" href="/matrimony/resources/css/home-style.css">
@@ -32,19 +33,6 @@
                                             e.preventDefault();
                                             $("<form action='logout' method='POST'></form>").submit();
                                         });
-                                        $(document).on('change','#cbx-pay-with', function(e) {
-                                            var value = $(this).val();
-                                            if (value =='credit')
-                                                $('#credit-box').slideDown('slow');
-                                            else
-                                                $('#credit-box').slideUp('slow');
-                                        })
-                                        $(document).on('change','.checkboxPack', function(e) {
-                                            if ($(this).val() == 1)
-                                                $('#final-payment').html('$ 49.99');
-                                            else
-                                                $('#final-payment').html('$ 499.99');
-                                        })
                                     });
                                 </script>
                                 <div id="hiddenDIV">
@@ -68,107 +56,7 @@
                                         </div>
                                     </div>
                                     <div id='center' class='col-lg-7' style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px;'>
-                                        <c:choose>
-                                            <c:when test="${userDAO.hasExpiries(sessionScope.user)}">
-                                                <div class='container col-lg-12'>
-                                                <br/>
-                                                <div class="alert alert-danger" role="alert">Tài khoản của bạn đã hết hạn, vui lòng thanh toán để sử tiếp tục sử dụng</div>
-                                                <form method='POST' action='payment' class='col-lg-6 form-horizontal'>
-<!--                                                     <label>Chọn gói sử dụng</label> -->
-                                                    <p><h3>Chọn gói sử dụng:</h3>
-                                                    <div class='form-group' style='font-size: 17px;'>
-                                                        <div class="checkbox">
-                                                            <label>
-                                                                <input class='checkboxPack' type="radio" name="pack" value="1" />
-                                                                <span id="price"> 1 tháng <span id="currencyCode">$</span>&nbsp;49.99</span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label>
-                                                                <input class='checkboxPack' type="radio" name="pack" value="12" />
-                                                                <span id="price"> 12 tháng <span id="currencyCode">$</span>&nbsp;499.99</span> (Tiết kiệm 15%)</label>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <ul class="list-group">
-													  <li class="list-group-item list-group-item-info">Final payment<span id='final-payment' class="badge"></span></li>
-													</ul>
-                                                   
-                                                    <div class='form-group'>
-                                                        <select id="cbx-pay-with" name="payWith" class='selectpicker col-lg-12' data-style='btn-warning'>
-                                                            <option disabled selected>Chọn loại thanh toán</option>
-                                                            <option value='paypal'>Paypal</option>
-                                                            <option value='credit'>Credit card</option>
-                                                        </select>
-                                                    </div>
-													
-													<div id='credit-box' style='display:none;'>
-													<img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
-									                        <div class="row">
-									                            <div class="col-xs-12">
-									                                <div class="form-group">
-									                                    <label>CARD NUMBER</label>
-									                                    <div class="input-group">
-									                                        <input type="tel" class="form-control" name="cardNumber" placeholder="Valid Card Number" />
-									                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-									                                    </div>
-									                                </div>                            
-									                            </div>
-									                        </div>
-									                        <div class="row">
-									                            <div class="col-xs-7 col-md-7">
-									                                <div class="form-group">
-									                                    <label><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
-									                                    <input  type="tel" class="form-control" name="cardExpiry" placeholder="MM / YY" />
-									                                </div>
-									                            </div>
-									                            <div class="col-xs-5 col-md-5 pull-right">
-									                                <div class="form-group">
-									                                    <label>CV CODE</label>
-									                                    <input type="tel" class="form-control" name="cardCVC" placeholder="CVC"/>
-									                                </div>
-									                            </div>
-									                        </div>
-									                        <div class="row">
-									                            <div class="col-xs-12">
-									                                <div class="form-group">
-									                                    <label>COUPON CODE</label>
-									                                    <input type="text" class="form-control" name="couponCode" />
-									                                </div>
-									                            </div>                        
-									                        </div>
-									                        
-									                        <div class="row" style="display:block;">
-									                            <div class="col-xs-12">
-									                                <p class="payment-errors">ERROR</p>
-									                            </div>
-									                        </div>
-									                        </div>
-													<input type='submit' class='btn btn-success col-lg-12' value='Pay now'/>
-													
-                                                </form>
-                                        <div class='col-lg-6'>
-                                                	 <p><h3>Features:</h3>
-										                <ul>
-										                    <li>As-you-type, input formatting</li>
-										                    <li>Form field validation (also as you type)</li>
-										                    <li>Graceful error feedback for declined card, etc</li>
-										                    <li>AJAX form submission w/ visual feedback</li>
-										                    <li>Creates a Stripe credit card token</li>
-										                </ul>
-										            </p>
-										            <p>Be sure to replace the dummy API key with a valid Stripe API key.</p>
-										            
-										            <p>Built upon: Bootstrap, jQuery, 
-										                <a href="http://jqueryvalidation.org/">jQuery Validation Plugin</a>, 
-										                <a href="https://github.com/stripe/jquery.payment">jQuery.payment library</a>,
-										                and <a href="https://stripe.com/docs/stripe.js">Stripe.js</a>
-										            </p>
-                                        </div>
-                                                </div>
-                                                
-                                            </c:when>
-                                            <c:otherwise>
+                                        
                                                 <span>Những người phù hợp với bạn</span>
                                                 <div id='tblPeople'>
                                                     <c:forEach var="i" items="${peopleSuggestList }">
@@ -207,8 +95,7 @@
                                                         <h4>Trống</h4>
                                                     </div>
                                                 </div>
-                                            </c:otherwise>
-                                        </c:choose>
+                                          
                                     </div>
                                     <div id='right' class='col-lg-3'>
                                         <div class="panel panel-default">

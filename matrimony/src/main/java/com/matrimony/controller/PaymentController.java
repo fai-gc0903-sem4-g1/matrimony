@@ -9,6 +9,7 @@ import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,15 +44,14 @@ public class PaymentController {
 	private final PaypalPayment payment = new PaypalPayment();
 
 	@RequestMapping(value = "payment", method = RequestMethod.GET)
-	public String viewPayment(HttpServletRequest request) {
+	public String viewPayment(HttpServletRequest request, String returnKey) {
 		User currentUser = (User) request.getSession().getAttribute(SessionKey.USER);
 		if (currentUser == null)
 			return "joinUs";
 		else {
-			if (null == request.getSession().getAttribute(SessionKey.PAYPAL_PAY_RESPONSE)) {
-
-			} else {
-				request.setAttribute("psCode", 1);
+			String ssReturnKey = (String) request.getSession().getAttribute("returnKey");
+			if (returnKey != null && returnKey.equals(ssReturnKey)) {
+				request.getSession().setAttribute("paymentConfirm", 1);
 			}
 			return "payment";
 		}
@@ -67,7 +67,7 @@ public class PaymentController {
 		System.out.println("pack: " + pack);
 		System.out.println("payWith: " + payWith);
 
-		double finalPayment=0;
+		double finalPayment = 0;
 		if ("1".equals(pack))
 			finalPayment = 49.99;
 		else if ("12".equals(pack))
@@ -81,10 +81,13 @@ public class PaymentController {
 			switch (payWith) {
 			case "paypal":
 				try {
-					PayResponse payResponse = payment.pay(finalPayment);
+					String returnKey = RandomStringUtils.randomNumeric(11);
+					PayResponse payResponse = payment.pay(finalPayment, "http://localhost/matrimony/payment?returnKey="
+							+ returnKey, "http://localhost/matrimony/payment", "USD");
 					if (null != payResponse) {
 						request.getSession().setAttribute(SessionKey.PAYPAL_PAY_RESPONSE, payResponse);
-						return "redirect:" + CredentialsConfiguration.SAND_BOX_STRING + payResponse.getPayKey();
+						request.getSession().setAttribute("returnKey", returnKey);
+						return "redirect:" + CredentialsConfiguration.SAND_BOX + payResponse.getPayKey();
 					}
 					return "time out";
 				} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
@@ -95,13 +98,14 @@ public class PaymentController {
 					return "paypal error";
 				}
 			case "credit":
-				return"credit payment";
-			
-			default: return "paywith invalid";
+				return "credit payment";
+
+			default:
+				return "paywith invalid";
 			}
 		} else
 			return "invalid payment";
-		
+
 	}
 
 	@RequestMapping(value = "paymentVerify", method = RequestMethod.GET)

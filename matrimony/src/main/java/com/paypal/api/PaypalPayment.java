@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.validator.constraints.CreditCardNumber;
+
 import com.paypal.exception.ClientActionRequiredException;
 import com.paypal.exception.HttpErrorException;
 import com.paypal.exception.InvalidCredentialException;
@@ -29,7 +31,7 @@ import com.paypal.svcs.types.common.RequestEnvelope;
  */
 public class PaypalPayment {
 
-	public PayResponse pay(double money) throws SSLConfigurationException, InvalidCredentialException,
+	public PayResponse pay(double money, String returnUrl, String cancelUrl, String currencyCode) throws SSLConfigurationException, InvalidCredentialException,
 			UnsupportedEncodingException, HttpErrorException, InvalidResponseDataException,
 			ClientActionRequiredException, MissingCredentialException, OAuthException, IOException,
 			InterruptedException {
@@ -38,7 +40,7 @@ public class PaypalPayment {
 
 		Receiver receiver = new Receiver();
 		receiver.setAmount(money);
-		receiver.setEmail("matrimony_master@gmail.com");
+		receiver.setEmail(CredentialsConfiguration.TREASURE_EMAIL);
 		receivers.add(receiver);
 
 		ReceiverList receiverList = new ReceiverList(receivers);
@@ -46,10 +48,10 @@ public class PaypalPayment {
 		PayRequest payRequest = new PayRequest();
 		payRequest.setRequestEnvelope(requestEnvelope);
 		payRequest.setReceiverList(receiverList);
-		payRequest.setCurrencyCode("USD");
+		payRequest.setCurrencyCode(currencyCode);
 		payRequest.setActionType("PAY");
-		payRequest.setCancelUrl("http://localhost:8080/matrimony/payment");
-		payRequest.setReturnUrl("http://localhost:8080/matrimony/payment");
+		payRequest.setCancelUrl(cancelUrl);
+		payRequest.setReturnUrl(returnUrl);
 
 		PayResponse payResponse;
 
