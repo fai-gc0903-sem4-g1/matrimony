@@ -55,7 +55,11 @@ public class PaymentController {
 			}
 			return "payment";
 		}
-
+	}
+	
+	@RequestMapping(value = "paymentConfirm", method = RequestMethod.GET)
+	public String viewPaymentConfirm(HttpServletRequest request) {
+		return "paymentConfirm";
 	}
 
 	@RequestMapping(value = "payment", method = RequestMethod.POST)
@@ -86,7 +90,7 @@ public class PaymentController {
 			switch (payWith) {
 			case "paypal":
 				try {
-					String returnKey = RandomStringUtils.randomNumeric(11);
+					String returnKey = RandomStringUtils.randomNumeric(26);
 					PayResponse payResponse = payment.pay(finalPayment, "http://localhost/matrimony/payment?returnKey="
 							+ returnKey, "http://localhost/matrimony/payment", "USD");
 					if (null != payResponse) {

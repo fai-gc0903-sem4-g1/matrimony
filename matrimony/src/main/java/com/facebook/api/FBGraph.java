@@ -5,14 +5,11 @@
  */
 package com.facebook.api;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.imageio.ImageIO;
 
 import com.facebook.entity.UserProfile;
 import com.matrimony.util.Global;
