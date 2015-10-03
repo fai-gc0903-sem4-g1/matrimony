@@ -58,13 +58,7 @@
                                             <jsp:invoke fragment="middle"></jsp:invoke>
                                         </div>
                                         <div id='right' class='col-lg-3'>
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title">Friends</h3>
-                                                </div>
-                                                <div class="panel-body">
-                                                </div>
-                                            </div>
+                                           CODDE
                                         </div>
                                         <!-- CHAT BOX START HERE -->
                                 <div style='z-index:9999'>

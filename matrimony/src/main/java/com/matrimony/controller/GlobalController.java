@@ -30,8 +30,8 @@ public class GlobalController {
 
 		if (ssUser == null)
 			return "joinUs";
-		else if (UserDAO.hasExpiries(ssUser)){
-			System.out.println(UserDAO.hasExpiries(ssUser));
+		else if (!UserDAO.hasExpiries(ssUser)){
+			System.out.println("Nguoi dung con han: "+UserDAO.hasExpiries(ssUser));
 			return "redirect:payment";
 		}
 			

@@ -52,14 +52,10 @@ public class PaymentController {
 			String ssReturnKey = (String) request.getSession().getAttribute("returnKey");
 			if (returnKey != null && returnKey.equals(ssReturnKey)) {
 				request.getSession().setAttribute("paymentConfirm", 1);
+				return "redirect:paymentConfirm";
 			}
 			return "payment";
 		}
-	}
-	
-	@RequestMapping(value = "paymentConfirm", method = RequestMethod.GET)
-	public String viewPaymentConfirm(HttpServletRequest request) {
-		return "paymentConfirm";
 	}
 
 	@RequestMapping(value = "payment", method = RequestMethod.POST)
@@ -80,7 +76,7 @@ public class PaymentController {
 			request.setAttribute("finalPaymentInvalid", 1);
 			verifyForm = false;
 		}
-		
+
 		if (payWith == null) {
 			request.setAttribute("payWithNotNull", 1);
 			verifyForm = false;
@@ -115,6 +111,48 @@ public class PaymentController {
 		}
 		return "payment";
 
+	}
+
+	@RequestMapping(value = "paymentConfirm", method = RequestMethod.GET)
+	public String viewPaymentConfirm(HttpServletRequest request) {
+		if (request.getSession().getAttribute("paymentConfirm") != null) {
+			return "paymentConfirm";
+		} else
+			return "payment";
+	}
+
+	@RequestMapping(value = "paymentConfirm", method = RequestMethod.POST)
+	public String doPaymentConfirm(HttpServletRequest request) {
+		boolean paymentSussess = false;
+		int totalMonth = 1;
+		User ssUser = (User) request.getSession().getAttribute("user");
+		if (paymentSussess) {
+			Timestamp expiries = ssUser.getExpiries();
+			Timestamp timeNow = new Timestamp(System.currentTimeMillis());
+			Calendar calendar;
+			if (expiries.after(timeNow))
+				calendar = DateUtils.toCalendar(expiries);
+			else
+				calendar = DateUtils.toCalendar(timeNow);
+			calendar.set(Calendar.MONTH, totalMonth);
+
+			ssUser.setExpiries(timeNow);
+			// UPDATE USER EXPIRES
+			UserDAO.Update(ssUser);
+			Transaction transaction = new Transaction();
+			transaction.setCreateAt(timeNow);
+			transaction.setUserId(ssUser.getId());
+			transaction.setCurrencyCode("USD");
+			transaction.setMethod("PAYPAL");
+			transaction.setDecription("ghi chú");
+			transaction.setAmount(49.99);
+			TransactionDAO.add(transaction);
+			request.getSession().setAttribute("user", ssUser);
+			request.getSession().setAttribute("paymentConfirm", null);
+			return "redirect:";
+		} else {
+			return "failed";
+		}
 	}
 
 	@RequestMapping(value = "paymentVerify", method = RequestMethod.GET)
@@ -164,9 +202,6 @@ public class PaymentController {
 		} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
 				| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
 				| OAuthException | IOException | InterruptedException e) {
-			e.printStackTrace();
-		} catch (EntityIDHaveAlready e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "Co_loi_xay_ra";

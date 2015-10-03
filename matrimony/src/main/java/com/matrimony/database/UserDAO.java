@@ -139,9 +139,9 @@ public class UserDAO {
 	public static boolean hasExpiries(User user) {
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		if (user.getExpiries().after(now))
-			return false;
-		else
 			return true;
+		else
+			return false;
 	}
 
 	public static void main(String[] args) {

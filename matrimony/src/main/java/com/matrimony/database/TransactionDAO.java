@@ -15,9 +15,7 @@ import com.matrimony.util.HibernateUtil;
  *
  */
 public class TransactionDAO {
-	public static void add(Transaction transaction) throws EntityIDHaveAlready{
-		if(null==findById(transaction.getId()))
-			throw new STException.EntityIDHaveAlready("EntityIDHaveAlready");
+	public static void add(Transaction transaction){
 		Session ss=HibernateUtil.session;
 		ss.getTransaction().begin();
 		ss.save(transaction);

@@ -28,11 +28,14 @@
                 <div class='container col-lg-12'>
                     <br/>
                     <c:choose>
-                        <c:when test="${userDAO.hasExpiries(sessionScope.user)}">
-                            <div class="alert alert-danger" role="alert">Tài khoản của bạn đã hết hạn vào lúc ${sessionScope.user.expiries }, vui lòng thanh toán để sử tiếp tục sử dụng</div>
+                        <c:when test="${!userDAO.hasExpiries(sessionScope.user)}">
+                            <div class="alert alert-danger" role="alert">Tài khoản của bạn đã <b>hết hạn</b> vào lúc <b>${sessionScope.user.expiries }</b>, vui lòng thanh toán để sử tiếp tục sử dụng</div>
                         </c:when>
                         <c:otherwise>
-                            <div class="alert alert-info" role="alert">Tài khoản của bạn còn hạn đến ${sessionScope.user.expiries }</div>
+                            <div class="alert alert-info" role="alert">Tài khoản của bạn còn hạn đến <b>${sessionScope.user.expiries }</b>
+                                                        
+                            <p><b>Chú ý:</b> thanh toán khi còn hạn sẽ tiếp tục cồng dồn thời gian</p>
+                            </div>
                         </c:otherwise>
                     </c:choose>
                     <p>
@@ -149,6 +152,7 @@
                             <a href="https://github.com/stripe/jquery.payment">jQuery.payment library</a>, and <a href="https://stripe.com/docs/stripe.js">Stripe.js</a>
                         </p>
                     </div>
+                    <h1>&nbsp;</h1><h1>&nbsp;</h1><h1>&nbsp;</h1>
                 </div>
             </jsp:attribute>
         </t:homeLayout>
