@@ -68,6 +68,51 @@
         </script>
 
         <script>
+            function addFriend(u)
+            {
+                $.post('addFriend',
+                        {user: u},
+                function () {
+                    $("#btnAdd").prop('value', 'Sended Request');
+                    $('#btnAdd').prop('disabled', true);
+                    alert("insert success");
+
+                })
+                        .fail(function () { //on failure
+                            alert("Insertion failed.");
+                        });
+
+            }
+            function removeFriend(u)
+            {
+                $.post('removeFriend',
+                        {user: u},
+                function () {
+                    alert("Remove success");
+
+                })
+                        .fail(function () { //on failure
+                            alert("Remove failed.");
+                        });
+
+            }
+            function acceptFriend(u)
+            {
+                $.post('acceptFriend',
+                        {user: u},
+                function () {
+                    $("#btnAdd").prop('value', 'Friend');
+                    $('#btnAdd').prop('disabled', true);
+                    alert("accpet success");
+
+                })
+                        .fail(function () { //on failure
+                            alert("accept failed.");
+                        });
+
+            }
+        </script>
+        <script>
             $(document).ajaxStart(function () {
                 //show ajax indicator
                 ajaxindicatorstart('loading data.. please wait..');
