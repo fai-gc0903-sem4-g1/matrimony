@@ -43,7 +43,7 @@ function processOpen() {
 	ws.send(JSON.stringify(msgObj));
 	console.log('ws connected');
 };
-
+//receive message
 function processMessage(obj) {
 	var msgObj = JSON.parse(obj.data);
 	var senderId = msgObj.senderId;
@@ -55,6 +55,7 @@ function processMessage(obj) {
 			if (senderId == temp.data('user-id')) {
 				chatWindow = temp;
 			}
+			
 		}
 	});
 
@@ -62,8 +63,7 @@ function processMessage(obj) {
 		chatWindow = createChatWindow(msgObj.senderId);
 	}
 	var str=emoticonDecode(msgObj.content);
-	var receiverClone = $('#base-receive-message').clone().appendTo(
-			chatWindow.find('.msg-container-base'));
+	var receiverClone = $('#base-receive-message').clone().appendTo(chatWindow.find('.msg-container-base'));
 	receiverClone.find('p').html(str);
 	receiverClone.css('display', 'block');
 };
@@ -78,6 +78,7 @@ function processError() {
 function processOnpen() {
 };
 
+//send message
 function sendMessage(chatWindow) {
 	var receiverId = chatWindow.data('user-id');
 	var senderId = sessionUserId;
@@ -87,8 +88,7 @@ function sendMessage(chatWindow) {
 	ws.send(JSON.stringify(msgObj));
 	var str=emoticonDecode(content);
 	
-	var sentClone = $('#base-sent-message').clone().appendTo(
-			chatWindow.find('.msg-container-base'));
+	var sentClone = $('#base-sent-message').clone().appendTo(chatWindow.find('.msg-container-base'));
 	sentClone.find('p').html(str);
 	sentClone.css('display', 'block');
 

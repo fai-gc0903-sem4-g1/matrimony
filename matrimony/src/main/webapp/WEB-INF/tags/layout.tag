@@ -51,7 +51,7 @@
                                                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                                                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                                                     </button>
-                                                    <a class="navbar-brand" href="/matrimony">Matrimony</a>
+                                                    <a class="navbar-brand" style='color: blanchedalmond;font-size: 26px;' href="/matrimony">Matrimony</a>
                                                 </div>
 
                                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -73,12 +73,12 @@
                                                         <button type="submit" class="btn btn-primary">Login</button>
                                                         <br />
                                                         <div class="checkbox">
-                                                            <label>
+                                                            <label style='color: wheat;'>
                                                                 <input type="checkbox" name='keepLoggin' /> keep me logged-in</label>
                                                         </div>
                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                         <div class="checkbox">
-                                                            <a href="recover">Forget the password ?</a>
+                                                            <a href="recover" style='color: wheat;'>Forget the password ?</a>
                                                         </div>
                                                         <br/>
                                                         <form:errors path="password" id="validError" cssClass="col-lg-offset-5" />
@@ -107,7 +107,7 @@
                                                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                                                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                                                     </button>
-                                                    <a class="navbar-brand" href="/matrimony">Matrimony</a>
+                                                    <a class="navbar-brand" style='color: blanchedalmond;font-size: 26px;' href="/matrimony">Matrimony</a>
                                                 </div>
 
 

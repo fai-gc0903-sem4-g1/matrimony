@@ -58,6 +58,7 @@ public class AuthenticationController {
 			request.setAttribute("loginFormError", true);
 			return "joinUs";
 		}
+
 		try {
 			userLogin.setLoginTime(new Timestamp(System.currentTimeMillis()));
 			userLogin.setIpLogin(request.getRemoteAddr());
@@ -122,14 +123,13 @@ public class AuthenticationController {
 			User userFromDB = UserDAO.register(userBuilt);
 			sendMailActive(userBuilt.getEmail(), userBuilt.getActiveKey());
 			request.getSession().setAttribute(SessionKey.USER, userFromDB);
+			return "active";
 		} catch (STException.EmailAlready ex) {
 			System.out.println(ex.getMessage());
-			request.setAttribute("notice", "EmailAlready");
-			request.setAttribute("registerRespCode", 1);
+			request.setAttribute("regEmailAlready", 1);
 		} catch (STException.ContactNumberAlready ex) {
 			System.out.println(ex.getMessage());
-			request.setAttribute("notice", "ContactNumberAlready");
-			request.setAttribute("registerRespCode", 2);
+			request.setAttribute("regPhoneAlready", 1);
 		}
 		return "joinUs";
 	}

@@ -16,12 +16,20 @@
                             <title>Welcome to matrimony</title>
                             <link rel="stylesheet" href="/matrimony/resources/css/login-form-dialog.css" />
                             <style>
+                             	body{
+                                	background-color: #EFEFEF;
+                                }
                                 #hidden-div {
                                     display: none;
                                 }
-                                #login-with {
-                                    margin-top: 17px;
+                                
+                                .st-valid-error{
+                                	    font-size: 26px;
+									    color: #CB2027;
+									    margin-right: 12px;
                                 }
+                                
+                               
                             </style>
                             <script>
                                 $(document).ready(function() {
@@ -35,124 +43,119 @@
                             <div id='hidden-div'>
                                 <a href="#" id="show-loggin-model-trigger" data-toggle="modal" data-target="#login-modal">Login</a>
                             </div>
-                            <div id='container'>
-                                <div id="left" class="col-lg-8">
-                                    <div id='login-with' class="col-lg-6 pull-right row">
-                                        <a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-facebook">
-                                            <i class="fa fa-facebook"></i> Log-in with Facebook
-                                        </a>
-                                    </div>
+                            <div id='container row'>
+                                <div id="left" class="col-lg-7">
+                                	<div class='col-lg-8'>
+                                	<img src='http://scideck.com/mod/community3_theme/graphics/artificial-intelligence-connected-people.png'/>
+                                	
+                                	</div>
+                                    <div id='login-with' class="col-lg-4">
+                                        <a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i>&nbsp;Log-in with Facebook</a>
+                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-google"><i class="fa fa-google"></i>&nbsp;Log-in with Google</a>
+                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-twitter"><i class="fa fa-twitter"></i>&nbsp;Log-in with Twitter</a>
+                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-yahoo"><i class="fa fa-yahoo"></i>&nbsp;Log-in with yahoo</a>
+                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-instagram"><i class="fa fa-instagram"></i>&nbsp;Log-in with Instagram</a>
+                                   </div>
                                 </div>
                                 <div id="right" class="col-lg-4">
-                                    <form:form modelAttribute="userReg" id="registerForm" action="/matrimony/register" method="POST" class="form-horizontal col-lg-12">
-                                        <h2>Đăng ký</h2>
-                                        <br />
+                                    <form:form modelAttribute="userReg" id="registerForm" action="/matrimony/register" method="POST" class="col-lg-12">
                                         <c:if test="${registerFormError }">
                                         </c:if>
                                         <div style="display: none;" id="myAlert" class="alert alert-danger" role="alert"></div>
 
-                                        <div class="form-group">
-                                            
-                                            <div class="col-lg-5">
-                                                <input id="firstName" class="form-control" type="text" name="firstName" placeholder="Tên" value="${requestScope.userReg.firstName}"></input>
-                                            </div>
-                                            <div class="col-lg-5">
-                                                <input id="lastName" class="form-control" type="text" name="lastName" placeholder="Họ" value="${requestScope.userReg.lastName}"></input>
-                                            </div>
+                                             <div class="form-group has-feedback col-lg-6">
+								                <input id="firstName" class="form-control" type="text" name="firstName" placeholder="Tên" value="${requestScope.userReg.firstName}"></input>
+								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								            </div>
+								            
+								            <div class="form-group has-feedback col-lg-6">
+								                <input id="lastName" class="form-control" type="text" name="lastName" placeholder="Họ" value="${requestScope.userReg.lastName}"></input>
+								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								                
+								            </div>
+                                           
                                             <form:errors path="firstName" id="validError" cssClass="control-label col-lg-offset-1" />
                                             <form:errors path="lastName" id="validError" cssClass="control-label col-lg-offset-1" />
-                                        </div>
+                                     
 
 
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                                <input id="email" onkeyup="" class="form-control" type="email" name="email" value="${userReg.email}" placeholder="Địa chỉ email">
-                                                </input>
-                                                <div>
-                                                    <form:errors path="email" id="validError" />
-                                                </div>
-                                            </div>
-                                        </div>
+										<div class="form-group has-feedback col-lg-12">
+								                <input id="email" onkeyup="" class="form-control" type="email" name="email" value="${userReg.email}" placeholder="Địa chỉ email"/>
+								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								                <form:errors path="email" id="validError" />
+								            </div>
+                                       <div class="form-group has-feedback col-lg-12">
+								                <input id="reEmail" name="reEmail" class="form-control" type="email" placeholder="Nhập lại địa chỉ email" />
+								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								        </div>
 
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                                <input id="reEmail" name="reEmail" class="form-control" type="email" placeholder="Nhập lại địa chỉ email" />
-                                                <div id="validError">
-                                                    ${reEmailInvalid }
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                                <input id="password" class="form-control" type="password" name="password" placeholder="Mật khẩu"></input>
+								        <div class="form-group has-feedback col-lg-12">
+								                <input id="password" class="form-control" type="password" name="password" placeholder="Mật khẩu"></input>
                                                 <form:errors path="password" id="validError" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="color: red;" class="control-label col-sm-1"></label>
-                                            <div class="col-sm-10">
-                                                <input id="phone" class="form-control" type="text" name="contactNumber" placeholder="Số điện thoại nếu có"></input>
+								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								        </div>
+                                       <div class="form-group has-feedback col-lg-12">
+								                <input id="phone" class="form-control" type="text" name="contactNumber" placeholder="Số điện thoại nếu có"></input>
                                                 <form:errors path="contactNumber" id="validError" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            
-                                            <div class="col-lg-3" style="width: 114px;">
-                                                <select class="form-control" name="day">
+								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								        </div>
+								        
+								        <div class='form-group col-lg-12'>
+                                                <label class="control-label">Ngày sinh</label>
+                                         </div>
+                                      
+                                        <div class="form-group col-lg-3">
+                                                <select class="" name="day">
                                                     <option>Ngày</option>
                                                     <c:forEach var="i" begin="1" end="31" step="1">
                                                         <option>${i}</option>
                                                     </c:forEach>
-
                                                 </select>
-                                            </div>
-                                            <div class="col-lg-3" style="width: 122px;">
-                                                <select class="form-control" name="month">
-                                                    <option>Tháng</option>
-                                                    <c:forEach var="i" begin="1" end="12" step="1">
-                                                        <option>${i}</option>
-                                                    </c:forEach>
+                                         </div>
+                                         
+                                         
+                                           <div class="form-group col-lg-3">
+                                               <select class="" name="month">
+                                                   <option>Tháng</option>
+                                                   <c:forEach var="i" begin="1" end="12" step="1">
+                                                       <option>${i}</option>
+                                                   </c:forEach>
 
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-3" style="width: 114px">
-                                                <select class="form-control" name="year">
-                                                    <option>Năm</option>
-                                                    <c:forEach var="i" begin="1905" end="2015" step="1">
-                                                        <option>${i}</option>
-                                                    </c:forEach>
+                                               </select>
+                                           </div>
+                                           
+                                           <div class="form-group col-lg-3">
+                                               <select class="" name="year">
+                                                   <option>Năm</option>
+                                                   <c:forEach var="i" begin="1905" end="2015" step="1">
+                                                       <option>${i}</option>
+                                                   </c:forEach>
+                                               </select>
+                                           </div>
+                                             <div class="form-group has-feedback col-lg-3">
+                                               <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+                                           </div>
+                                           
+                                           
+                                          <div class="col-lg-5 col-lg-offset-1" id="validError">${requestScope.birthdayInvalid}</div>
 
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-5 col-lg-offset-1" id="validError">${requestScope.birthdayInvalid}</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="color: red;" class="control-label col-sm-1"></label>
-                                            <div class="col-lg-3">
-                                                <label class="control-label">Giới tính</label>
-                                            </div>
-                                            <br />
-                                            <div style="font-size: 17px;" class="checkbox" id="sexGroup">
-                                                <label style="color: red;" class="control-label col-sm-1"></label>
+                                        <div class="form-group has-feedback col-lg-12">
+                                        <label class="control-label">Giới tính</label>
+                                            <div style="font-size: 16px;" class="checkbox" id="sexGroup">
                                                 <label class="control-label">
                                                     <input type="radio" id="sex" name="gender" value="female" /> Nữ
                                                 </label>
                                                 <label class="control-label">
                                                     <input id="sex" type="radio" name="gender" value="male" /> Nam
                                                 </label>
-                                                <label class="control-label">
-                                                    <form:errors path="gender" id="validError" />
-                                                </label>
+                                                <form:errors path="gender" id="validError" />
                                             </div>
+                                            <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
                                         </div>
 
                                         <div class="form-group">
-                                            <label style="color: red;" class="control-label col-sm-1"></label>
-                                            <div class="col-sm-10">
-                                                <input class="btn btn-success col-sm-10" type="submit" value="Đăng ký" />
+                                            <div class="col-sm-12">
+                                                <input class="btn btn-success col-sm-12" type="submit" value="Đăng ký" />
                                             </div>
                                         </div>
                                     </form:form>

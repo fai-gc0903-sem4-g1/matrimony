@@ -144,6 +144,7 @@ public class UserDAO {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(findByEmailOrContactNumberOrUsername("kunedo_95@yahoo.com"));
+		User user=UserDAO.findById("990258dd4ff88341014ff88349b50001");
+		System.out.println(hasExpiries(user));
 	}
 }
