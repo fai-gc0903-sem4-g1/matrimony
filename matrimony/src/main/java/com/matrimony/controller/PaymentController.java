@@ -45,8 +45,8 @@ public class PaymentController {
 
 	@RequestMapping(value = "payment", method = RequestMethod.GET)
 	public String viewPayment(HttpServletRequest request, String returnKey) {
-		User currentUser = (User) request.getSession().getAttribute(SessionKey.USER);
-		if (currentUser == null)
+		User ssUser = (User) request.getSession().getAttribute(SessionKey.USER);
+		if (ssUser == null)
 			return "joinUs";
 		else {
 			String ssReturnKey = (String) request.getSession().getAttribute("returnKey");
@@ -140,6 +140,7 @@ public class PaymentController {
 			// UPDATE USER EXPIRES
 			UserDAO.Update(ssUser);
 			Transaction transaction = new Transaction();
+			transaction.setId(RandomStringUtils.randomAlphanumeric(26));
 			transaction.setCreateAt(timeNow);
 			transaction.setUserId(ssUser.getId());
 			transaction.setCurrencyCode("USD");
@@ -173,6 +174,7 @@ public class PaymentController {
 					transaction.setMethod("PAYPAL");
 					transaction.setDecription("ghi chú");
 					transaction.setAmount(amount);
+					transaction.setId(RandomStringUtils.randomAlphanumeric(26));
 					TransactionDAO.add(transaction);
 
 					Timestamp expiries = currentUser.getExpiries();

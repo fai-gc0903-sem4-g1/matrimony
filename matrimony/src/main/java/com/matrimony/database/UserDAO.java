@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.taglibs.standard.lang.jstl.EqualityOperator;
 import org.hibernate.Session;
 
 import com.matrimony.entity.User;

@@ -16,8 +16,8 @@
                                 <script src="/matrimony/resources/js/chat/chat-process.js"></script>
                                 <script src="/matrimony/resources/js/chat/emoticon.js"></script>
                                     <script>
-                                        var sessionUserId = '${sessionScope.user.id}';
                                         $(document).ready(function() {
+                                        	var ssUserId = '${sessionScope.user.id}';
                                             $("#avatar").click(function() {
                                                 $("#uploadAvatarPhoto").click();
                                             });

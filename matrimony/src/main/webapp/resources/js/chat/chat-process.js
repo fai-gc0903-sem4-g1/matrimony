@@ -38,7 +38,7 @@ ws.onerror = function() {
 }
 
 function processOpen() {
-	var senderId = sessionUserId;
+	var senderId = ssUserId;
 	var msgObj = new Message(senderId, null, null, null);
 	ws.send(JSON.stringify(msgObj));
 	console.log('ws connected');
@@ -132,6 +132,7 @@ function createChatWindow(userId) {
 				if (j != i) {
 					if (chatWindow.data('user-id') == userId) {
 						duplicate = true;
+						alert($(this).html());
 					}
 				}
 			});
