@@ -5,6 +5,7 @@
  */
 package com.matrimony.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -43,7 +44,7 @@ public class User implements Serializable {
 	private int height;
 	@Size(min=2,max=30, message="Tên quá ngắn")
 	private String firstName;
-	@Size(min=2,max=30, message="Họ quá ngắn")
+	@Size(min=2,max=30, message="H�? quá ngắn")
 	private String lastName;
 	private String username;
 	@Email(message = "Email sai định dạng")
@@ -52,7 +53,7 @@ public class User implements Serializable {
 	private String password;
 	private String salt;
 	private String contactNumber;
-	@NotEmpty(message = "Xin chọn giới tính")
+	@NotEmpty(message = "Xin ch�?n giới tính")
 	private String gender;
 	private String regMethod;
 	private String religion;
@@ -78,8 +79,10 @@ public class User implements Serializable {
 	private boolean verified;
 
 	@OneToMany(mappedBy = "userFromId")
+        @JsonIgnore
 	private Set<Friend> friendFromId;
 	@OneToMany(mappedBy = "userToId")
+        @JsonIgnore
 	private Set<Friend> friendToId;
 	@OneToMany(mappedBy = "userId")
 	private Set<Transaction> transactions;
