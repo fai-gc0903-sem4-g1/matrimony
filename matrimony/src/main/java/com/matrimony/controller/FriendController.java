@@ -5,6 +5,7 @@
  */
 package com.matrimony.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.matrimony.database.FriendDAO;
+import com.matrimony.database.Matrimony;
 import com.matrimony.entity.Friend;
+import com.matrimony.entity.User;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -20,61 +28,81 @@ import com.matrimony.entity.Friend;
  */
 @Controller
 public class FriendController {
-
-    @RequestMapping(value = "sendRequest", method = RequestMethod.POST)
-    public String sendRequest(String usToId, String usFromId, HttpSession session) {
-        Friend friend = new Friend();
-        friend.setUserFromId(usFromId);
-        friend.setUserToId(usToId);
-        friend.setStatus(1);
-        FriendDAO.addFriend(friend);//them moi 1 bang ket ban voi thuoc tinh da gui loi moi
-        return "home";
-
+    @RequestMapping(value = "listSuggest", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String listSuggest(HttpSession ss) throws IOException {
+        List<User> listSuggest = new ArrayList<User>();
+        User u = (User) ss.getAttribute("user");
+        List<User> list = Matrimony.getSuggestUsers(u);
+        for (int i = 0; i < list.size(); i++) {
+            if(FriendDAO.CheckExist(u.getId(), list.get(i).getId())){
+                listSuggest.add(list.get(i));
+            }
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        String data = mapper.writeValueAsString(listSuggest);
+        System.out.println(data);
+        return data;
     }
 
-    @RequestMapping(value = "acceptRequest", method = RequestMethod.POST)
-    public String accpetRequest(String usToId, String usFromId, HttpSession session) {
-        Friend f = FriendDAO.getFriend(usFromId, usToId);
+    @RequestMapping(value = "allRequest", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String allRequest(HttpSession ss) throws IOException {
+        User u = (User) ss.getAttribute("user");
+        List<User> list = FriendDAO.ListRequest(u.getId());
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).getId();
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        String data = mapper.writeValueAsString(list);
+        System.out.println(data);
+        return data;
+    }
+
+    @RequestMapping(value = "allFriend", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String allFriend(HttpSession ss) throws IOException {
+        User u = (User) ss.getAttribute("user");
+        List<User> list = FriendDAO.ListFriend(u.getId());
+        ObjectMapper mapper = new ObjectMapper();
+        String data = mapper.writeValueAsString(list);
+        System.out.println(data);
+        return data;
+    }
+
+    @RequestMapping(value = "addFriend", method = RequestMethod.POST)
+    @ResponseBody
+    public static String addFriend(String user,HttpSession ss) {
+        User u = (User) ss.getAttribute("user");
+        int status = 1;
+        Friend f = new Friend();
+        f.setUserFromId(u.getId());
+        f.setUserToId(user);
+        f.setStatus(status);
+        f.setTimeInvited(new Timestamp(System.currentTimeMillis()));
+        FriendDAO.addFriend(f);
+        return "success";//mo database ktra lai xem
+    }
+
+    @RequestMapping(value = "removeFriend", method = RequestMethod.POST)
+    @ResponseBody
+    public static String removeFriend(String user,HttpSession ss) {
+        User u = (User) ss.getAttribute("user");
+        System.out.println(user);
+        Friend f = FriendDAO.GetFriend(u.getId(), user);
+        FriendDAO.removeFriend(f);
+        return "success";//mo database ktra lai xem
+    }
+
+    @RequestMapping(value = "acceptFriend", method = RequestMethod.POST)
+    @ResponseBody
+    public static String acceptFriend(String user,HttpSession ss) {
+        User u = (User) ss.getAttribute("user");
+        System.out.println(user);
+        Friend f = FriendDAO.GetFriend(u.getId(), user);
         f.setStatus(2);
-        FriendDAO.EditRecord(f);
-        return "home";
-        //sua doi thuoc tinh status thanh da dong y ket ban
-//        User friendFromId = FriendDAO.getUserById(nameFromId);
-//        FriendController f = new FriendController();
-//        f.getFriend(friendFromId, mm, request);
-//        session.setAttribute("nameToId", nameToId);
-//        session.setAttribute("message", nameFromId + nameToId + "Da tro thanh ban be");     
+        f.setTimeAccepted(new Timestamp(System.currentTimeMillis()));
+        FriendDAO.EditFriend(f);
+        return "success";//mo database ktra lai xem
     }
-
-    @RequestMapping(value = "cancelRequest", method = RequestMethod.POST)
-    public String cancelRequest(String usTo, String usFrom) {
-        return "home";
-    }
-//
-//    @RequestMapping(value = "removeFriend/{nameToId}/{nameFromId}", method = RequestMethod.POST)
-//    public String removeFriend(@PathVariable String nameToId, ModelMap mm, HttpServletRequest request, HttpSession session, @PathVariable String nameFromId, Friend table) {
-//        return "home";
-//    }
-//    public void getFriend(User user, ModelMap mm, HttpServletRequest request) {
-//        List<User> listSuggest = null;
-//        List<User> listRequest = null;
-//        List<User> listFriend = null;
-//        try {
-//            listSuggest = FriendDAO.searchBySttToGetSuggest(user);//lay danh sach nhung loi goi y
-//            listRequest = FriendDAO.searchBySttToGetRequest(user);//lay danh sach nhung nguoi da gui loi moi
-//            listFriend = FriendDAO.searchBySttToGetFriend(user);//lay danh sach la ban be
-//            mm.addAttribute("listSuggest", listSuggest);
-//            mm.addAttribute("listRequest", listRequest);
-//            mm.addAttribute("listFriend", listFriend);
-//        } catch (STException.EmptySuggest ex) {
-//            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-//            request.setAttribute("notice", "khong co goi y ket ban");
-//        } catch (STException.EmptyRequest ex) {
-//            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-//            request.setAttribute("notice", "khong co loi moi ket ban");
-//        } catch (STException.EmptyFriend ex) {
-//            Logger.getLogger(FriendController.class.getName()).log(Level.SEVERE, null, ex);
-//            request.setAttribute("notice", "khong co ban be");
-//        }
-//    }
 }

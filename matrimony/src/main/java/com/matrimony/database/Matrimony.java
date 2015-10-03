@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import com.matrimony.entity.User;
 
 public class Matrimony {
-	public List<User> getSuggestUsers(User user) {
+	public static List<User> getSuggestUsers(User user) {
 		List<User> users = UserDAO.allUsers().stream()
 				.filter(u -> !u.getId().equals(user.getId()) && !u.getGender().equals(user.getGender()))
 				.collect(Collectors.toList());
