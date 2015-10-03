@@ -34,7 +34,6 @@ public class GlobalController {
 			System.out.println("Nguoi dung con han: "+UserDAO.hasExpiries(ssUser));
 			return "redirect:payment";
 		}
-			
 		else
 			return "home";
 	}

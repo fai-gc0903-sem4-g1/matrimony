@@ -13,11 +13,11 @@
                                 <jsp:attribute name="head">
                                     <link rel="stylesheet" type="text/css" href="/matrimony/resources/css/home-style.css">
                                      <script src="/matrimony/resources/js/chat/entity.js"></script>
-                                <script src="/matrimony/resources/js/chat/chat-process.js"></script>
-                                <script src="/matrimony/resources/js/chat/emoticon.js"></script>
+	                                <script src="/matrimony/resources/js/chat/chat-process.js"></script>
+	                                <script src="/matrimony/resources/js/chat/emoticon.js"></script>
                                     <script>
+                                    var sessionUserId = '${sessionScope.user.id}';
                                         $(document).ready(function() {
-                                        	var ssUserId = '${sessionScope.user.id}';
                                             $("#avatar").click(function() {
                                                 $("#uploadAvatarPhoto").click();
                                             });
@@ -33,35 +33,10 @@
                                    <jsp:invoke fragment="head"></jsp:invoke>
                                 </jsp:attribute>
                                 <jsp:body>
-                                    <div id="hiddenDIV">
-                                        <form id="uploadPhotoForm" action="changeAvatar" method="POST" enctype="multipart/form-data">
-                                            <input id="uploadAvatarPhoto" type="file" name="file" accept="image/*" />
-                                            <input type="hidden" type="text" name="test" value="love" />
-                                        </form>
-                                    </div>
-                                    <div id="container" class='row'>
-                                        <div id='left' class='col-lg-2'>
-                                            <img id="avatar" alt='avatar' style='height: 170px; width: 170px;' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
-                                            <br />
-                                            <br />
-                                            <span id='name' class='col-lg-21'>${sessionScope.user.name }</span>
-                                            <br />
-                                            <br />
-                                            <div class="list-group">
-                                                <a class="list-group-item" href="#"><i class="fa fa-user"></i>&nbsp;Thông tin cá nhân</a>
-                                                <a class="list-group-item" href="#"> <i class="fa fa-cog"></i>&nbsp;Cài đặt</a>
-                                                <a class="list-group-item" href="/matrimony/payment"> <i class="fa fa-cog"></i>&nbsp;Thanh toán</a>
-                                                <a class="list-group-item" id='btn-logout' href="#"><i class="fa fa-sign-out"></i>&nbsp;Thoát</a>
-                                            </div>
-                                        </div>
-                                        <div id='middle' class='col-lg-7' style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px;'>
-                                            <jsp:invoke fragment="middle"></jsp:invoke>
-                                        </div>
-                                        <div id='right' class='col-lg-3'>
-                                           CODDE
-                                        </div>
-                                        <!-- CHAT BOX START HERE -->
-                                <div style='z-index:9999'>
+                                
+
+                                            <!-- CHAT BOX START HERE -->
+                                <div>
                                     <div id='chat-container' class="container">
                                         <div class="row col-lg-3 css-chat-window" id="chat-window" style='display:none;'>
                                             <div class="col-lg-12">
@@ -114,8 +89,52 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                    <div id="hiddenDIV">
+                                        <form id="uploadPhotoForm" action="changeAvatar" method="POST" enctype="multipart/form-data">
+                                            <input id="uploadAvatarPhoto" type="file" name="file" accept="image/*" />
+                                            <input type="hidden" type="text" name="test" value="love" />
+                                        </form>
                                     </div>
-
+                                    <div id="container" class='row'>
+                                        <div id='left' class='col-lg-2'>
+                                            <img id="avatar" alt='avatar' style='height: 170px; width: 170px;' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
+                                            <br />
+                                            <br />
+                                            <span id='name' class='col-lg-21'>${sessionScope.user.name }</span>
+                                            <br />
+                                            <br />
+                                            <div class="list-group">
+                                                <a class="list-group-item" href="#"><i class="fa fa-user"></i>&nbsp;Thông tin cá nhân</a>
+                                                <a class="list-group-item" href="#"> <i class="fa fa-cog"></i>&nbsp;Cài đặt</a>
+                                                <a class="list-group-item" href="/matrimony/payment"> <i class="fa fa-cog"></i>&nbsp;Thanh toán</a>
+                                                <a class="list-group-item" id='btn-logout' href="#"><i class="fa fa-sign-out"></i>&nbsp;Thoát</a>
+                                            </div>
+                                        </div>
+                                        <div id='middle' class='col-lg-7' style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px;'>
+                                            <jsp:invoke fragment="middle"></jsp:invoke>
+                                        </div>
+                                        </div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                               
+                                        
+                                        
+                                        
+                                        
                                 </jsp:body>
 
 

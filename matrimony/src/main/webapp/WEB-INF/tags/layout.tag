@@ -37,11 +37,6 @@
                            <script src="/matrimony/resources/silviomoreto-bootstrap-select/js/bootstrap-select.min.js"></script>
                             <!-- 	===========CUSTOM CSS=========== -->
                             <link rel='stylesheet' href='/matrimony/resources/css/layout-style.css' />
-							
-							<script src="/matrimony/resources/js/chat/entity.js"></script>
-                            <script src="/matrimony/resources/js/chat/chat-process.js"></script>
-                            <script src="/matrimony/resources/js/chat/emoticon.js"></script>
-                                
                             <jsp:invoke fragment="head" />
                         </head>
                         <c:set var="userAvatarFolder" value="/matrimony/resources/profile/avatar" scope="application" />
@@ -131,7 +126,7 @@
                                                     </div>
 
                                                     <ul class="nav navbar-nav navbar-right">
-                                                    <li><a href="/matrimony">Trang chủ&nbsp;<i class="fa fa-newspaper-o"></i></a></li>
+                                                    <li><a href="/matrimony"><i style='font-size:22px;' class="fa fa-newspaper-o"></i></a></li>
                                                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users" style='font-size:19px'></i> <span
 										class="label label-primary">5</span> </a>
                                                             <ul class="dropdown-menu">

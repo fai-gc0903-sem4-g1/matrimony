@@ -46,10 +46,12 @@
 
                                             </div>
                                         </div>
+                                        
                                     </c:forEach>
-                                    <div class='row col-sm-12' style='text-align: center;'>
-                                        <h4>Trống</h4>
                                     </div>
-                                </div>
+                                    <div class='row col-sm-12' style='text-align: center;'>
+                                        <h4>End</h4>
+                                    </div>
+                                   
                             </jsp:attribute>
                         </t:homeLayout>

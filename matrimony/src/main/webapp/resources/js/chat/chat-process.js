@@ -23,7 +23,7 @@ $(document).on('keypress', '#txt-chat-msg', function(e) {
 	}
 });
 // CHAT PROCESS
-var ws = new WebSocket('ws://localhost/matrimony/chatserver');
+var ws = new WebSocket('ws://10.22.36.205/matrimony/chatserver');
 ws.onopen = function() {
 	processOpen();
 }
@@ -38,7 +38,7 @@ ws.onerror = function() {
 }
 
 function processOpen() {
-	var senderId = ssUserId;
+	var senderId = sessionUserId;
 	var msgObj = new Message(senderId, null, null, null);
 	ws.send(JSON.stringify(msgObj));
 	console.log('ws connected');
@@ -99,7 +99,7 @@ function emoticonDecode(str){
 	for (var kbd in emoticons) {
 //		var reg=new RegExp(+"\\"+kbd+"\\",'g');
 //		console.log(reg);
-		content = content.replace(kbd,'<img src="http://10.22.36.205:8080/matrimony/resources/emoticons/'+ emoticons[kbd] + '.gif" />')
+		content = content.replace(kbd,'<img src="http://10.22.36.205/matrimony/resources/emoticons/'+ emoticons[kbd] + '.gif" />')
 	}
 	return content;
 }
@@ -132,24 +132,37 @@ function createChatWindow(userId) {
 				if (j != i) {
 					if (chatWindow.data('user-id') == userId) {
 						duplicate = true;
-						alert($(this).html());
+						
 					}
 				}
 			});
 			margin = margin + parseInt(chatWindow.css('width'));
 		}
 	});
-
+	
 	if (duplicate) {
 		alert('dang chat voi nguoi nay roi');
 	} else {
 		var clone = $("#chat-window").clone().appendTo("#chat-container");
+		var userName='';
+		$.ajax({
+			method:'POST',
+			url:'/matrimony/getInfoUserByUserId',
+			data:{id:userId},
+			success:function(data){
+				userName=data;
+			},
+			error:function(){
+				
+			}
+		});
 		clone.css("margin-right", margin);
 		clone.data('user-id', userId);
-		clone.find('#name').html(userId);
+		clone.find('#name').html(userName);
 		clone.css('display', 'block');
 		return clone;
 	}
+	
 	// return null;
 }
 
