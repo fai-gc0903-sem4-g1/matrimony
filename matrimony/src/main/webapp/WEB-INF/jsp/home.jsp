@@ -46,7 +46,6 @@
 
                                             </div>
                                         </div>
-                                        
                                     </c:forEach>
                                     </div>
                                     <div class='row col-sm-12' style='text-align: center;'>

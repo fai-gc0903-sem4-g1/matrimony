@@ -6,6 +6,7 @@
 
 $(document).ready(function () {
     $.get('listSuggest', function (responseJson) {
+        alert('ok')
         if (responseJson !== null) {
             $("#suggest").find("tr:gt(0)").remove();
             var table1 = $("#suggest");

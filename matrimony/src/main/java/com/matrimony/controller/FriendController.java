@@ -49,6 +49,7 @@ public class FriendController {
     @ResponseBody
     public String allRequest(HttpSession ss) throws IOException {
         User u = (User) ss.getAttribute("user");
+        System.out.println(u.getId());
         List<User> list = FriendDAO.ListRequest(u.getId());
         for (int i = 0; i < list.size(); i++) {
             list.get(i).getId();
