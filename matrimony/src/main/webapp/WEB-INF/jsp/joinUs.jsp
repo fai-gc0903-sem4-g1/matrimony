@@ -55,7 +55,7 @@
                             <div id='container row'>
                                 <div id="left" class="col-lg-7">
                                 	<div class='col-lg-8'>
-                                	<img class="pull-right" src='http://scideck.com/mod/community3_theme/graphics/artificial-intelligence-connected-people.png'/>
+                                	<img class="pull-right" src='/matrimony/resources/imgs/connected-people-symbolic.png'/>
                                 	
                                 	</div>
                                     <div id='login-with' class="col-lg-4">
@@ -110,12 +110,12 @@
 								        </div>
 								        
 								        <div class='form-group col-lg-12'>
-                                                <label class="control-label">Ngày sinh</label>
+                                                <span style='font-weight:700;'>Ngày sinh</span>
                                          </div>
                                       
                                         <div class="form-group col-lg-3">
                                                 <select class="" name="day">
-                                                    <option>Ngày</option>
+                                                    <option value='' disabled selected>Ngày</option>
                                                     <c:forEach var="i" begin="1" end="31" step="1">
                                                         <option>${i}</option>
                                                     </c:forEach>
@@ -125,7 +125,7 @@
                                          
                                            <div class="form-group col-lg-3">
                                                <select class="" name="month">
-                                                   <option>Tháng</option>
+                                                   <option value='' disabled selected>Tháng</option>
                                                    <c:forEach var="i" begin="1" end="12" step="1">
                                                        <option>${i}</option>
                                                    </c:forEach>
@@ -134,8 +134,8 @@
                                            </div>
                                            
                                            <div class="form-group col-lg-3">
-                                               <select class="" name="year">
-                                                   <option>Năm</option>
+                                               <select name="year">
+                                                   <option value='' disabled selected>Năm</option>
                                                    <c:forEach var="i" begin="1905" end="2015" step="1">
                                                        <option>${i}</option>
                                                    </c:forEach>
@@ -149,15 +149,12 @@
                                           <div class="col-lg-5 col-lg-offset-1" id="validError">${requestScope.birthdayInvalid}</div>
 
                                         <div class="form-group has-feedback col-lg-12">
-                                        <label class="control-label">Giới tính</label>
-                                            <div style="font-size: 16px;" class="checkbox" id="sexGroup">
-                                                <label class="control-label">
-                                                    <input type="radio" id="sex" name="gender" value="female" /> Nữ
-                                                </label>
-                                                <label class="control-label">
-                                                    <input id="sex" type="radio" name="gender" value="male" /> Nam
-                                                </label>
-                                                <form:errors path="gender" id="validError" />
+                                        <span style='font-weight:700;'>Giới tính</span>
+                                            <div class='radio' style="font-size: 16px;">
+                                                    <label><input type="radio" name="gender" value="female" /> Nữ</label>
+                                                    &nbsp;
+                                                     <label><input type="radio" name="gender" value="male" /> Nam</label>
+                                                     <label style='display:none;'><input type="radio" name="gender" value="none" checked /></label>
                                             </div>
                                             <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả"></i>
                                         </div>

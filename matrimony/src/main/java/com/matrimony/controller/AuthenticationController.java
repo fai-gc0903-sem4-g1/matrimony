@@ -100,13 +100,13 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String doRegister(HttpServletRequest request, User userReg, String day, String month, String year,
-			String reEmail) {
+	public String doRegister(HttpServletRequest request, User userReg, String day, String month, String year, String reEmail) {
+		Timestamp currentTime=new Timestamp(System.currentTimeMillis());
+		System.out.print(currentTime+": "+userReg.getGender());
 		if (userReg.getFirstName() == null || userReg.getLastName() == null || userReg.getEmail() == null
-				|| userReg.getGender() == null || month == null || day == null || year == null) {
+				|| userReg.getGender() == null) {
 			return "cogidokhongdung";
 		}
-		Timestamp currentTime=new Timestamp(System.currentTimeMillis());
 		boolean wellForm = true;
 		StringResouces sr = new StringResouces(StringResouces.vi_VN);
 		if (!Pattern.matches(Regex.NAME, userReg.getFirstName())) {
@@ -132,18 +132,18 @@ public class AuthenticationController {
 		Date birthday = null;
 		try {
 			birthday = Date.valueOf(year + "-" + month + "-" + day);
+			if(DateUtils.toCalendar(currentTime).get(Calendar.YEAR)-DateUtils.toCalendar(birthday).get(Calendar.YEAR)<18){
+				wellForm = false;
+				request.setAttribute("regBirthdayInvalid", sr.getData().get("regNotEnoughAge"));
+			}
 		} catch (IllegalArgumentException ex) {
 			System.out.println("Register: " + ex.getMessage());
 			wellForm=false;
 			request.setAttribute("regBirthdayInvalid", "Ngày tháng chọn sai");
 		}
-		if(DateUtils.toCalendar(currentTime).get(Calendar.YEAR)-DateUtils.toCalendar(birthday).get(Calendar.YEAR)<18){
-			wellForm = false;
-			request.setAttribute("regBirthdayInvalid", sr.getData().get("regNotEnoughAge"));
-		}
 		
 		if(!wellForm)
-			return "joinUS";
+			return "joinUs";
 
 		String activeKey = RandomStringUtils.randomAlphanumeric(8);
 		userReg.setBirthday(birthday);
@@ -152,7 +152,7 @@ public class AuthenticationController {
 		userReg.setRegMethod("Native");
 		userReg.setAvatarPhoto(userReg.getGender().equals("male") ? "default_male_avatar.jpg" : "default_female_avatar.jpg");
 		userReg.setName(userReg.getFirstName() + " " + userReg.getLastName());
-		userReg.setExpiries(new Timestamp(System.currentTimeMillis()));
+		userReg.setExpiries(currentTime);
 		try {
 			User userFromDB = UserDAO.register(userReg);
 			sendMailActive(userReg.getEmail(), userReg.getActiveKey());
