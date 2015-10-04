@@ -38,9 +38,14 @@ public class FriendDAO {
         ss.close();
     }
 
-    public static void EditFriend(Friend friend) {
+    public static void AcceptFriend(String nameFormId, String nameToId) {
         Session ss = HibernateUtil.openSession();
         ss.getTransaction().begin();
+        Query query = ss.createQuery("FROM friend WHERE userFromId=:userFromId and userToId=:userToId");
+        query.setParameter("userFromId", nameToId);
+        query.setParameter("userToId", nameFormId);
+        Friend friend = (Friend) query.uniqueResult();
+        friend.setStatus(2);
         ss.update(friend);
         ss.getTransaction().commit();
         ss.close();
@@ -53,14 +58,18 @@ public class FriendDAO {
         query.setParameter("status", 2);
         List<Friend> list = query.list();
         for (int i = 0; i < list.size(); i++) {
-            if (nameFormId.equalsIgnoreCase(list.get(i).getUserFromId())) {
+            if (nameFormId.equals(list.get(i).getUserFromId())) {
                 User u = FriendDAO.getUserById(list.get(i).getUserToId());
                 listUser.add(u);
             }
-            if (nameFormId.equalsIgnoreCase(list.get(i).getUserToId())) {
+            if (nameFormId.equals(list.get(i).getUserToId())) {
                 User u = FriendDAO.getUserById(list.get(i).getUserFromId());
                 listUser.add(u);
             }
+        }
+        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+        for (int i = 0; i < listUser.size(); i++) {
+            System.out.println(listUser.get(i).getId());
         }
         session.close();
         return listUser;
@@ -81,7 +90,7 @@ public class FriendDAO {
         return listUser;
     }
 
-    public static List<User> ListResponse(String nameFormId) {
+    public static List<User> ListInvite(String nameFormId) {
         List<User> listUser = new ArrayList<>();
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("FROM friend WHERE status=:status and userToId=:userToId");
@@ -91,6 +100,10 @@ public class FriendDAO {
         for (int i = 0; i < list.size(); i++) {
             User u = FriendDAO.getUserById(list.get(i).getUserFromId());
             listUser.add(u);
+        }
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        for (int i = 0; i < listUser.size(); i++) {
+            System.out.println(listUser.get(i).getId());
         }
         session.close();
         return listUser;
@@ -133,10 +146,17 @@ public class FriendDAO {
         boolean b = false;
         for (int i = 0; i < friend.size(); i++) {
             Friend f = friend.get(i);
-            if (f.getUserFromId().equals(userFromId) && f.getUserToId().equals(userToId)) {
+            if (userFromId.equals(f.getUserFromId()) && userToId.equals(f.getUserToId())) {
                 b = true;
+                break;
+            } else {
+                if (userFromId.equals(f.getUserToId()) && userToId.equals(f.getUserFromId())) {
+                    b = true;
+                    break;
+                } else {
+                    b = false;
+                }
             }
-            break;
         }
         return b;
     }

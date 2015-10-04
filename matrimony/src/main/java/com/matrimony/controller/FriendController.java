@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class FriendController {
+
     @RequestMapping(value = "listSuggest", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ResponseBody
     public String listSuggest(HttpSession ss) throws IOException {
@@ -35,12 +36,23 @@ public class FriendController {
         User u = (User) ss.getAttribute("user");
         List<User> list = Matrimony.getSuggestUsers(u);
         for (int i = 0; i < list.size(); i++) {
-            if(FriendDAO.CheckExist(u.getId(), list.get(i).getId())){
+            if (!FriendDAO.CheckExist(u.getId(), list.get(i).getId())) {
                 listSuggest.add(list.get(i));
             }
         }
         ObjectMapper mapper = new ObjectMapper();
         String data = mapper.writeValueAsString(listSuggest);
+        System.out.println(data);
+        return data;
+    }
+
+    @RequestMapping(value = "allInvite", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String allInvite(HttpSession ss) throws IOException {
+        User u = (User) ss.getAttribute("user");
+        List<User> list = FriendDAO.ListInvite(u.getId());
+        ObjectMapper mapper = new ObjectMapper();
+        String data = mapper.writeValueAsString(list);
         System.out.println(data);
         return data;
     }
@@ -73,21 +85,20 @@ public class FriendController {
 
     @RequestMapping(value = "addFriend", method = RequestMethod.POST)
     @ResponseBody
-    public static String addFriend(String user,HttpSession ss) {
+    public static String addFriend(String user, HttpSession ss) {
         User u = (User) ss.getAttribute("user");
         int status = 1;
         Friend f = new Friend();
         f.setUserFromId(u.getId());
         f.setUserToId(user);
         f.setStatus(status);
-        f.setTimeInvited(new Timestamp(System.currentTimeMillis()));
         FriendDAO.addFriend(f);
         return "success";//mo database ktra lai xem
     }
 
     @RequestMapping(value = "removeFriend", method = RequestMethod.POST)
     @ResponseBody
-    public static String removeFriend(String user,HttpSession ss) {
+    public static String removeFriend(String user, HttpSession ss) {
         User u = (User) ss.getAttribute("user");
         System.out.println(user);
         Friend f = FriendDAO.GetFriend(u.getId(), user);
@@ -97,13 +108,10 @@ public class FriendController {
 
     @RequestMapping(value = "acceptFriend", method = RequestMethod.POST)
     @ResponseBody
-    public static String acceptFriend(String user,HttpSession ss) {
+    public static String acceptFriend(String user, HttpSession ss) {
         User u = (User) ss.getAttribute("user");
         System.out.println(user);
-        Friend f = FriendDAO.GetFriend(u.getId(), user);
-        f.setStatus(2);
-        f.setTimeAccepted(new Timestamp(System.currentTimeMillis()));
-        FriendDAO.EditFriend(f);
+        FriendDAO.AcceptFriend(u.getId(), user);
         return "success";//mo database ktra lai xem
     }
 }

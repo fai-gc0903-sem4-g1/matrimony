@@ -5,33 +5,32 @@
  */
 
 $(document).ready(function () {
-    $.get('listSuggest', function (responseJson) {
-        alert('ok')
+
+    $.get('allInvite', function (responseJson) {
         if (responseJson !== null) {
-            $("#suggest").find("tr:gt(0)").remove();
-            var table1 = $("#suggest");
+            var table = $("#invite");
             $.each(responseJson, function (key, value) {
-                var rowNew = $("<div><div></div><div></div><div></div><div></div></div>");
-                rowNew.children().eq(0).text(value['id']);
-                rowNew.children().eq(1).text(value['firstName']);
-                rowNew.children().eq(2).append("<input id='btnAdd' type='button' value='Add Friend' onClick='addFriend(\"" + value['id'] + "\")'/>");
-                rowNew.children().eq(3).append("<input id='btnRemove' type='button' value='Remove' onClick='removeFriend(\"" + value['id'] + "\")'/>");
-                rowNew.appendTo(table1);
+                var rowNew = $("<div></div><div></div><div></div><div></div>");
+                rowNew.eq(0).text(value['id']);
+                rowNew.eq(1).text(value['firstName']);
+                rowNew.eq(2).append("<input class='btnAccept' type='button' value='Accept Friend' onClick='acceptFriend(\"" + value['id'] + "\")'/>");
+                rowNew.eq(3).append("<input id='btnRemoveFriend' type='button' value='Denied' onClick='removeFriend(\"" + value['id'] + "\")'/>");
+                rowNew.appendTo(table);
             });
         }
     });
 
 
     $.get('allRequest', function (responseJson) {
-        if (responseJson != null) {
+        if (responseJson !== null) {
             $("#request").find("tr:gt(0)").remove();
             var table1 = $("#request");
             $.each(responseJson, function (key, value) {
                 var rowNew = $("<tr><td></td><td></td><td></td><td></td></tr>");
-                rowNew.children().eq(0).text(value['id']);
+                rowNew.children.eq(0).text(value['id']);
                 rowNew.children().eq(1).text(value['firstName']);
-                rowNew.children().eq(2).append("<input id='btnAdd' type='button' value='Accept Friend' onClick='acceptFriend(\"" + value['id'] + "\")'/>");
-                rowNew.children().eq(3).append("<input id='btnRemove' type='button' value='Remove' onClick='removeFriend(\"" + value['id'] + "\")'/>");
+                rowNew.children().eq(2).append("<input id='btnAdd' type='button' value='Request Sended' onClick='acceptFriend(\"" + value['id'] + "\")'/>");
+                rowNew.children().eq(3).append("<input id='btnRemoveFriend' type='button' value='Remove Request' onClick='removeFriend(\"" + value['id'] + "\")'/>");
                 rowNew.appendTo(table1);
             });
         }
@@ -39,16 +38,16 @@ $(document).ready(function () {
 
 
     $.get('allFriend', function (responseJson) {
-        if (responseJson != null) {
-            $("#friend").find("tr:gt(0)").remove();
-            var table1 = $("#friend");
+        if (responseJson !== null) {
+            $("#friend").find("div:gt(0)").remove();
+            var table = $("#friend");
             $.each(responseJson, function (key, value) {
-                var rowNew = $("<tr><td></td><td></td><td></td><td></td></tr>");
-                rowNew.children().eq(0).text(value['id']);
-                rowNew.children().eq(1).text(value['firstName']);
-                rowNew.children().eq(2).append("<input id='btnAdd' type='button' value='Friend'/>");
-                rowNew.children().eq(3).append("<input id='btnRemove' type='button' value='Remove' onClick='removeFriend(\"" + value['id'] + "\")'/>");
-                rowNew.appendTo(table1);
+                var rowNew = $("<div></div><div></div><div></div><div></div>");
+                rowNew.eq(0).text(value['id']);
+                rowNew.eq(1).text(value['firstName']);
+                rowNew.eq(2).append("<input type='button' value='Friend' disabled='true'/>");
+                rowNew.eq(3).append("<input id='btnRemoveFriend' type='button' value='RemoveFriend' onClick='removeFriend(\"" + value['id'] + "\")'/>");
+                rowNew.appendTo(table);
             });
         }
     });
@@ -58,9 +57,9 @@ function addFriend(u)
     $.post('addFriend',
             {user: u},
     function () {
-        $("#btnAdd").prop('value', 'Sended Request');
-        $('#btnAdd').prop('disabled', true);
-        alert("insert success");
+        $('.btnAdd').prop('value', 'Sended Request');
+        $('.btnAdd').prop('disabled', true);
+        $('.showDialog').prop('hidden', false);
 
     })
             .fail(function () { //on failure
@@ -68,7 +67,24 @@ function addFriend(u)
             });
 
 }
+
 function removeFriend(u)
+{
+    $.post('removeFriend',
+            {user: u},
+    function () {
+        $('.btnAdd').prop('value', 'Add Friend');
+        $('.btnAdd').prop('disabled', false);
+        $('.btnRemove').prop('hidden', true);
+        alert("Remove success");
+
+    })
+            .fail(function () { //on failure
+                alert("Remove failed.");
+            });
+
+}
+function removeRequest(u)
 {
     $.post('removeFriend',
             {user: u},
@@ -86,8 +102,9 @@ function acceptFriend(u)
     $.post('acceptFriend',
             {user: u},
     function () {
-        $("#btnAdd").prop('value', 'Friend');
-        $('#btnAdd').prop('disabled', true);
+        $(".btnAccept").prop('value', 'Friend');
+        $(".btnAccept").prop('disabled', true);
+        $('.btnRemoveFriend').prop('value', 'Remove Friend');
         alert("accpet success");
 
     })
@@ -96,78 +113,54 @@ function acceptFriend(u)
             });
 
 }
-$(document).ajaxStart(function () {
-    //show ajax indicator
-    ajaxindicatorstart('loading data.. please wait..');
-}).ajaxStop(function () {
-    //hide ajax indicator
-    ajaxindicatorstop();
+$(document).ready(function () {
+    $('ul.tabs').tabs;
+    $('ul.tabs').each(function () {
+        // For each set of tabs, we want to keep track of
+        // which tab is active and it's associated content
+        var $active, $content, $links = $(this).find('a');
+        // If the location.hash matches one of the links, use that as the active tab.
+        // If no match is found, use the first link as the initial active tab.
+        $active = $($links.filter('[href="' + location.hash + '"]')[0] || $links[0]);
+        $active.addClass('active');
+        $content = $($active[0].hash);
+        // Hide the remaining content
+        $links.not($active).each(function () {
+            $(this.hash).hide();
+        });
+        // Bind the click event handler
+        $(this).on('click', 'a', function (e) {
+            // Make the old tab inactive.
+            $active.removeClass('active');
+            $content.hide();
+            // Update the variables with the new link and content
+            $active = $(this);
+            $content = $(this.hash);
+            // Make the tab active.
+            $active.addClass('active');
+            $content.show();
+            // Prevent the anchor's default click action
+            e.preventDefault();
+        });
+    });
 });
-
-
-function ajaxindicatorstart(text)
-{
-    if ($('body').find('#resultLoading').attr('id') !== 'resultLoading') {
-        $('body').append('<div id="resultLoading" style="display:none"><div><img src="web/ajax-loader.gif"><div>' + text + '</div></div><div class="bg"></div></div>');
-    }
-
-    $('#resultLoading').css({
-        'width': '100%',
-        'height': '100%',
-        'position': 'fixed',
-        'z-index': '10000000',
-        'top': '0',
-        'left': '0',
-        'right': '0',
-        'bottom': '0',
-        'margin': 'auto'
+// show the dialog on click of a button
+function showDialog(){
+ 
+    /* select the div you want to be a dialog, in our case it is 'basicModal'
+    you can add parameters such as width, height, title, etc. */
+    $("#basicModal").dialog({
+        modal: true,
+        title: "Are you sure?",
+        buttons: {
+            "YES": function() {
+                window.open("http://codeofaninja.com/", '_blank');
+            },
+            "NO": function() {
+                $( this ).dialog( "close" );
+            }
+        }
     });
-
-    $('#resultLoading .bg').css({
-        'background': '#000000',
-        'opacity': '0.7',
-        'width': '100%',
-        'height': '100%',
-        'position': 'absolute',
-        'top': '0'
-    });
-
-    $('#resultLoading>div:first').css({'width': '250px',
-        'height': '75px',
-        'text-align': 'center', 'position': 'fixed',
-        'top': '0',
-        'left': '0',
-        'right': '0',
-        'bottom': '0',
-        'margin': 'auto',
-        'font-size': '16px',
-        'z-index': '10',
-        'color': '#ffffff'
-
-    });
-    $('#resultLoading .bg').height('100%');
-    $('#resultLoading').fadeIn(300);
-    $('body').css('cursor', 'wait');
-}
-
-
-function ajaxindicatorstop()
-{
-    $('#resultLoading .bg').height('100%');
-    $('#resultLoading').fadeOut(300);
-    $('body').css('cursor', 'default');
-}
-
-
-//            $(document).ready(function () {
-//                $("#spinner").bind("ajaxSend", function () {
-//                    $(this).show();
-//                }).bind("ajaxStop", function () {
-//                    $(this).hide();
-//                }).bind("ajaxError", function () {
-//            $(this).hide();
-//                });
-//
-//            });
-
+     
+};
 
