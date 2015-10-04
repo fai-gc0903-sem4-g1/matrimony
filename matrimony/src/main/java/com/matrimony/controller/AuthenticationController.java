@@ -7,18 +7,16 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,7 +29,9 @@ import com.matrimony.exception.STException;
 import com.matrimony.exception.STException.ContactNumberAlready;
 import com.matrimony.exception.STException.EmailAlready;
 import com.matrimony.exception.STException.NotNativeAccount;
+import com.matrimony.model.Regex;
 import com.matrimony.model.SessionKey;
+import com.matrimony.model.StringResouces;
 import com.matrimony.util.MailUtil;
 
 /**
@@ -51,15 +51,28 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String doLogin(HttpServletResponse response, HttpServletRequest request,
-			@Valid @ModelAttribute("userLogin") User userLogin, BindingResult bindingResult, String keepLoggin) {
-		if (bindingResult.hasFieldErrors("password")) {
-			System.out.println("form login error");
-			request.setAttribute("loginFormError", true);
-			return "joinUs";
+	public String doLogin(HttpServletResponse response, HttpServletRequest request, String login, String password, String keepLoggin) {
+		if(login==null||password==null){
+			return"comotsucokhonghenhe";
 		}
-
+		boolean wellForm=true;
+		StringResouces sr = new StringResouces(StringResouces.vi_VN);
+		if("".equals(login)){
+			wellForm=false;
+			request.setAttribute("loginNameNotEmpty", sr.getData().get("loginNameNotEmpty"));
+		}
+		if(!Pattern.matches(Regex.PASSWORD, password)){
+			wellForm=false;
+			request.setAttribute("loginNameNotEmpty", sr.getData().get("loginNameNotEmpty"));
+		}
+		
+		if(!wellForm)
+			return "joinUs";
+		
 		try {
+			User userLogin=new User();
+			userLogin.setUsername(login);
+			userLogin.setPassword(password);
 			userLogin.setLoginTime(new Timestamp(System.currentTimeMillis()));
 			userLogin.setIpLogin(request.getRemoteAddr());
 			User user = UserDAO.login(userLogin);
@@ -75,61 +88,82 @@ public class AuthenticationController {
 
 		} catch (STException.UserNotExists ex) {
 			System.out.println(ex);
-			request.setAttribute("loginUserNotExists", "true");
+			request.setAttribute("loginUserNotExists", sr.getData().get("loginUserNotExists"));
 		} catch (STException.WrongPassword ex) {
 			System.out.println(ex);
-			request.setAttribute("loginWrongPassword", "true");
+			request.setAttribute("loginWrongPassword", sr.getData().get("loginWrongPassword"));
 		} catch (NotNativeAccount e) {
 			System.out.println(e);
-			request.setAttribute("loginNotNativeAccount", "true");
+			request.setAttribute("loginNotNativeAccount", sr.getData().get("loginNotNativeAccount"));
 		}
 		return "joinUs";
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String doRegister(HttpServletRequest request, @Valid @ModelAttribute("userReg") User userReg,
-			BindingResult bindingResult, String day, String month, String year, String reEmail) {
+	public String doRegister(HttpServletRequest request, User userReg, String day, String month, String year,
+			String reEmail) {
+		if (userReg.getFirstName() == null || userReg.getLastName() == null || userReg.getEmail() == null
+				|| userReg.getGender() == null || month == null || day == null || year == null) {
+			return "cogidokhongdung";
+		}
+		Timestamp currentTime=new Timestamp(System.currentTimeMillis());
+		boolean wellForm = true;
+		StringResouces sr = new StringResouces(StringResouces.vi_VN);
+		if (!Pattern.matches(Regex.NAME, userReg.getFirstName())) {
+			wellForm = false;
+			request.setAttribute("regFirstNameInvalid", sr.getData().get("regFirstNameInvalid"));
+		}
+		if (!Pattern.matches(Regex.NAME, userReg.getLastName())) {
+			wellForm = false;
+			request.setAttribute("regLastNameInvalid", sr.getData().get("regLastNameInvalid"));
+		}
+		if (!Pattern.matches(Regex.PASSWORD, userReg.getPassword())) {
+			wellForm = false;
+			request.setAttribute("regPasswordInvalid", sr.getData().get("regPasswordInvalid"));
+		}
+		if (!Pattern.matches(Regex.GENDER, userReg.getGender())) {
+			wellForm = false;
+			request.setAttribute("regGenderInvalid", sr.getData().get("regGenderInvalid"));
+		}
+		if (!Pattern.matches(Regex.PHONE, userReg.getFirstName()) && "".equals(userReg.getContactNumber())) {
+			wellForm = false;
+			request.setAttribute("regPhoneInvalid", sr.getData().get("regPhoneInvalid"));
+		}
 		Date birthday = null;
-		boolean ageEnought = false, twinEmail = false;
 		try {
 			birthday = Date.valueOf(year + "-" + month + "-" + day);
-			int thisYear = 0, bornYear = 0;
-			thisYear = DateUtils.toCalendar(new java.util.Date(System.currentTimeMillis())).get(Calendar.YEAR);
-			bornYear = DateUtils.toCalendar(birthday).get(Calendar.YEAR);
-			if (thisYear - bornYear < 18) {
-				ageEnought = false;
-				request.setAttribute("birthdayNotEnough", "Bạn chưa đủ tuổi thể tham gia!");
-			} else
-				ageEnought = true;
 		} catch (IllegalArgumentException ex) {
 			System.out.println("Register: " + ex.getMessage());
-			request.setAttribute("birthdayInvalid", "Ngày tháng chọn sai");
+			wellForm=false;
+			request.setAttribute("regBirthdayInvalid", "Ngày tháng chọn sai");
 		}
-		if (reEmail.equals(userReg.getEmail()))
-			twinEmail = true;
-		else
-			request.setAttribute("reEmailInvalid", "2 email không giống nhau");
-		if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
-				|| bindingResult.hasFieldErrors("contactNumber") || bindingResult.hasFieldErrors("email")
-				|| bindingResult.hasFieldErrors("gender") || null == birthday || !ageEnought || !twinEmail) {
-			System.out.println("Register: Form register error");
-			request.setAttribute("registerFormError", true);
-			return "joinUs";
+		if(DateUtils.toCalendar(currentTime).get(Calendar.YEAR)-DateUtils.toCalendar(birthday).get(Calendar.YEAR)<18){
+			wellForm = false;
+			request.setAttribute("regBirthdayInvalid", sr.getData().get("regNotEnoughAge"));
 		}
-		System.out.println("Register: Form register OK");
+		
+		if(!wellForm)
+			return "joinUS";
+
+		String activeKey = RandomStringUtils.randomAlphanumeric(8);
 		userReg.setBirthday(birthday);
-		User userBuilt = buildNewUser(userReg, request);
+		userReg.setRegistrationIP(request.getRemoteAddr());
+		userReg.setActiveKey(activeKey);
+		userReg.setRegMethod("Native");
+		userReg.setAvatarPhoto(userReg.getGender().equals("male") ? "default_male_avatar.jpg" : "default_female_avatar.jpg");
+		userReg.setName(userReg.getFirstName() + " " + userReg.getLastName());
+		userReg.setExpiries(new Timestamp(System.currentTimeMillis()));
 		try {
-			User userFromDB = UserDAO.register(userBuilt);
-			sendMailActive(userBuilt.getEmail(), userBuilt.getActiveKey());
+			User userFromDB = UserDAO.register(userReg);
+			sendMailActive(userReg.getEmail(), userReg.getActiveKey());
 			request.getSession().setAttribute(SessionKey.USER, userFromDB);
 			return "active";
 		} catch (STException.EmailAlready ex) {
 			System.out.println(ex.getMessage());
-			request.setAttribute("regEmailAlready", 1);
+			request.setAttribute("regEmailAlready", sr.getData().get("regEmailAlready"));
 		} catch (STException.ContactNumberAlready ex) {
 			System.out.println(ex.getMessage());
-			request.setAttribute("regPhoneAlready", 1);
+			request.setAttribute("regPhoneAlready", sr.getData().get("regPhoneAlready"));
 		}
 		return "joinUs";
 	}
@@ -223,17 +257,6 @@ public class AuthenticationController {
 		User user = (User) session.getAttribute(SessionKey.USER);
 		sendMailActive(user.getEmail(), user.getActiveKey());
 		return "active";
-	}
-
-	public User buildNewUser(User user, HttpServletRequest request) {
-		String activeKey = RandomStringUtils.randomAlphanumeric(10);
-		user.setRegistrationIP(request.getRemoteAddr());
-		user.setActiveKey(activeKey);
-		user.setRegMethod("Native");
-		user.setAvatarPhoto(user.getGender().equals("male") ? "default_male_avatar.jpg" : "default_female_avatar.jpg");
-		user.setName(user.getFirstName() + " " + user.getLastName());
-		user.setExpiries(new Timestamp(System.currentTimeMillis()));
-		return user;
 	}
 
 	public void keepMeLoggedIn(HttpServletResponse response, User user) {

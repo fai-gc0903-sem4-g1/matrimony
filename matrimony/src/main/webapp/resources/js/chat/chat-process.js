@@ -23,7 +23,7 @@ $(document).on('keypress', '#txt-chat-msg', function(e) {
 	}
 });
 // CHAT PROCESS
-var ws = new WebSocket('ws://10.22.36.205/matrimony/chatserver');
+var ws = new WebSocket('ws://localhost/matrimony/chatserver');
 ws.onopen = function() {
 	processOpen();
 }
@@ -99,7 +99,7 @@ function emoticonDecode(str){
 	for (var kbd in emoticons) {
 //		var reg=new RegExp(+"\\"+kbd+"\\",'g');
 //		console.log(reg);
-		content = content.replace(kbd,'<img src="http://10.22.36.205/matrimony/resources/emoticons/'+ emoticons[kbd] + '.gif" />')
+		content = content.replace(kbd,'<img src="http://localhost/matrimony/resources/emoticons/'+ emoticons[kbd] + '.gif" />')
 	}
 	return content;
 }

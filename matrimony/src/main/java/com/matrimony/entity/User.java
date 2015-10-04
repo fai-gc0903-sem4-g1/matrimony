@@ -42,18 +42,13 @@ public class User implements Serializable {
 	private String id;
 	private int weight;
 	private int height;
-	@Size(min=2,max=30, message="Tên quá ngắn")
 	private String firstName;
-	@Size(min=2,max=30, message="H�? quá ngắn")
 	private String lastName;
 	private String username;
-	@Email(message = "Email sai định dạng")
 	private String email;
-	@Size(min=2,max=64, message="Mật khẩu quá ngắn hoăc quá dài")
 	private String password;
 	private String salt;
 	private String contactNumber;
-	@NotEmpty(message = "Xin ch�?n giới tính")
 	private String gender;
 	private String regMethod;
 	private String religion;

@@ -24,16 +24,25 @@
                                 }
                                 
                                 .st-valid-error{
-                                	    font-size: 26px;
+                                	    font-size: 22px;
 									    color: #CB2027;
 									    margin-right: 12px;
                                 }
+                                .popover{
+                                	background-color:#CB2027;
+                                	color:#ffffff;
+                                }
+                                .popover.left .arrow:after {
+								  border-left-color: #CB2027;
+								}
+                                
                                 
                                
                             </style>
                             <script>
                                 $(document).ready(function() {
-                                   
+                                	$('[data-toggle="tooltip"]').tooltip({trigger:'click'});
+                                	$('[data-toggle="popover"]').popover({placement: 'left'});
                                 });
                             </script>
                         </jsp:attribute>
@@ -46,7 +55,7 @@
                             <div id='container row'>
                                 <div id="left" class="col-lg-7">
                                 	<div class='col-lg-8'>
-                                	<img src='http://scideck.com/mod/community3_theme/graphics/artificial-intelligence-connected-people.png'/>
+                                	<img class="pull-right" src='http://scideck.com/mod/community3_theme/graphics/artificial-intelligence-connected-people.png'/>
                                 	
                                 	</div>
                                     <div id='login-with' class="col-lg-4">
@@ -63,41 +72,41 @@
                                         </c:if>
                                         <div style="display: none;" id="myAlert" class="alert alert-danger" role="alert"></div>
 
-                                             <div class="form-group has-feedback col-lg-6">
+                                             <div class="form-group has-feedback col-lg-6" data-toggle="popover" data-content='${regErrorFirstName }'>
 								                <input id="firstName" class="form-control" type="text" name="firstName" placeholder="Tên" value="${requestScope.userReg.firstName}"></input>
-								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
 								            </div>
 								            
-								            <div class="form-group has-feedback col-lg-6">
+								            <div class="form-group has-feedback col-lg-6" data-toggle="popover" data-content="${regErrorLastName }">
 								                <input id="lastName" class="form-control" type="text" name="lastName" placeholder="Họ" value="${requestScope.userReg.lastName}"></input>
-								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
 								                
 								            </div>
                                            
-                                            <form:errors path="firstName" id="validError" cssClass="control-label col-lg-offset-1" />
-                                            <form:errors path="lastName" id="validError" cssClass="control-label col-lg-offset-1" />
+                                            
+                                            
                                      
 
 
-										<div class="form-group has-feedback col-lg-12">
+										<div class="form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
 								                <input id="email" onkeyup="" class="form-control" type="email" name="email" value="${userReg.email}" placeholder="Địa chỉ email"/>
-								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
 								                <form:errors path="email" id="validError" />
 								            </div>
-                                       <div class="form-group has-feedback col-lg-12">
+                                       <div class="form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
 								                <input id="reEmail" name="reEmail" class="form-control" type="email" placeholder="Nhập lại địa chỉ email" />
-								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
 								        </div>
 
-								        <div class="form-group has-feedback col-lg-12">
+								        <div class="form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
 								                <input id="password" class="form-control" type="password" name="password" placeholder="Mật khẩu"></input>
                                                 <form:errors path="password" id="validError" />
-								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
 								        </div>
-                                       <div class="form-group has-feedback col-lg-12">
+                                       <div class="form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
 								                <input id="phone" class="form-control" type="text" name="contactNumber" placeholder="Số điện thoại nếu có"></input>
                                                 <form:errors path="contactNumber" id="validError" />
-								                <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
 								        </div>
 								        
 								        <div class='form-group col-lg-12'>
@@ -132,8 +141,8 @@
                                                    </c:forEach>
                                                </select>
                                            </div>
-                                             <div class="form-group has-feedback col-lg-3">
-                                               <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+                                             <div class="form-group has-feedback col-lg-3" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
+                                               <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
                                            </div>
                                            
                                            
@@ -150,7 +159,7 @@
                                                 </label>
                                                 <form:errors path="gender" id="validError" />
                                             </div>
-                                            <i class="fa fa-exclamation-circle form-control-feedback st-valid-error"></i>
+                                            <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả"></i>
                                         </div>
 
                                         <div class="form-group">

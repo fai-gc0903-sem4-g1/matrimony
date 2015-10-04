@@ -58,5 +58,10 @@ public class GlobalController {
 		return "facebooktest";
 	}
 	
+	@RequestMapping(value="son", method=RequestMethod.GET)
+	public void sontest1(String t){
+		System.out.println(t==null);
+	}
+	
 	
 }
