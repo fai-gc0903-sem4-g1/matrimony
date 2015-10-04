@@ -67,7 +67,6 @@ public class FriendDAO {
                 listUser.add(u);
             }
         }
-        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
         for (int i = 0; i < listUser.size(); i++) {
             System.out.println(listUser.get(i).getId());
         }
@@ -109,17 +108,20 @@ public class FriendDAO {
         return listUser;
     }
 
-    public static Friend GetFriend(String nameFromId, String nameToId) {
-        Friend friend = null;
+    public static List<Friend> GetFriend(String nameFromId, String nameToId) {
+        List<Friend> friend = new ArrayList<Friend>();
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("FROM friend WHERE userFromId=:userFromId and userToId=:userToId");
         query.setParameter("userFromId", nameFromId);
         query.setParameter("userToId", nameToId);
-        friend = (Friend) query.uniqueResult();
+        List<Friend> l = query.list();
         if (friend == null) {
             query.setParameter("userFromId", nameToId);
             query.setParameter("userToId", nameFromId);
-            friend = (Friend) query.uniqueResult();
+            l = query.list();
+        }
+        for (int i = 0; i < l.size(); i++) {
+            friend.add(l.get(i));
         }
         session.close();
         return friend;

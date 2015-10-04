@@ -100,9 +100,10 @@ public class FriendController {
     @ResponseBody
     public static String removeFriend(String user, HttpSession ss) {
         User u = (User) ss.getAttribute("user");
-        System.out.println(user);
-        Friend f = FriendDAO.GetFriend(u.getId(), user);
-        FriendDAO.removeFriend(f);
+        List<Friend> f = FriendDAO.GetFriend(u.getId(), user);
+        for (int i = 0; i < f.size(); i++) {
+            FriendDAO.removeFriend(f.get(i));
+        }
         return "success";//mo database ktra lai xem
     }
 

@@ -9,8 +9,8 @@
 <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
 <jsp:useBean id="jstl" class="com.matrimony.model.JSLTFunctionUtil" />
 <c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
-<script src="Scripts/jquery-1.4.3.min.js" type="text/javascript"></script>
-<script src="Scripts/jquery-1.5.2.min.js" type="text/javascript"></script>
+<!-- include you jquery ui theme -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" />
 <t:homeLayout>
     <jsp:attribute name="head">
         <title>Payment confirm</title>
@@ -45,9 +45,32 @@
                         <br />
                         <br />
                         <span id='person-btna'><input type="button" class="btnAdd" onclick="addFriend('${i.id}')" value="Add Friend"/></span>
-                        <span id='person-btna'><input type="button" class="showDialog" onclick="showDialog()" value="Cancel" hidden="true"/></span>
-                        <div id="basicModal">
-                        </div>
+                        <span id='person-btna'><input type="button" class='showDialog' onclick="show('${i.id}')" value="Cancel" hidden="true"/></span>
+                        </br>
+<!--                        <div id="basicModal" style="display:none;"/>-->
+                        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+                        <script>
+                            // show the dialog on click of a button
+                            function show(u){
+
+                                /* select the div you want to be a dialog, in our case it is 'basicModal'
+                                 you can add parameters such as width, height, title, etc. */
+                                $("#person-btna").dialog({
+                                    modal: true,
+                                    title: "Are you sure?",
+                                    buttons: {
+                                        "YES": function () {
+                                            removeRequest(u);
+                                            $(this).dialog("close");
+                                        },
+                                        "NO": function () {
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                });
+
+                            };
+                        </script>
                     </div>
                 </div>
             </c:forEach>
