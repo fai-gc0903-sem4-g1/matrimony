@@ -68,7 +68,6 @@ public class GlobalFilter implements Filter {
 					retriedCookies.put(c.getName(), c.getValue());
 				}
 			}
-			System.out.println(retriedCookies.size());
 			if (retriedCookies.size() >= 4) {
 				System.out.println("keeplogin: "+retriedCookies.get("keepLoggin"));
 				if (retriedCookies.get("keepLoggin").equals("true")) {

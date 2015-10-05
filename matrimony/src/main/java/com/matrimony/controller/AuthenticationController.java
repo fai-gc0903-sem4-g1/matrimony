@@ -59,11 +59,11 @@ public class AuthenticationController {
 		StringResouces sr = new StringResouces(StringResouces.vi_VN);
 		if("".equals(login)){
 			wellForm=false;
-			request.setAttribute("loginNameNotEmpty", sr.getData().get("loginNameNotEmpty"));
+			request.setAttribute("loginNameInvalid", sr.getData().get("loginNameNotEmpty"));
 		}
 		if(!Pattern.matches(Regex.PASSWORD, password)){
 			wellForm=false;
-			request.setAttribute("loginNameNotEmpty", sr.getData().get("loginNameNotEmpty"));
+			request.setAttribute("loginPasswordInvalid", sr.getData().get("loginPasswordInvalid"));
 		}
 		
 		if(!wellForm)
@@ -88,14 +88,16 @@ public class AuthenticationController {
 
 		} catch (STException.UserNotExists ex) {
 			System.out.println(ex);
-			request.setAttribute("loginUserNotExists", sr.getData().get("loginUserNotExists"));
+			request.setAttribute("loginNameInvalid", sr.getData().get("loginUserNotExists"));
 		} catch (STException.WrongPassword ex) {
 			System.out.println(ex);
-			request.setAttribute("loginWrongPassword", sr.getData().get("loginWrongPassword"));
+			request.setAttribute("loginPasswordInvalid", sr.getData().get("loginWrongPassword"));
 		} catch (NotNativeAccount e) {
 			System.out.println(e);
-			request.setAttribute("loginNotNativeAccount", sr.getData().get("loginNotNativeAccount"));
+			request.setAttribute("loginNameInvalid", sr.getData().get("loginNotNativeAccount"));
 		}
+		request.setAttribute("login", login);
+		request.setAttribute("password", password);
 		return "joinUs";
 	}
 

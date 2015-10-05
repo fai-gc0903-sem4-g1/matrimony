@@ -7,18 +7,18 @@
 
                         <jsp:useBean id="test" class="com.matrimony.database.UserDAO" />
                         <c:choose>
-                        <c:when test="${not empty userLogin.username }">
-							<c:set var="emailValue" value="${requestScope.userLogin.username }" />
-							<c:set var="passwordValue" value="${requestScope.userLogin.username }" />								
-						</c:when>
-						<c:when test="${sessionScope.type=='Native' }">
-							<c:set var="emailValue" value="${sessionScope.login.value }" />
-							<c:set var="passwordValue" value="${sessionScope.password.value }" />												
-						</c:when>
-						<c:otherwise>
-							<c:set var="emailValue" value="" />
-							<c:set var="passwordValue" value="" />	
-						</c:otherwise>
+	                        <c:when test="${not empty login }">
+								<c:set var="loginValue" value="${login }" />
+								<c:set var="passwordValue" value="${password }" />								
+							</c:when>
+							<c:when test="${sessionScope.type=='Native' }">
+								<c:set var="loginValue" value="${sessionScope.login.value }" />
+								<c:set var="passwordValue" value="${sessionScope.password.value }" />												
+							</c:when>
+							<c:otherwise>
+								<c:set var="loginValue" value="" />
+								<c:set var="passwordValue" value="" />	
+							</c:otherwise>
 						</c:choose>
                         <html>
 
@@ -37,6 +37,24 @@
                            <script src="/matrimony/resources/silviomoreto-bootstrap-select/js/bootstrap-select.min.js"></script>
                             <!-- 	===========CUSTOM CSS=========== -->
                             <link rel='stylesheet' href='/matrimony/resources/css/layout-style.css' />
+                            <style>
+                            </style>
+                            <script>
+                                $(document).ready(function() { 
+                                	$('.st-login-input-group').popover({placement: 'bottom'});
+//                                 	$('.st-reg-form-group').click(function(){
+//                                 		var popoverWin;
+//                                 		var formGroup=$(this);
+//                                         $('.popover').each(function(i){
+//                                         	if(!$(this).children('.popover-content').html()==formGroup.data('content'))
+//                                         	{
+//                                         		alert($(this));
+//                                         		$(this).remove();
+//                                         	}
+//                                         });
+//                                 	});
+                                });
+                            </script>
                             <jsp:invoke fragment="head" />
                         </head>
                         <c:set var="userAvatarFolder" value="/matrimony/resources/profile/avatar" scope="application" />
@@ -57,17 +75,18 @@
                                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                                                     <form:form modelAttribute="userLogin" id="signin" action='login' method='POST' class="navbar-form navbar-right" role="form">
-                                                        <div class="input-group">
+                                                        <div class="input-group st-login-input-group" data-toggle='popover' data-content='${loginNameInvalid }'>
                                                             <span class="input-group-addon"><i
 																	class="glyphicon glyphicon-user"></i></span>
-                                                            <input id="email" type="text" class="form-control" name="username" value="${emailValue }" placeholder="Email or phone">
+                                                            <input id="email" type="text" class="form-control" name="login" value="${loginValue }" placeholder="Email or phone">
+                                                        <c:if test="${not empty loginNameInvalid}"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid" style='font-size: 22px;color: #CB2027;margin-right:0;'></i></c:if>
                                                         </div>
 
-                                                        <div class="input-group">
+                                                        <div class="input-group st-login-input-group" data-toggle='popover' data-content='${loginPasswordInvalid }'>
                                                             <span class="input-group-addon"><i
 																				class="glyphicon glyphicon-lock"></i></span>
                                                             <input id="password" type="password" class="form-control" name="password" value="${passwordValue}" placeholder="Password" />
-
+															<c:if test="${not empty loginPasswordInvalid}"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid" style='font-size: 22px;color: #CB2027;margin-right:0;'></i></c:if>
                                                         </div>
 
                                                         <button type="submit" class="btn btn-primary">Login</button>

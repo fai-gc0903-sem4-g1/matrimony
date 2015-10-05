@@ -33,7 +33,10 @@
                                 	color:#ffffff;
                                 }
                                 .popover.left .arrow:after {
-								  border-left-color: #CB2027;
+								  border-bottom-color: #CB2027;
+								}
+								.popover.bottom .arrow:after {
+								  border-bottom-color: #CB2027;
 								}
                                 
                                 
@@ -41,7 +44,7 @@
                             </style>
                             <script>
                                 $(document).ready(function() { 
-                                	$('[data-toggle="popover"]').popover({placement: 'left'});
+                                	$('.st-reg-form-group').popover({placement: 'left'});
                                 	$('.st-reg-form-group').click(function(){
                                 		var popoverWin;
                                 		var formGroup=$(this);
