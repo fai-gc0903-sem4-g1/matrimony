@@ -40,7 +40,7 @@
                                
                             </style>
                             <script>
-                                $(document).ready(function() {
+                                $(document).ready(function() { 
                                 	$('[data-toggle="popover"]').popover({placement: 'left'});
                                 	$('.st-reg-form-group').click(function(){
                                 		var popoverWin;
