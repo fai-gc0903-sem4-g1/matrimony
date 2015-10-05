@@ -5,6 +5,7 @@
  */
 package com.matrimony.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -30,7 +31,9 @@ public class Friend implements Serializable {
 	@GenericGenerator(name = "id", strategy = "uuid")
 	@GeneratedValue(generator = "id")
 	private String friendId;
+        @JsonIgnore
 	private String userFromId;
+        @JsonIgnore
 	private String userToId;
 	private int status;
 	private Timestamp timeInvited;
