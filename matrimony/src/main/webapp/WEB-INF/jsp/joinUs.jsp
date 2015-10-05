@@ -23,7 +23,7 @@
                                     display: none;
                                 }
                                 
-                                .st-valid-error{
+                                .st-reg-invalid{
                                 	    font-size: 22px;
 									    color: #CB2027;
 									    margin-right: 12px;
@@ -41,8 +41,18 @@
                             </style>
                             <script>
                                 $(document).ready(function() {
-                                	$('[data-toggle="tooltip"]').tooltip({trigger:'click'});
                                 	$('[data-toggle="popover"]').popover({placement: 'left'});
+                                	$('.st-reg-form-group').click(function(){
+                                		var popoverWin;
+                                		var formGroup=$(this);
+                                        $('.popover').each(function(i){
+                                        	if(!$(this).children('.popover-content').html()==formGroup.data('content'))
+                                        	{
+                                        		alert($(this));
+                                        		$(this).remove();
+                                        	}
+                                        });
+                                	});
                                 });
                             </script>
                         </jsp:attribute>
@@ -72,14 +82,14 @@
                                         </c:if>
                                         <div style="display: none;" id="myAlert" class="alert alert-danger" role="alert"></div>
 
-                                             <div class="form-group has-feedback col-lg-6" data-toggle="popover" data-content='${regErrorFirstName }'>
+                                             <div class="st-reg-form-group form-group has-feedback col-lg-6" data-toggle="popover" data-content='${regFirstNameInvalid }'>
 								                <input id="firstName" class="form-control" type="text" name="firstName" placeholder="Tên" value="${requestScope.userReg.firstName}"></input>
-								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
+								                <c:if test="${ not empty regFirstNameInvalid}"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid"></i></c:if>
 								            </div>
 								            
-								            <div class="form-group has-feedback col-lg-6" data-toggle="popover" data-content="${regErrorLastName }">
+								            <div class="st-reg-form-group form-group has-feedback col-lg-6" data-toggle="popover" data-content="${regLastNameInvalid }">
 								                <input id="lastName" class="form-control" type="text" name="lastName" placeholder="Họ" value="${requestScope.userReg.lastName}"></input>
-								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
+								                <c:if test="${ not empty regLastNameInvalid}"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid"></i></c:if>
 								                
 								            </div>
                                            
@@ -88,25 +98,24 @@
                                      
 
 
-										<div class="form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
+										<div class="st-reg-form-group form-group has-feedback col-lg-12" data-toggle="popover" data-content="${ regEmailInvalid}">
 								                <input id="email" onkeyup="" class="form-control" type="email" name="email" value="${userReg.email}" placeholder="Địa chỉ email"/>
-								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
+								                <c:if test="${ not empty regEmailInvalid}"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid"></i></c:if>
 								                <form:errors path="email" id="validError" />
 								            </div>
-                                       <div class="form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
+                                       <div class="st-reg-form-group form-group has-feedback col-lg-12" data-toggle="popover" data-content="">
 								                <input id="reEmail" name="reEmail" class="form-control" type="email" placeholder="Nhập lại địa chỉ email" />
-								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
+								                
 								        </div>
 
-								        <div class="form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
+								        <div class="st-reg-form-group form-group has-feedback col-lg-12" data-toggle="popover" data-content="${regPasswordInvalid }">
 								                <input id="password" class="form-control" type="password" name="password" placeholder="Mật khẩu"></input>
                                                 <form:errors path="password" id="validError" />
-								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
+								                <c:if test="${ not empty regPasswordInvalid}"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid"></i></c:if>
 								        </div>
-                                       <div class="form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
+                                       <div class="st-reg-form-group form-group has-feedback col-lg-12" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
 								                <input id="phone" class="form-control" type="text" name="contactNumber" placeholder="Số điện thoại nếu có"></input>
-                                                <form:errors path="contactNumber" id="validError" />
-								                <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
+                                                
 								        </div>
 								        
 								        <div class='form-group col-lg-12'>
@@ -141,14 +150,12 @@
                                                    </c:forEach>
                                                </select>
                                            </div>
-                                             <div class="form-group has-feedback col-lg-3" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả">
-                                               <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error"></i>
+                                             <div class="st-reg-form-group form-group has-feedback col-lg-3" data-toggle="popover" data-content="${regBirthdayInvalid }">
+                                               <c:if test="${ not empty regBirthdayInvalid}"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid"></i></c:if>
                                            </div>
                                            
-                                           
-                                          <div class="col-lg-5 col-lg-offset-1" id="validError">${requestScope.birthdayInvalid}</div>
 
-                                        <div class="form-group has-feedback col-lg-12">
+                                        <div class="st-reg-form-group form-group has-feedback col-lg-12">
                                         <span style='font-weight:700;'>Giới tính</span>
                                             <div class='radio' style="font-size: 16px;">
                                                     <label><input type="radio" name="gender" value="female" /> Nữ</label>
@@ -156,7 +163,7 @@
                                                      <label><input type="radio" name="gender" value="male" /> Nam</label>
                                                      <label style='display:none;'><input type="radio" name="gender" value="none" checked /></label>
                                             </div>
-                                            <i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-valid-error" data-toggle="popover" data-content="đây là một đoạn văn bản rất là dài và không có ý nghĩa gì cả"></i>
+                                            <c:if test="${not empty regGenderInvalid }"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid" data-toggle="popover" data-content="${regGenderInvalid }"></i></c:if>
                                         </div>
 
                                         <div class="form-group">
