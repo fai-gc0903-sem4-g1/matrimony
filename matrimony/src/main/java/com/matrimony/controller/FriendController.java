@@ -99,12 +99,14 @@ public class FriendController {
     @RequestMapping(value = "removeFriend", method = RequestMethod.POST)
     @ResponseBody
     public static String removeFriend(String user, HttpSession ss) {
+        String s="null";
         User u = (User) ss.getAttribute("user");
         List<Friend> f = FriendDAO.GetFriend(u.getId(), user);
         for (int i = 0; i < f.size(); i++) {
             FriendDAO.removeFriend(f.get(i));
+            s="success";
         }
-        return "success";//mo database ktra lai xem
+        return s;
     }
 
     @RequestMapping(value = "acceptFriend", method = RequestMethod.POST)

@@ -29,7 +29,7 @@ $(document).ready(function () {
                 var rowNew = $("<div></div><div></div><div></div><div></div>");
                 rowNew.eq(0).text(value['id']);
                 rowNew.eq(1).text(key);
-                rowNew.eq(2).append("<input id='btnRemoveRequest' type='button' value='Remove Request' onClick='removeRequest(\"" + value['id'] + "\","+ key+")'/>");
+                rowNew.eq(2).append("<input class='btnRemoveRequest' type='button' value='Remove Request' onClick='removeRequest(\"" + value['id'] + "\"," + key + ")'/>");
                 rowNew.appendTo(table);
             });
         }
@@ -51,16 +51,16 @@ $(document).ready(function () {
         }
     });
 });
-function addFriend(u)
+function addFriend(u, k)
 {
     $.post('addFriend',
-            {user: u},
-    function () {
-        $('.btnAdd').prop('value', 'Sended Request');
-        $('.btnAdd').prop('disabled', true);
-        $('.showDialog').prop('hidden', false);
+            {user: u, },
+            function () {
+                $(".btnAdd").eq(k).prop('value', 'Sended Request');
+                $(".btnAdd").eq(k).prop('disabled', true);
+                $(".showDialog").eq(k).prop('hidden', false);
 
-    })
+            })
             .fail(function () { //on failure
                 alert("Insertion failed.");
             });
@@ -72,8 +72,9 @@ function removeFriend(u)
     $.post('removeFriend',
             {user: u},
     function () {
-        $('.btnAdd').prop('value', 'Add Friend');
-        $('.btnAdd').prop('disabled', false);
+
+        $(".btnAdd").prop('value', 'Add Friend');
+        $(".btnAdd").prop('disabled', false);
         $('.btnRemove').prop('hidden', true);
         alert("Remove success");
 
@@ -83,19 +84,22 @@ function removeFriend(u)
             });
 
 }
-function removeRequest(u,k)
+function removeRequest(u, k)
 {
     $.post('removeFriend',
-            {user: u},
-    function () {
-        alert("Remove success");
-        $('#btnRemoveRequest').eq(k).prop('value', 'Removed');
-        $('#btnRemoveRequest').eq(k).prop('disabled', false);
-    })
-            .fail(function () { //on failure
-                alert("Remove failed.");
-            });
-
+            {user: u}).
+            done(function (data) {
+                if (data === "success") {
+                    alert("Remove success");
+                    $(".showDialog").eq(k).prop('hidden', true);
+                    $(".btnAdd").eq(k).prop('value', 'Add Friend');
+                    $(".btnAdd").eq(k).prop('disabled', false);
+                } else if (data === "null") {
+                    alert("Remove fail");
+                }
+            }).fail(function () {
+        alert("Error");
+    });
 }
 function acceptFriend(u)
 {
