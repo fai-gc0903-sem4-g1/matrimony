@@ -47,29 +47,13 @@
                             <br />
                             <span id='person-btna'><input type="button" class="btnAdd" onclick="addFriend('${i.id}', '${myIndex.index}')" value="Add Friend"/></span>
                             <span id='person-btna'><input type="button" class='showDialog' onclick="show('${i.id}', '${myIndex.index}')" value="Cancel" hidden="true"/></span>
-                            </br>
+                            <br/>
                             <!--                        <div id="basicModal" style="display:none;"/>-->
                             <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
                             <script>
                                 // show the dialog on click of a button
                                 function show(u, k) {
-
-<<<<<<< HEAD
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                    </div>
-                                    <div class='row col-sm-12' style='text-align: center;'>
-                                        <h4>End</h4>
-                                    </div>
-                                   
-                            </jsp:attribute>
-                        </t:homeLayout>
-=======
-                                    /* select the div you want to be a dialog, in our case it is 'basicModal'
-                                     you can add parameters such as width, height, title, etc. */
-
-                                    $("#message").dialog({
+                                	$("#message").dialog({
                                         modal: true,
                                         title: "Are you sure?",
                                         buttons: {
@@ -81,10 +65,8 @@
                                                 $(this).dialog("close");
                                             }
                                         }
-                                    });
-
-                                }
-                                ;
+                                        });  
+                                };
                             </script>
                         </div>
                     </div>
@@ -95,4 +77,3 @@
         </div>
     </jsp:attribute>
 </t:homeLayout>
->>>>>>> branch 'master' of https://github.com/fai-gc0903-sem4-g1/matrimony.git
