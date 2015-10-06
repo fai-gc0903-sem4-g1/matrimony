@@ -100,7 +100,7 @@ public class FriendDAO {
             User u = FriendDAO.getUserById(list.get(i).getUserFromId());
             listUser.add(u);
         }
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        System.out.println("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
         for (int i = 0; i < listUser.size(); i++) {
             System.out.println(listUser.get(i).getId());
         }
@@ -115,13 +115,17 @@ public class FriendDAO {
         query.setParameter("userFromId", nameFromId);
         query.setParameter("userToId", nameToId);
         List<Friend> l = query.list();
-        if (friend == null) {
+        if (l == null) {
             query.setParameter("userFromId", nameToId);
             query.setParameter("userToId", nameFromId);
             l = query.list();
         }
-        for (int i = 0; i < l.size(); i++) {
-            friend.add(l.get(i));
+        if (l == null) {
+            return null;
+        } else {
+            for (int i = 0; i < l.size(); i++) {
+                friend.add(l.get(i));
+            }
         }
         session.close();
         return friend;
@@ -145,21 +149,16 @@ public class FriendDAO {
 
     public static boolean CheckExist(String userFromId, String userToId) {
         List<Friend> friend = FriendDAO.allFriend();
-        boolean b = false;
         for (int i = 0; i < friend.size(); i++) {
             Friend f = friend.get(i);
-            if (userFromId.equals(f.getUserFromId()) && userToId.equals(f.getUserToId())) {
-                b = true;
-                break;
+            if (userFromId.equalsIgnoreCase(f.getUserFromId()) && userToId.equalsIgnoreCase(f.getUserToId())) {
+                return true;
             } else {
-                if (userFromId.equals(f.getUserToId()) && userToId.equals(f.getUserFromId())) {
-                    b = true;
-                    break;
-                } else {
-                    b = false;
+                if (userFromId.equalsIgnoreCase(f.getUserToId()) && userToId.equalsIgnoreCase(f.getUserFromId())) {
+                    return true;
                 }
             }
         }
-        return b;
+        return false;
     }
 }
