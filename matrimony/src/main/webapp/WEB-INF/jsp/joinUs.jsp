@@ -33,7 +33,7 @@
                                 	color:#ffffff;
                                 }
                                 .popover.left .arrow:after {
-								  border-bottom-color: #CB2027;
+								  border-left-color: #CB2027;
 								}
 								.popover.bottom .arrow:after {
 								  border-bottom-color: #CB2027;
@@ -51,7 +51,6 @@
                                         $('.popover').each(function(i){
                                         	if(!$(this).children('.popover-content').html()==formGroup.data('content'))
                                         	{
-                                        		alert($(this));
                                         		$(this).remove();
                                         	}
                                         });

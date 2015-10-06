@@ -38,6 +38,14 @@
                             <!-- 	===========CUSTOM CSS=========== -->
                             <link rel='stylesheet' href='/matrimony/resources/css/layout-style.css' />
                             <style>
+                            .navbar{
+                            border-color: #0B99BC;
+                            }
+                            .navbar-default{
+                            border-radius: 0px;
+                            }
+                            
+                            
                             </style>
                             <script>
                                 $(document).ready(function() { 

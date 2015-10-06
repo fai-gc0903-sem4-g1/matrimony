@@ -60,6 +60,7 @@
 							                        <div id="request"></div>
 							                    </div>
                                         </div>
+                                        </div>
                                         
                                                      <!-- CHAT BOX START HERE -->
                                 <div style='z-index: 9999;'>
