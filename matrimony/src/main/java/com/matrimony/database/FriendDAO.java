@@ -100,7 +100,6 @@ public class FriendDAO {
             User u = FriendDAO.getUserById(list.get(i).getUserFromId());
             listUser.add(u);
         }
-        System.out.println("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
         for (int i = 0; i < listUser.size(); i++) {
             System.out.println(listUser.get(i).getId());
         }
