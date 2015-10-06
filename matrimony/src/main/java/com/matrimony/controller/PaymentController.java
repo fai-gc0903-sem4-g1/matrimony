@@ -80,14 +80,14 @@ public class PaymentController {
 		if (verifyForm) {
 			switch (payWith) {
 			case "paypal":
-				String paymentConfirmCode = RandomStringUtils.randomNumeric(126);
+				String paymentConfirmCode = RandomStringUtils.randomNumeric(26);
 				PayResponse payResponse = PaypalPayment.pay(finalPayment,
 						"http://localhost/matrimony/paymentConfirm?code=" + paymentConfirmCode,
 						"http://localhost/matrimony/payment", "USD");
 				if (null != payResponse) {
 					request.getSession().setAttribute("paypalPayResponse", payResponse);
 					request.getSession().setAttribute("paymentConfirmCode", paymentConfirmCode);
-					System.out.println(payResponse.getPaymentExecStatus() + " " + payResponse.getPayKey());
+					System.out.println("Da luu paypalPayResponse");
 					return "redirect:" + CredentialsConfiguration.SAND_BOX + payResponse.getPayKey();
 				}
 				request.setAttribute("paymentTimeOut", 1);
@@ -103,7 +103,8 @@ public class PaymentController {
 	}
 
 	@RequestMapping(value = "paymentConfirm", method = RequestMethod.GET)
-	public String doPaymentConfirm(HttpServletRequest request, String code) {
+	public String viewPaymentConfirm(HttpServletRequest request, String code) {
+		System.out.println("Code thanh toán: " +code);
 		User ssUser = (User) request.getSession().getAttribute("user");
 		PayResponse pr = (PayResponse) request.getSession().getAttribute("paypalPayResponse");
 		if (ssUser == null)
@@ -112,9 +113,10 @@ public class PaymentController {
 			return "redirect:payment";
 
 		if (code != null && code.equals(request.getAttribute("paymentConfirmCode"))) {
+			System.out.println("da chay vao day");
 			PaymentDetailsResponse pdr = PaypalPayment.checkPaymentByPayKey(pr.getPayKey());
 			if ("COMPLETED".equals(pdr.getStatus())) {
-				System.out.println("so tien" + pdr.getPaymentInfoList().getPaymentInfo().get(0).getRefundedAmount());
+				System.out.println("Thanh toán: Xác nhận đã thanh toán");
 				Timestamp expiries = ssUser.getExpiries();
 				Timestamp timeNow = new Timestamp(System.currentTimeMillis());
 				Calendar calendar;

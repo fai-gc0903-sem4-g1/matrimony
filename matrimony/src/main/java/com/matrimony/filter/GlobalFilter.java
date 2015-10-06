@@ -47,7 +47,6 @@ public class GlobalFilter implements Filter {
 		CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
 		User user = (User) request.getSession().getAttribute(SessionKey.USER);
 		System.out.println("Country info client: " + country);
-		System.out.println(user);
 		Cookie[] cookies = request.getCookies();
 		Map<String, String> retriedCookies = new HashMap<String, String>();
 		if (user == null && cookies!=null) {
@@ -55,16 +54,12 @@ public class GlobalFilter implements Filter {
 			for (int i = 0; i < cookies.length; i++) {
 				Cookie c = cookies[i];
 				if (c.getName().equals("id")) {
-					System.out.println("id "+c.getValue());
 					retriedCookies.put(c.getName(), c.getValue());
 				} else if (c.getName().equals("login")) {
-					System.out.println("login "+c.getValue());
 					retriedCookies.put(c.getName(), c.getValue());
 				} else if (c.getName().equals("password")) {
-					System.out.println("password "+c.getValue());
 					retriedCookies.put(c.getName(), c.getValue());
 				} else if (c.getName().equals("keepLoggin")) {
-					System.out.println("keepLoggin "+c.getValue());
 					retriedCookies.put(c.getName(), c.getValue());
 				}
 			}
