@@ -125,8 +125,8 @@ public class UserDAO {
 		System.out.println(user);
 		String passwordHased = HashUtil.hashPassword(user.getPassword(), userFind.getSalt());
 		if (userFind.getPassword().equals(passwordHased)) {
-			userFind.setLoginTime(new Timestamp(System.currentTimeMillis()));
-			userFind.setIpLogin(user.getIpLogin());
+//			userFind.setLoginTime(new Timestamp(System.currentTimeMillis()));
+//			userFind.setIpLogin(user.getIpLogin());
 			// UPDATE USER WHEN LOGGED IN
 			Update(userFind);
 			return userFind;

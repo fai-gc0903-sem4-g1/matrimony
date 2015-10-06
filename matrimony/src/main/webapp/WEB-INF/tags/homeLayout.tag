@@ -44,19 +44,19 @@
                                         <div id='middle' class='col-lg-7' style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px;'>
                                             <jsp:invoke fragment="middle"></jsp:invoke>
                                         </div>
-                                        <div id='right' class='col-lg-3'>
-							                    <ul class='tabs' style="padding: 0;margin: 0; display: block;list-style-type: disc;">
-							                        <li style="list-style: none; display: inline;"><a style=" padding:5px 10px;display:inline-block;background:#666;color:#fff;text-decoration:none;" href='#tab1'>Friend</a></li>
-							                        <li style="list-style: none; display: inline;"><a style=" padding:5px 10px;display:inline-block;background:#666;color:#fff;text-decoration:none;" href='#tab2'>Invite</a></li>
-							                        <li style="list-style: none; display: inline;"><a class="active" style=" padding:5px 10px;display:inline-block;background:#666;color:#fff;text-decoration:none;" href='#tab3'>Request</a></li>
+                                        <div id='right' class='col-lg-3' style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px;'>
+							                    <ul class='tabs' style="padding: 2%;margin: 0; display: block;list-style-type: disc;">
+							                        <li style="list-style: none; display: inline;"><a style=" padding:2% 4%;display:inline-block;background:#666;color:#fff;text-decoration:none;" href='#tab1'>Friend</a></li>
+							                        <li style="list-style: none; display: inline;"><a style=" padding:2% 4%;display:inline-block;background:#666;color:#fff;text-decoration:none;" href='#tab2'>Invite</a></li>
+							                        <li style="list-style: none; display: inline;"><a class="active" style=" padding:2% 4%;display:inline-block;background:#666;color:#fff;text-decoration:none;" href='#tab3'>Request</a></li>
 							                    </ul>
-							                    <div id='tab1' style="padding: 10px; width:350px; background:#fff">
+							                    <div id='tab1' style="padding: 2%; width:100%; background:#fff">
 							                        <div id="friend"></div>
 							                    </div>
-							                    <div id='tab2' style="padding: 10px; width:350px; background:#fff">
+							                    <div id='tab2' style="padding: 2%; width:100%; background:#fff">
 							                        <div id="invite"></div>
 							                    </div>
-							                    <div id='tab3' style="padding: 10px; width:350px; background:#fff">
+							                    <div id='tab3' style="padding: 2%; width:100%; background:#fff">
 							                        <div id="request"></div>
 							                    </div>
                                         </div>

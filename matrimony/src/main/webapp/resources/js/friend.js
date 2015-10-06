@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+
 $(document).ready(function () {
 
     $.get('allInvite', function (responseJson) {
@@ -13,7 +14,7 @@ $(document).ready(function () {
                 var rowNew = $("<div></div><div></div><div></div><div></div>");
                 rowNew.eq(0).text(value['id']);
                 rowNew.eq(1).text(value['firstName']);
-                rowNew.eq(2).append("<input class='btnAccept' type='button' value='Accept Friend' onClick='acceptFriend(\"" + value['id'] + "\")'/>");
+                rowNew.eq(2).append("<input class='btnAccept' type='button' value='Accept Friend' onClick='acceptFriend(\"" + value['id'] + "\"," + key + ")'/>");
                 rowNew.eq(3).append("<input id='btnRemoveInvite' type='button' value='Denied' onClick='removeInvite(\"" + value['id'] + "\")'/>");
                 rowNew.appendTo(table);
             });
@@ -28,8 +29,8 @@ $(document).ready(function () {
             $.each(responseJson, function (key, value) {
                 var rowNew = $("<div></div><div></div><div></div><div></div>");
                 rowNew.eq(0).text(value['id']);
-                rowNew.eq(1).text(key);
-                rowNew.eq(2).append("<input class='btnRemoveRequest' type='button' value='Remove Request' onClick='removeRequest(\"" + value['id'] + "\"," + key + ")'/>");
+                rowNew.eq(1).text(value['firstName']);
+                rowNew.eq(2).append("<input class='btnRemoveRequest' type='button' value='Remove Request' onClick='showTab(\"" + value['id'] + "\"," + key + ")'/>");
                 rowNew.appendTo(table);
             });
         }
@@ -45,7 +46,7 @@ $(document).ready(function () {
                 rowNew.eq(0).text(value['id']);
                 rowNew.eq(1).text(value['firstName']);
                 rowNew.eq(2).append("<input type='button' value='Friend' disabled='true'/>");
-                rowNew.eq(3).append("<input id='btnRemoveFriend' type='button' value='RemoveRequest' onClick='removeFriend(\"" + value['id'] + "\")'/>");
+                rowNew.eq(3).append("<input id='btnRemoveFriend' type='button' value='RemoveRequest' onClick='showTab(\"" + value['id'] + "\"," + key + ")'/>");
                 rowNew.appendTo(table);
             });
         }
@@ -54,13 +55,13 @@ $(document).ready(function () {
 function addFriend(u, k)
 {
     $.post('addFriend',
-            {user: u, },
-            function () {
-                $(".btnAdd").eq(k).prop('value', 'Sended Request');
-                $(".btnAdd").eq(k).prop('disabled', true);
-                $(".showDialog").eq(k).prop('hidden', false);
+            {user: u},
+    function () {
+        $(".btnAdd").eq(k).prop('value', 'Sended Request');
+        $(".btnAdd").eq(k).prop('disabled', true);
+        $(".showDialog").eq(k).prop('hidden', false);
 
-            })
+    })
             .fail(function () { //on failure
                 alert("Insertion failed.");
             });
@@ -72,7 +73,6 @@ function removeFriend(u)
     $.post('removeFriend',
             {user: u},
     function () {
-
         $(".btnAdd").prop('value', 'Add Friend');
         $(".btnAdd").prop('disabled', false);
         $('.btnRemove').prop('hidden', true);
@@ -101,42 +101,37 @@ function removeRequest(u, k)
         alert("Error");
     });
 }
-function acceptFriend(u)
+function removeRequestTab(u, k)
+{
+    $.post('removeFriend',
+            {user: u}).
+            done(function (data) {
+                if (data === "success") {
+                    alert("Remove success");
+                    $(".btnRemoveRequest").eq(k).prop('value', 'Removed');
+                    $(".btnRemoveRequest").eq(k).prop('disabled', true);
+                } else if (data === "null") {
+                    alert("Remove fail");
+                }
+            }).fail(function () {
+        alert("Error");
+    });
+}
+function acceptFriend(u, k)
 {
     $.post('acceptFriend',
-            {user: u},
-    function () {
-        $(".btnAccept").prop('value', 'Friend');
-        $(".btnAccept").prop('disabled', true);
-        $('.btnRemoveFriend').prop('value', 'Remove Friend');
-        alert("accpet success");
-
-    })
-            .fail(function () { //on failure
-                alert("accept failed.");
-            });
-
-}
-function showDialog(u) {
-
-    /* select the div you want to be a dialog, in our case it is 'basicModal'
-     you can add parameters such as width, height, title, etc. */
-    $("#person-btna").dialog({
-        modal: true,
-        title: "Are you sure?",
-        buttons: {
-            "YES": function () {
-                removeRequest(u);
-                $(this).dialog("close");
-            },
-            "NO": function () {
-                $(this).dialog("close");
-            }
-        }
+            {user: u}).
+            done(function (data) {
+                if (data === "success") {
+                    $(".btnAccept").eq(k).prop('value', 'Friend');
+                    $(".btnAccept").eq(k).prop('disabled', true);
+                    $('.btnRemoveFriend').prop('value', 'Remove Friend');
+                    alert("accpet success");
+                } 
+            }).fail(function () {
+        alert("Error");
     });
-
 }
-;
 $(document).ready(function () {
     $('ul.tabs').tabs;
     $('ul.tabs').each(function () {
@@ -168,23 +163,38 @@ $(document).ready(function () {
         });
     });
 });
+
 // show the dialog on click of a button
-//function showDialog(){
-// 
-//    /* select the div you want to be a dialog, in our case it is 'basicModal'
-//    you can add parameters such as width, height, title, etc. */
-//    $("#basicModal").dialog(
-////        modal: true,
-////        title: "Are you sure?",
-////        buttons: {
-////            "YES": function() {
-////                window.open("http://codeofaninja.com/", '_blank');
-////            },
-////            "NO": function() {
-////                $( this ).dialog( "close" );
-////            }
-////        }
-//    );
-//     
-//};
+function show(u, k) {
+    $("#message").dialog({
+        modal: true,
+        title: "Are you sure?",
+        buttons: {
+            "YES": function () {
+                removeRequest(u, k);
+                $(this).dialog("close");
+            },
+            "NO": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+;
+function showTab(u, k) {
+    $("#message").dialog({
+        modal: true,
+        title: "Are you sure?",
+        buttons: {
+            "YES": function () {
+                removeRequestTab(u, k);
+                $(this).dialog("close");
+            },
+            "NO": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+;
 

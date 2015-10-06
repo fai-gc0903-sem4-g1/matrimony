@@ -73,8 +73,8 @@ public class AuthenticationController {
 			User userLogin=new User();
 			userLogin.setUsername(login);
 			userLogin.setPassword(password);
-			userLogin.setLoginTime(new Timestamp(System.currentTimeMillis()));
-			userLogin.setIpLogin(request.getRemoteAddr());
+//			userLogin.setLoginTime(new Timestamp(System.currentTimeMillis()));
+//			userLogin.setIpLogin(request.getRemoteAddr());
 			User user = UserDAO.login(userLogin);
 			request.getSession().setAttribute(SessionKey.USER, user);
 			if (user.isVerified()) {
@@ -141,7 +141,7 @@ public class AuthenticationController {
 		} catch (IllegalArgumentException ex) {
 			System.out.println("Register: " + ex.getMessage());
 			wellForm=false;
-			request.setAttribute("regBirthdayInvalid", "Ngày tháng chọn sai");
+			request.setAttribute("regBirthdayInvalid", "Ngày tháng ch�?n sai");
 		}
 		
 		if(!wellForm)
