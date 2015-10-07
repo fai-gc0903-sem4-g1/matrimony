@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
+import javax.transaction.Transaction;
+
 import org.hibernate.Session;
 
 import com.matrimony.entity.User;
@@ -42,9 +44,9 @@ public class UserDAO {
 
 	public static void Update(User user) {
 		Session ss = HibernateUtil.session;
-		ss.getTransaction().begin();
+		org.hibernate.Transaction tran=ss.beginTransaction();
 		ss.update(user);
-		ss.getTransaction().commit();
+		tran.commit();
 		// ss.close();
 	}
 

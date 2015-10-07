@@ -3,7 +3,6 @@
  */
 package com.matrimony.controller;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,19 +18,10 @@ import com.matrimony.database.TransactionDAO;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.Transaction;
 import com.matrimony.entity.User;
-import com.matrimony.exception.STException.EntityIDHaveAlready;
+import com.matrimony.exception.STException.TransactionAlready;
 import com.matrimony.model.SessionKey;
 import com.paypal.api.CredentialsConfiguration;
-import com.paypal.api.PaypalAPI;
 import com.paypal.api.PaypalPayment;
-import com.paypal.exception.ClientActionRequiredException;
-import com.paypal.exception.HttpErrorException;
-import com.paypal.exception.InvalidCredentialException;
-import com.paypal.exception.InvalidResponseDataException;
-import com.paypal.exception.MissingCredentialException;
-import com.paypal.exception.SSLConfigurationException;
-import com.paypal.sdk.exceptions.OAuthException;
-import com.paypal.svcs.types.ap.PayRequest;
 import com.paypal.svcs.types.ap.PayResponse;
 import com.paypal.svcs.types.ap.PaymentDetailsResponse;
 
@@ -87,7 +76,7 @@ public class PaymentController {
 				if (null != payResponse) {
 					request.getSession().setAttribute("paypalPayResponse", payResponse);
 					request.getSession().setAttribute("paymentConfirmCode", paymentConfirmCode);
-					System.out.println("Da luu paypalPayResponse");
+					System.out.println("Code xac nhan ne: "+paymentConfirmCode);
 					return "redirect:" + CredentialsConfiguration.SAND_BOX + payResponse.getPayKey();
 				}
 				request.setAttribute("paymentTimeOut", 1);
@@ -103,8 +92,7 @@ public class PaymentController {
 	}
 
 	@RequestMapping(value = "paymentConfirm", method = RequestMethod.GET)
-	public String viewPaymentConfirm(HttpServletRequest request, String code) {
-		System.out.println("Code thanh toán: " +code);
+	public String viewPaymentConfirm(HttpServletRequest request, String code){
 		User ssUser = (User) request.getSession().getAttribute("user");
 		PayResponse pr = (PayResponse) request.getSession().getAttribute("paypalPayResponse");
 		if (ssUser == null)
@@ -112,7 +100,7 @@ public class PaymentController {
 		if (pr == null)
 			return "redirect:payment";
 
-		if (code != null && code.equals(request.getAttribute("paymentConfirmCode"))) {
+		if (code != null && code.equals(request.getSession().getAttribute("paymentConfirmCode"))) {
 			System.out.println("da chay vao day");
 			PaymentDetailsResponse pdr = PaypalPayment.checkPaymentByPayKey(pr.getPayKey());
 			if ("COMPLETED".equals(pdr.getStatus())) {
@@ -126,30 +114,40 @@ public class PaymentController {
 					calendar = DateUtils.toCalendar(timeNow);
 
 				if (pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount() == 49.99)
-					calendar.set(Calendar.MONTH, 1);
+					calendar.set(Calendar.MONTH, calendar.get(Calendar.MONDAY)+1);
 				else if (pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount() == 499.99)
-					calendar.set(Calendar.MONTH, 12);
+					calendar.set(Calendar.MONTH, calendar.get(Calendar.MONDAY)+12);
 
-				ssUser.setExpiries(new Timestamp(calendar.getTimeInMillis()));
+//				ssUser.setExpiries(new Timestamp(calendar.getTimeInMillis()));
 				// UPDATE USER EXPIRES
-				UserDAO.Update(ssUser);
+//				UserDAO.Update(ssUser);
+				User temp=UserDAO.findById(ssUser.getId());
+				System.out.println(temp);
+				temp.setExpiries(new Timestamp(calendar.getTimeInMillis()));
 				Transaction transaction = new Transaction();
-				transaction.setId(RandomStringUtils.randomAlphanumeric(26));
+				transaction.setId(pdr.getPaymentInfoList().getPaymentInfo().get(0).getSenderTransactionId());
 				transaction.setCreateAt(timeNow);
 				transaction.setUserId(ssUser.getId());
 				transaction.setCurrencyCode(pdr.getCurrencyCode());
 				transaction.setMethod("Paypal");
 				transaction.setDecription("ghi chú");
 				transaction.setAmount(pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount());
-				TransactionDAO.add(transaction);
-				request.getSession().setAttribute("user", ssUser);
-				request.getSession().setAttribute("paymentConfirm", null);
-				request.setAttribute("paymentResultSuccess", "paymentResultSuccess");
+				try {
+					TransactionDAO.add(transaction);
+					UserDAO.Update(temp);
+					request.getSession().setAttribute("user", ssUser);
+					request.getSession().setAttribute("paypalPayResponse", null);
+					request.setAttribute("paymentResultSuccess", "paymentResultSuccess");
+				} catch (TransactionAlready e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					request.setAttribute("paymentResultFailed", "paymentTransactionAlready");
+				}
 			} else {
 				request.setAttribute("paymentResultFailed", "paymentResultFailed");
 			}
 			return "paymentResult";
 		} else
-			return "redirect:payment";
+			return "code_khong_trung_hoac_biNull";
 	}
 }

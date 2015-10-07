@@ -11,14 +11,14 @@ package com.matrimony.exception;
  */
 public class STException {
 	
-	public static class EntityIDHaveAlready extends Exception {
+	public static class TransactionAlready extends Exception {
 
         /**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public EntityIDHaveAlready(String msg) {
+		public TransactionAlready(String msg) {
             super(msg);
         }
     }
