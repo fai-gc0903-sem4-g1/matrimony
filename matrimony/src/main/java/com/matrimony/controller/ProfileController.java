@@ -22,6 +22,8 @@ import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 import com.matrimony.model.SessionKey;
 import com.matrimony.model.UploadImageToServer;
+import com.matrimony.util.Global;
+import com.websocket.SortUserProfile;
 
 /**
  *
@@ -81,10 +83,15 @@ public class ProfileController {
 	
 	
 	
-	@RequestMapping(value="getInfoUserByUserId", method=RequestMethod.POST)
+	@RequestMapping(value="sortUserProfile", method=RequestMethod.POST)
 	@ResponseBody
 	public String getInfoUserByUserId(String id){
 		User user=UserDAO.findById(id);
-		return user.getName();
+		SortUserProfile sortUserProfile=new SortUserProfile();
+		sortUserProfile.setAvatar(user.getAvatarPhoto());
+		sortUserProfile.setName(user.getName());
+		sortUserProfile.setUsername(user.getUsername());
+		String json=Global.gson.toJson(sortUserProfile);
+		return json;
 	}
 }
