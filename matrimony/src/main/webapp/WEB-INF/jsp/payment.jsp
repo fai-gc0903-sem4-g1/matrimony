@@ -3,9 +3,10 @@
                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                     <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                         <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+                        <jsp:useBean id="userDAO" class="com.matrimony.database.UserDAO" />
         <t:homeLayout>
             <jsp:attribute name="head">
-                <title>Payment confirm</title>
+                <title>Payment</title>
                 <script>
                     $(document).ready(function() {
                         $(document).on('change', '#cbx-pay-with', function(e) {
@@ -38,9 +39,7 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
-                    <p>
                         <h3>Thanh toán sử dụng sản phẩm</h3>
-                    </p>
                     <form method='POST' action='payment' class='col-lg-6 form-horizontal'>
                         <c:if test="${not empty paymentTimeOut }">
                             <div class="alert alert-warning" role="alert">Đường truyền quá yếu, xin kiểm tra lại</div>
@@ -135,7 +134,6 @@
 
                     </form>
                     <div class='col-lg-6'>
-                        <p>
                             <h4>Features:</h4>
                             <ul>
                                 <li>As-you-type, input formatting</li>
@@ -144,7 +142,6 @@
                                 <li>AJAX form submission w/ visual feedback</li>
                                 <li>Creates a Stripe credit card token</li>
                             </ul>
-                        </p>
                         <p>Be sure to replace the dummy API key with a valid Stripe API key.</p>
 
                         <p>Built upon: Bootstrap, jQuery,
