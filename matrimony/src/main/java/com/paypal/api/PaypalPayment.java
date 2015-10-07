@@ -4,11 +4,8 @@
 package com.paypal.api;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.validator.constraints.CreditCardNumber;
 
 import com.paypal.exception.ClientActionRequiredException;
 import com.paypal.exception.HttpErrorException;
@@ -31,10 +28,7 @@ import com.paypal.svcs.types.common.RequestEnvelope;
  */
 public class PaypalPayment {
 
-	public PayResponse pay(double money, String returnUrl, String cancelUrl, String currencyCode) throws SSLConfigurationException, InvalidCredentialException,
-			UnsupportedEncodingException, HttpErrorException, InvalidResponseDataException,
-			ClientActionRequiredException, MissingCredentialException, OAuthException, IOException,
-			InterruptedException {
+	public static PayResponse pay(double money, String returnUrl, String cancelUrl, String currencyCode){
 		RequestEnvelope requestEnvelope = new RequestEnvelope("en_US");
 		List<Receiver> receivers = new ArrayList<Receiver>();
 
@@ -53,43 +47,60 @@ public class PaypalPayment {
 		payRequest.setCancelUrl(cancelUrl);
 		payRequest.setReturnUrl(returnUrl);
 
-		PayResponse payResponse;
+		PayResponse payResponse=null;
 
-		payResponse = PaypalAPI.getService().pay(payRequest);
-		String value = payResponse.getResponseEnvelope().getAck().getValue();
-		System.out.println("PayResponse: " + value);
-		if (PaypalAPI.SUCCESS.equalsIgnoreCase(value))
-			return payResponse;
-		else {
-			System.out.println("PayResponse: " + payResponse.getError().get(0).getMessage());
-			return null;
+		try {
+			payResponse = PaypalAPI.getService().pay(payRequest);
+			String value = payResponse.getResponseEnvelope().getAck().getValue();
+			if (PaypalAPI.FAILURE.equalsIgnoreCase(value))
+				System.out.println("PayResponse: " + payResponse.getError().get(0).getMessage());
+		} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
+				| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
+				| OAuthException | IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return payResponse;
 	}
 
-	public PaymentDetailsResponse checkPayment(String transactionId) throws SSLConfigurationException, InvalidCredentialException, UnsupportedEncodingException, HttpErrorException, InvalidResponseDataException, ClientActionRequiredException, MissingCredentialException, OAuthException, IOException, InterruptedException{
+	public static PaymentDetailsResponse checkPaymentByTransactionId(String transactionId){
 		RequestEnvelope requestEnvelope=new RequestEnvelope("vi_VN");
 		PaymentDetailsRequest paymentDetailsRequest=new PaymentDetailsRequest(requestEnvelope);
 		paymentDetailsRequest.setTransactionId(transactionId);
 		
-		PaymentDetailsResponse paymentDetailsResponse = PaypalAPI.getService().paymentDetails(paymentDetailsRequest);
+		PaymentDetailsResponse paymentDetailsResponse=null;
+		try {
+			paymentDetailsResponse = PaypalAPI.getService().paymentDetails(paymentDetailsRequest);
 			String value=paymentDetailsResponse.getResponseEnvelope().getAck().getValue();
 			System.out.println("PaymentDetailsResponse: " +value);
-			if(PaypalAPI.SUCCESS.equalsIgnoreCase(value)){
-				return paymentDetailsResponse;
-			}
-			else{
+			if(PaypalAPI.FAILURE.equalsIgnoreCase(value))
 				System.out.println("PaymentDetailsResponse: "+paymentDetailsResponse.getError().get(0).getMessage());
-				return null;
-			}
-	}
-	public static void main(String[] args) {
-		PaypalPayment payment=new PaypalPayment();
-		try {
-			PaymentDetailsResponse detailsResponse=payment.checkPayment("7FY7743789402974J");
-			System.out.println(detailsResponse.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount());
-		} catch (Exception e) {
+		} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
+				| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
+				| OAuthException | IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return paymentDetailsResponse;
+	}
+	public static PaymentDetailsResponse checkPaymentByPayKey(String payKey){
+		RequestEnvelope requestEnvelope=new RequestEnvelope("vi_VN");
+		PaymentDetailsRequest paymentDetailsRequest=new PaymentDetailsRequest(requestEnvelope);
+		paymentDetailsRequest.setPayKey(payKey);
+		
+		PaymentDetailsResponse paymentDetailsResponse=null;
+		try {
+			paymentDetailsResponse = PaypalAPI.getService().paymentDetails(paymentDetailsRequest);
+			String value=paymentDetailsResponse.getResponseEnvelope().getAck().getValue();
+			System.out.println("PaymentDetailsResponse: " +value);
+			if(PaypalAPI.FAILURE.equalsIgnoreCase(value))
+				System.out.println("PaymentDetailsResponse: "+paymentDetailsResponse.getError().get(0).getMessage());
+		} catch (SSLConfigurationException | InvalidCredentialException | HttpErrorException
+				| InvalidResponseDataException | ClientActionRequiredException | MissingCredentialException
+				| OAuthException | IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return paymentDetailsResponse;
 	}
 }

@@ -55,7 +55,6 @@ function processMessage(obj) {
 			if (senderId == temp.data('user-id')) {
 				chatWindow = temp;
 			}
-			
 		}
 	});
 
@@ -83,8 +82,7 @@ function sendMessage(chatWindow) {
 	var receiverId = chatWindow.data('user-id');
 	var senderId = sessionUserId;
 	var content = chatWindow.find('#txt-chat-msg').val();
-	var msgObj = new Message(senderId, receiverId, 'text-chat', content, Date
-			.now());
+	var msgObj = new Message(senderId, receiverId, 'text-chat', content, Date.now());
 	ws.send(JSON.stringify(msgObj));
 	var str=emoticonDecode(content);
 	
@@ -144,21 +142,22 @@ function createChatWindow(userId) {
 		alert('dang chat voi nguoi nay roi');
 	} else {
 		var clone = $("#chat-window").clone().appendTo("#chat-container");
-		var userName='';
+		var uName;
 		$.ajax({
 			method:'POST',
-			url:'/matrimony/getInfoUserByUserId',
+			url:'/matrimony/sortUserProfile',
 			data:{id:userId},
-			success:function(data){
-				userName=data;
+			success:function(obj){
+				uName=obj.name;
 			},
 			error:function(){
-				
+				alert('server down');
 			}
 		});
-		clone.css("margin-right", margin);
 		clone.data('user-id', userId);
-		clone.find('#name').html(userName);
+		clone.find('#name').html(uName);
+		clone.find('img').attr('src', obj.avatar);
+		clone.css("margin-right", margin);
 		clone.css('display', 'block');
 		return clone;
 	}

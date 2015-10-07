@@ -38,6 +38,19 @@
                             <!-- 	===========CUSTOM CSS=========== -->
                             <link rel='stylesheet' href='/matrimony/resources/css/layout-style.css' />
                             <style>
+                            .navbar{
+                            border-color: #0B99BC;
+                            }
+                            .navbar-default{
+                            border-radius: 0px;
+                            }
+                            .st-icon-nav-bar{
+                            	color:navy;
+                            }
+                            .st-label-number-notify{
+                            	color: #FDF200;
+                            }
+                            
                             </style>
                             <script>
                                 $(document).ready(function() { 
@@ -145,9 +158,9 @@
                                                     </div>
 
                                                     <ul class="nav navbar-nav navbar-right">
-                                                    <li><a href="/matrimony"><i style='font-size:22px;' class="fa fa-newspaper-o"></i></a></li>
-                                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users" style='font-size:19px'></i> <span
-										class="label label-primary">5</span> </a>
+                                                    <li><a href="/matrimony"><i style='font-size:22px;' class="fa fa-newspaper-o st-icon-nav-bar"></i></a></li>
+                                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users st-icon-nav-bar" style='font-size:19px'></i> <span
+										class="label label-primary st-label-number-notify">5</span> </a>
                                                             <ul class="dropdown-menu">
                                                                 <li><a href="#"><span class="label label-warning">7:00
 													AM</span>Hi :)</a>
@@ -163,8 +176,8 @@
                                                                 </li>
                                                             </ul>
                                                         </li>
-                                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe" style='font-size:19px'></i> <span
-										class="label label-primary">26</span> </a>
+                                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe st-icon-nav-bar" style='font-size:19px'></i> <span
+										class="label label-primary st-label-number-notify">26</span> </a>
                                                             <ul class="dropdown-menu">
                                                                 <li><a href="#"><span class="label label-warning">7:00
 													AM</span>Hi :)</a>
@@ -180,8 +193,8 @@
                                                                 </li>
                                                             </ul>
                                                         </li>
-                                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-comments-o" style='font-size:19px'></i> <span
-										class="label label-primary">0</span> </a>
+                                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-comments-o  st-icon-nav-bar" style='font-size:19px'></i> <span
+										class="label label-primary st-label-number-notify">0</span> </a>
                                                             <ul class="dropdown-menu">
                                                                 <li><a href="#"><span class="label label-warning">7:00
 													AM</span>Hi :)</a>
@@ -198,7 +211,7 @@
                                                             </ul>
                                                         </li>
                                                         <li>
-                                                            <a href="/matrimony"><img alt='mini-avartar' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto}' style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;${sessionScope.user.firstName }</a>
+                                                            <a href="/matrimony" style='color: white;font-weight: 600;font-size: 13px;'><img alt='mini-avartar' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto}' style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;${sessionScope.user.firstName }</a>
                                                         </li>
 
                                                         <li>
