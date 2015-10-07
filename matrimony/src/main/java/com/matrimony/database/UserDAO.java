@@ -9,8 +9,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-import javax.transaction.Transaction;
-
 import org.hibernate.Session;
 
 import com.matrimony.entity.User;

@@ -1,11 +1,10 @@
 package com.matrimony.database;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.matrimony.entity.User;
-import java.util.ArrayList;
-import javax.servlet.http.HttpSession;
 
 public class Matrimony {
 

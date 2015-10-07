@@ -3,7 +3,6 @@
  */
 package com.websocket;
 
-import java.sql.Timestamp;
 
 /**
  * @author SON

@@ -5,22 +5,22 @@
  */
 package com.matrimony.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matrimony.database.FriendDAO;
 import com.matrimony.database.Matrimony;
 import com.matrimony.entity.Friend;
 import com.matrimony.entity.User;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *

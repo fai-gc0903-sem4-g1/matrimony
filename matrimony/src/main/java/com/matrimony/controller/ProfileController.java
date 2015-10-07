@@ -8,25 +8,20 @@ package com.matrimony.controller;
 import java.io.IOException;
 import java.util.Collection;
 
-import javassist.expr.NewArray;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
 import com.matrimony.model.SessionKey;
 import com.matrimony.model.UploadImageToServer;
-import com.matrimony.util.Global;
 
 /**
  *
