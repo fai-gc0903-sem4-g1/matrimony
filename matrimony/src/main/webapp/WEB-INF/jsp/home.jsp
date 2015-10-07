@@ -8,7 +8,7 @@
 <jsp:useBean id="FriendBean" class="com.matrimony.database.FriendDAO" />
 <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
 <jsp:useBean id="jstl" class="com.matrimony.model.JSLTFunctionUtil" />
-<c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
+<c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user)}" />
 <!-- include you jquery ui theme -->
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" />
 

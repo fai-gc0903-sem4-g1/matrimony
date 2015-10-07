@@ -1,5 +1,6 @@
 package com.matrimony.database;
 
+import com.matrimony.entity.Friend;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,22 +11,21 @@ import javax.servlet.http.HttpSession;
 public class Matrimony {
 
     public static List<User> getSuggestUsers(User user) {
-        List<User> list = new ArrayList<User>();
+        List<User> listSuggest = new ArrayList<>();
         List<User> users = UserDAO.allUsers().stream()
                 .filter(u -> !u.getId().equals(user.getId()) && !u.getGender().equals(user.getGender()))
                 .collect(Collectors.toList());
-        System.out.println(user.getId());
         for (int i = 0; i < users.size(); i++) {
-            if(!FriendDAO.CheckExist(user.getId(), users.get(i).getId())){
-                list.add(users.get(i));
+            if (FriendDAO.GetFriend(user.getId(), users.get(i).getId())==null) {
+                listSuggest.add(users.get(i));
             }
         }
         System.out.println(users.size());
-        return list;
+        return listSuggest;
     }
-    
+
     public static void main(String[] args) {
-		// List<User>lst1=UserDAO.allAccounts();
+        // List<User>lst1=UserDAO.allAccounts();
         // System.out.println(lst1.size());
         // lst1.forEach(u->System.out.println(u.getUserId()));
         //

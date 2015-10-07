@@ -38,17 +38,45 @@ public class FriendDAO {
         ss.close();
     }
 
-    public static void AcceptFriend(String nameFormId, String nameToId) {
+    public static void UpdateFriend(Friend friend) {
         Session ss = HibernateUtil.openSession();
         ss.getTransaction().begin();
-        Query query = ss.createQuery("FROM friend WHERE userFromId=:userFromId and userToId=:userToId");
-        query.setParameter("userFromId", nameToId);
-        query.setParameter("userToId", nameFormId);
-        Friend friend = (Friend) query.uniqueResult();
-        friend.setStatus(2);
         ss.update(friend);
         ss.getTransaction().commit();
         ss.close();
+    }
+
+    public static List<Friend> allFriend() {
+        Session ss = HibernateUtil.openSession();
+        List<Friend> friends = ss.createQuery("FROM friend").list();
+        ss.close();
+        return friends;
+    }
+
+    public static Friend GetFriend(String userFromId, String userToId) {
+        List<Friend> friends = FriendDAO.allFriend();
+        Friend friend = new Friend();
+        for (int i = 0; i < friends.size(); i++) {
+            if (userFromId.equalsIgnoreCase(friends.get(i).getUserFromId()) && userToId.equalsIgnoreCase(friends.get(i).getUserToId())) {
+                friend = friends.get(i);
+            } else {
+                if (userFromId.equalsIgnoreCase(friends.get(i).getUserToId()) && userToId.equalsIgnoreCase(friends.get(i).getUserFromId())) {
+                    friend = friends.get(i);
+                } else {
+                    friend = null;
+                }
+            }
+        }
+        return friend;
+    }
+
+    public static User getUserById(String userId) {
+        Session ss = HibernateUtil.openSession();
+        Query query = ss.createQuery("FROM user WHERE id=:id");
+        query.setParameter("id", userId);
+        System.out.println("ok");
+        User u = (User) query.uniqueResult();
+        return u;
     }
 
     public static List<User> ListFriend(String nameFormId) {
@@ -66,9 +94,6 @@ public class FriendDAO {
                 User u = FriendDAO.getUserById(list.get(i).getUserFromId());
                 listUser.add(u);
             }
-        }
-        for (int i = 0; i < listUser.size(); i++) {
-            System.out.println(listUser.get(i).getId());
         }
         session.close();
         return listUser;
@@ -100,64 +125,7 @@ public class FriendDAO {
             User u = FriendDAO.getUserById(list.get(i).getUserFromId());
             listUser.add(u);
         }
-        for (int i = 0; i < listUser.size(); i++) {
-            System.out.println(listUser.get(i).getId());
-        }
         session.close();
         return listUser;
-    }
-
-    public static List<Friend> GetFriend(String nameFromId, String nameToId) {
-        List<Friend> friend = new ArrayList<Friend>();
-        Session session = HibernateUtil.openSession();
-        Query query = session.createQuery("FROM friend WHERE userFromId=:userFromId and userToId=:userToId");
-        query.setParameter("userFromId", nameFromId);
-        query.setParameter("userToId", nameToId);
-        List<Friend> l = query.list();
-        if (l == null) {
-            query.setParameter("userFromId", nameToId);
-            query.setParameter("userToId", nameFromId);
-            l = query.list();
-        }
-        if (l == null) {
-            return null;
-        } else {
-            for (int i = 0; i < l.size(); i++) {
-                friend.add(l.get(i));
-            }
-        }
-        session.close();
-        return friend;
-    }
-
-    public static List<Friend> allFriend() {
-        Session ss = HibernateUtil.openSession();
-        List<Friend> friends = ss.createQuery("FROM friend").list();
-        ss.close();
-        return friends;
-    }
-
-    public static User getUserById(String userId) {
-        Session ss = HibernateUtil.openSession();
-        Query query = ss.createQuery("FROM user WHERE id=:id");
-        query.setParameter("id", userId);
-        System.out.println("ok");
-        User u = (User) query.uniqueResult();
-        return u;
-    }
-
-    public static boolean CheckExist(String userFromId, String userToId) {
-        List<Friend> friend = FriendDAO.allFriend();
-        for (int i = 0; i < friend.size(); i++) {
-            Friend f = friend.get(i);
-            if (userFromId.equalsIgnoreCase(f.getUserFromId()) && userToId.equalsIgnoreCase(f.getUserToId())) {
-                return true;
-            } else {
-                if (userFromId.equalsIgnoreCase(f.getUserToId()) && userToId.equalsIgnoreCase(f.getUserFromId())) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }
