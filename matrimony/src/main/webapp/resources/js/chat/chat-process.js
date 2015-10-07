@@ -55,7 +55,6 @@ function processMessage(obj) {
 			if (senderId == temp.data('user-id')) {
 				chatWindow = temp;
 			}
-			
 		}
 	});
 
