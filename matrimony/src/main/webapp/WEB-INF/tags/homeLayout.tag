@@ -16,6 +16,23 @@
         <script src="/matrimony/resources/js/chat/emoticon.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        <script>
+        var sessionUserId = '${sessionScope.user.id}';
+        $(document).ready(function() {
+            $("#avatar").click(function() {
+                $("#uploadAvatarPhoto").click();
+            });
+            $("#uploadAvatarPhoto").change(function() {
+                $("#uploadPhotoForm").submit();
+            });
+            $(document).on('click', '#btn-logout', function(e) {
+                e.preventDefault();
+                $("<form action='logout' method='POST'></form>").submit();
+            });
+        });
+    </script>
+        </script>
         <jsp:invoke fragment="head"></jsp:invoke>
     </jsp:attribute>
     <jsp:body>

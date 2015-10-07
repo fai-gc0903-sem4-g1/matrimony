@@ -72,10 +72,10 @@
                                 	</div>
                                     <div id='login-with' class="col-lg-4">
                                         <a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i>&nbsp;Log-in with Facebook</a>
-                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-google"><i class="fa fa-google"></i>&nbsp;Log-in with Google</a>
-                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-twitter"><i class="fa fa-twitter"></i>&nbsp;Log-in with Twitter</a>
-                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-yahoo"><i class="fa fa-yahoo"></i>&nbsp;Log-in with yahoo</a>
-                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-instagram"><i class="fa fa-instagram"></i>&nbsp;Log-in with Instagram</a>
+                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-google" disabled><i class="fa fa-google"></i>&nbsp;Log-in with Google</a>
+                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-twitter" disabled><i class="fa fa-twitter"></i>&nbsp;Log-in with Twitter</a>
+                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-yahoo" disabled><i class="fa fa-yahoo"></i>&nbsp;Log-in with yahoo</a>
+                                    	<a href="${fbConn.FBAuthUrl}" class="btn btn-block btn-social btn-instagram" disabled><i class="fa fa-instagram"></i>&nbsp;Log-in with Instagram</a>
                                    </div>
                                 </div>
                                 <div id="right" class="col-lg-4">
