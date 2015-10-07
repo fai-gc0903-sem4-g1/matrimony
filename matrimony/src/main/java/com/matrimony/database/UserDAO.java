@@ -42,9 +42,9 @@ public class UserDAO {
 
 	public static void Update(User user) {
 		Session ss = HibernateUtil.session;
-		ss.getTransaction().begin();
+		org.hibernate.Transaction tran=ss.beginTransaction();
 		ss.update(user);
-		ss.getTransaction().commit();
+		tran.commit();
 		// ss.close();
 	}
 
