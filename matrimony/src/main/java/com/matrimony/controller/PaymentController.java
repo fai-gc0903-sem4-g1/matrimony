@@ -31,7 +31,6 @@ import com.paypal.svcs.types.ap.PaymentDetailsResponse;
  */
 @Controller
 public class PaymentController {
-	private final PaypalPayment payment = new PaypalPayment();
 
 	@RequestMapping(value = "payment", method = RequestMethod.GET)
 	public String viewPayment(HttpServletRequest request, String returnKey) {
@@ -118,12 +117,8 @@ public class PaymentController {
 				else if (pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount() == 499.99)
 					calendar.set(Calendar.MONTH, calendar.get(Calendar.MONDAY)+12);
 
-//				ssUser.setExpiries(new Timestamp(calendar.getTimeInMillis()));
-				// UPDATE USER EXPIRES
-//				UserDAO.Update(ssUser);
-				User temp=UserDAO.findById(ssUser.getId());
-				System.out.println(temp);
-				temp.setExpiries(new Timestamp(calendar.getTimeInMillis()));
+				ssUser.setExpiries(new Timestamp(calendar.getTimeInMillis()));
+				
 				Transaction transaction = new Transaction();
 				transaction.setId(pdr.getPaymentInfoList().getPaymentInfo().get(0).getSenderTransactionId());
 				transaction.setCreateAt(timeNow);
@@ -134,7 +129,7 @@ public class PaymentController {
 				transaction.setAmount(pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount());
 				try {
 					TransactionDAO.add(transaction);
-					UserDAO.Update(temp);
+					UserDAO.Update(ssUser);
 					request.getSession().setAttribute("user", ssUser);
 					request.getSession().setAttribute("paypalPayResponse", null);
 					request.setAttribute("paymentResultSuccess", "paymentResultSuccess");

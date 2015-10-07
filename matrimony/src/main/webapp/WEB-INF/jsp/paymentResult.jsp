@@ -20,7 +20,7 @@
 					  Tài khoản của bạn đã được gia tăng thời hạn sử dụng đến ngày ${sessionScope.user.expiries }
 					</div>
 					</c:when>
-					<c:when test="${not empty paymentResultSuccess }">
+					<c:when test="${not empty paymentResultFailed }">
 					<div class="alert alert-danger" role="alert">
 					  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 					  <span class="sr-only">Error:</span>
