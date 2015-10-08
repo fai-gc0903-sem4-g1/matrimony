@@ -12,13 +12,15 @@ $(document).ready(function () {
             $("#invite").find("div:gt(0)").remove();
             var table = $("#invite");
             $.each(responseJson, function (key, value) {
+                var panel = $("<div id='person-panel'></div>");
                 var rowNew = $("<div class='row'><div class='col-md-12'></div></div><div class='row'><div class='col-md-4'></div><div class='col-md-8'></div></div>");
                 rowNew.children().eq(1).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 70px; width: 70px;' />");
                 rowNew.children().eq(2).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
                 rowNew.children().eq(2).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span><br />");
                 rowNew.children().eq(2).append("<input class='btn-info btnAccept' type='button' value='Accept Friend' onClick='acceptFriend(\"" + value['id'] + "\"," + key + ")'/>");
                 rowNew.children().eq(2).append("<input class='btn-success btnRemoveInvite' type='button' value='Denied' onClick='showInviteTab(\"" + value['id'] + "\")'/>");
-                rowNew.appendTo(table);
+                rowNew.appendTo(panel);
+                panel.appendTo(table)
             });
         }
     });
@@ -29,12 +31,14 @@ $(document).ready(function () {
             $("#request").find("div:gt(0)").remove();
             var table = $("#request");
             $.each(responseJson, function (key, value) {
+                var panel = $("<div id='person-panel'></div>");
                 var rowNew = $("<div class='row'><div class='col-md-12'></div></div><div class='row'><div class='col-md-4'></div><div class='col-md-8'></div></div>");
                 rowNew.children().eq(1).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 70px; width: 70px;' />");
                 rowNew.children().eq(2).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
                 rowNew.children().eq(2).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span><br />");
                 rowNew.children().eq(2).append("<input class='btn-success btnRemoveRequest' type='button' value='Remove Request' onClick='showRequestTab(\"" + value['id'] + "\"," + key + ")'/>");
-                rowNew.appendTo(table);
+                rowNew.appendTo(panel);
+                panel.appendTo(table);
             });
         }
     });
@@ -45,12 +49,14 @@ $(document).ready(function () {
             $("#friend").find("div:gt(0)").remove();
             var table = $("#friend");
             $.each(responseJson, function (key, value) {
+                var panel = $("<div id='person-panel'></div>");
                 var rowNew = $("<div class='row'><div class='col-md-12'></div></div><div class='row'><div class='col-md-4'></div><div class='col-md-8'></div></div>");
                 rowNew.children().eq(1).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 70px; width: 70px;' />");
                 rowNew.children().eq(2).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
                 rowNew.children().eq(2).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span><br />");
                 rowNew.children().eq(2).append("<input class='btn-success btnRemoveFriend' type='button' value='Remove Friend' onClick='showFriendTab(\"" + value['id'] + "\"," + key + ")'/>");
-                rowNew.appendTo(table);
+                rowNew.appendTo(panel);
+                panel.appendTo(table);
             });
         }
     });
@@ -247,21 +253,21 @@ function addFriend(u, k)
 ;
 
 $(document).ready(function () {
-    $('ul.tabs').tabs;
     $('ul.tabs').each(function () {
         var $active, $content, $links = $(this).find('a');
         $active = $($links.filter('[href="' + location.hash + '"]')[0] || $links[0]);
-        $active.addClass('active');
+//        $active.addClass('active');
         $content = $($active[0].hash);
         $links.not($active).each(function () {
             $(this.hash).hide();
         });
         $(this).on('click', 'a', function (e) {
-            $active.removeClass('active');
+            var actived_nav = $('.nav-tabs > li.active');
+            actived_nav.removeClass('active');
             $content.hide();
             $active = $(this);
             $content = $(this.hash);
-            $active.addClass('active');
+            $(this).parents('li').addClass('active');
             $content.show();
             e.preventDefault();
         });
