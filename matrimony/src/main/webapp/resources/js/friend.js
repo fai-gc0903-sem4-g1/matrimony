@@ -12,11 +12,12 @@ $(document).ready(function () {
             $("#invite").find("div:gt(0)").remove();
             var table = $("#invite");
             $.each(responseJson, function (key, value) {
-                var rowNew = $("<div></div><div></div><div></div><div></div>");
-                rowNew.eq(0).text(value['id']);
-                rowNew.eq(1).text(value['firstName']);
-                rowNew.eq(2).append("<input class='btnAccept' type='button' value='Accept Friend' onClick='acceptFriend(\"" + value['id'] + "\"," + key + ")'/>");
-                rowNew.eq(3).append("<input id='Denied' type='button' value='Denied' onClick='removeInvite(\"" + value['id'] + "\")'/>");
+                var rowNew = $("<div class='row'><div class='col-md-12'></div></div><div class='row'><div class='col-md-4'></div><div class='col-md-8'></div></div>");
+                rowNew.children().eq(1).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 70px; width: 70px;' />");
+                rowNew.children().eq(2).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
+                rowNew.children().eq(2).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span><br />");
+                rowNew.children().eq(2).append("<input class='btn-info btnAccept' type='button' value='Accept Friend' onClick='acceptFriend(\"" + value['id'] + "\"," + key + ")'/>");
+                rowNew.children().eq(2).append("<input class='btn-success btnRemoveInvite' type='button' value='Denied' onClick='showInviteTab(\"" + value['id'] + "\")'/>");
                 rowNew.appendTo(table);
             });
         }
@@ -28,10 +29,11 @@ $(document).ready(function () {
             $("#request").find("div:gt(0)").remove();
             var table = $("#request");
             $.each(responseJson, function (key, value) {
-                var rowNew = $("<div></div><div></div><div></div><div></div>");
-                rowNew.eq(0).text(value['id']);
-                rowNew.eq(1).text(value['firstName']);
-                rowNew.eq(2).append("<input class='btnRemoveRequest' type='button' value='Remove Request' onClick='showRequestTab(\"" + value['id'] + "\"," + key + ")'/>");
+                var rowNew = $("<div class='row'><div class='col-md-12'></div></div><div class='row'><div class='col-md-4'></div><div class='col-md-8'></div></div>");
+                rowNew.children().eq(1).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 70px; width: 70px;' />");
+                rowNew.children().eq(2).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
+                rowNew.children().eq(2).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span><br />");
+                rowNew.children().eq(2).append("<input class='btn-success btnRemoveRequest' type='button' value='Remove Request' onClick='showRequestTab(\"" + value['id'] + "\"," + key + ")'/>");
                 rowNew.appendTo(table);
             });
         }
@@ -43,11 +45,11 @@ $(document).ready(function () {
             $("#friend").find("div:gt(0)").remove();
             var table = $("#friend");
             $.each(responseJson, function (key, value) {
-                var rowNew = $("<div></div><div></div><div></div><div></div>");
-                rowNew.eq(0).text(value['id']);
-                rowNew.eq(1).text(value['firstName']);
-                rowNew.eq(2).append("<input class='btnFriend' type='button' value='Friend' disabled='true'/>");
-                rowNew.eq(3).append("<input class='btnRemoveFriend' type='button' value='Remove Friend' onClick='showFriendTab(\"" + value['id'] + "\"," + key + ")'/>");
+                var rowNew = $("<div class='row'><div class='col-md-12'></div></div><div class='row'><div class='col-md-4'></div><div class='col-md-8'></div></div>");
+                rowNew.children().eq(1).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 70px; width: 70px;' />");
+                rowNew.children().eq(2).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
+                rowNew.children().eq(2).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span><br />");
+                rowNew.children().eq(2).append("<input class='btn-success btnRemoveFriend' type='button' value='Remove Friend' onClick='showFriendTab(\"" + value['id'] + "\"," + key + ")'/>");
                 rowNew.appendTo(table);
             });
         }
@@ -55,7 +57,7 @@ $(document).ready(function () {
 });
 
 
-function removeFriendTab(u,k)
+function removeFriendTab(u, k)
 {
     $.post('remove',
             {user: u},
@@ -86,7 +88,8 @@ function showFriendTab(u, k) {
             }
         }
     });
-};
+}
+;
 
 function removeRequestTab(u, k)
 {
@@ -103,7 +106,8 @@ function removeRequestTab(u, k)
             }).fail(function () {
         alert("Error");
     });
-};
+}
+;
 
 function showRequestTab(u, k) {
     $("#message").dialog({
@@ -119,7 +123,76 @@ function showRequestTab(u, k) {
             }
         }
     });
-};
+}
+;
+
+function removeInviteTab(u, k)
+{
+    $.post('remove',
+            {user: u}).
+            done(function (data) {
+                if (data === "success") {
+                    $(".btnAccept").eq(k).prop('value', 'Removed');
+                    $(".btnAccept").eq(k).prop('disabled', true);
+                    $('.btnRemoveInvite').prop('hidden', true);
+                } else if (data === "null") {
+                    alert("Remove fail");
+                }
+            }).fail(function () {
+        alert("Error");
+    });
+}
+;
+
+function showInviteTab(u, k) {
+    $("#message").dialog({
+        modal: true,
+        title: "Are you sure?",
+        buttons: {
+            "YES": function () {
+                removeInviteTab(u, k);
+                $(this).dialog("close");
+            },
+            "NO": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+;
+
+//function removeRequest(u, k)
+//{
+//    $.post('remove',
+//            {user: u}).
+//            done(function (data) {
+//                if (data === "success") {
+//                    alert("Remove success");
+//                    $(".btnRemove").eq(k).prop('value', 'Removed');
+//                    $(".btnRemove").eq(k).prop('disabled', true);
+//                } else if (data === "null") {
+//                    alert("Remove fail");
+//                }
+//            }).fail(function () {
+//        alert("Error");
+//    });
+//};
+//
+//function showRequest(u, k) {
+//    $("#message").dialog({
+//        modal: true,
+//        title: "Are you sure?",
+//        buttons: {
+//            "YES": function () {
+//                removeRequest(u, k);
+//                $(this).dialog("close");
+//            },
+//            "NO": function () {
+//                $(this).dialog("close");
+//            }
+//        }
+//    });
+//};
 
 function acceptFriend(u, k)
 {
@@ -129,12 +202,13 @@ function acceptFriend(u, k)
                 if (data === "success") {
                     $(".btnAccept").eq(k).prop('value', 'Friend');
                     $(".btnAccept").eq(k).prop('disabled', true);
-                    $('.btnRemoveFriend').prop('value', 'Remove Friend');
+                    $('.btnRemoveInvite').prop('hidden', true);
                 }
             }).fail(function () {
         alert("Error");
     });
-};
+}
+;
 
 function removeRequest(u, k)
 {
@@ -152,7 +226,8 @@ function removeRequest(u, k)
             }).fail(function () {
         alert("Error");
     });
-};
+}
+;
 
 
 function addFriend(u, k)
@@ -168,7 +243,8 @@ function addFriend(u, k)
             .fail(function () { //on failure
                 alert("Insertion failed.");
             });
-};
+}
+;
 
 $(document).ready(function () {
     $('ul.tabs').tabs;
@@ -207,5 +283,6 @@ function show(u, k) {
             }
         }
     });
-};
+}
+;
 

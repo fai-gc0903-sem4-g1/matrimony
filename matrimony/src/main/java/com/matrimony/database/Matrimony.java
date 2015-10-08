@@ -15,7 +15,7 @@ public class Matrimony {
                 .collect(Collectors.toList());
         System.out.println(user.getId());
         for (int i = 0; i < users.size(); i++) {
-            if(!FriendDAO.CheckExist(user.getId(), users.get(i).getId())){
+            if(FriendDAO.GetFriend(user.getId(), users.get(i).getId())==null){
                 list.add(users.get(i));
             }
         }
