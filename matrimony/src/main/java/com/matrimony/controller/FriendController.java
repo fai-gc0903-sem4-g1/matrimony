@@ -60,7 +60,6 @@ public class FriendController {
     @ResponseBody
     public String allRequest(HttpSession ss) throws IOException {
         User u = (User) ss.getAttribute("user");
-        System.out.println(u.getId());
         List<User> list = FriendDAO.ListRequest(u.getId());
         for (int i = 0; i < list.size(); i++) {
             list.get(i).getId();
@@ -108,7 +107,6 @@ public class FriendController {
     @ResponseBody
     public static String acceptFriend(String user, HttpSession ss) {
         User u = (User) ss.getAttribute("user");
-        System.out.println(user);
         FriendDAO.AcceptFriend(u.getId(), user);
         return "success";//mo database ktra lai xem
     }

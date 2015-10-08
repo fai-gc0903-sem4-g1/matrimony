@@ -66,9 +66,6 @@ public class FriendDAO {
                 listUser.add(u);
             }
         }
-        for (int i = 0; i < listUser.size(); i++) {
-            System.out.println(listUser.get(i).getId());
-        }
         session.close();
         return listUser;
     }
@@ -98,9 +95,6 @@ public class FriendDAO {
         for (int i = 0; i < list.size(); i++) {
             User u = FriendDAO.getUserById(list.get(i).getUserFromId());
             listUser.add(u);
-        }
-        for (int i = 0; i < listUser.size(); i++) {
-            System.out.println(listUser.get(i).getId());
         }
         session.close();
         return listUser;
@@ -138,23 +132,18 @@ public class FriendDAO {
         Session ss = HibernateUtil.openSession();
         Query query = ss.createQuery("FROM user WHERE id=:id");
         query.setParameter("id", userId);
-        System.out.println("ok");
         User u = (User) query.uniqueResult();
         return u;
     }
 
     public static int getStatus(String userFromId, String userToId) {
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
         Friend f = FriendDAO.GetFriend(userFromId, userToId);
-         System.out.println("okkkkkkkkkkkkkkkkkk");
         int status = 0;
         if (f == null) {
             return status;
         } else {
             status = f.getStatus();
         }
-        System.out.println("okkkkkkkkkkkkkkkkkk");
-        System.out.println(status);
         return status;
     }
 }
