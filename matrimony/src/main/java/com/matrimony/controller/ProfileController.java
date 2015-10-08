@@ -6,10 +6,12 @@
 package com.matrimony.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -85,7 +87,16 @@ public class ProfileController {
 	
 	@RequestMapping(value="sortUserProfile", method=RequestMethod.POST)
 	@ResponseBody
-	public String getInfoUserByUserId(String id){
+	public String getInfoUserByUserId(HttpServletRequest request, HttpServletResponse response, String id){
+		System.out.println("Tim id: "+id);
+		try {
+			request.setCharacterEncoding("UTF8");
+			response.setCharacterEncoding("UTF8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		User user=UserDAO.findById(id);
 		SortUserProfile sortUserProfile=new SortUserProfile();
 		sortUserProfile.setAvatar(user.getAvatarPhoto());

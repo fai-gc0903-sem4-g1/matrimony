@@ -7,10 +7,13 @@ $(document).on('click', '#close_chat_window', function(e) {
 	closeChatWindow($(this));
 });
 
-$(document).on('click', '#btn-chat-inbox', function(e) {
-	var chatWindow=createChatWindow($(this).parents('#person-panel').data('user-id'));
-	chatWindow.find('#txt-chat-msg').focus();
-});
+$(document).on(
+		'click',
+		'#btn-chat-inbox',
+		function(e) {
+			var chatWindow = createChatWindow($(this).parents('#person-panel')
+					.data('user-id'));
+		});
 
 // $(document).on('click', "#btn-chat-send-msg", function(e) {
 // sendMessage($(this).parents('#chat-window'));
@@ -38,12 +41,12 @@ ws.onerror = function() {
 }
 
 function processOpen() {
-	var senderId = sessionUserId;
+	var senderId = $('#mini-avatar').data('current-user-id');
 	var msgObj = new Message(senderId, null, null, null);
 	ws.send(JSON.stringify(msgObj));
 	console.log('ws connected');
 };
-//receive message
+// receive message
 function processMessage(obj) {
 	var msgObj = JSON.parse(obj.data);
 	var senderId = msgObj.senderId;
@@ -61,8 +64,9 @@ function processMessage(obj) {
 	if (chatWindow == null) {
 		chatWindow = createChatWindow(msgObj.senderId);
 	}
-	var str=emoticonDecode(msgObj.content);
-	var receiverClone = $('#base-receive-message').clone().appendTo(chatWindow.find('.msg-container-base'));
+	
+	var str = emoticonDecode(msgObj.content);
+	var receiverClone = chatWindow.find('#base-receive-message').clone().appendTo(chatWindow.find('.msg-container-base'));
 	receiverClone.find('p').html(str);
 	receiverClone.css('display', 'block');
 };
@@ -77,27 +81,30 @@ function processError() {
 function processOnpen() {
 };
 
-//send message
+// send message
 function sendMessage(chatWindow) {
 	var receiverId = chatWindow.data('user-id');
-	var senderId = sessionUserId;
+	var senderId = $('#mini-avatar').data('current-user-id');
 	var content = chatWindow.find('#txt-chat-msg').val();
-	var msgObj = new Message(senderId, receiverId, 'text-chat', content, Date.now());
+	var msgObj = new Message(senderId, receiverId, 'text-chat', content, Date
+			.now());
 	ws.send(JSON.stringify(msgObj));
-	var str=emoticonDecode(content);
-	
-	var sentClone = $('#base-sent-message').clone().appendTo(chatWindow.find('.msg-container-base'));
+	// show message on box chat
+	var str = emoticonDecode(content);
+	var sentClone = chatWindow.find('#base-sent-message').clone().appendTo(chatWindow.find('.msg-container-base'));
 	sentClone.find('p').html(str);
 	sentClone.css('display', 'block');
 
 };
 
-function emoticonDecode(str){
-	var content=str;
-	for (var kbd in emoticons) {
-//		var reg=new RegExp(+"\\"+kbd+"\\",'g');
-//		console.log(reg);
-		content = content.replace(kbd,'<img src="http://localhost/matrimony/resources/emoticons/'+ emoticons[kbd] + '.gif" />')
+function emoticonDecode(str) {
+	var content = str;
+	for ( var kbd in emoticons) {
+		// var reg=new RegExp(+"\\"+kbd+"\\",'g');
+		// console.log(reg);
+		content = content.replace(kbd,
+				'<img src="http://localhost/matrimony/resources/emoticons/'
+						+ emoticons[kbd] + '.gif" />')
 	}
 	return content;
 }
@@ -120,7 +127,7 @@ function closeChatWindow(obj) {
 };
 var sizeTotal = 0;
 
-function createChatWindow(userId) {
+function createChatWindow(userId) {console.log('dang tao window');
 	var margin = 0;
 	var duplicate = false;
 	$('.css-chat-window').each(function(i) {
@@ -130,40 +137,43 @@ function createChatWindow(userId) {
 				if (j != i) {
 					if (chatWindow.data('user-id') == userId) {
 						duplicate = true;
-						
+
 					}
 				}
 			});
 			margin = margin + parseInt(chatWindow.css('width'));
 		}
 	});
-	
+
 	if (duplicate) {
-		alert('dang chat voi nguoi nay roi');
+		alert('Bạn đang chat với người này');
 	} else {
-		var clone = $("#chat-window").clone().appendTo("#chat-container");
-		var uName;
+		var sortUserObj;
 		$.ajax({
-			method:'POST',
-			url:'/matrimony/sortUserProfile',
+			url:'sortUserProfile',
+			method: 'POST',
 			data:{id:userId},
-			success:function(obj){
-				uName=obj.name;
+			async:false,
+			success:function(data){
+				sortUserObj=JSON.parse(data);
+				console.log(data);
 			},
 			error:function(){
-				alert('server down');
+				alert('can not connect to server');
 			}
 		});
+		var clone = $("#chat-window").clone().appendTo("#chat-container");
 		clone.data('user-id', userId);
-		clone.find('#name').html(uName);
-		clone.find('img').attr('src', obj.avatar);
+		clone.find('#name').html(sortUserObj.name);
+		clone.find('.img-sender').attr('src', $('#mini-avatar').attr('src'));
+		clone.find('.img-receive').attr('src', '/matrimony/resources/profile/avatar/'+sortUserObj.avatar);
+		clone.find('#txt-chat-msg').focus();
 		clone.css("margin-right", margin);
-		clone.css('display', 'block');
+		clone.css('display', 'block');console.log('da request xong');
 		return clone;
 	}
-	
-	// return null;
 }
+
 
 // $(document).on('focus', '.panel-footer input.chat_input', function(e) {
 // var $this = $(this);

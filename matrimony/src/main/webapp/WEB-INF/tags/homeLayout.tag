@@ -16,6 +16,22 @@
                                     <script src="/matrimony/resources/js/chat/emoticon.js"></script>
                                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
                                     <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script>
+                                    
+                                     <script>
+								        $(document).ready(function() {
+								            $("#avatar").click(function() {
+								                $("#uploadAvatarPhoto").click();
+								            });
+								            $("#uploadAvatarPhoto").change(function() {
+								                $("#uploadPhotoForm").submit();
+								            });
+								            $(document).on('click', '#btn-logout', function(e) {
+								                e.preventDefault();
+								                $("<form action='logout' method='POST'></form>").submit();
+								            });
+								        });
+								    </script>
+                                    
                                     <jsp:invoke fragment="head"></jsp:invoke>
                                 </jsp:attribute>
                                 <jsp:body>
@@ -27,7 +43,7 @@
                                     </div>
                                     <div id="container" class='row'>
                                         <div id='left' class='col-lg-2'>
-                                            <img id="avatar" alt='avatar' style='height: 170px; width: 170px;' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
+                                            <img id="avatar" alt='avatar' style='height: 170px; width: 170px;' src='/matrimony/resources/profile/avatar/${sessionScope.user.avatarPhoto }' />
                                             <br />
                                             <br />
                                             <span id='name' class='col-lg-21'>${sessionScope.user.name }</span>
@@ -91,12 +107,12 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-2 css-avatar">
-                                                                    <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class="img-responsive ">
+                                                                    <img src="https://www.google.com/trends/resources/2327917647-google-icon.png" class="img-responsive img-sender">
                                                                 </div>
                                                             </div>
                                                             <div id='base-receive-message' class="row msg_container base-receive" style='display:none;'>
                                                                 <div class="col-lg-2 css-avatar">
-                                                                    <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class="img-responsive ">
+                                                                    <img src="https://www.google.com/trends/resources/2327917647-google-icon.png" class="img-responsive img-receive">
                                                                 </div>
                                                                 <div class="col-md-10 col-xs-10 css-chat-content">
                                                                     <div class="messages msg_receive">
