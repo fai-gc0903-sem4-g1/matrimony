@@ -13,6 +13,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
 /**
  * @author SON
  *
@@ -23,14 +25,20 @@ public class GlobalWSocket {
 
 	@OnOpen
 	public void handleOpen(Session session) {
+		System.out.println("global wsocket accept client");
 	}
 
 	@OnMessage
 	public void handleMessage(String data, Session session) {
+		session.getUserProperties().put("id", data);
+		userOnline.add(session);
+		System.out.println(data + " online now");
 	}
 
 	@OnClose
 	public void handleClose(Session session) {
+		userOnline.remove(session);
+		System.out.println(session.getUserProperties().get("id") + " offline");
 	}
 
 	@OnError

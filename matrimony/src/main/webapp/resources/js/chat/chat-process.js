@@ -41,10 +41,7 @@ ws.onerror = function() {
 }
 
 function processOpen() {
-	var senderId = $('#mini-avatar').data('current-user-id');
-	var msgObj = new Message(senderId, null, null, null);
-	ws.send(JSON.stringify(msgObj));
-	console.log('ws connected');
+	console.log('connected chat wsocket');
 };
 // receive message
 function processMessage(obj) {
@@ -66,9 +63,10 @@ function processMessage(obj) {
 	}
 	
 	var str = emoticonDecode(msgObj.content);
-	var receiverClone = chatWindow.find('#base-receive-message').clone().appendTo(chatWindow.find('.msg-container-base'));
+	var receiverClone = chatWindow.find('#base-receive-message').first().clone().appendTo(chatWindow.find('.msg-container-base'));
 	receiverClone.find('p').html(str);
 	receiverClone.css('display', 'block');
+	chatWindow.find('.msg-container-base').animate({scrollTop:$(document).height()}, 1);
 };
 
 function processClose() {
@@ -91,17 +89,15 @@ function sendMessage(chatWindow) {
 	ws.send(JSON.stringify(msgObj));
 	// show message on box chat
 	var str = emoticonDecode(content);
-	var sentClone = chatWindow.find('#base-sent-message').clone().appendTo(chatWindow.find('.msg-container-base'));
+	var sentClone = chatWindow.find('#base-sent-message').first().clone().appendTo(chatWindow.find('.msg-container-base'));
 	sentClone.find('p').html(str);
 	sentClone.css('display', 'block');
-
+	chatWindow.find('.msg-container-base').animate({scrollTop:$(document).height()}, 1);
 };
 
 function emoticonDecode(str) {
 	var content = str;
 	for ( var kbd in emoticons) {
-		// var reg=new RegExp(+"\\"+kbd+"\\",'g');
-		// console.log(reg);
 		content = content.replace(kbd,
 				'<img src="http://localhost/matrimony/resources/emoticons/'
 						+ emoticons[kbd] + '.gif" />')
@@ -137,7 +133,6 @@ function createChatWindow(userId) {console.log('dang tao window');
 				if (j != i) {
 					if (chatWindow.data('user-id') == userId) {
 						duplicate = true;
-
 					}
 				}
 			});

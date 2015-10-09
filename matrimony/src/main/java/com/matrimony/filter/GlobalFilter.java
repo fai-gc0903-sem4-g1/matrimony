@@ -44,13 +44,12 @@ public class GlobalFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
-		CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
+//		CountryResponse country = GeoIP.getCountry(req.getRemoteHost());
 		User user = (User) request.getSession().getAttribute(SessionKey.USER);
-		System.out.println("Country info client: " + country);
+//		System.out.println("Country info client: " + country);
 		Cookie[] cookies = request.getCookies();
 		Map<String, String> retriedCookies = new HashMap<String, String>();
 		if (user == null && cookies!=null) {
-			System.out.println("Number cookie: "+cookies.length);
 			for (int i = 0; i < cookies.length; i++) {
 				Cookie c = cookies[i];
 				if (c.getName().equals("id")) {
@@ -64,7 +63,6 @@ public class GlobalFilter implements Filter {
 				}
 			}
 			if (retriedCookies.size() >= 4) {
-				System.out.println("keeplogin: "+retriedCookies.get("keepLoggin"));
 				if (retriedCookies.get("keepLoggin").equals("true")) {
 					User ssUser = UserDAO.findById(retriedCookies.get("id"));
 					request.getSession().setAttribute(SessionKey.USER, ssUser);
