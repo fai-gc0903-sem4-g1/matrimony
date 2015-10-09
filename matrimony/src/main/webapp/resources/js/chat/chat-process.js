@@ -21,8 +21,10 @@ $(document).on(
 
 $(document).on('keypress', '#txt-chat-msg', function(e) {
 	if (e.keyCode == 13) {
-		sendMessage($(this).parents('#chat-window'));
-		$(this).val('');
+		if ($(this).val() != '') {
+			sendMessage($(this).parents('#chat-window'));
+			$(this).val('');
+		}
 	}
 });
 // CHAT PROCESS
@@ -61,12 +63,15 @@ function processMessage(obj) {
 	if (chatWindow == null) {
 		chatWindow = createChatWindow(msgObj.senderId);
 	}
-	
+
 	var str = emoticonDecode(msgObj.content);
-	var receiverClone = chatWindow.find('#base-receive-message').first().clone().appendTo(chatWindow.find('.msg-container-base'));
+	var receiverClone = chatWindow.find('#base-receive-message').first()
+			.clone().appendTo(chatWindow.find('.msg-container-base'));
 	receiverClone.find('p').html(str);
 	receiverClone.css('display', 'block');
-	chatWindow.find('.msg-container-base').animate({scrollTop:$(document).height()}, 1);
+	chatWindow.find('.msg-container-base').animate({
+		scrollTop : $(document).height()
+	}, 1);
 };
 
 function processClose() {
@@ -89,10 +94,13 @@ function sendMessage(chatWindow) {
 	ws.send(JSON.stringify(msgObj));
 	// show message on box chat
 	var str = emoticonDecode(content);
-	var sentClone = chatWindow.find('#base-sent-message').first().clone().appendTo(chatWindow.find('.msg-container-base'));
+	var sentClone = chatWindow.find('#base-sent-message').first().clone()
+			.appendTo(chatWindow.find('.msg-container-base'));
 	sentClone.find('p').html(str);
 	sentClone.css('display', 'block');
-	chatWindow.find('.msg-container-base').animate({scrollTop:$(document).height()}, 1);
+	chatWindow.find('.msg-container-base').animate({
+		scrollTop : $(document).height()
+	}, 1);
 };
 
 function emoticonDecode(str) {
@@ -123,7 +131,8 @@ function closeChatWindow(obj) {
 };
 var sizeTotal = 0;
 
-function createChatWindow(userId) {console.log('dang tao window');
+function createChatWindow(userId) {
+	console.log('dang tao window');
 	var margin = 0;
 	var duplicate = false;
 	$('.css-chat-window').each(function(i) {
@@ -145,15 +154,17 @@ function createChatWindow(userId) {console.log('dang tao window');
 	} else {
 		var sortUserObj;
 		$.ajax({
-			url:'sortUserProfile',
-			method: 'POST',
-			data:{id:userId},
-			async:false,
-			success:function(data){
-				sortUserObj=JSON.parse(data);
+			url : 'sortUserProfile',
+			method : 'POST',
+			data : {
+				id : userId
+			},
+			async : false,
+			success : function(data) {
+				sortUserObj = JSON.parse(data);
 				console.log(data);
 			},
-			error:function(){
+			error : function() {
 				alert('can not connect to server');
 			}
 		});
@@ -161,14 +172,15 @@ function createChatWindow(userId) {console.log('dang tao window');
 		clone.data('user-id', userId);
 		clone.find('#name').html(sortUserObj.name);
 		clone.find('.img-sender').attr('src', $('#mini-avatar').attr('src'));
-		clone.find('.img-receive').attr('src', '/matrimony/resources/profile/avatar/'+sortUserObj.avatar);
+		clone.find('.img-receive').attr('src',
+				'/matrimony/resources/profile/avatar/' + sortUserObj.avatar);
 		clone.find('#txt-chat-msg').focus();
 		clone.css("margin-right", margin);
-		clone.css('display', 'block');console.log('da request xong');
+		clone.css('display', 'block');
+		console.log('da request xong');
 		return clone;
 	}
 }
-
 
 // $(document).on('focus', '.panel-footer input.chat_input', function(e) {
 // var $this = $(this);

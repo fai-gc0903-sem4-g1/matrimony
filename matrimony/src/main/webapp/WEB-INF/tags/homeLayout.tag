@@ -93,7 +93,7 @@
                                             <div class="row col-lg-3 css-chat-window" id="chat-window" style='display: none;'>
                                                 <div class="col-lg-12">
                                                     <div class="panel panel-default css-chat-panel">
-                                                        <div class="panel-heading top-bar css-heading-chat" style='padding-left:0; background-color:#3B5998;'>
+                                                        <div class="panel-heading top-bar css-heading-chat" style='padding: 5 5 5 0; background-color:#3B5998;'>
                                                             <div class="col-lg-8" style='padding-right:0;'>
                                                                 <h3 class="panel-title">
 	                              								<i class="fa fa-circle" style='font-size:11px; color:cadetblue;'></i>&nbsp;<span id='name' style='font-size: 13px;font-weight: 600;color: white;'>Unknow</span>
@@ -133,7 +133,7 @@
                                                         </div>
                                                         <div class="panel-footer" style='padding:0px 0px 0px 5px;background-color:#ffffff;'>
                                                                                                                     <div class="input-group">
-                                                            <input id="txt-chat-msg" type="text" style='height: 32px;width: 100%;border: 0px;outline: none;' class="chat_input"/>
+                                                            <input id="txt-chat-msg" type="text" style='height:100%;width: 100%;border: 0px;outline: none;' class="chat_input"/>
                                                                                                                         <span class="input-group-btn">
                                                             	                          									 <button class="btn btn-primary btn-sm" id="btn-chat-send-msg">Send</button>
                                                             	                           								</span>
