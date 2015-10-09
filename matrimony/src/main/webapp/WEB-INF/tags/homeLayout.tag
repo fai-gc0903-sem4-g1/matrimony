@@ -16,23 +16,35 @@
                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
                                 <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script>
                                 <jsp:invoke fragment="head"></jsp:invoke>
-                                
+
                                 <script>
-                                var globalWSocket = new WebSocket('ws://localhost/matrimony/globalwsocket');
-                                globalWSocket.onopen = function() {
-                                	var id=$('#mini-avatar').data('current-user-id');
-                                	globalWSocket.send(id);
-                                	console.log('connected to globalwsocket');
-                                }
-                                globalWSocket.onmessage = function(data) {
-                                	processMessage(data);
-                                }
-                                globalWSocket.onclose = function() {
-                                	processClose();
-                                }
-                                globalWSocket.onerror = function() {
-                                	processError();
-                                }
+                                    var globalWSocket = new WebSocket('ws://localhost/matrimony/globalwsocket');
+                                    globalWSocket.onopen = function() {
+                                        var id = $('#mini-avatar').data('current-user-id');
+                                        globalWSocket.send(id);
+                                        console.log('connected to globalwsocket');
+                                    }
+                                    globalWSocket.onmessage = function(data) {
+                                        processMessage(data);
+                                    }
+                                    globalWSocket.onclose = function() {
+                                        processClose();
+                                    }
+                                    globalWSocket.onerror = function() {
+                                        processError();
+                                    }
+                                    $(document).ready(function(){
+                                    	$("#avatar").click(function() {
+                                            $("#uploadAvatarPhoto").click();
+                                        });
+                                        $("#uploadAvatarPhoto").change(function() {
+                                            $("#uploadPhotoForm").submit();
+                                        });
+                                        $(document).on('click', '#btn-logout', function(e) {
+                                            e.preventDefault();
+                                            $("<form action='logout' method='POST'></form>").submit();
+                                        });
+                                    });
                                 </script>
                             </jsp:attribute>
                             <jsp:body>
@@ -71,7 +83,7 @@
                                             <li><a href="#tab2"><span
 							class="glyphicon glyphicon-record"></span> Invite</a>
                                             </li>
-                                        
+
                                             <li><a href="#tab3"><span
 							class="glyphicon glyphicon-envelope"></span> Request</a>
                                             </li>
@@ -93,7 +105,7 @@
                                             <div class="row col-lg-3 css-chat-window" id="chat-window" style='display: none;'>
                                                 <div class="col-lg-12">
                                                     <div class="panel panel-default css-chat-panel">
-                                                        <div class="panel-heading top-bar css-heading-chat" style='padding: 5 5 5 0; background-color:#3B5998;'>
+                                                        <div class="panel-heading top-bar css-heading-chat" style='padding: 5px 5px 5px 0px; background-color:#3B5998;'>
                                                             <div class="col-lg-8" style='padding-right:0;'>
                                                                 <h3 class="panel-title">
 	                              								<i class="fa fa-circle" style='font-size:11px; color:cadetblue;'></i>&nbsp;<span id='name' style='font-size: 13px;font-weight: 600;color: white;'>Unknow</span>
@@ -132,12 +144,12 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-footer" style='padding:0px 0px 0px 5px;background-color:#ffffff;'>
-                                                                                                                    <div class="input-group">
-                                                            <input id="txt-chat-msg" type="text" style='height:100%;width: 100%;border: 0px;outline: none;' class="chat_input"/>
-                                                                                                                        <span class="input-group-btn">
+                                                            <div class="input-group">
+                                                                <input id="txt-chat-msg" type="text" style='height:100%;width: 100%;border: 0px;outline: none;' class="chat_input" />
+                                                                <span class="input-group-btn">
                                                             	                          									 <button class="btn btn-primary btn-sm" id="btn-chat-send-msg">Send</button>
                                                             	                           								</span>
-                                                                                                                    </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

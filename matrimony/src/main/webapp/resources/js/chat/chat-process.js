@@ -63,12 +63,13 @@ function processMessage(obj) {
 	if (chatWindow == null) {
 		chatWindow = createChatWindow(msgObj.senderId);
 	}
-
+	var time=new Date(msgObj.time);
 	var str = emoticonDecode(msgObj.content);
 	var receiverClone = chatWindow.find('#base-receive-message').first()
 			.clone().appendTo(chatWindow.find('.msg-container-base'));
 	receiverClone.find('p').html(str);
 	receiverClone.css('display', 'block');
+	receiverClone.find('time').html(time.getHours()+':'+('0' + time.getMinutes()).slice(-2)+':'+('0' + time.getSeconds()).slice(-2)+' '+('0' + (time.getMonth()+1)).slice(-2) + '/' + ('0' + (time.getDate())).slice(-2) + '/' +  time.getFullYear());
 	chatWindow.find('.msg-container-base').animate({
 		scrollTop : $(document).height()
 	}, 1);
@@ -89,14 +90,15 @@ function sendMessage(chatWindow) {
 	var receiverId = chatWindow.data('user-id');
 	var senderId = $('#mini-avatar').data('current-user-id');
 	var content = chatWindow.find('#txt-chat-msg').val();
-	var msgObj = new Message(senderId, receiverId, 'text-chat', content, Date
-			.now());
+	var time=new Date(Date.now());
+	var msgObj = new Message(senderId, receiverId, 'text-chat', content, time.getTime());
 	ws.send(JSON.stringify(msgObj));
 	// show message on box chat
 	var str = emoticonDecode(content);
 	var sentClone = chatWindow.find('#base-sent-message').first().clone()
 			.appendTo(chatWindow.find('.msg-container-base'));
 	sentClone.find('p').html(str);
+	sentClone.find('time').html(time.getHours()+':'+('0' + time.getMinutes()).slice(-2)+':'+('0' + time.getSeconds()).slice(-2)+' '+('0' + (time.getMonth()+1)).slice(-2) + '/' + ('0' + (time.getDate())).slice(-2) + '/' +  time.getFullYear());
 	sentClone.css('display', 'block');
 	chatWindow.find('.msg-container-base').animate({
 		scrollTop : $(document).height()
