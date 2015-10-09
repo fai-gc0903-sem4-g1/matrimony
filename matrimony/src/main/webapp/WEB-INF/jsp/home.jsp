@@ -47,7 +47,7 @@
                         <span id='person-status'><span id="label-basic">Hôn nhân </span> ${i.maritalStatus }</span>
                         <br />
                         <br />
-                        <span id='person-btna'><input type="button" class="btnAdd" onclick="addFriend('${i.id}', '${myIndex.index}')" value="Add Friend"/></span>
+                        <span id='person-btna'><input type="button" class="btnAdd btn btn-primary" onclick="addFriend('${i.id}', '${myIndex.index}')" value="Add Friend"/></span>
                         <span id='person-btna'><input type="button" class='showDialog' onclick="show('${i.id}', '${myIndex.index}')" value="Cancel" hidden="true"/></span>
                         <br/>
                     </div>
