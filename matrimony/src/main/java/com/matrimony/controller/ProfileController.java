@@ -57,18 +57,22 @@ public class ProfileController {
 					String[] extensionFile = originName.split("\\.");
 					if (extensionFile.length > 1) {
 						String avatarFolderPath = request.getServletContext().getRealPath("/resources/profile/avatar");
-						System.out.println(avatarFolderPath);
+						System.out.println("avatar folder: "+avatarFolderPath);
+						
+						//MAKE OBF NAME AVATAR IMAGE
 						String obfName = RandomStringUtils.randomAlphanumeric(26);
 						StringBuilder filePath = new StringBuilder(avatarFolderPath);
+						filePath.append("/");
 						filePath.append(obfName);
 						filePath.append(".");
 						filePath.append(extensionFile[1]);
+						
 						UploadImageToServer upload = new UploadImageToServer();
 						upload.upload(filePath.toString(), p.getInputStream());
 						System.out.println("Uploaded " + filePath.toString());
 						// UPDATE AVATAR
-						ssUser.setAvatarPhoto(obfName+"."+extensionFile[1]);
 						UserDAO.Update(ssUser);
+						ssUser.setAvatarPhoto(obfName+"."+extensionFile[1]);
 						return "redirect:";
 					}
 				}

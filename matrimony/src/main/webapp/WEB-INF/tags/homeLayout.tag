@@ -128,12 +128,12 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-2 css-avatar">
-                                                                    <img src="https://www.google.com/trends/resources/2327917647-google-icon.png" class="img-responsive img-sender">
+                                                                    <img src="https://www.google.com/trends/resources/2327917647-google-icon.png" style='weight:44px; height:44px;' class="img-responsive img-sender">
                                                                 </div>
                                                             </div>
                                                             <div id='base-receive-message' class="row msg_container base-receive" style='display: none;'>
                                                                 <div class="col-lg-2 css-avatar">
-                                                                    <img src="https://www.google.com/trends/resources/2327917647-google-icon.png" class="img-responsive img-receive">
+                                                                    <img src="https://www.google.com/trends/resources/2327917647-google-icon.png" style='weight:44px; height:44px;' class="img-responsive img-receive">
                                                                 </div>
                                                                 <div class="col-md-10 col-xs-10 css-chat-content">
                                                                     <div class="messages msg_receive">
