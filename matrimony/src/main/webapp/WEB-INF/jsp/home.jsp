@@ -28,23 +28,23 @@
                         <span id='person-name'>${i.name }</span>
                     </div>
                     <div id='person-left' class='col-sm-5'>
-                        <span id='person-name'><span id="label-basic">Name</span> ${i.name }</span>
+                        <span id='person-name'><span id="label-basic">Tên</span> ${i.name }</span>
                         <br />
-                        <span id='person-age'><span id="label-basic">Age </span> ${jstl.yearUntilToDay(i.birthday) } tuổi</span>
+                        <span id='person-age'><span id="label-basic">Tuổi </span> ${jstl.yearUntilToDay(i.birthday) } tuổi</span>
                         <br />
-                        <span id='person-gender'><span id="label-basic">Gender </span>${i.gender =='female' ?'Nữ':'Name'}</span>
+                        <span id='person-gender'><span id="label-basic">Giới tính </span>${i.gender =='female' ?'Nữ':'Name'}</span>
                         <br />
                         <br />
-                        <span><input id='btn-chat-inbox' type='button' class="btn-warning" value='Inbox'/></span>
+                        <span><input id='btn-chat-inbox' type='button' class="btn btn-info" value='Gửi tin nhắn'/></span>
                         <span id='person-btna'>1 friend</span>
                         <div id="message" hidden="true">ARE YOU SURE??</div>
                     </div>
                     <div id='person-right' class='col-sm-4'>
-                        <span id='person-name'><span id="label-basic">Country </span>${i.countryside }</span>
+                        <span id='person-name'><span id="label-basic">Đất nước </span>${i.countryside }</span>
                         <br />
-                        <span id='person-city'><span id="label-basic">City </span>${i.hometown }</span>
+                        <span id='person-city'><span id="label-basic">Tỉnh/thành phố </span>${i.hometown }</span>
                         <br />
-                        <span id='person-status'><span id="label-basic">Marital </span> ${i.maritalStatus }</span>
+                        <span id='person-status'><span id="label-basic">Hôn nhân </span> ${i.maritalStatus }</span>
                         <br />
                         <br />
                         <span id='person-btna'><input type="button" class="btnAdd" onclick="addFriend('${i.id}', '${myIndex.index}')" value="Add Friend"/></span>

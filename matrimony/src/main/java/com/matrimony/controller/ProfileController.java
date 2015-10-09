@@ -42,6 +42,11 @@ public class ProfileController {
 	public String sontest() {
 		return "sontest";
 	}
+	
+	@RequestMapping(value="update", method=RequestMethod.GET)
+	public String updateProfile() {
+		return "updateProfile";
+	}
 
 	@RequestMapping(value = "changeAvatar", method = RequestMethod.POST)
 	public String doChangeAvatar(HttpServletRequest request) {

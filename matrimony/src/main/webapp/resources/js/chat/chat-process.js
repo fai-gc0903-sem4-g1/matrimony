@@ -147,7 +147,8 @@ function createChatWindow(userId) {
 					}
 				}
 			});
-			margin = margin + parseInt(chatWindow.css('width'));
+//			margin = margin + parseInt(chatWindow.css('width'));
+			margin = margin + parseInt(290);
 		}
 	});
 

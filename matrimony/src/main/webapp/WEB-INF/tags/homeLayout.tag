@@ -56,15 +56,15 @@
                                 </div>
                                 <div id="container" class='row'>
                                     <div id='left' class='col-lg-2'>
-                                        <img id="avatar" alt='avatar' style='height: 170px; width: 170px;' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
+                                        <img id="avatar" alt='avatar' style='width:100%' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
                                         <br />
                                         <br />
                                         <span id='name' class='col-lg-21'>${sessionScope.user.name }</span>
                                         <br />
                                         <br />
                                         <div class="list-group">
-                                            <a class="list-group-item" href="#"><i
-						class="fa fa-user"></i>&nbsp;Thông tin cá nhân</a>
+                                            <a class="list-group-item" href="/matrimony/update"><i
+						class="fa fa-user"></i>&nbsp;Cập nhập thông tin</a>
                                             <a class="list-group-item" href="#"> <i class="fa fa-cog"></i>&nbsp;Cài đặt</a>
                                             <a class="list-group-item" href="/matrimony/payment"> <i class="fa fa-cog"></i>&nbsp;Thanh toán</a>
                                             <a class="list-group-item" id='btn-logout' href="#"><i
@@ -105,10 +105,10 @@
                                             <div class="row col-lg-3 css-chat-window" id="chat-window" style='display: none;'>
                                                 <div class="col-lg-12">
                                                     <div class="panel panel-default css-chat-panel">
-                                                        <div class="panel-heading top-bar css-heading-chat" style='padding: 5px 5px 5px 0px; background-color:#3B5998;'>
+                                                        <div class="panel-heading top-bar css-heading-chat" style='padding: 5px 5px 5px 0px; background-color:#160A47;'>
                                                             <div class="col-lg-8" style='padding-right:0;'>
                                                                 <h3 class="panel-title">
-	                              								<i class="fa fa-circle" style='font-size:11px; color:cadetblue;'></i>&nbsp;<span id='name' style='font-size: 13px;font-weight: 600;color: white;'>Unknow</span>
+	                              								<i class="fa fa-circle" style='font-size:11px; color:#0DC9F7;'></i>&nbsp;<span id='name' style='font-size: 13px;font-weight: 600;color: white;'>Unknow</span>
 	                           								</h3>
                                                             </div>
                                                             <div class="col-lg-4" style="text-align: right; padding-right:0;">
