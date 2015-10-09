@@ -13,13 +13,11 @@ public class Matrimony {
         List<User> users = UserDAO.allUsers().stream()
                 .filter(u -> !u.getId().equals(user.getId()) && !u.getGender().equals(user.getGender()))
                 .collect(Collectors.toList());
-        System.out.println(user.getId());
         for (int i = 0; i < users.size(); i++) {
-            if(!FriendDAO.CheckExist(user.getId(), users.get(i).getId())){
+            if(FriendDAO.GetFriend(user.getId(), users.get(i).getId())==null){
                 list.add(users.get(i));
             }
         }
-        System.out.println(users.size());
         return list;
     }
     

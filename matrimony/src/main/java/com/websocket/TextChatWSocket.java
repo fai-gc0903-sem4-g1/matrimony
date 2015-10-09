@@ -21,7 +21,7 @@ import com.matrimony.util.Global;
  *
  */
 @ServerEndpoint("/chatserver")
-public class ChatEndPoint {
+public class TextChatWSocket {
 	private static Set<Session> userOnlineChat = new HashSet<Session>();
 
 	@OnOpen

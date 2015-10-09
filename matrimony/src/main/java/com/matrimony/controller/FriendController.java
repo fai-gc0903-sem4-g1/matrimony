@@ -29,23 +29,22 @@ import com.matrimony.entity.User;
 @Controller
 public class FriendController {
 
-    @RequestMapping(value = "listSuggest", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    @ResponseBody
-    public String listSuggest(HttpSession ss) throws IOException {
-        List<User> listSuggest = new ArrayList<User>();
-        User u = (User) ss.getAttribute("user");
-        List<User> list = Matrimony.getSuggestUsers(u);
-        for (int i = 0; i < list.size(); i++) {
-            if (!FriendDAO.CheckExist(u.getId(), list.get(i).getId())) {
-                listSuggest.add(list.get(i));
-            }
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        String data = mapper.writeValueAsString(listSuggest);
-        System.out.println(data);
-        return data;
-    }
-
+//    @RequestMapping(value = "listSuggest", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+//    @ResponseBody
+//    public String listSuggest(HttpSession ss) throws IOException {
+//        List<User> listSuggest = new ArrayList<User>();
+//        User u = (User) ss.getAttribute("user");
+//        List<User> list = Matrimony.getSuggestUsers(u);
+//        for (int i = 0; i < list.size(); i++) {
+//            if (!FriendDAO.CheckExist(u.getId(), list.get(i).getId())) {
+//                listSuggest.add(list.get(i));
+//            }
+//        }
+//        ObjectMapper mapper = new ObjectMapper();
+//        String data = mapper.writeValueAsString(listSuggest);
+//        System.out.println(data);
+//        return data;
+//    }
     @RequestMapping(value = "allInvite", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ResponseBody
     public String allInvite(HttpSession ss) throws IOException {
@@ -61,7 +60,6 @@ public class FriendController {
     @ResponseBody
     public String allRequest(HttpSession ss) throws IOException {
         User u = (User) ss.getAttribute("user");
-        System.out.println(u.getId());
         List<User> list = FriendDAO.ListRequest(u.getId());
         for (int i = 0; i < list.size(); i++) {
             list.get(i).getId();
@@ -96,24 +94,19 @@ public class FriendController {
         return "success";//mo database ktra lai xem
     }
 
-    @RequestMapping(value = "removeFriend", method = RequestMethod.POST)
+    @RequestMapping(value = "remove", method = RequestMethod.POST)
     @ResponseBody
-    public static String removeFriend(String user, HttpSession ss) {
-        String s="null";
+    public static String remove(String user, HttpSession ss) {
         User u = (User) ss.getAttribute("user");
-        List<Friend> f = FriendDAO.GetFriend(u.getId(), user);
-        for (int i = 0; i < f.size(); i++) {
-            FriendDAO.removeFriend(f.get(i));
-            s="success";
-        }
-        return s;
+        Friend f = FriendDAO.GetFriend(u.getId(), user);
+        FriendDAO.removeFriend(f);
+        return "success";
     }
 
     @RequestMapping(value = "acceptFriend", method = RequestMethod.POST)
     @ResponseBody
     public static String acceptFriend(String user, HttpSession ss) {
         User u = (User) ss.getAttribute("user");
-        System.out.println(user);
         FriendDAO.AcceptFriend(u.getId(), user);
         return "success";//mo database ktra lai xem
     }

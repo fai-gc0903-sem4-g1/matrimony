@@ -10,15 +10,15 @@
 <jsp:useBean id="jstl" class="com.matrimony.model.JSLTFunctionUtil" />
 <c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
 <!-- include you jquery ui theme -->
-<!-- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" />
 
 <t:homeLayout>
     <jsp:attribute name="head">
-        <title>Home</title>
+        <title>Payment confirm</title>
     </jsp:attribute>
     <jsp:attribute name="middle">
-<!--         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script> -->
-        <div id='tblPeople' class='container col-lg-12'>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <div id='tblPeople'>
             <c:forEach var="i" items="${peopleSuggestList}" varStatus="myIndex">
                 <div id='person-panel' class='row col-sm-12' data-user-id='${i.id}'>
                     <div class='col-sm-2'>
