@@ -5,6 +5,25 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <t:layout>
+<jsp:attribute name="head">
+<script>
+	console.log('Javascript testing');
+	console.log('starting ajax');
+	$.ajax({
+		url:'sortUserProfile',
+		method: 'POST',
+		data:{id:'990258dd4ff88341014ff883469e0000'},
+		async:false,
+		success:function(data){
+			return data;
+		},
+		error:function(){
+			alert('can not connect to server');
+		}
+	});
+</script>
+
+</jsp:attribute>
 	<jsp:body>
             <form action="/matrimony/profile" method="POST"></form>
 <div class="container">

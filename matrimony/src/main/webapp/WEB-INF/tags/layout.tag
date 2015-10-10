@@ -212,7 +212,7 @@
                                                             </ul>
                                                         </li>
                                                         <li>
-                                                            <a href="/matrimony" style='color: white;font-weight: 600;font-size: 13px;'><img alt='mini-avartar' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto}' style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;${sessionScope.user.firstName }</a>
+                                                            <a href="/matrimony" style='color: white;font-weight: 600;font-size: 13px;'><img data-current-user-id='${sessionScope.user.id }' alt='mini-avartar' id='mini-avatar' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto}' style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;${sessionScope.user.firstName }</a>
                                                         </li>
 
                                                         <li>

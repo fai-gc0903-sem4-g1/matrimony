@@ -21,25 +21,19 @@ import com.matrimony.util.Global;
  *
  */
 @ServerEndpoint("/chatserver")
-public class ServerEndPoint {
-	private static Set<Session> userOnlineChat = new HashSet<Session>();
+public class TextChatWSocket {
 
 	@OnOpen
 	public void handleOpen(Session session) {
-		userOnlineChat.add(session);
-		System.out.println(session.getId() + " connected.");
+		
 	}
 
 	@OnMessage
 	public void handleMessage(String data, Session session) {
 		Message msg = Global.gson.fromJson(data, Message.class);
-		String userId = (String) session.getUserProperties().get("userId");
 		System.out.println("Data: " + msg.toString());
-		if (userId == null) {
-			session.getUserProperties().put("userId", msg.getSenderId());
-		} else {
-			System.out.println(userId);
-			Session receiverSession = findUserInSession(msg.getReceiverId());
+		
+			Session receiverSession = getSessionByUserIdIfOnline(msg.getReceiverId());
 			if (receiverSession == null) {
 				System.out.println("nguoi nay offline");
 			} else {
@@ -50,14 +44,10 @@ public class ServerEndPoint {
 					e.printStackTrace();
 				}
 			}
-		}
-
 	}
 
 	@OnClose
-	public void handleClose(Session session) {
-		userOnlineChat.remove(session);
-		System.out.println(session.getId() + " closed.");
+	public void handleClose(Session session){
 	}
 
 	@OnError
@@ -65,10 +55,10 @@ public class ServerEndPoint {
 		t.printStackTrace();
 	}
 
-	public Session findUserInSession(String userId) {
+	public Session getSessionByUserIdIfOnline(String userId) {
 		Session userSession = null;
-		for (Session ss : userOnlineChat) {
-			if (userId.equals(ss.getUserProperties().get("userId"))) {
+		for (Session ss : GlobalWSocket.userOnline) {
+			if (userId.equals(ss.getUserProperties().get("id"))) {
 				userSession = ss;
 				break;
 			}

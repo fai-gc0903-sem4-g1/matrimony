@@ -6,10 +6,12 @@
 package com.matrimony.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -40,6 +42,11 @@ public class ProfileController {
 	public String sontest() {
 		return "sontest";
 	}
+	
+	@RequestMapping(value="update", method=RequestMethod.GET)
+	public String updateProfile() {
+		return "updateProfile";
+	}
 
 	@RequestMapping(value = "changeAvatar", method = RequestMethod.POST)
 	public String doChangeAvatar(HttpServletRequest request) {
@@ -55,18 +62,22 @@ public class ProfileController {
 					String[] extensionFile = originName.split("\\.");
 					if (extensionFile.length > 1) {
 						String avatarFolderPath = request.getServletContext().getRealPath("/resources/profile/avatar");
-						System.out.println(avatarFolderPath);
+						System.out.println("avatar folder: "+avatarFolderPath);
+						
+						//MAKE OBF NAME AVATAR IMAGE
 						String obfName = RandomStringUtils.randomAlphanumeric(26);
 						StringBuilder filePath = new StringBuilder(avatarFolderPath);
+						filePath.append("/");
 						filePath.append(obfName);
 						filePath.append(".");
 						filePath.append(extensionFile[1]);
+						
 						UploadImageToServer upload = new UploadImageToServer();
 						upload.upload(filePath.toString(), p.getInputStream());
 						System.out.println("Uploaded " + filePath.toString());
 						// UPDATE AVATAR
-						ssUser.setAvatarPhoto(obfName+"."+extensionFile[1]);
 						UserDAO.Update(ssUser);
+						ssUser.setAvatarPhoto(obfName+"."+extensionFile[1]);
 						return "redirect:";
 					}
 				}
@@ -85,7 +96,16 @@ public class ProfileController {
 	
 	@RequestMapping(value="sortUserProfile", method=RequestMethod.POST)
 	@ResponseBody
-	public String getInfoUserByUserId(String id){
+	public String getInfoUserByUserId(HttpServletRequest request, HttpServletResponse response, String id){
+		System.out.println("Tim id: "+id);
+		try {
+			request.setCharacterEncoding("UTF8");
+			response.setCharacterEncoding("UTF8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		User user=UserDAO.findById(id);
 		SortUserProfile sortUserProfile=new SortUserProfile();
 		sortUserProfile.setAvatar(user.getAvatarPhoto());

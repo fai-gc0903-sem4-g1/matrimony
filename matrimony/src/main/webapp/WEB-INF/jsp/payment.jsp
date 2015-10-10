@@ -134,10 +134,10 @@
 
                     </form>
                     <div class='col-lg-6'>
-                            <h4>Features:</h4>
+                            <h4>Thanh toán để có:</h4>
                             <ul>
-                                <li>As-you-type, input formatting</li>
-                                <li>Form field validation (also as you type)</li>
+                                <li>Xem những người có thể phù hợp với bạn</li>
+                                <li>Làm quen và nói chuyện</li>
                                 <li>Graceful error feedback for declined card, etc</li>
                                 <li>AJAX form submission w/ visual feedback</li>
                                 <li>Creates a Stripe credit card token</li>
