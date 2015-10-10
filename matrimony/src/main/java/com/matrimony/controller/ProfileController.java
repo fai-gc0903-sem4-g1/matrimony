@@ -37,13 +37,13 @@ public class ProfileController {
 	public String infor() {
 		return "profile";
 	}
-	
+
 	@RequestMapping(value = "sontest", method = RequestMethod.GET)
 	public String sontest() {
 		return "sontest";
 	}
-	
-	@RequestMapping(value="update", method=RequestMethod.GET)
+
+	@RequestMapping(value = "update", method = RequestMethod.GET)
 	public String updateProfile() {
 		return "updateProfile";
 	}
@@ -62,22 +62,22 @@ public class ProfileController {
 					String[] extensionFile = originName.split("\\.");
 					if (extensionFile.length > 1) {
 						String avatarFolderPath = request.getServletContext().getRealPath("/resources/profile/avatar");
-						System.out.println("avatar folder: "+avatarFolderPath);
-						
-						//MAKE OBF NAME AVATAR IMAGE
+						System.out.println("avatar folder: " + avatarFolderPath);
+
+						// MAKE OBF NAME AVATAR IMAGE
 						String obfName = RandomStringUtils.randomAlphanumeric(26);
 						StringBuilder filePath = new StringBuilder(avatarFolderPath);
 						filePath.append("/");
 						filePath.append(obfName);
 						filePath.append(".");
 						filePath.append(extensionFile[1]);
-						
+
 						UploadImageToServer upload = new UploadImageToServer();
 						upload.upload(filePath.toString(), p.getInputStream());
 						System.out.println("Uploaded " + filePath.toString());
 						// UPDATE AVATAR
 						UserDAO.Update(ssUser);
-						ssUser.setAvatarPhoto(obfName+"."+extensionFile[1]);
+						ssUser.setAvatarPhoto(obfName + "." + extensionFile[1]);
 						return "redirect:";
 					}
 				}
@@ -91,13 +91,24 @@ public class ProfileController {
 		}
 		return "profile";
 	}
+
+	@RequestMapping(value = "updateBasicInfo", method = RequestMethod.POST)
+	public String updateBasicInfo(HttpServletRequest request, HttpServletResponse response, User user) {
+		System.out.println(user.getLastName());
+		System.out.println(user.getFirstName());
+		return "redirect:";
+	}
 	
-	
-	
-	@RequestMapping(value="sortUserProfile", method=RequestMethod.POST)
+	@RequestMapping(value = "taotest", method = RequestMethod.GET)
+	public String taotest(HttpServletRequest request, HttpServletResponse response, String name) {
+		System.out.println("TEST "+name);
+		return "redirect:";
+	}
+
+	@RequestMapping(value = "sortUserProfile", method = RequestMethod.POST)
 	@ResponseBody
-	public String getInfoUserByUserId(HttpServletRequest request, HttpServletResponse response, String id){
-		System.out.println("Tim id: "+id);
+	public String getInfoUserByUserId(HttpServletRequest request, HttpServletResponse response, String id) {
+		System.out.println("Tim id: " + id);
 		try {
 			request.setCharacterEncoding("UTF8");
 			response.setCharacterEncoding("UTF8");
@@ -105,13 +116,13 @@ public class ProfileController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		User user=UserDAO.findById(id);
-		SortUserProfile sortUserProfile=new SortUserProfile();
+
+		User user = UserDAO.findById(id);
+		SortUserProfile sortUserProfile = new SortUserProfile();
 		sortUserProfile.setAvatar(user.getAvatarPhoto());
 		sortUserProfile.setName(user.getName());
 		sortUserProfile.setUsername(user.getUsername());
-		String json=Global.gson.toJson(sortUserProfile);
+		String json = Global.gson.toJson(sortUserProfile);
 		return json;
 	}
 }

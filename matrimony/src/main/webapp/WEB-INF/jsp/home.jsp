@@ -19,7 +19,9 @@
     <jsp:attribute name="middle">
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
         <div id='tblPeople'>
+        <div id="message" hidden="true">ARE YOU SURE??</div>
             <c:forEach var="i" items="${peopleSuggestList}" varStatus="myIndex">
+            
                 <div id='person-panel' class='row col-sm-12' data-user-id='${i.id}'>
                     <div class='col-sm-2'>
                         <img id='person-avatar' alt='person-avatar' src='/matrimony/resources/profile/avatar/${i.avatarPhoto }' style='height: 70px; width: 70px;' />
@@ -37,7 +39,7 @@
                         <br />
                         <span><input id='btn-chat-inbox' type='button' class="btn btn-info" value='Gửi tin nhắn'/></span>
                         <span id='person-btna'>1 friend</span>
-                        <div id="message" hidden="true">ARE YOU SURE??</div>
+                        
                     </div>
                     <div id='person-right' class='col-sm-4'>
                         <span id='person-name'><span id="label-basic">Đất nước </span>${i.countryside }</span>

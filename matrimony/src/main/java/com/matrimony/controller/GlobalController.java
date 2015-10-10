@@ -39,14 +39,14 @@ public class GlobalController {
 	}
 
 	@RequestMapping(value = "{username}")
-	public String doProfile(@PathVariable("username") String username, Model model) {
+	public String doProfile(@PathVariable("username") String username, HttpServletRequest request) {
 		System.out.println(username);
 		User user = UserDAO.findByUsername(username);
 		if (user != null) {
 			System.out.println(user.isVerified());
 		}
 		if (user != null && user.isVerified()) {
-			model.addAttribute("user", user);
+			request.setAttribute("userGuest", user);
 			return "profile";
 		} else {
 			return "404";
