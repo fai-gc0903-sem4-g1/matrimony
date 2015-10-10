@@ -12,15 +12,15 @@ $(document).ready(function () {
             $("#invite").find("div:gt(0)").remove();
             var table = $("#invite");
             $.each(responseJson, function (key, value) {
-                var panel = $("<div id='person-panel'></div>");
-                var rowNew = $("<div class='row'><div class='col-md-12'></div></div><div class='row'><div class='col-md-4'></div><div class='col-md-8'></div></div>");
-                rowNew.children().eq(1).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 70px; width: 70px;' />");
-                rowNew.children().eq(2).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
-                rowNew.children().eq(2).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span><br />");
-                rowNew.children().eq(2).append("<input class='btn-info btnAccept' type='button' value='Accept Friend' onClick='acceptFriend(\"" + value['id'] + "\"," + key + ")'/>");
+                var panel = $("<div id='person-panel-noti'></div>");
+                var rowNew = $("<div class='row'><div class='col-md-3'></div><div class='col-md-3'></div><div class='col-md-6'></div></div>");
+                rowNew.children().eq(0).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 50px; width: 50px;' />");
+                rowNew.children().eq(1).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
+                rowNew.children().eq(1).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span>");
+                rowNew.children().eq(2).append("<input class='btn-info btnAccept' style='left:30px;' type='button' value='Accept' onClick='acceptFriend(\"" + value['id'] + "\"," + key + ")'/></br>");
                 rowNew.children().eq(2).append("<input class='btn-success btnRemoveInvite' type='button' value='Denied' onClick='showInviteTab(\"" + value['id'] + "\")'/>");
                 rowNew.appendTo(panel);
-                panel.appendTo(table)
+                panel.appendTo(table);
             });
         }
     });
@@ -36,7 +36,7 @@ $(document).ready(function () {
                 rowNew.children().eq(1).append("<img src='/matrimony/resources/profile/avatar/" + value['avatarPhoto'] + "' style='height: 70px; width: 70px;' />");
                 rowNew.children().eq(2).append("<span><span id='label-basic'>Name </span>" + value['name'] + "</span><br />");
                 rowNew.children().eq(2).append("<span><span id='label-basic'>Gender </span>" + value['gender'] + "</span><br />");
-                rowNew.children().eq(2).append("<input class='btn-success btnRemoveRequest' type='button' value='Remove Request' onClick='showRequestTab(\"" + value['id'] + "\"," + key + ")'/>");
+                rowNew.children().eq(2).append("<input class='btn-success btnRemoveRequest' type='button' value='Remove Request' onClick='removeRequestTab(\"" + value['id'] + "\"," + key + ")'/>");
                 rowNew.appendTo(panel);
                 panel.appendTo(table);
             });
@@ -103,7 +103,6 @@ function removeRequestTab(u, k)
             {user: u}).
             done(function (data) {
                 if (data === "success") {
-                    alert("Remove success");
                     $(".btnRemoveRequest").eq(k).prop('value', 'Removed');
                     $(".btnRemoveRequest").eq(k).prop('disabled', true);
                 } else if (data === "null") {

@@ -161,9 +161,10 @@
                                                     <li><a href="/matrimony"><i style='font-size:22px;' class="fa fa-newspaper-o st-icon-nav-bar"></i></a></li>
                                                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users st-icon-nav-bar" style='font-size:19px'></i> <span
 										class="label label-primary st-label-number-notify">5</span> </a>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a href="#"><span class="label label-warning">7:00
-													AM</span>Hi :)</a>
+                                                            <ul class="dropdown-menu" style="width:400px;">
+                                                                
+                                                                <li><a href="#"><div id="request"><span class="label label-warning">7:00
+													AM</span></div></a>
                                                                 </li>
                                                                 <li><a href="#"><span class="label label-warning">8:00
 													AM</span>How are you?</a>

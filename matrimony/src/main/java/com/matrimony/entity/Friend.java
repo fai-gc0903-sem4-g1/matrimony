@@ -8,6 +8,7 @@ package com.matrimony.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Comparator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -101,5 +102,21 @@ public class Friend implements Serializable {
 	public void setTimeAccepted(Timestamp timeAccepted) {
 		this.timeAccepted = timeAccepted;
 	}
+        
+        public static class RequestComparator implements Comparator<Friend> {
+
+        @Override
+        public int compare(Friend f1, Friend f2) {
+            if (f1.getTimeInvited().before(f2.getTimeInvited())) {
+                return 1;
+            } else {
+                if (f1.getTimeInvited().after(f2.getTimeInvited())) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+    }
 
 }
