@@ -163,15 +163,9 @@
 										class="label label-primary st-label-number-notify">5</span> </a>
                                                             <ul class="dropdown-menu" style="width:400px;">
                                                                 
-                                                                <li><a href="#"><div id="request"><span class="label label-warning">7:00
-													AM</span></div></a>
+                                                                <li><a href="#"><div id="request"><span class="label label-warning"></span></div></a>
                                                                 </li>
-                                                                <li><a href="#"><span class="label label-warning">8:00
-													AM</span>How are you?</a>
-                                                                </li>
-                                                                <li><a href="#"><span class="label label-warning">9:00
-													AM</span>What are you doing?</a>
-                                                                </li>
+                                                                
                                                                 <li class="divider"></li>
                                                                 <li><a href="#" class="text-center">View All</a>
                                                                 </li>
