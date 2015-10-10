@@ -12,8 +12,13 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.matrimony.entity.Friend;
+import com.matrimony.entity.Friend.RequestComparator;
 import com.matrimony.entity.User;
 import com.matrimony.util.HibernateUtil;
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -77,6 +82,7 @@ public class FriendDAO {
         query.setParameter("userFromId", nameFormId);
         query.setParameter("status", 1);
         List<Friend> list = query.list();
+        Collections.sort(list,new Friend.RequestComparator());
         for (int i = 0; i < list.size(); i++) {
             User u = FriendDAO.getUserById(list.get(i).getUserToId());
             listUser.add(u);
@@ -146,4 +152,21 @@ public class FriendDAO {
         }
         return status;
     }
+
+    public static List<User> ListTopRequest(String nameFormId) {
+        List<User> listUser = new ArrayList<>();
+        Session session = HibernateUtil.openSession();
+        Query query = session.createQuery("FROM friend WHERE status=:status and userFromId=:userFromId");
+        query.setParameter("userFromId", nameFormId);
+        query.setParameter("status", 1);
+        List<Friend> list = query.list();
+        Collections.sort(list,new Friend.RequestComparator());
+        for (int i = 0; i < list.size(); i++) {
+            User u = FriendDAO.getUserById(list.get(i).getUserToId());
+            listUser.add(u);
+        }
+        session.close();
+        return listUser;
+    }
+    
 }

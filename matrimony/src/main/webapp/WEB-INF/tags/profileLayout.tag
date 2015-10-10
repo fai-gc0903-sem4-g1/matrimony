@@ -6,7 +6,7 @@
                     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
                         <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
                         <c:set var="alias" value="matrimony" />
-                        <c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
+                        
                         <t:layout>
                             <jsp:attribute name="head">
                                 <link rel="stylesheet" type="text/css" href="/matrimony/resources/css/home-style.css">
@@ -17,7 +17,7 @@
                                 <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script>
                                 <jsp:invoke fragment="head"></jsp:invoke>
 
-<jsp:useBean id="friendDAO" class="com.matrimony.database.FriendDAO" />
+									<jsp:useBean id="friendDAO" class="com.matrimony.database.FriendDAO" />
                                 <script>
                                     var globalWSocket = new WebSocket('ws://localhost/matrimony/globalwsocket');
                                     globalWSocket.onopen = function() {
