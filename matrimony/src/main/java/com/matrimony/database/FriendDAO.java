@@ -168,4 +168,6 @@ public class FriendDAO {
         session.close();
         return listUser;
     }
+    
+    public static 
 }
