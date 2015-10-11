@@ -1,12 +1,18 @@
 package com.matrimony.database;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 import com.matrimony.entity.User;
+import com.matrimony.entity.UserPreference;
+import com.matrimony.model.Convention;
 
 public class Matrimony {
 
@@ -25,9 +31,11 @@ public class Matrimony {
     
     public static Map<User, String> suggest(User user) {
     	Map<User, String> map=new HashMap<User, String>();
-    	List<User> users=UserDAO.allUsers();
+    	UserDAO.allUsers().forEach(u->map.put(u, "0"));
         return map;
     }
+    
+    
     
     public static void main(String[] args) {
 		// List<User>lst1=UserDAO.allAccounts();

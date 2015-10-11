@@ -4,6 +4,7 @@
 package data.init;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,24 +18,29 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.matrimony.database.UserDAO;
+import com.matrimony.database.UserPreferenceDAO;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException.ContactNumberAlready;
 import com.matrimony.exception.STException.EmailAlready;
+import com.matrimony.model.Convention;
+import com.matrimony.model.UploadImageToServer;
 
 /**
  * @author SON
  *
  */
 public class UserMaker {
+	private final String avatarFolderServerPath="E:\\workspace\\eclipse\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\matrimony\\resources\\profile\\avatar";
+	private final String dataFolderPath = System.getProperty("user.home") + "/Desktop/matrimony_init";
 	private Random random = new Random();
 	private final String[] phoneHeader = { "096", "0167", "098" };
-	private final String[] gender = { "male", "female" };
+	private final String[] gender = { Convention.FEMALE, Convention.MALE };
 	private final String[] emailTypes = { "@yahoo.com", "@yahoo.com.vn", "@gmail.com", "@gmail.com.vn" };
-	// private final String[] maritalStatus = { "widowed", "separated",
-	// "maried", "single", "divorced" };
+	private File[] avatarFemaleArray, avatarMaleArray;
 	private List<String> nameList, emailList, cityList;
 
 	/**
@@ -43,9 +49,9 @@ public class UserMaker {
 	public UserMaker() {
 		FileInputStream fileName = null, fileEmail = null, fileCity = null;
 		try {
-			fileName = new FileInputStream(System.getProperty("user.home") + "/Desktop/name.txt");
-			fileEmail = new FileInputStream(System.getProperty("user.home") + "/Desktop/email.txt");
-			fileCity = new FileInputStream(System.getProperty("user.home") + "/Desktop/city.txt");
+			fileName = new FileInputStream(dataFolderPath + "/name.txt");
+			fileEmail = new FileInputStream(dataFolderPath + "/email.txt");
+			fileCity = new FileInputStream(dataFolderPath + "/city.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,6 +60,8 @@ public class UserMaker {
 		emailList = makeListLineByLine(fileEmail);
 		cityList = makeListLineByLine(fileCity);
 
+		avatarFemaleArray = new File(dataFolderPath + "/avatar_female").listFiles();
+		avatarMaleArray = new File(dataFolderPath + "/avatar_male").listFiles();
 	}
 
 	public List<String> makeListLineByLine(InputStream is) {
@@ -104,19 +112,36 @@ public class UserMaker {
 		int age = calendarNow.get(Calendar.YEAR) - calendar.get(Calendar.YEAR);
 		int percent = random.nextInt(101);
 		if (percent <= 70)
-			return "single";
+			return "SINGLE";
 		else if (percent <= 85 && age >= 28)
-			return "divorced";
+			return "DIVORCED";
 		else if (percent <= 90 && age >= 40)
-			return "widowed";
+			return "WIDOWED";
 		else if (percent <= 95 && age >= 30)
-			return "separated";
+			return "SEPARATED";
 		else if (percent <= 100 && age >= 25)
-			return "maried";
+			return "MARIED";
 		else
 			return "single";
 	}
 
+	public String randomAvatar(String gender){
+		String obfName=RandomStringUtils.randomAlphanumeric(26)+".jpg";
+		File file;
+		if(Convention.FEMALE.equals(gender))
+		file=avatarFemaleArray[random.nextInt(avatarFemaleArray.length)];
+		else
+			file=avatarMaleArray[random.nextInt(avatarMaleArray.length)];
+		UploadImageToServer imageToServer=new UploadImageToServer();
+		try {
+			imageToServer.upload(avatarFolderServerPath+"/"+obfName, new FileInputStream(file));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e);
+		}
+		return obfName;
+	}
 	public User randomUser() {
 		long offset = Date.valueOf("1997-01-01").getTime();
 		long end = Date.valueOf("1947-01-01").getTime();
@@ -126,7 +151,7 @@ public class UserMaker {
 		User user = new User();
 		user.setVerified(true);
 		user.setGender(gender[random.nextInt(gender.length)]);
-		user.setAvatarPhoto("male".equals(user.getGender()) ? "default_male_avatar.jpg" : "default_female_avatar.jpg");
+		user.setAvatarPhoto(randomAvatar(user.getGender()));
 		user.setBirthday(birthdayRand);
 		user.setExpiries(Timestamp.valueOf("2050-01-01 00:00:00"));
 		user.setPassword("12345678");
@@ -141,7 +166,7 @@ public class UserMaker {
 		user.setCountryside("Việt Nam");
 		user.setHeight(random.nextInt(41) + 150);
 		user.setWeight(random.nextInt(33) + 48);
-		user.setRegMethod("native");
+		user.setRegMethod("NATIVE");
 		user.setLocale("vi_VN");
 		user.setCreateAt(new Timestamp(System.currentTimeMillis()));
 		return user;
@@ -154,7 +179,8 @@ public class UserMaker {
 			User userRand = maker.randomUser();
 			try {
 				System.out.println("Adding " + userRand.getLastName() + " " + userRand.getFirstName());
-				UserDAO.register(userRand);
+				User userReturn=UserDAO.register(userRand);
+				UserPreferenceDAO.initUserPrefrence(userReturn);
 				System.out.println("OK");
 			} catch (EmailAlready e) {
 				System.out.println(e);

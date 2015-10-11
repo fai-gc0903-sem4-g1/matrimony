@@ -21,8 +21,8 @@ public class UserPreference {
 	private String countrysideLike;
 	private String religionLike;
 	private String maritalStatusLike;
-	private int weightLike;
-	private int heightLike;
+	private String weightGapLike;
+	private String heightGapLike;
 	
 	public String getUserId() {
 		return userId;
@@ -66,18 +66,19 @@ public class UserPreference {
 	public void setMaritalStatusLike(String maritalStatusLike) {
 		this.maritalStatusLike = maritalStatusLike;
 	}
-	public int getWeightLike() {
-		return weightLike;
+	public String getWeightGapLike() {
+		return weightGapLike;
 	}
-	public void setWeightLike(int weightLike) {
-		this.weightLike = weightLike;
+	public void setWeightGapLike(String weightGapLike) {
+		this.weightGapLike = weightGapLike;
 	}
-	public int getHeightLike() {
-		return heightLike;
+	public String getHeightGapLike() {
+		return heightGapLike;
 	}
-	public void setHeightLike(int heightLike) {
-		this.heightLike = heightLike;
+	public void setHeightGapLike(String heightGapLike) {
+		this.heightGapLike = heightGapLike;
 	}
+	
 	
 	
 	

@@ -160,9 +160,9 @@
                                         <div class="st-reg-form-group form-group has-feedback col-lg-12">
                                         <span style='font-weight:700;'>Giới tính</span>
                                             <div class='radio' style="font-size: 16px;">
-                                                    <label><input type="radio" name="gender" value="female" /> Nữ</label>
+                                                    <label><input type="radio" name="gender" value="FEMALE" /> Nữ</label>
                                                     &nbsp;
-                                                     <label><input type="radio" name="gender" value="male" /> Nam</label>
+                                                     <label><input type="radio" name="gender" value="MALE" /> Nam</label>
                                                      <label style='display:none;'><input type="radio" name="gender" value="none" checked /></label>
                                             </div>
                                             <c:if test="${not empty regGenderInvalid }"><i class="glyphicon glyphicon-exclamation-sign form-control-feedback st-reg-invalid" data-toggle="popover" data-content="${regGenderInvalid }"></i></c:if>

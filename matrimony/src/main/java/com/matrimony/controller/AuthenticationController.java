@@ -29,6 +29,7 @@ import com.matrimony.exception.STException;
 import com.matrimony.exception.STException.ContactNumberAlready;
 import com.matrimony.exception.STException.EmailAlready;
 import com.matrimony.exception.STException.NotNativeAccount;
+import com.matrimony.model.Convention;
 import com.matrimony.model.Regex;
 import com.matrimony.model.SessionKey;
 import com.matrimony.model.StringResouces;
@@ -51,30 +52,32 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String doLogin(HttpServletResponse response, HttpServletRequest request, String login, String password, String keepLoggin) {
-		if(login==null||password==null){
-			return"comotsucokhonghenhe";
+	public String doLogin(HttpServletResponse response, HttpServletRequest request, String login, String password,
+			String keepLoggin) {
+		if (login == null || password == null) {
+			return "comotsucokhonghenhe";
 		}
-		boolean wellForm=true;
+		boolean wellForm = true;
 		StringResouces sr = new StringResouces(StringResouces.vi_VN);
-		if("".equals(login)){
-			wellForm=false;
+		if ("".equals(login)) {
+			wellForm = false;
 			request.setAttribute("loginNameInvalid", sr.getData().get("loginNameNotEmpty"));
 		}
-		if(!Pattern.matches(Regex.PASSWORD, password)){
-			wellForm=false;
+		if (!Pattern.matches(Regex.PASSWORD, password)) {
+			wellForm = false;
 			request.setAttribute("loginPasswordInvalid", sr.getData().get("loginPasswordInvalid"));
 		}
-		
-		if(!wellForm)
+
+		if (!wellForm)
 			return "joinUs";
-		
+
 		try {
-			User userLogin=new User();
+			User userLogin = new User();
 			userLogin.setUsername(login);
 			userLogin.setPassword(password);
-//			userLogin.setLoginTime(new Timestamp(System.currentTimeMillis()));
-//			userLogin.setIpLogin(request.getRemoteAddr());
+			// userLogin.setLoginTime(new
+			// Timestamp(System.currentTimeMillis()));
+			// userLogin.setIpLogin(request.getRemoteAddr());
 			User user = UserDAO.login(userLogin);
 			request.getSession().setAttribute(SessionKey.USER, user);
 			if (user.isVerified()) {
@@ -102,9 +105,10 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String doRegister(HttpServletRequest request, User userReg, String day, String month, String year, String reEmail) {
-		Timestamp currentTime=new Timestamp(System.currentTimeMillis());
-		System.out.print(currentTime+": "+userReg.getGender());
+	public String doRegister(HttpServletRequest request, User userReg, String day, String month, String year,
+			String reEmail) {
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		System.out.print(currentTime + ": " + userReg.getGender());
 		if (userReg.getFirstName() == null || userReg.getLastName() == null || userReg.getEmail() == null
 				|| userReg.getGender() == null) {
 			return "cogidokhongdung";
@@ -134,17 +138,18 @@ public class AuthenticationController {
 		Date birthday = null;
 		try {
 			birthday = Date.valueOf(year + "-" + month + "-" + day);
-			if(DateUtils.toCalendar(currentTime).get(Calendar.YEAR)-DateUtils.toCalendar(birthday).get(Calendar.YEAR)<18){
+			if (DateUtils.toCalendar(currentTime).get(Calendar.YEAR)
+					- DateUtils.toCalendar(birthday).get(Calendar.YEAR) < 18) {
 				wellForm = false;
 				request.setAttribute("regBirthdayInvalid", sr.getData().get("regNotEnoughAge"));
 			}
 		} catch (IllegalArgumentException ex) {
 			System.out.println("Register: " + ex.getMessage());
-			wellForm=false;
-			request.setAttribute("regBirthdayInvalid", "Ngày tháng ch�?n sai");
+			wellForm = false;
+			request.setAttribute("regBirthdayInvalid", "Ngày tháng ch�?n sai");
 		}
-		
-		if(!wellForm)
+
+		if (!wellForm)
 			return "joinUs";
 
 		String activeKey = RandomStringUtils.randomAlphanumeric(8);
@@ -152,7 +157,8 @@ public class AuthenticationController {
 		userReg.setRegistrationIP(request.getRemoteAddr());
 		userReg.setActiveKey(activeKey);
 		userReg.setRegMethod("Native");
-		userReg.setAvatarPhoto(userReg.getGender().equals("male") ? "default_male_avatar.jpg" : "default_female_avatar.jpg");
+		userReg.setAvatarPhoto(userReg.getGender().equals(Convention.FEMALE) ? Convention.DEFAULT_FEMALE_IMG_AVATAR
+				: Convention.DEFAULT_MALE_IMG_AVATAR);
 		userReg.setName(userReg.getFirstName() + " " + userReg.getLastName());
 		userReg.setExpiries(currentTime);
 		try {
@@ -222,8 +228,8 @@ public class AuthenticationController {
 			// UploadToServer.upFile(avatarPath + "/" + newFileName + ".jpg",
 			// image);
 			// user.setAvatarPhoto(newFileName);
-			user.setAvatarPhoto(user.getGender().equals("male") ? "default_male_avatar.jpg"
-					: "default_female_avatar.jpg");
+			user.setAvatarPhoto(user.getGender().equals(Convention.FEMALE) ? Convention.DEFAULT_FEMALE_IMG_AVATAR
+					: Convention.DEFAULT_MALE_IMG_AVATAR);
 			User ssUser = null;
 			try {
 				ssUser = UserDAO.register(user);
