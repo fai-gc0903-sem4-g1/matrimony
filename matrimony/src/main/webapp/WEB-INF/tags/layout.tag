@@ -145,16 +145,7 @@
 
                                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                                     <div class="col-lg-6">
-                                                        <form class="navbar-form" role="search">
-                                                            <div class="input-group col-lg-12">
-                                                                <input type="text" class="form-control" placeholder="Search" name="q">
-                                                                <div class="input-group-btn">
-                                                                    <button class="btn btn-default" type="submit">
-                                                                        <i class="glyphicon glyphicon-search"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
+                                                        
                                                     </div>
 
                                                     <ul class="nav navbar-nav navbar-right">
