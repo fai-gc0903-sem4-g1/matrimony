@@ -4,8 +4,6 @@
 package com.websocket;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;

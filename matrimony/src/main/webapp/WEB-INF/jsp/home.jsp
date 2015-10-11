@@ -42,9 +42,9 @@
             <c:forEach var="i" items="${peopleSugguestMap}" varStatus="myIndex">
                 <div id='person-panel' class='row col-sm-12' data-user-id='${i.key.id}'>
                     <div class='col-sm-3'>
-                        <a class='st-avatar-suggester-link' href="/matrimony/resources/profile/avatar/${i.key.avatarPhoto}"><img id='person-avatar' alt='person-avatar' src='/matrimony/resources/profile/avatar/${i.key.avatarPhoto }' style='width: 100%;' /></a>
+                        <a class='st-avatar-suggester-link' href="/matrimony/resources/profile/avatar/${i.key.avatarPhoto}"><img id='person-avatar' alt='person-avatar' src='/matrimony/resources/profile/avatar/${i.key.avatarPhoto }' style='width: 100%;min-height: 130px;max-height: 200px;' /></a>
                         <br />
-                        <a class='st-name-suggester' href='${i.key.username }' id='person-name'>${i.key.name }</a>
+                        <a class='st-name-suggester' target="_blank" href='${i.key.username }' id='person-name'>${i.key.name }</a>
                     </div>
                     <div id='person-left' class='col-sm-5'>
                         <span id='person-age'><span id="label-basic">Tuổi </span> ${jstl.yearUntilToDay(i.key.birthday) } tuổi</span>

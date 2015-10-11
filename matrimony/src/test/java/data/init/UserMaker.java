@@ -167,18 +167,20 @@ public class UserMaker {
 		user.setHeight(random.nextInt(41) + 150);
 		user.setWeight(random.nextInt(33) + 48);
 		user.setRegMethod("NATIVE");
+		user.setReligion("");
 		user.setLocale("vi_VN");
 		user.setCreateAt(new Timestamp(System.currentTimeMillis()));
+		user.setIntroduce("Mình rất vui được làm quen với bạn!");
 		return user;
 	}
 
 	public static void main(String[] args) {
 		UserMaker maker = new UserMaker();
-
+		System.out.println(maker.randomUser().getExpiries());
 		for (int i = 0; i < 200; i++) {
 			User userRand = maker.randomUser();
 			try {
-				System.out.println("Adding " + userRand.getLastName() + " " + userRand.getFirstName());
+				System.out.println("Adding " + userRand.getLastName() + " " + userRand.getFirstName() +" gender: "+userRand.getGender() );
 				User userReturn=UserDAO.register(userRand);
 				UserPreferenceDAO.initUserPrefrence(userReturn);
 				System.out.println("OK");

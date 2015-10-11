@@ -5,10 +5,13 @@
  */
 package com.matrimony.database;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Session;
 
 import com.matrimony.entity.User;
@@ -99,7 +102,7 @@ public class UserDAO {
 				user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
 			}
 			user.setCreateAt(now);
-			user.setExpiries(now);
+			user.setExpiries(user.getExpiries()!=null?user.getExpiries():now);
 
 			// ADD USER
 			add(user);
@@ -141,6 +144,12 @@ public class UserDAO {
 			return true;
 		else
 			return false;
+	}
+	
+	public static int getAgeByBirthday(Date birthday) {
+		Calendar now = DateUtils.toCalendar(new Date(System.currentTimeMillis()));
+		Calendar before = DateUtils.toCalendar(birthday);
+		return now.get(Calendar.YEAR) - before.get(Calendar.YEAR);
 	}
 
 	public static void main(String[] args) {

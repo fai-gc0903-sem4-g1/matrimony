@@ -13,8 +13,6 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
 /**
  * @author SON
  *

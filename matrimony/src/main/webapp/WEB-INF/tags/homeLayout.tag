@@ -1,3 +1,4 @@
+<%@tag pageEncoding="UTF-8" %>
 <%@attribute name="head" fragment="true" %>
     <%@attribute name="middle" fragment="true" %>
         <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
@@ -56,7 +57,7 @@
                                 </div>
                                 <div id="container" class='row'>
                                     <div id='left' class='col-lg-2'>
-                                        <img id="avatar" alt='avatar' style='width:100%' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
+                                        <img id="avatar" alt='avatar' style='width:100%;min-height: 150px;max-height: 350px;' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
                                         <br />
                                         <br />
                                         <span id='name' class='col-lg-21'>${sessionScope.user.name }</span>

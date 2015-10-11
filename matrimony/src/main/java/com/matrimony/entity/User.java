@@ -57,10 +57,12 @@ public class User implements Serializable {
 	private String maritalStatus;
 	private String avatarPhoto;
 	private String name;
-	private Date birthday;
 	private String activeKey;
 	private String ipLogin;
 	private String registrationIP;
+	@Column(length=1000)
+	private String introduce;
+	private Date birthday;
 	private Timestamp expiries;
 	private Timestamp changedPasswordTime;
 	private Timestamp loginTime;
@@ -90,7 +92,24 @@ public class User implements Serializable {
     private Set<FavoriteMovie> favoriteMovies;
     @OneToMany(mappedBy = "userId")
     private Set<UserPreference> userPreferences;
-    public String getId() {
+    
+    public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+
+	public Set<UserPreference> getUserPreferences() {
+		return userPreferences;
+	}
+
+	public void setUserPreferences(Set<UserPreference> userPreferences) {
+		this.userPreferences = userPreferences;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -430,41 +449,24 @@ public class User implements Serializable {
         return serialVersionUID;
     }
 
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", weight=" + weight + ", height=" + height + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", username=" + username + ", email=" + email + ", password=" + password
-                + ", salt=" + salt + ", contactNumber=" + contactNumber + ", gender=" + gender + ", regMethod="
-                + regMethod + ", religion=" + religion + ", roleName=" + roleName + ", socialNetwork=" + socialNetwork
-                + ", hometown=" + hometown + ", countryside=" + countryside + ", introduction=" + introduction
-                + ", locale=" + locale + ", maritalStatus=" + maritalStatus + ", avatarPhoto=" + avatarPhoto
-                + ", name=" + name + ", birthday=" + birthday + ", activeKey=" + activeKey + ", ipLogin=" + ipLogin
-                + ", registrationIP=" + registrationIP + ", expiries=" + expiries + ", changedPasswordTime="
-                + changedPasswordTime + ", loginTime=" + loginTime + ", updateTime=" + updateTime + ", verifiedTime="
-                + verifiedTime + ", createAt=" + createAt + ", verified=" + verified + ", friendFromId=" + friendFromId
-                + ", friendToId=" + friendToId + ", transactions=" + transactions + ", socialNetworks="
-                + socialNetworks + ", favoriteBooks=" + favoriteBooks + ", favoriteFitnesses=" + favoriteFitnesses
-                + ", favoriteMusics=" + favoriteMusics + ", favoriteTVShows=" + favoriteTVShows + ", favoriteMovies="
-                + favoriteMovies + ", getId()=" + getId() + ", getWeight()=" + getWeight() + ", getHeight()="
-                + getHeight() + ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName()
-                + ", getUsername()=" + getUsername() + ", getEmail()=" + getEmail() + ", getPassword()="
-                + getPassword() + ", getSalt()=" + getSalt() + ", getContactNumber()=" + getContactNumber()
-                + ", getGender()=" + getGender() + ", getRegMethod()=" + getRegMethod() + ", getReligion()="
-                + getReligion() + ", getRoleName()=" + getRoleName() + ", getSocialNetwork()=" + getSocialNetwork()
-                + ", getHometown()=" + getHometown() + ", getCountryside()=" + getCountryside()
-                + ", getIntroduction()=" + getIntroduction() + ", getLocale()=" + getLocale() + ", getMaritalStatus()="
-                + getMaritalStatus() + ", getAvatarPhoto()=" + getAvatarPhoto() + ", getName()=" + getName()
-                + ", getBirthday()=" + getBirthday() + ", getActiveKey()=" + getActiveKey() + ", getIpLogin()="
-                + getIpLogin() + ", getRegistrationIP()=" + getRegistrationIP() + ", getExpiries()=" + getExpiries()
-                + ", getChangedPasswordTime()=" + getChangedPasswordTime() + ", getLoginTime()=" + getLoginTime()
-                + ", getUpdateTime()=" + getUpdateTime() + ", getVerifiedTime()=" + getVerifiedTime()
-                + ", getCreateAt()=" + getCreateAt() + ", isVerified()=" + isVerified() + ", getFriendFromId()="
-                + getFriendFromId() + ", getFriendToId()=" + getFriendToId() + ", getTransactions()="
-                + getTransactions() + ", getSocialNetworks()=" + getSocialNetworks() + ", getFavoriteBooks()="
-                + getFavoriteBooks() + ", getFavoriteFitnesses()=" + getFavoriteFitnesses() + ", getFavoriteMusics()="
-                + getFavoriteMusics() + ", getFavoriteTVShows()=" + getFavoriteTVShows() + ", getFavoriteMovies()="
-                + getFavoriteMovies() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-                + super.toString() + "]";
-    }
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", weight=" + weight + ", height=" + height + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", salt=" + salt + ", contactNumber=" + contactNumber + ", gender=" + gender + ", regMethod="
+				+ regMethod + ", religion=" + religion + ", roleName=" + roleName + ", socialNetwork=" + socialNetwork
+				+ ", hometown=" + hometown + ", countryside=" + countryside + ", introduction=" + introduction
+				+ ", locale=" + locale + ", maritalStatus=" + maritalStatus + ", avatarPhoto=" + avatarPhoto
+				+ ", name=" + name + ", activeKey=" + activeKey + ", ipLogin=" + ipLogin + ", registrationIP="
+				+ registrationIP + ", introduce=" + introduce + ", birthday=" + birthday + ", expiries=" + expiries
+				+ ", changedPasswordTime=" + changedPasswordTime + ", loginTime=" + loginTime + ", updateTime="
+				+ updateTime + ", verifiedTime=" + verifiedTime + ", createAt=" + createAt + ", verified=" + verified
+				+ ", friendFromId=" + friendFromId + ", friendToId=" + friendToId + ", transactions=" + transactions
+				+ ", socialNetworks=" + socialNetworks + ", favoriteBooks=" + favoriteBooks + ", favoriteFitnesses="
+				+ favoriteFitnesses + ", favoriteMusics=" + favoriteMusics + ", favoriteTVShows=" + favoriteTVShows
+				+ ", favoriteMovies=" + favoriteMovies + ", userPreferences=" + userPreferences + "]";
+	}
+
+    
 
 }
