@@ -88,7 +88,8 @@ public class User implements Serializable {
     private Set<FavoriteTVShow> favoriteTVShows;
     @OneToMany(mappedBy = "userId")
     private Set<FavoriteMovie> favoriteMovies;
-
+    @OneToMany(mappedBy = "userId")
+    private Set<UserPreference> userPreferences;
     public String getId() {
         return id;
     }

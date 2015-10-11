@@ -23,5 +23,6 @@
 		<mapping class="com.matrimony.entity.FavoriteFitness" />
 		<mapping class="com.matrimony.entity.FavoriteMusic" />
 		<mapping class="com.matrimony.entity.FavoriteTVShow" />
+		<mapping class="com.matrimony.entity.UserPreference" />
 	</session-factory>
 </hibernate-configuration>

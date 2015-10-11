@@ -1,7 +1,9 @@
 package com.matrimony.database;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.matrimony.entity.User;
@@ -19,6 +21,12 @@ public class Matrimony {
             }
         }
         return list;
+    }
+    
+    public static Map<User, String> suggest(User user) {
+    	Map<User, String> map=new HashMap<User, String>();
+    	List<User> users=UserDAO.allUsers();
+        return map;
     }
     
     public static void main(String[] args) {

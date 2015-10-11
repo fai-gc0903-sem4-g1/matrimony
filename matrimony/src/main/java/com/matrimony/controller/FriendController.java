@@ -6,6 +6,7 @@
 package com.matrimony.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,7 @@ public class FriendController {
         f.setUserFromId(u.getId());
         f.setUserToId(user);
         f.setStatus(status);
+        f.setTimeInvited(new Timestamp(System.currentTimeMillis()));
         FriendDAO.addFriend(f);
         return "success";//mo database ktra lai xem
     }

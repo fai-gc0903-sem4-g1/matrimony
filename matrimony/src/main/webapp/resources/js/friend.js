@@ -71,6 +71,7 @@ function removeFriendTab(u, k)
         $(".btnRemoveFriend").eq(k).prop('value', 'Removed');
         $(".btnRemoveFriend").eq(k).prop('disabled', true);
         $(".btnFriend").eq(k).prop('hidden ', true);
+        alert("Remove success");
 
     })
             .fail(function () { //on failure
@@ -102,7 +103,7 @@ function removeRequestTab(u, k)
             {user: u}).
             done(function (data) {
                 if (data === "success") {
-                    
+                    alert("Remove success");
                     $(".btnRemoveRequest").eq(k).prop('value', 'Removed');
                     $(".btnRemoveRequest").eq(k).prop('disabled', true);
                 } else if (data === "null") {
@@ -172,7 +173,7 @@ function showInviteTab(u, k) {
 //            {user: u}).
 //            done(function (data) {
 //                if (data === "success") {
-//                    
+//                    alert("Remove success");
 //                    $(".btnRemove").eq(k).prop('value', 'Removed');
 //                    $(".btnRemove").eq(k).prop('disabled', true);
 //                } else if (data === "null") {
@@ -221,7 +222,7 @@ function removeRequest(u, k)
             {user: u}).
             done(function (data) {
                 if (data === "success") {
-                    
+                    alert("Remove success");
                     $(".showDialog").eq(k).prop('hidden', true);
                     $(".btnAdd").eq(k).prop('value', 'Add Friend');
                     $(".btnAdd").eq(k).prop('disabled', false);
