@@ -7,7 +7,10 @@ package com.matrimony.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.matrimony.database.UserDAO;
 import com.matrimony.entity.User;
+import com.matrimony.model.Regex;
 import com.matrimony.model.SessionKey;
+import com.matrimony.model.StringResouces;
 import com.matrimony.model.UploadImageToServer;
 import com.matrimony.util.Global;
 import com.websocket.SortUserProfile;
@@ -44,8 +49,43 @@ public class ProfileController {
 	}
 
 	@RequestMapping(value = "update", method = RequestMethod.GET)
-	public String updateProfile() {
+	public String updateProfile(HttpServletRequest request) {
+		if(request.getSession().getAttribute("user")==null)
+			return "joinUs";
 		return "updateProfile";
+	}
+	
+	@RequestMapping(value = "updateBasicProfile", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateBasicProfile(User userBasic) {
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		Properties props=new Properties();
+		boolean wellForm = true;
+		StringResouces sr = new StringResouces(StringResouces.vi_VN);
+		if (!Pattern.matches(Regex.NAME, userBasic.getFirstName())) {
+			wellForm = false;
+			props.put("regFirstNameInvalid", sr.getData().get("firstNameInvalid"));
+		}
+		if (!Pattern.matches(Regex.NAME, userBasic.getLastName())) {
+			wellForm = false;
+			props.put("regLastNameInvalid", sr.getData().get("lastNameInvalid"));
+		}
+		if (!Pattern.matches(Regex.PASSWORD, userBasic.getPassword())) {
+			wellForm = false;
+			props.put("regPasswordInvalid", sr.getData().get("passwordInvalid"));
+		}
+		if (!Pattern.matches(Regex.GENDER, userBasic.getGender())) {
+			wellForm = false;
+			props.put("regGenderInvalid", sr.getData().get("genderInvalid"));
+		}
+		if (!Pattern.matches(Regex.PHONE, userBasic.getFirstName()) && "".equals(userBasic.getContactNumber())) {
+			wellForm = false;
+			props.put("regPhoneInvalid", sr.getData().get("phoneInvalid"));
+		}
+		
+		String json=Global.gson.toJson(props);
+		System.out.println(json);
+		return json;
 	}
 
 	@RequestMapping(value = "changeAvatar", method = RequestMethod.POST)

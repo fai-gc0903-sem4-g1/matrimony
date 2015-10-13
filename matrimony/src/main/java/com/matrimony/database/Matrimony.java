@@ -1,14 +1,11 @@
 package com.matrimony.database;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-
-import javax.naming.PartialResultException;
 
 import com.matrimony.entity.User;
 import com.matrimony.entity.UserPreference;
@@ -38,32 +35,37 @@ public class Matrimony {
 		for (User u : UserDAO.allUsers()) {
 			if (u.getGender().equals(preference.getGenderLike())) {
 				int percent = 0;
-				int uage = UserDAO.getAgeByBirthday(user.getBirthday());
-				if (Integer.valueOf(ageGap[0]) < uage && uage > Integer.valueOf(ageGap[1]))
+
+				int uage = -1;
+				if (u.getBirthday() != null)
+					UserDAO.getAgeByBirthday(u.getBirthday());
+				if (uage != -1 && Integer.valueOf(ageGap[0]) < uage && uage > Integer.valueOf(ageGap[1]))
+					percent += 20;
+				if (Integer.valueOf(heightGap[0]) < user.getHeight()
+						&& user.getHeight() > Integer.valueOf(heightGap[1]))
 					percent += 10;
-				if (Integer.valueOf(heightGap[0]) < uage && uage > Integer.valueOf(heightGap[1]))
+				if (Integer.valueOf(weightGap[0]) < user.getWeight()
+						&& user.getWeight() > Integer.valueOf(weightGap[1]))
 					percent += 10;
-				if (Integer.valueOf(weightGap[0]) < uage && uage > Integer.valueOf(weightGap[1]))
-					percent += 10;
-				if (u.getCountryside().equals(user.getCountryside())) {
-					percent += 10;
-					if (u.getHometown().equals(user.getHometown()))
-						percent += 10;
+				if (u.getCountryside() != null && u.getCountryside().equals(user.getCountryside())) {
+					percent += 5;
+					if (u.getHometown() != null && u.getHometown().equals(user.getHometown()))
+						percent += 7;
 				}
-				if (u.getReligion().equals(preference.getReligionLike()))
-					percent += 10;
-				if (u.getMaritalStatus().equals(preference.getMaritalStatusLike()))
+				if (u.getReligion() != null && u.getReligion().equals(preference.getReligionLike()))
+					percent += 5;
+				if (u.getMaritalStatus() != null && u.getMaritalStatus().equals(preference.getMaritalStatusLike()))
 					percent += 10;
 				MeasureHeart mh = new MeasureHeart(percent);
 				map.put(u, mh);
 			}
 		}
-		ValueMapComparator vmc=new ValueMapComparator(map);
-		Map<User, MeasureHeart> sortedMap=new TreeMap<User, MeasureHeart>(vmc);
+		ValueMapComparator vmc = new ValueMapComparator(map);
+		Map<User, MeasureHeart> sortedMap = new TreeMap<User, MeasureHeart>(vmc);
 		sortedMap.putAll(map);
+		System.out.println("so nguoi: " + sortedMap.size());
 		return sortedMap;
 	}
-	
 
 	public static void main(String[] args) {
 		String a = null;

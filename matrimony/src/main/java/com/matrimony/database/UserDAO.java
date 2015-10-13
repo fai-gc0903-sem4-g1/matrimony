@@ -102,10 +102,10 @@ public class UserDAO {
 				user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
 			}
 			user.setCreateAt(now);
-			user.setExpiries(user.getExpiries()!=null?user.getExpiries():now);
 
 			// ADD USER
 			add(user);
+			UserPreferenceDAO.initUserPrefrence(user);
 			String emailOrPhone = user.getEmail() != null ? user.getEmail() : user.getContactNumber();
 			User temp = findByEmailOrContactNumberOrUsername(emailOrPhone);
 			temp.setUsername(temp.getId());

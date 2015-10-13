@@ -46,7 +46,7 @@
                         <br />
                         <a class='st-name-suggester' target="_blank" href='${i.key.username }' id='person-name'>${i.key.name }</a>
                     </div>
-                    <div id='person-left' class='col-sm-5'>
+                    <div id='person-left' class='col-sm-4'>
                         <span id='person-age'><span id="label-basic">Tuổi </span> ${jstl.yearUntilToDay(i.key.birthday) } tuổi</span>
                         <br />
                         <span id='person-gender'><span id="label-basic">Giới tính </span>${i.key.gender =='FEMALE' ?'Nữ':'Nam'}</span>

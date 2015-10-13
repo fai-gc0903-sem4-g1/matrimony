@@ -7,7 +7,6 @@
                     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
                         <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
                         <c:set var="alias" value="matrimony" />
-                        <c:set var="peopleSuggestList" value="${matrimony.getSuggestUsers(sessionScope.user) }" />
                         <t:layout>
                             <jsp:attribute name="head">
                                 <link rel="stylesheet" type="text/css" href="/matrimony/resources/css/home-style.css">
@@ -17,7 +16,20 @@
                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
                                 <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script>
                                 <jsp:invoke fragment="head"></jsp:invoke>
-
+								
+								<style>
+								div.wrapper{
+								  overflow:hidden; 
+								  position:relative;  
+								}
+								div.caption {
+								  position:relative; 
+								  text-align:center; 
+								  padding: 30px 15px;
+								  background-image:url(http://demo.fearlessflyer.com/html/demo/pretty-hovers/images/wood.png);
+								  
+								}
+								</style>
                                 <script>
                                     var globalWSocket = new WebSocket('ws://localhost/matrimony/globalwsocket');
                                     globalWSocket.onopen = function() {
@@ -45,6 +57,17 @@
                                             e.preventDefault();
                                             $("<form action='logout' method='POST'></form>").submit();
                                         });
+                                        
+                                        $('.wrapper').hover(
+                                    			function(){
+                                    				$(this).find('img').animate({opacity: ".8"}, 300);
+                                    				$(this).find('.caption').animate({top:"-85px"}, 300);
+                                    			},
+                                    			function(){
+                                    				$(this).find('img').animate({opacity: "1.0"}, 300);
+                                    				$(this).find('.caption').animate({top:"85px"}, 100);
+                                    			}
+                                    		);
                                     });
                                 </script>
                             </jsp:attribute>
@@ -57,12 +80,12 @@
                                 </div>
                                 <div id="container" class='row'>
                                     <div id='left' class='col-lg-2'>
-                                        <img id="avatar" alt='avatar' style='width:100%;min-height: 150px;max-height: 350px;' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' />
-                                        <br />
-                                        <br />
-                                        <span id='name' class='col-lg-21'>${sessionScope.user.name }</span>
-                                        <br />
-                                        <br />
+                                    	<div class="wrapper">
+											<a href='#'><img id='avatar' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' style="opacity: 1; width: 100%;min-height: 150px;max-height: 350px;"></a>
+											<div class="caption" style="top: 85px;"><input type='button' class='btn btn-success' value='Thay ảnh'/></div>
+										</div>
+                                        <span id='name' style='font-weight: 600;' class='col-lg-21'>${sessionScope.user.name }</span>
+                                        <br/>
                                         <div class="list-group">
                                             <a class="list-group-item" href="/matrimony/update"><i
 						class="fa fa-user"></i>&nbsp;Cập nhập thông tin</a>

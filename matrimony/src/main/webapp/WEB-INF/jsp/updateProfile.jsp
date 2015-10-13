@@ -81,8 +81,17 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
 border-color: #59C4C5;
 }
+
+
+.form-horizontal .control-label{
+	text-align: left;
+}
 </style>
                             <script>
+								$(document).on('click', '.col-lg-2 btn-submit-update-basic-form', function(e){
+									$('#form-update-basic-info').submit();
+								})
+								
 								$(document).ready(function() {
 									$("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
 										e.preventDefault();
@@ -92,17 +101,33 @@ border-color: #59C4C5;
 										$("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
 										$("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
 									});
+									
+									//update basic
+									$("#form-update-basic-info").submit(function(e){
+										e.preventDefault();
+										var form=$(this);
+										$.ajax({
+											url:form.attr('action'),
+											method:form.attr('method'),
+											data:form.serialize(),
+											async:false,
+											success:function(obj){
+												console.log('success');
+												console.log(obj);
+											},
+											error:function(){
+												
+											}
+										});
+									});
 								});
 								
-								$(document).on('click', '.btn-submit-update-basic-form', function(e){
-									$('#form-update-basic-info').submit();
-								})
 								
 							</script>
                         </jsp:attribute>
                         <jsp:attribute name="middle">
                             <div class='col-lg-12 row' style='padding: 0px;'>
-                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
                                     <div class="list-group">
                                         <a href="#" class="list-group-item active text-center">Bản thân</a>
                                         <a href="#" class="list-group-item text-center">Sở thích</a>
@@ -111,61 +136,61 @@ border-color: #59C4C5;
                                         <a href="#" class="list-group-item text-center">Khác</a>
                                     </div>
                                 </div>
-                                <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
                                     <!-- flight section -->
-                                    <div class="bhoechie-tab-content active">
+                                    <div class="col-lg-12 bhoechie-tab-content active">
                                         <h3 style="margin-top: 0; color: #55518a" class="text-center">Về bản thân</h3>
                                         <hr />
-                                        <form id='form-update-basic-info' accept-charset="UTF-8" action="updateBasicInfo" method="post" class="form-horizontal">
+                                        <form id='form-update-basic-info' action="updateBasicInfo" method="post" class="form-horizontal">
                                             <!-- name -->
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">Tên</label>
-                                                <label class="col-sm-2 control-label">Họ</label>
+                                                <label class="col-lg-4 control-label">Họ</label>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtUsernane" name='lastName' placeholder="" value='${sessionScope.user.lastName }' >
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-lg-offset-2 col-sm-2 control-label">Tên đệm</label>
+                                                <label class="col-lg-4 control-label">Tên đệm</label>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtUsernane" name='middleName' placeholder="Không bắt buộc" value='' >
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-lg-offset-2 col-sm-2 control-label">Tên</label>
+                                                <label class="col-lg-4 control-label">Tên</label>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtUsernane" name='firstName' placeholder="" value='${sessionScope.user.firstName }' >
                                                 </div>
-                                                <input type='button' class='btn btn-primary btn-submit-update-basic-form' value='Thay đổi' />
+                                                <input type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' value='Thay đổi' />
                                             </div>
                                             <hr />
                                             <!-- email -->
                                             <div class="form-group">
-                                                <label class="col-lg-2 control-label">Email</label>
-                                                <div class="col-lg-offset-2 col-lg-6">
+                                                <label class="col-lg-4 control-label">Email</label>
+                                                <div class="col-lg-6">
                                                     <input type="email" class="form-control" id="txtUsernane" name='email' placeholder="Email" value='${sessionScope.user.email }' >
                                                 </div>
-                                                <input type='button' class='btn btn-primary btn-submit-update-basic-form' value='Thay đổi' />
+                                                <input type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' value='Thay đổi' />
                                             </div>
                                             <hr />
                                             <!-- nickname -->
                                             <div class="form-group">
-                                                <label class="col-lg-3 control-label">Tên người dùng</label>
-                                                <div class="col-lg-offset-1 col-lg-6">
+                                                <label class="col-lg-4 control-label">Tên người dùng</label>
+                                                <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtUsernane" name='username' placeholder="Tên người dùng" value='${sessionScope.user.username }' >
                                                 </div>
-                                                <input type='button' class='btn btn-primary btn-submit-update-basic-form' value='Thay đổi' />
+                                                <input type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' value='Thay đổi' />
+                                           		<label class="col-lg-offset-5">Chỉ được sửa 1 lần duy nhất</label>
                                             </div>
                                             <hr />
                                             <!-- password -->
                                             <div class="form-group">
-                                                <label class="col-lg-2 control-label">Mật khẩu</label>
-                                                <div class="col-lg-offset-2 col-lg-6">
+                                                <label class="col-lg-4 control-label">Mật khẩu</label>
+                                                <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtUsernane" placeholder="">
                                                 </div>
-                                                <input id='btn-submit-uprofile' type='button' class='btn btn-primary btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
+                                                <input id='btn-submit-uprofile' type='button' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
                                             </div>
                                         </form>
 
@@ -195,7 +220,7 @@ border-color: #59C4C5;
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtUsernane" placeholder="Ngôn ngữ">
                                                 </div>
-                                                <input type='button' class='btn btn-primary btn-submit-update-basic-form' value='Thay đổi' />
+                                                <input type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' value='Thay đổi' />
                                             </div>
                                         </form>
                                         

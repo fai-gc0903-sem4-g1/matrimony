@@ -17,7 +17,7 @@
                             <link rel="stylesheet" href="/matrimony/resources/css/login-form-dialog.css" />
                             <style>
                              	body{
-                                	background-color: #EFEFEF;
+                                	background-color: #ffffff;
                                 }
                                 #hidden-div {
                                     display: none;

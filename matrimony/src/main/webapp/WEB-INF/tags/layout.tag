@@ -39,7 +39,7 @@
                             <link rel='stylesheet' href='/matrimony/resources/css/layout-style.css' />
                             <style>
                             .navbar{
-                            border-color: #0B99BC;
+                            border-color: #6B5094;
                             }
                             .navbar-default{
                             border-radius: 0px;
@@ -162,7 +162,7 @@
                                                                 </li>
                                                             </ul>
                                                         </li>
-                                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe st-icon-nav-bar" style='font-size:19px'></i> <span
+                                                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o st-icon-nav-bar" style='font-size:19px'></i> <span
 										class="label label-primary st-label-number-notify">26</span> </a>
                                                             <ul class="dropdown-menu">
                                                                 <li><a href="#"><span class="label label-warning">7:00
@@ -198,12 +198,6 @@
                                                         </li>
                                                         <li>
                                                             <a href="/matrimony" style='color: white;font-weight: 600;font-size: 13px;'><img data-current-user-id='${sessionScope.user.id }' alt='mini-avartar' id='mini-avatar' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto}' style='width: 20px; height: 20px; border-radius: 2px;' />&nbsp;&nbsp;${sessionScope.user.firstName }</a>
-                                                        </li>
-
-                                                        <li>
-                                                            <form id="signin" action='logout' method='POST' class="nav navbar-form navbar-right" role="form">
-                                                                <button type="submit" class="btn btn-danger">Logout</button>
-                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>

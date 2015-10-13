@@ -65,7 +65,7 @@ public class AuthenticationController {
 		}
 		if (!Pattern.matches(Regex.PASSWORD, password)) {
 			wellForm = false;
-			request.setAttribute("loginPasswordInvalid", sr.getData().get("loginPasswordInvalid"));
+			request.setAttribute("loginPasswordInvalid", sr.getData().get("passwordInvalid"));
 		}
 
 		if (!wellForm)
@@ -91,10 +91,10 @@ public class AuthenticationController {
 
 		} catch (STException.UserNotExists ex) {
 			System.out.println(ex);
-			request.setAttribute("loginNameInvalid", sr.getData().get("loginUserNotExists"));
+			request.setAttribute("loginNameInvalid", sr.getData().get("loginNameNotExists"));
 		} catch (STException.WrongPassword ex) {
 			System.out.println(ex);
-			request.setAttribute("loginPasswordInvalid", sr.getData().get("loginWrongPassword"));
+			request.setAttribute("loginPasswordInvalid", sr.getData().get("wrongPassword"));
 		} catch (NotNativeAccount e) {
 			System.out.println(e);
 			request.setAttribute("loginNameInvalid", sr.getData().get("loginNotNativeAccount"));
@@ -117,23 +117,23 @@ public class AuthenticationController {
 		StringResouces sr = new StringResouces(StringResouces.vi_VN);
 		if (!Pattern.matches(Regex.NAME, userReg.getFirstName())) {
 			wellForm = false;
-			request.setAttribute("regFirstNameInvalid", sr.getData().get("regFirstNameInvalid"));
+			request.setAttribute("regFirstNameInvalid", sr.getData().get("firstNameInvalid"));
 		}
 		if (!Pattern.matches(Regex.NAME, userReg.getLastName())) {
 			wellForm = false;
-			request.setAttribute("regLastNameInvalid", sr.getData().get("regLastNameInvalid"));
+			request.setAttribute("regLastNameInvalid", sr.getData().get("lastNameInvalid"));
 		}
 		if (!Pattern.matches(Regex.PASSWORD, userReg.getPassword())) {
 			wellForm = false;
-			request.setAttribute("regPasswordInvalid", sr.getData().get("regPasswordInvalid"));
+			request.setAttribute("regPasswordInvalid", sr.getData().get("passwordInvalid"));
 		}
 		if (!Pattern.matches(Regex.GENDER, userReg.getGender())) {
 			wellForm = false;
-			request.setAttribute("regGenderInvalid", sr.getData().get("regGenderInvalid"));
+			request.setAttribute("regGenderInvalid", sr.getData().get("genderInvalid"));
 		}
 		if (!Pattern.matches(Regex.PHONE, userReg.getFirstName()) && "".equals(userReg.getContactNumber())) {
 			wellForm = false;
-			request.setAttribute("regPhoneInvalid", sr.getData().get("regPhoneInvalid"));
+			request.setAttribute("regPhoneInvalid", sr.getData().get("phoneInvalid"));
 		}
 		Date birthday = null;
 		try {
@@ -141,7 +141,7 @@ public class AuthenticationController {
 			if (DateUtils.toCalendar(currentTime).get(Calendar.YEAR)
 					- DateUtils.toCalendar(birthday).get(Calendar.YEAR) < 18) {
 				wellForm = false;
-				request.setAttribute("regBirthdayInvalid", sr.getData().get("regNotEnoughAge"));
+				request.setAttribute("regBirthdayInvalid", sr.getData().get("notEnoughAge"));
 			}
 		} catch (IllegalArgumentException ex) {
 			System.out.println("Register: " + ex.getMessage());
@@ -168,10 +168,10 @@ public class AuthenticationController {
 			return "active";
 		} catch (STException.EmailAlready ex) {
 			System.out.println(ex.getMessage());
-			request.setAttribute("regEmailAlready", sr.getData().get("regEmailAlready"));
+			request.setAttribute("regEmailAlready", sr.getData().get("emailAlready"));
 		} catch (STException.ContactNumberAlready ex) {
 			System.out.println(ex.getMessage());
-			request.setAttribute("regPhoneAlready", sr.getData().get("regPhoneAlready"));
+			request.setAttribute("regPhoneAlready", sr.getData().get("phoneAlready"));
 		}
 		return "joinUs";
 	}
@@ -210,6 +210,7 @@ public class AuthenticationController {
 		FBConnection conn = new FBConnection();
 		try {
 			String accessToken = conn.getAccessToken(code);
+			System.out.println("access token: "+accessToken);
 			UserProfile userProfile = FBGraph.gatherUserProfile(accessToken);
 			User user = new User();
 			user.setFirstName(userProfile.getFirstName());

@@ -182,7 +182,6 @@ public class UserMaker {
 			try {
 				System.out.println("Adding " + userRand.getLastName() + " " + userRand.getFirstName() +" gender: "+userRand.getGender() );
 				User userReturn=UserDAO.register(userRand);
-				UserPreferenceDAO.initUserPrefrence(userReturn);
 				System.out.println("OK");
 			} catch (EmailAlready e) {
 				System.out.println(e);
