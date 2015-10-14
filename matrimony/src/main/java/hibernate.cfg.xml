@@ -27,5 +27,6 @@
 		<mapping class="com.matrimony.entity.UserPreference" />
 		<mapping class="com.matrimony.entity.City" />
 		<mapping class="com.matrimony.entity.Country" />
+		<mapping class="com.matrimony.entity.Mark" />
 	</session-factory>
 </hibernate-configuration>

@@ -9,6 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import com.matrimony.database.Mark;
 
 /**
  * @author SON
@@ -20,8 +26,11 @@ public class City {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="countryCode")
 	private Country country;
+	@OneToOne(mappedBy="city")
+	@Cascade(value=CascadeType.ALL)
+	private Mark mark;
 	private String name;
 	public long getId() {
 		return id;
@@ -41,4 +50,11 @@ public class City {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Mark getMark() {
+		return mark;
+	}
+	public void setMark(Mark mark) {
+		this.mark = mark;
+	}
+	
 }

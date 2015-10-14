@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 @Entity(name="country")
 public class Country {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String countryCode;
 	private String name;
 	private String currentCode;
