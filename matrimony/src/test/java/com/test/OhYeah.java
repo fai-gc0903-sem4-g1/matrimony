@@ -3,13 +3,14 @@
  */
 package com.test;
 
-import com.matrimony.database.UserDAO;
-import com.matrimony.entity.User;
-import com.matrimony.exception.STException.NotNativeAccount;
-import com.matrimony.exception.STException.UserNotExists;
-import com.matrimony.exception.STException.WrongPassword;
-import com.matrimony.util.HibernateUtil;
+import org.hibernate.Session;
 
+import com.matrimony.database.UserDAO;
+import com.matrimony.database.UserPreferenceDAO;
+import com.matrimony.entity.City;
+import com.matrimony.entity.Country;
+import com.matrimony.entity.User;
+import com.matrimony.util.HibernateUtil;
 
 /**
  * @author SON

@@ -20,12 +20,19 @@ public class HibernateUtil {
 	
 	public static Session getCurrentSession(){
 		if (sessionFactory == null) {
-			System.out.println("Configing..");
-			Configuration configuration = new Configuration();
-			configuration.configure("hibernate.cfg.xml");
-			ServiceRegistry sr = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-			sessionFactory = configuration.buildSessionFactory(sr);
+			System.out.println("Hibernate configuration loading...");
+			Configuration cfg = new Configuration();
+			System.out.println("Hibernate configuration loaded...");
+			cfg.configure();
+			ServiceRegistry sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
+			System.out.println("Hibernate registried");
+			System.out.println(sr);
+			sessionFactory = cfg.buildSessionFactory(sr);
 		}
 		return sessionFactory.getCurrentSession();
+	}
+	
+	public static void main(String[] args) {
+		HibernateUtil.getCurrentSession();
 	}
 }

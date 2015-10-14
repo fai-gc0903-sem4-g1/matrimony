@@ -34,11 +34,11 @@ public class Friend implements Serializable {
 	@GeneratedValue(generator = "gen")
 	private String friendId;
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "id", nullable=false, updatable=false, insertable=false)
-	private User userFromId;
+	@JoinColumn(name = "userFrom", nullable=false, updatable=false, insertable=false)
+	private User userFrom;
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "id", nullable=false, updatable=false, insertable=false)
-	private User userToId;
+	@JoinColumn(name = "userFromId", nullable=false, updatable=false, insertable=false)
+	private User userTo;
 	private int status;
 	private Timestamp timeInvited;
 	private Timestamp timeDenied;
@@ -52,12 +52,14 @@ public class Friend implements Serializable {
 		this.friendId = friendId;
 	}
 
-	public User getUserFromId() {
-		return userFromId;
+	
+
+	public User getUserFrom() {
+		return userFrom;
 	}
 
-	public void setUserFromId(User userFromId) {
-		this.userFromId = userFromId;
+	public void setUserFrom(User userFrom) {
+		this.userFrom = userFrom;
 	}
 
 	public static long getSerialversionuid() {
@@ -96,13 +98,17 @@ public class Friend implements Serializable {
 		this.timeAccepted = timeAccepted;
 	}
 
-	public User getUserToId() {
-		return userToId;
+	
+
+	public User getUserTo() {
+		return userTo;
 	}
 
-	public void setUserToId(User userToId) {
-		this.userToId = userToId;
+	public void setUserTo(User userTo) {
+		this.userTo = userTo;
 	}
+
+
 
 	public static class RequestComparator implements Comparator<Friend> {
 

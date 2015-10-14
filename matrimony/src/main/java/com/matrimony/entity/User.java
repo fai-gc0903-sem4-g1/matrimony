@@ -18,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,7 +36,6 @@ public class User implements Serializable {
      */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(nullable = false, updatable = false, insertable = false)
 	@GenericGenerator(name = "gen", strategy = "uuid")
 	@GeneratedValue(generator = "gen")
 	private String id;
@@ -73,12 +74,12 @@ public class User implements Serializable {
 	private Timestamp verifiedTime;
 	private Timestamp createAt;
 	private boolean verified;
-	@OneToMany(mappedBy = "userFromId", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "userFrom", fetch = FetchType.EAGER)
 	@JsonIgnore
-	private Set<Friend> friendFromId;
-	@OneToMany(mappedBy = "userToId", fetch = FetchType.EAGER)
+	private Set<Friend> friendFrom;
+	@OneToMany(mappedBy = "userTo", fetch = FetchType.EAGER)
 	@JsonIgnore
-	private Set<Friend> friendToId;
+	private Set<Friend> friendTo;
 	@OneToMany(mappedBy = "user")
 	private Set<Transaction> transactions;
 	@OneToMany(mappedBy = "userId")
@@ -93,7 +94,8 @@ public class User implements Serializable {
 	private Set<FavoriteTVShow> favoriteTVShows;
 	@OneToMany(mappedBy = "userId")
 	private Set<FavoriteMovie> favoriteMovies;
-	@OneToOne
+	@OneToOne(mappedBy="user")
+	@Cascade(value=CascadeType.ALL)
 	private UserPreference userPreference;
 
 	public String getIntroduce() {
@@ -376,14 +378,6 @@ public class User implements Serializable {
 		this.verified = verified;
 	}
 
-	public Set<Friend> getFriendFromId() {
-		return friendFromId;
-	}
-
-	public void setFriendFromId(Set<Friend> friendFromId) {
-		this.friendFromId = friendFromId;
-	}
-
 	public Set<Transaction> getTransactions() {
 		return transactions;
 	}
@@ -452,12 +446,20 @@ public class User implements Serializable {
 		this.middleName = middleName;
 	}
 
-	public Set<Friend> getFriendToId() {
-		return friendToId;
+	public Set<Friend> getFriendFrom() {
+		return friendFrom;
 	}
 
-	public void setFriendToId(Set<Friend> friendToId) {
-		this.friendToId = friendToId;
+	public void setFriendFrom(Set<Friend> friendFrom) {
+		this.friendFrom = friendFrom;
+	}
+
+	public Set<Friend> getFriendTo() {
+		return friendTo;
+	}
+
+	public void setFriendTo(Set<Friend> friendTo) {
+		this.friendTo = friendTo;
 	}
 
 }

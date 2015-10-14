@@ -28,7 +28,8 @@ public class Matrimony {
 
 	public static Map<User, MeasureHeart> suggest(User user) {
 		Map<User, MeasureHeart> map = new HashMap<User, MeasureHeart>();
-		UserPreference preference = user.getUserPreferences().iterator().next();
+		UserPreference preference = user.getUserPreference();
+		System.out.println(preference);
 		String[] ageGap = preference.getAgeGap().split("-");
 		String[] heightGap = preference.getHeightGap().split("-");
 		String[] weightGap = preference.getWeightGap().split("-");

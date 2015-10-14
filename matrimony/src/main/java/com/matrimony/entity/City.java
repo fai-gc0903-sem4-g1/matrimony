@@ -24,11 +24,8 @@ public class City {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@ManyToOne
-	@JoinColumn(name="countryCode")
+	@JoinColumn(name="countryCodeColumn", updatable=false, insertable=false)
 	private Country country;
-	@OneToOne(mappedBy="city")
-	@Cascade(value=CascadeType.ALL)
-	private Mark mark;
 	private String name;
 	public long getId() {
 		return id;
@@ -48,11 +45,4 @@ public class City {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Mark getMark() {
-		return mark;
-	}
-	public void setMark(Mark mark) {
-		this.mark = mark;
-	}
-	
 }

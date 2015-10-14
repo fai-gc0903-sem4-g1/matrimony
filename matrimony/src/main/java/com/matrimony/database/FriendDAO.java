@@ -20,6 +20,7 @@ import com.matrimony.util.HibernateUtil;
  *
  * @author SON
  */
+@SuppressWarnings("unchecked")
 public class FriendDAO{
 
     public static void addFriend(Friend friend) {
@@ -48,19 +49,22 @@ public class FriendDAO{
         ss.getTransaction().commit();
     }
 
-    public static List<User> ListFriend(String nameFormId) {
+    
+	public static List<User> ListFriend(String nameFormId) {
         List<User> listUser = new ArrayList<>();
         Session session = HibernateUtil.getCurrentSession();
+        session.beginTransaction();
         Query query = session.createQuery("FROM friend WHERE status=:status");
         query.setParameter("status", 2);
         List<Friend> list = query.list();
+        session.getTransaction().commit();
         for (int i = 0; i < list.size(); i++) {
-            if (nameFormId.equals(list.get(i).getUserFromId())) {
-                User u = list.get(0).getUserToId();
+            if (nameFormId.equals(list.get(i).getUserFrom())) {
+                User u = list.get(0).getUserTo();
                 listUser.add(u);
             }
-            if (nameFormId.equals(list.get(i).getUserToId())) {
-                User u = list.get(0).getUserFromId();
+            if (nameFormId.equals(list.get(i).getUserTo())) {
+                User u = list.get(0).getUserFrom();
                 listUser.add(u);
             }
         }
@@ -70,13 +74,15 @@ public class FriendDAO{
     public static List<User> ListRequest(String nameFormId) {
         List<User> listUser = new ArrayList<>();
         Session session = HibernateUtil.getCurrentSession();
-        Query query = session.createQuery("FROM friend WHERE status=:status and userFromId=:userFromId");
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Friend friend WHERE status=:status and userFromId=:userFromId");
         query.setParameter("userFromId", nameFormId);
         query.setParameter("status", 1);
         List<Friend> list = query.list();
+        session.getTransaction().commit();
         Collections.sort(list,new Friend.RequestComparator());
         for (int i = 0; i < list.size(); i++) {
-            User u = list.get(0).getUserToId();
+            User u = list.get(0).getUserTo();
             listUser.add(u);
         }
         return listUser;
@@ -85,12 +91,14 @@ public class FriendDAO{
     public static List<User> ListInvite(String nameFormId) {
         List<User> listUser = new ArrayList<>();
         Session session = HibernateUtil.getCurrentSession();
-        Query query = session.createQuery("FROM friend WHERE status=:status and userToId=:userToId");
+        session.beginTransaction();
+        Query query = session.createQuery("FROM friend WHERE status=:status and userToId.id=:userToId");
         query.setParameter("userToId", nameFormId);
         query.setParameter("status", 1);
         List<Friend> list = query.list();
+        session.getTransaction().commit();
         for (int i = 0; i < list.size(); i++) {
-            User u = list.get(0).getUserFromId();
+            User u = list.get(0).getUserFrom();
             listUser.add(u);
         }
         return listUser;
@@ -109,7 +117,7 @@ public class FriendDAO{
             list.add(l.get(i));
         }
         for (int i = 0; i < list.size(); i++) {
-            if (nameToId.equals(list.get(i).getUserFromId()) || nameToId.equals(list.get(i).getUserToId())) {
+            if (nameToId.equals(list.get(i).getUserFrom()) || nameToId.equals(list.get(i).getUserTo())) {
                 f = list.get(i);
             }
         }
@@ -150,7 +158,7 @@ public class FriendDAO{
         List<Friend> list = query.list();
         Collections.sort(list,new Friend.RequestComparator());
         for (int i = 0; i < list.size(); i++) {
-            User u = list.get(0).getUserToId();
+            User u = list.get(0).getUserTo();
             listUser.add(u);
         }
         return listUser;

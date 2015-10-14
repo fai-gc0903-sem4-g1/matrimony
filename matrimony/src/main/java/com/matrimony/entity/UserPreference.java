@@ -22,6 +22,7 @@ public class UserPreference implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	private String id;
 	@OneToOne
 	@PrimaryKeyJoinColumn
 	private User user;
@@ -35,6 +36,13 @@ public class UserPreference implements Serializable {
 	private String heightGap;
 	
 
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public User getUser() {
 		return user;
 	}
@@ -91,6 +99,12 @@ public class UserPreference implements Serializable {
 	}
 	public void setHeightGap(String heightGap) {
 		this.heightGap = heightGap;
+	}
+	@Override
+	public String toString() {
+		return "UserPreference [id=" + id + ", user=" + user + ", gender=" + gender + ", ageGap=" + ageGap
+				+ ", hometown=" + hometown + ", countryside=" + countryside + ", religion=" + religion
+				+ ", maritalStatus=" + maritalStatus + ", weightGap=" + weightGap + ", heightGap=" + heightGap + "]";
 	}
 	
 	

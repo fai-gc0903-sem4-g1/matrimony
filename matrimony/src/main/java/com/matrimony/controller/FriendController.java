@@ -88,10 +88,10 @@ public class FriendController {
         User u = (User) ss.getAttribute("user");
         int status = 1;
         Friend f = new Friend();
-        f.setUserFromId(u);
+        f.setUserFrom(u);
         User toUser=new User();
         toUser.setId(id);
-        f.setUserToId(toUser);
+        f.setUserTo(toUser);
         f.setStatus(status);
         f.setTimeInvited(new Timestamp(System.currentTimeMillis()));
         FriendDAO.addFriend(f);
