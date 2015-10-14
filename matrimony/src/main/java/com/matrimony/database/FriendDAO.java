@@ -29,7 +29,7 @@ import java.util.Comparator;
 public class FriendDAO{
 
     public static void addFriend(Friend friend) {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         ss.getTransaction().begin();
         ss.save(friend);
         ss.getTransaction().commit();
@@ -37,7 +37,7 @@ public class FriendDAO{
     }
 
     public static void removeFriend(Friend friend) {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         ss.getTransaction().begin();
         ss.delete(friend);
         ss.getTransaction().commit();
@@ -45,7 +45,7 @@ public class FriendDAO{
     }
 
     public static void AcceptFriend(String nameFormId, String nameToId) {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         ss.getTransaction().begin();
         Query query = ss.createQuery("FROM friend WHERE userFromId=:userFromId and userToId=:userToId");
         query.setParameter("userFromId", nameToId);
@@ -59,7 +59,7 @@ public class FriendDAO{
 
     public static List<User> ListFriend(String nameFormId) {
         List<User> listUser = new ArrayList<>();
-        Session session = HibernateUtil.openSession();
+        Session session = HibernateUtil.session;
         Query query = session.createQuery("FROM friend WHERE status=:status");
         query.setParameter("status", 2);
         List<Friend> list = query.list();
@@ -79,7 +79,7 @@ public class FriendDAO{
 
     public static List<User> ListRequest(String nameFormId) {
         List<User> listUser = new ArrayList<>();
-        Session session = HibernateUtil.openSession();
+        Session session = HibernateUtil.session;
         Query query = session.createQuery("FROM friend WHERE status=:status and userFromId=:userFromId");
         query.setParameter("userFromId", nameFormId);
         query.setParameter("status", 1);
@@ -95,7 +95,7 @@ public class FriendDAO{
 
     public static List<User> ListInvite(String nameFormId) {
         List<User> listUser = new ArrayList<>();
-        Session session = HibernateUtil.openSession();
+        Session session = HibernateUtil.session;
         Query query = session.createQuery("FROM friend WHERE status=:status and userToId=:userToId");
         query.setParameter("userToId", nameFormId);
         query.setParameter("status", 1);
@@ -110,7 +110,7 @@ public class FriendDAO{
 
     public static Friend GetFriend(String nameFromId, String nameToId) {
         Friend f = null;
-        Session session = HibernateUtil.openSession();
+        Session session = HibernateUtil.session;
         Query query = session.createQuery("FROM friend WHERE userFromId=:userFromId");
         query.setParameter("userFromId", nameFromId);
         List<Friend> l = query.list();
@@ -130,14 +130,14 @@ public class FriendDAO{
     }
 
     public static List<Friend> allFriend() {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         List<Friend> friends = ss.createQuery("FROM friend").list();
         ss.close();
         return friends;
     }
 
     public static User getUserById(String userId) {
-        Session ss = HibernateUtil.openSession();
+        Session ss = HibernateUtil.session;
         Query query = ss.createQuery("FROM user WHERE id=:id");
         query.setParameter("id", userId);
         User u = (User) query.uniqueResult();
@@ -157,7 +157,7 @@ public class FriendDAO{
 
     public static List<User> ListTopRequest(String nameFormId) {
         List<User> listUser = new ArrayList<>();
-        Session session = HibernateUtil.openSession();
+        Session session = HibernateUtil.session;
         Query query = session.createQuery("FROM friend WHERE status=:status and userFromId=:userFromId");
         query.setParameter("userFromId", nameFormId);
         query.setParameter("status", 1);
