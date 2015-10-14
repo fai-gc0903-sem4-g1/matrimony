@@ -415,10 +415,44 @@
                                             </div>
                                         	<hr/>
                                         	<div class="form-group">
+                                                <label class="col-lg-3 control-label">Tình trạng hôn nhân</label>
+                                                <div class='col-lg-7'>
+	                                                <select class='form-control'>
+	                                                		<option>Độc thân</option>
+	                                                		<option>Đã ly dị</option>
+	                                                		<option>Ly thân</option>
+	                                                		<option>Góa vợ/chồng</option>
+	                                                		<option>Đã có gia đình</option>
+	                                                </select>
+                                                </div>
+                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
+                                            </div>
+                                        	<hr/>
+                                        	<div class="form-group">
                                                 <label class="col-lg-3 control-label">Tôn giáo</label>
                                                 <div class='col-lg-7'>
 	                                                <select class='form-control'>
 	                                                		<option>Không</option>
+	                                                </select>
+                                                </div>
+                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
+                                            </div>
+                                            <hr/>
+                                        	<div class="form-group">
+                                                <label class="col-lg-3 control-label">Quốc gia</label>
+                                                <div class='col-lg-7'>
+	                                                <select class='form-control'>
+	                                                		<option>Việt nam</option>
+	                                                </select>
+                                                </div>
+                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
+                                            </div>
+                                            <hr/>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Tỉnh/thành phố</label>
+                                                <div class='col-lg-7'>
+	                                                <select class='form-control'>
+	                                                		<option>Hà Nội</option>
 	                                                </select>
                                                 </div>
                                                 <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
