@@ -8,7 +8,6 @@ import java.util.Date;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.matrimony.entity.User;
 import com.matrimony.entity.UserPreference;
@@ -21,10 +20,10 @@ import com.matrimony.util.HibernateUtil;
  */
 public class UserPreferenceDAO {
 	public static void add(UserPreference userPreference){
-		Session ss=HibernateUtil.session;
-		Transaction tran=ss.beginTransaction();
+		Session ss=HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
 		ss.save(userPreference);
-		tran.commit();
+		ss.getTransaction().commit();
 	}
 	
 	public static void initUserPrefrence(User user) {

@@ -30,15 +30,15 @@ import com.matrimony.util.HibernateUtil;
 @SuppressWarnings("unchecked")
 public class UserDAO {
 	public static List<User> allUsers() {
-		Session ss = HibernateUtil.session;
+		Session ss = HibernateUtil.getCurrentSession();
 		List<User> accounts = ss.createQuery("FROM user").list();
 		// ss.close();
 		return accounts;
 	}
 
 	public static void add(User user) {
-		Session ss = HibernateUtil.session;
-		ss.getTransaction().begin();
+		Session ss = HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
 		ss.save(user);
 		ss.getTransaction().commit();
 	}
@@ -50,34 +50,34 @@ public class UserDAO {
 			user.setPassword(newPasswordHashed);
 			user.setSalt(newSalt);
 		}
-		Session ss = HibernateUtil.session;
-		ss.getTransaction().begin();
+		Session ss = HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
 		ss.update(user);
 		ss.getTransaction().commit();
 	}
 
 	public static User findByUsername(String id) {
-		Session ss = HibernateUtil.session;
+		Session ss = HibernateUtil.getCurrentSession();
 		User account = (User) ss.createQuery("from user where username=?").setString(0, id).uniqueResult();
 		// ss.close();
 		return account;
 	}
 
 	public static User findById(String id) {
-		User account = (User) HibernateUtil.session.get(User.class, id);
+		User account = (User) HibernateUtil.getCurrentSession().get(User.class, id);
 		// //ss.close();
 		return account;
 	}
 
 	public static User findByEmail(String email) {
-		Session ss = HibernateUtil.session;
+		Session ss = HibernateUtil.getCurrentSession();
 		User account = (User) ss.createQuery("from user where email=?").setString(0, email).uniqueResult();
 		// ss.close();
 		return account;
 	}
 
 	public static User findByContactNumber(String contactNumber) {
-		Session ss = HibernateUtil.session;
+		Session ss = HibernateUtil.getCurrentSession();
 		User user = (User) ss.createQuery("from user where contactNumber=? and contactNumber!=''")
 				.setString(0, contactNumber).uniqueResult();
 		// ss.close();

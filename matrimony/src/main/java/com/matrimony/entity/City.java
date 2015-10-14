@@ -20,7 +20,7 @@ public class City {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="countryCode", nullable=false)
 	private Country country;
 	private String name;
 	public long getId() {
@@ -41,6 +41,4 @@ public class City {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 }

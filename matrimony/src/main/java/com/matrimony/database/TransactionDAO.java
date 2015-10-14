@@ -18,13 +18,13 @@ public class TransactionDAO {
 	public static void add(Transaction transaction) throws TransactionAlready{
 		if(findById(transaction.getId())!=null)
 			throw new STException.TransactionAlready("TransactionAlready");
-		Session ss=HibernateUtil.session;
-		ss.getTransaction().begin();
+		Session ss=HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
 		ss.save(transaction);
 		ss.getTransaction().commit();
 	}
 	
 	public static Transaction findById(String id){
-		return (Transaction) HibernateUtil.session.get(Transaction.class, id);
+		return (Transaction) HibernateUtil.getCurrentSession().get(Transaction.class, id);
 	}
 }
