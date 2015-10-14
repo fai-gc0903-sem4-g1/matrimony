@@ -139,7 +139,8 @@
                                             async: false,
                                             success: function(obj) {
                                                 if (obj.wellForm == true) {
-                                                    alert('Da thay doi');
+                                                	console.log('da thay doi');
+                                                	$('#success-dialog-notice').modal('show');
                                                 } else {
                                                     for (var prop in obj) {
                                                         console.log(prop + ' ' + obj[prop] + '\n');
@@ -290,7 +291,26 @@
                                                 </div>
                                                 <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
                                             </div>
-
+											<hr/>
+                                        	<div class="form-group">
+                                                <label class="col-lg-3 control-label">Quốc gia</label>
+                                                <div class='col-lg-7'>
+	                                                <select class='form-control' name='countryside'>
+	                                                		<option>Việt nam</option>
+	                                                </select>
+                                                </div>
+                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
+                                            </div>
+                                            <hr/>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Tỉnh/thành phố</label>
+                                                <div class='col-lg-7'>
+	                                                <select class='form-control' name='hometown'>
+	                                                		<option>Hà Nội</option>
+	                                                </select>
+                                                </div>
+                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
+                                            </div>
 
                                         </form>
 
@@ -480,5 +500,23 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- dialog -->
+                            <div id='success-dialog-notice' class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+							  <div class="modal-dialog modal-sm">
+							    <div class="modal-content">
+							    <div class="modal-header">
+       								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        							<h4 class="modal-title" id="gridSystemModalLabel">Thông báo</h4>
+        						</div>
+							    <div class="modal-body">
+      									<div class="alert alert-success" role="alert">
+									  <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+									  <span class="sr-only">Thành công:</span>Thông tin đã được cập nhập</div>
+							    </div>
+      							</div>
+							      
+							  </div>
+							</div>
                         </jsp:attribute>
                     </t:homeLayout>

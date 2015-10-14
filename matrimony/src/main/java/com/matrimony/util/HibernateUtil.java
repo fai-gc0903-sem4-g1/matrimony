@@ -21,27 +21,7 @@ public class HibernateUtil {
 	protected static SessionFactory sf;
 	protected static Configuration cfg;
 	public static Session session=getCurrentSession();
-
-	public static Session openSession() {
-		if (cfg == null) {
-			System.out.println("Configing..");
-			cfg = new Configuration();
-			cfg.configure();
-			sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
-			sf = cfg.buildSessionFactory(sr);
-		}
-		return sf.openSession();
-	}
-
-	public static SessionFactory buildSessionFactory() {
-		if (cfg == null) {
-			System.out.println("Configing..");
-			cfg = new Configuration();
-			cfg.configure();
-			sr = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
-		}
-		return cfg.buildSessionFactory(sr);
-	}
+	private static SessionFactory sessionFactory;
 	
 	protected static Session getCurrentSession(){
 		if (cfg == null) {
@@ -54,9 +34,36 @@ public class HibernateUtil {
 		}
 			return session;
 	}
+	
+	 
+    private static SessionFactory buildSessionFactory() {
+        try {
+            Configuration configuration = new Configuration();
+            configuration.configure("hibernate.cfg.xml");
+            System.out.println("Hibernate Configuration loaded");
+             
+            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+            System.out.println("Hibernate serviceRegistry created");
+             
+            SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+             
+            return sessionFactory;
+        }
+        catch (Throwable ex) {
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            ex.printStackTrace();
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+     
+    public static SessionFactory getSessionFactory() {
+        if(sessionFactory == null) sessionFactory = buildSessionFactory();
+        return sessionFactory;
+    }
 
 	public static void main(String[] args) {
-		Session ss=getCurrentSession();
-		System.out.println(ss);
+		SessionFactory sf=HibernateUtil.getSessionFactory();
+		session=sf.getCurrentSession();
+		System.out.println("current session: "+session);
 	}
 }
