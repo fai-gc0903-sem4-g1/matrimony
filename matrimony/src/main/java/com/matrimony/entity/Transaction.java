@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author SON
@@ -21,7 +23,9 @@ public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
-	private String userId;
+	@ManyToOne
+	@JoinColumn(name="id", updatable=false, insertable=false)
+	private User user;
 	private String method;
 	private String decription;
 	private String currencyCode;
@@ -41,11 +45,15 @@ public class Transaction implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getUserId() {
-		return userId;
+	
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	public String getMethod() {
 		return method;
@@ -72,11 +80,6 @@ public class Transaction implements Serializable {
 	}
 	public void setAmount(double amount) {
 		this.amount = amount;
-	}
-	@Override
-	public String toString() {
-		return "Transaction [id=" + id + ", userId=" + userId + ", method=" + method + ", decription=" + decription
-				+ ", amount=" + amount + ", createAt=" + createAt + "]";
 	}
 	
 	

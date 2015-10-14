@@ -33,9 +33,9 @@ public class User implements Serializable {
      */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(nullable = false)
-	@GenericGenerator(name = "id", strategy = "uuid")
-	@GeneratedValue(generator = "id")
+	@Column(nullable=false, updatable=false, insertable=false)
+	@GenericGenerator(name = "gen", strategy = "uuid")
+	@GeneratedValue(generator = "gen")
 	private String id;
 	private int weight;
 	private int height;
@@ -78,7 +78,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "userToId", fetch=FetchType.EAGER)
     @JsonIgnore
     private Set<Friend> friendToId;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user")
     private Set<Transaction> transactions;
     @OneToMany(mappedBy = "userId")
     private Set<SocialNetwork> socialNetworks;
@@ -383,13 +383,6 @@ public class User implements Serializable {
         this.friendFromId = friendFromId;
     }
 
-    public Set<Friend> getFriendToId() {
-        return friendToId;
-    }
-
-    public void setFriendToId(Set<Friend> friendToId) {
-        this.friendToId = friendToId;
-    }
 
     public Set<Transaction> getTransactions() {
         return transactions;
@@ -459,23 +452,14 @@ public class User implements Serializable {
 		this.middleName = middleName;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", weight=" + weight + ", height=" + height + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", salt=" + salt + ", contactNumber=" + contactNumber + ", gender=" + gender + ", regMethod="
-				+ regMethod + ", religion=" + religion + ", roleName=" + roleName + ", socialNetwork=" + socialNetwork
-				+ ", hometown=" + hometown + ", countryside=" + countryside + ", introduction=" + introduction
-				+ ", locale=" + locale + ", maritalStatus=" + maritalStatus + ", avatarPhoto=" + avatarPhoto
-				+ ", name=" + name + ", activeKey=" + activeKey + ", ipLogin=" + ipLogin + ", registrationIP="
-				+ registrationIP + ", introduce=" + introduce + ", birthday=" + birthday + ", expiries=" + expiries
-				+ ", changedPasswordTime=" + changedPasswordTime + ", loginTime=" + loginTime + ", updateTime="
-				+ updateTime + ", verifiedTime=" + verifiedTime + ", createAt=" + createAt + ", verified=" + verified
-				+ ", friendFromId=" + friendFromId + ", friendToId=" + friendToId + ", transactions=" + transactions
-				+ ", socialNetworks=" + socialNetworks + ", favoriteBooks=" + favoriteBooks + ", favoriteFitnesses="
-				+ favoriteFitnesses + ", favoriteMusics=" + favoriteMusics + ", favoriteTVShows=" + favoriteTVShows
-				+ ", favoriteMovies=" + favoriteMovies + ", userPreferences=" + userPreferences + "]";
+	public Set<Friend> getFriendToId() {
+		return friendToId;
 	}
+
+	public void setFriendToId(Set<Friend> friendToId) {
+		this.friendToId = friendToId;
+	}
+
 
     
 

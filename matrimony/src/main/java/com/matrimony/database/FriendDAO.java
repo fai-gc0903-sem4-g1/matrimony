@@ -62,11 +62,11 @@ public class FriendDAO{
         List<Friend> list = query.list();
         for (int i = 0; i < list.size(); i++) {
             if (nameFormId.equals(list.get(i).getUserFromId())) {
-                User u = FriendDAO.getUserById(list.get(i).getUserToId());
+                User u = list.get(0).getUserToId();
                 listUser.add(u);
             }
             if (nameFormId.equals(list.get(i).getUserToId())) {
-                User u = FriendDAO.getUserById(list.get(i).getUserFromId());
+                User u = list.get(0).getUserFromId();
                 listUser.add(u);
             }
         }
@@ -82,7 +82,7 @@ public class FriendDAO{
         List<Friend> list = query.list();
         Collections.sort(list,new Friend.RequestComparator());
         for (int i = 0; i < list.size(); i++) {
-            User u = FriendDAO.getUserById(list.get(i).getUserToId());
+            User u = list.get(0).getUserToId();
             listUser.add(u);
         }
         return listUser;
@@ -96,7 +96,7 @@ public class FriendDAO{
         query.setParameter("status", 1);
         List<Friend> list = query.list();
         for (int i = 0; i < list.size(); i++) {
-            User u = FriendDAO.getUserById(list.get(i).getUserFromId());
+            User u = list.get(0).getUserFromId();
             listUser.add(u);
         }
         return listUser;
@@ -156,7 +156,7 @@ public class FriendDAO{
         List<Friend> list = query.list();
         Collections.sort(list,new Friend.RequestComparator());
         for (int i = 0; i < list.size(); i++) {
-            User u = FriendDAO.getUserById(list.get(i).getUserToId());
+            User u = list.get(0).getUserToId();
             listUser.add(u);
         }
         return listUser;

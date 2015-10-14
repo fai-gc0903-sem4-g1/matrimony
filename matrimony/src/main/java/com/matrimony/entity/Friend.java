@@ -5,7 +5,6 @@
  */
 package com.matrimony.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -14,6 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -29,13 +30,15 @@ public class Friend implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(nullable = false)
-	@GenericGenerator(name = "id", strategy = "uuid")
-	@GeneratedValue(generator = "id")
+	@GenericGenerator(name = "gen", strategy = "uuid")
+	@GeneratedValue(generator = "gen")
 	private String friendId;
-        @JsonIgnore
-	private String userFromId;
-        @JsonIgnore
-	private String userToId;
+	@ManyToOne(optional=false)
+	@JoinColumn(name = "id", nullable=false, updatable=false, insertable=false)
+	private User userFromId;
+	@ManyToOne(optional=false)
+	@JoinColumn(name = "id", nullable=false, updatable=false, insertable=false)
+	private User userToId;
 	private int status;
 	private Timestamp timeInvited;
 	private Timestamp timeDenied;
@@ -49,22 +52,12 @@ public class Friend implements Serializable {
 		this.friendId = friendId;
 	}
 
-
-
-	public String getUserFromId() {
+	public User getUserFromId() {
 		return userFromId;
 	}
 
-	public void setUserFromId(String userFromId) {
+	public void setUserFromId(User userFromId) {
 		this.userFromId = userFromId;
-	}
-
-	public String getUserToId() {
-		return userToId;
-	}
-
-	public void setUserToId(String userToId) {
-		this.userToId = userToId;
 	}
 
 	public static long getSerialversionuid() {
@@ -102,21 +95,29 @@ public class Friend implements Serializable {
 	public void setTimeAccepted(Timestamp timeAccepted) {
 		this.timeAccepted = timeAccepted;
 	}
-        
-        public static class RequestComparator implements Comparator<Friend> {
 
-        @Override
-        public int compare(Friend f1, Friend f2) {
-            if (f1.getTimeInvited().before(f2.getTimeInvited())) {
-                return 1;
-            } else {
-                if (f1.getTimeInvited().after(f2.getTimeInvited())) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }
-        }
-    }
+	public User getUserToId() {
+		return userToId;
+	}
+
+	public void setUserToId(User userToId) {
+		this.userToId = userToId;
+	}
+
+	public static class RequestComparator implements Comparator<Friend> {
+
+		@Override
+		public int compare(Friend f1, Friend f2) {
+			if (f1.getTimeInvited().before(f2.getTimeInvited())) {
+				return 1;
+			} else {
+				if (f1.getTimeInvited().after(f2.getTimeInvited())) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		}
+	}
 
 }

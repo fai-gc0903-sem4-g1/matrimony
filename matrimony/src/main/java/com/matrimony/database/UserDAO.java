@@ -31,8 +31,9 @@ import com.matrimony.util.HibernateUtil;
 public class UserDAO {
 	public static List<User> allUsers() {
 		Session ss = HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
 		List<User> accounts = ss.createQuery("FROM user").list();
-		// ss.close();
+		ss.getTransaction().commit();
 		return accounts;
 	}
 
@@ -44,9 +45,9 @@ public class UserDAO {
 	}
 
 	public static void Update(User user) {
-		if(user.getSalt()==null){
-			String newSalt=HashUtil.generateSalt(user.getUsername());
-			String newPasswordHashed=newSalt=HashUtil.hashPassword(user.getPassword(), newSalt);
+		if (user.getSalt() == null) {
+			String newSalt = HashUtil.generateSalt(user.getUsername());
+			String newPasswordHashed = newSalt = HashUtil.hashPassword(user.getPassword(), newSalt);
 			user.setPassword(newPasswordHashed);
 			user.setSalt(newSalt);
 		}
@@ -58,29 +59,34 @@ public class UserDAO {
 
 	public static User findByUsername(String id) {
 		Session ss = HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
 		User account = (User) ss.createQuery("from user where username=?").setString(0, id).uniqueResult();
-		// ss.close();
+		ss.getTransaction().commit();
 		return account;
 	}
 
 	public static User findById(String id) {
-		User account = (User) HibernateUtil.getCurrentSession().get(User.class, id);
-		// //ss.close();
+		Session ss = HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
+		User account = (User) ss.get(User.class, id);
+		ss.getTransaction().commit();
 		return account;
 	}
 
 	public static User findByEmail(String email) {
 		Session ss = HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
 		User account = (User) ss.createQuery("from user where email=?").setString(0, email).uniqueResult();
-		// ss.close();
+		ss.getTransaction().commit();
 		return account;
 	}
 
 	public static User findByContactNumber(String contactNumber) {
 		Session ss = HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
 		User user = (User) ss.createQuery("from user where contactNumber=? and contactNumber!=''")
 				.setString(0, contactNumber).uniqueResult();
-		// ss.close();
+		ss.getTransaction().commit();
 		System.out.println(user);
 		return user;
 	}
@@ -101,8 +107,8 @@ public class UserDAO {
 		} else if (findByContactNumber(user.getContactNumber()) != null) {
 			throw new STException.ContactNumberAlready("Add user: contact number already");
 		} else {
-			Timestamp now=new Timestamp(System.currentTimeMillis());
-			if(user.getPassword()!=null){
+			Timestamp now = new Timestamp(System.currentTimeMillis());
+			if (user.getPassword() != null) {
 				user.setSalt(HashUtil.generateSalt(UUID.randomUUID().toString()));
 				user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
 			}
@@ -126,15 +132,15 @@ public class UserDAO {
 		User userFind = findByEmailOrContactNumberOrUsername(user.getUsername());
 		if (userFind == null) {
 			throw new STException.UserNotExists("Login: user not exists");
-		}else if(!userFind.getRegMethod().equalsIgnoreCase("Native")){
+		} else if (!userFind.getRegMethod().equalsIgnoreCase("Native")) {
 			throw new STException.NotNativeAccount("Login: This account login with social network");
 		}
 
 		System.out.println(user);
 		String passwordHased = HashUtil.hashPassword(user.getPassword(), userFind.getSalt());
 		if (userFind.getPassword().equals(passwordHased)) {
-//			userFind.setLoginTime(new Timestamp(System.currentTimeMillis()));
-//			userFind.setIpLogin(user.getIpLogin());
+			// userFind.setLoginTime(new Timestamp(System.currentTimeMillis()));
+			// userFind.setIpLogin(user.getIpLogin());
 			// UPDATE USER WHEN LOGGED IN
 			Update(userFind);
 			return userFind;
@@ -150,7 +156,7 @@ public class UserDAO {
 		else
 			return false;
 	}
-	
+
 	public static int getAgeByBirthday(Date birthday) {
 		Calendar now = DateUtils.toCalendar(new Date(System.currentTimeMillis()));
 		Calendar before = DateUtils.toCalendar(birthday);
@@ -158,7 +164,7 @@ public class UserDAO {
 	}
 
 	public static void main(String[] args) {
-		User user=UserDAO.findById("990258dd4ff88341014ff88349b50001");
+		User user = UserDAO.findById("990258dd4ff88341014ff88349b50001");
 		System.out.println(hasExpiries(user));
 	}
 }

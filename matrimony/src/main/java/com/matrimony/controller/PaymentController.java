@@ -122,7 +122,7 @@ public class PaymentController {
 				Transaction transaction = new Transaction();
 				transaction.setId(pdr.getPaymentInfoList().getPaymentInfo().get(0).getSenderTransactionId());
 				transaction.setCreateAt(timeNow);
-				transaction.setUserId(ssUser.getId());
+				transaction.setUser(ssUser);
 				transaction.setCurrencyCode(pdr.getCurrencyCode());
 				transaction.setMethod("Paypal");
 				transaction.setDecription("ghi chú");
@@ -130,7 +130,7 @@ public class PaymentController {
 				try {
 					TransactionDAO.add(transaction);
 					UserDAO.Update(ssUser);
-					request.getSession().setAttribute("user", ssUser);
+//					request.getSession().setAttribute("user", ssUser);
 					request.getSession().setAttribute("paypalPayResponse", null);
 					request.setAttribute("paymentResultSuccess", "paymentResultSuccess");
 				} catch (TransactionAlready e) {

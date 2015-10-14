@@ -84,12 +84,14 @@ public class FriendController {
 
     @RequestMapping(value = "addFriend", method = RequestMethod.POST)
     @ResponseBody
-    public static String addFriend(String user, HttpSession ss) {
+    public static String addFriend(String id, HttpSession ss) {
         User u = (User) ss.getAttribute("user");
         int status = 1;
         Friend f = new Friend();
-        f.setUserFromId(u.getId());
-        f.setUserToId(user);
+        f.setUserFromId(u);
+        User toUser=new User();
+        toUser.setId(id);
+        f.setUserToId(toUser);
         f.setStatus(status);
         f.setTimeInvited(new Timestamp(System.currentTimeMillis()));
         FriendDAO.addFriend(f);
