@@ -29,11 +29,11 @@ public class Matrimony {
 	public static Map<User, MeasureHeart> suggest(User user) {
 		Map<User, MeasureHeart> map = new HashMap<User, MeasureHeart>();
 		UserPreference preference = user.getUserPreferences().iterator().next();
-		String[] ageGap = preference.getAgeGapLike().split("-");
-		String[] heightGap = preference.getHeightGapLike().split("-");
-		String[] weightGap = preference.getWeightGapLike().split("-");
+		String[] ageGap = preference.getAgeGap().split("-");
+		String[] heightGap = preference.getHeightGap().split("-");
+		String[] weightGap = preference.getWeightGap().split("-");
 		for (User u : UserDAO.allUsers()) {
-			if (u.getGender().equals(preference.getGenderLike())) {
+			if (u.getGender().equals(preference.getGender())) {
 				int percent = 0;
 
 				int uage = -1;
@@ -52,9 +52,9 @@ public class Matrimony {
 					if (u.getHometown() != null && u.getHometown().equals(user.getHometown()))
 						percent += 7;
 				}
-				if (u.getReligion() != null && u.getReligion().equals(preference.getReligionLike()))
+				if (u.getReligion() != null && u.getReligion().equals(preference.getReligion()))
 					percent += 5;
-				if (u.getMaritalStatus() != null && u.getMaritalStatus().equals(preference.getMaritalStatusLike()))
+				if (u.getMaritalStatus() != null && u.getMaritalStatus().equals(preference.getMaritalStatus()))
 					percent += 10;
 				MeasureHeart mh = new MeasureHeart(percent);
 				map.put(u, mh);

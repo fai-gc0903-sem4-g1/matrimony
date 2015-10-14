@@ -36,7 +36,10 @@
         </script>
     </jsp:attribute>
     <jsp:attribute name="middle">
-        
+    	<div>
+    		<h4>Những người có thể bạn phù hợp với bạn</h4>
+    	</div>
+    
         <div id='tblPeople'>
         <div id="message" hidden="true">ARE YOU SURE??</div>
             <c:forEach var="i" items="${peopleSugguestMap}" varStatus="myIndex">

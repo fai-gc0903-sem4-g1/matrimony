@@ -78,7 +78,7 @@
                                         <input type="hidden" type="text" name="test" value="love" />
                                     </form>
                                 </div>
-                                <div id="container" class='row'>
+                                <div id="container" class=''>
                                     <div id='left' class='col-lg-2'>
                                     	<div class="wrapper">
 											<a href='#'><img id='avatar' src='${userAvatarFolder}/${sessionScope.user.avatarPhoto }' style="opacity: 1; width: 100%;min-height: 150px;max-height: 350px;"></a>
@@ -88,7 +88,7 @@
                                         <br/>
                                         <div class="list-group">
                                             <a class="list-group-item" href="/matrimony/update"><i
-						class="fa fa-user"></i>&nbsp;Cập nhập thông tin</a>
+						class="fa fa-user"></i>&nbsp;Cập nhập</a>
                                             <a class="list-group-item" href="#"> <i class="fa fa-cog"></i>&nbsp;Cài đặt</a>
                                             <a class="list-group-item" href="/matrimony/payment"> <i class="fa fa-cog"></i>&nbsp;Thanh toán</a>
                                             <a class="list-group-item" id='btn-logout' href="#"><i

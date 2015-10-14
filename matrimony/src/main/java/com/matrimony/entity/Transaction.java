@@ -3,6 +3,7 @@
  */
 package com.matrimony.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
@@ -13,7 +14,11 @@ import javax.persistence.Id;
  *
  */
 @Entity
-public class Transaction {
+public class Transaction implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
 	private String userId;

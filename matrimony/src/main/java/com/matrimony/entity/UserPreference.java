@@ -3,6 +3,8 @@
  */
 package com.matrimony.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -12,17 +14,21 @@ import javax.persistence.Id;
  *
  */
 @Entity(name="user_preference")
-public class UserPreference {
+public class UserPreference implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String userId;
-	private String genderLike;
-	private String ageGapLike;
-	private String hometownLike;
-	private String countrysideLike;
-	private String religionLike;
-	private String maritalStatusLike;
-	private String weightGapLike;
-	private String heightGapLike;
+	private String gender;
+	private String ageGap;
+	private String hometown;
+	private String countryside;
+	private String religion;
+	private String maritalStatus;
+	private String weightGap;
+	private String heightGap;
 	
 	public String getUserId() {
 		return userId;
@@ -30,53 +36,53 @@ public class UserPreference {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getGenderLike() {
-		return genderLike;
+	public String getGender() {
+		return gender;
 	}
-	public void setGenderLike(String genderLike) {
-		this.genderLike = genderLike;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
-	public String getAgeGapLike() {
-		return ageGapLike;
+	public String getAgeGap() {
+		return ageGap;
 	}
-	public void setAgeGapLike(String ageGapLike) {
-		this.ageGapLike = ageGapLike;
+	public void setAgeGap(String ageGap) {
+		this.ageGap = ageGap;
 	}
-	public String getHometownLike() {
-		return hometownLike;
+	public String getHometown() {
+		return hometown;
 	}
-	public void setHometownLike(String hometownLike) {
-		this.hometownLike = hometownLike;
+	public void setHometown(String hometown) {
+		this.hometown = hometown;
 	}
-	public String getCountrysideLike() {
-		return countrysideLike;
+	public String getCountryside() {
+		return countryside;
 	}
-	public void setCountrysideLike(String countrysideLike) {
-		this.countrysideLike = countrysideLike;
+	public void setCountryside(String countryside) {
+		this.countryside = countryside;
 	}
-	public String getReligionLike() {
-		return religionLike;
+	public String getReligion() {
+		return religion;
 	}
-	public void setReligionLike(String religionLike) {
-		this.religionLike = religionLike;
+	public void setReligion(String religion) {
+		this.religion = religion;
 	}
-	public String getMaritalStatusLike() {
-		return maritalStatusLike;
+	public String getMaritalStatus() {
+		return maritalStatus;
 	}
-	public void setMaritalStatusLike(String maritalStatusLike) {
-		this.maritalStatusLike = maritalStatusLike;
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
 	}
-	public String getWeightGapLike() {
-		return weightGapLike;
+	public String getWeightGap() {
+		return weightGap;
 	}
-	public void setWeightGapLike(String weightGapLike) {
-		this.weightGapLike = weightGapLike;
+	public void setWeightGap(String weightGap) {
+		this.weightGap = weightGap;
 	}
-	public String getHeightGapLike() {
-		return heightGapLike;
+	public String getHeightGap() {
+		return heightGap;
 	}
-	public void setHeightGapLike(String heightGapLike) {
-		this.heightGapLike = heightGapLike;
+	public void setHeightGap(String heightGap) {
+		this.heightGap = heightGap;
 	}
 	
 	

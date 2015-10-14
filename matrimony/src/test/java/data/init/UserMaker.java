@@ -22,7 +22,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.matrimony.database.UserDAO;
-import com.matrimony.database.UserPreferenceDAO;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException.ContactNumberAlready;
 import com.matrimony.exception.STException.EmailAlready;
@@ -181,7 +180,7 @@ public class UserMaker {
 			User userRand = maker.randomUser();
 			try {
 				System.out.println("Adding " + userRand.getLastName() + " " + userRand.getFirstName() +" gender: "+userRand.getGender() );
-				User userReturn=UserDAO.register(userRand);
+				UserDAO.register(userRand);
 				System.out.println("OK");
 			} catch (EmailAlready e) {
 				System.out.println(e);

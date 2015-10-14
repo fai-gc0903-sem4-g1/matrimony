@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -40,6 +41,7 @@ public class User implements Serializable {
 	private int height;
 	private String firstName;
 	private String lastName;
+	private String middleName;
 	private String username;
 	private String email;
 	private String password;
@@ -70,10 +72,10 @@ public class User implements Serializable {
 	private Timestamp verifiedTime;
 	private Timestamp createAt;
 	private boolean verified;
-    @OneToMany(mappedBy = "userFromId")
+    @OneToMany(mappedBy = "userFromId", fetch=FetchType.EAGER)
     @JsonIgnore
     private Set<Friend> friendFromId;
-    @OneToMany(mappedBy = "userToId")
+    @OneToMany(mappedBy = "userToId", fetch=FetchType.EAGER)
     @JsonIgnore
     private Set<Friend> friendToId;
     @OneToMany(mappedBy = "userId")
@@ -90,7 +92,7 @@ public class User implements Serializable {
     private Set<FavoriteTVShow> favoriteTVShows;
     @OneToMany(mappedBy = "userId")
     private Set<FavoriteMovie> favoriteMovies;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userId", fetch=FetchType.EAGER)
     private Set<UserPreference> userPreferences;
     
     public String getIntroduce() {
@@ -448,6 +450,14 @@ public class User implements Serializable {
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
 
 	@Override
 	public String toString() {

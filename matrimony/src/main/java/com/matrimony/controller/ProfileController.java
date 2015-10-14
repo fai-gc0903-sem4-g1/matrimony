@@ -30,6 +30,7 @@ import com.matrimony.model.SessionKey;
 import com.matrimony.model.StringResouces;
 import com.matrimony.model.UploadImageToServer;
 import com.matrimony.util.Global;
+import com.paypal.sdk.util.UserAgentHeader;
 import com.websocket.SortUserProfile;
 
 /**
@@ -43,47 +44,68 @@ public class ProfileController {
 		return "profile";
 	}
 
-	@RequestMapping(value = "sontest", method = RequestMethod.GET)
-	public String sontest() {
-		return "sontest";
-	}
-
 	@RequestMapping(value = "update", method = RequestMethod.GET)
 	public String updateProfile(HttpServletRequest request) {
-		if(request.getSession().getAttribute("user")==null)
+		if (request.getSession().getAttribute("user") == null)
 			return "joinUs";
 		return "updateProfile";
 	}
-	
-	@RequestMapping(value = "updateBasicProfile", method = RequestMethod.POST)
+
+	@RequestMapping(value = "updateBasicProfile", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String updateBasicProfile(User userBasic) {
+	public String updateBasicProfile(HttpServletRequest request, HttpServletResponse response, User userBasic) {
+		User ssUser = (User) request.getSession().getAttribute("user");
+		if (ssUser == null)
+			return null;
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-		Properties props=new Properties();
+		Properties props = new Properties();
 		boolean wellForm = true;
+		System.out.println(userBasic.getEmail());
 		StringResouces sr = new StringResouces(StringResouces.vi_VN);
 		if (!Pattern.matches(Regex.NAME, userBasic.getFirstName())) {
 			wellForm = false;
-			props.put("regFirstNameInvalid", sr.getData().get("firstNameInvalid"));
+			props.put("txtFirstName", sr.getData().get("firstNameInvalid"));
 		}
 		if (!Pattern.matches(Regex.NAME, userBasic.getLastName())) {
 			wellForm = false;
-			props.put("regLastNameInvalid", sr.getData().get("lastNameInvalid"));
+			props.put("txtLastName", sr.getData().get("lastNameInvalid"));
 		}
-		if (!Pattern.matches(Regex.PASSWORD, userBasic.getPassword())) {
+		if (!Pattern.matches(Regex.EMAIL, userBasic.getEmail())) {
 			wellForm = false;
-			props.put("regPasswordInvalid", sr.getData().get("passwordInvalid"));
+			props.put("txtEmail", sr.getData().get("emailInvalid"));
+		}
+		if (!Pattern.matches(Regex.PHONE, userBasic.getContactNumber())) {
+			wellForm = false;
+			props.put("txtPhone", sr.getData().get("phoneInvalid"));
+		}
+		if ("12345678".equals(userBasic.getPassword())) {
+			if (!Pattern.matches(Regex.PASSWORD, userBasic.getPassword())) {
+				wellForm = false;
+				props.put("txtPassword", sr.getData().get("passwordInvalid"));
+			}
 		}
 		if (!Pattern.matches(Regex.GENDER, userBasic.getGender())) {
 			wellForm = false;
-			props.put("regGenderInvalid", sr.getData().get("genderInvalid"));
+			props.put("radioGender", sr.getData().get("genderInvalid"));
 		}
-		if (!Pattern.matches(Regex.PHONE, userBasic.getFirstName()) && "".equals(userBasic.getContactNumber())) {
-			wellForm = false;
-			props.put("regPhoneInvalid", sr.getData().get("phoneInvalid"));
+		if (wellForm) {
+			ssUser.setUsername(userBasic.getUsername());
+			ssUser.setLastName(userBasic.getLastName());
+			ssUser.setFirstName(userBasic.getFirstName());
+			ssUser.setMiddleName(userBasic.getMiddleName());
+			ssUser.setName(ssUser.getLastName() + " " + ssUser.getMiddleName() + " " + ssUser.getFirstName());
+			ssUser.setEmail(userBasic.getEmail());
+			ssUser.setGender(userBasic.getGender());
+			System.out.println(userBasic.getPassword());
+			if (!"12345678".equals(userBasic.getPassword())) {
+				ssUser.setPassword(userBasic.getPassword());
+				ssUser.setSalt(null);
+			}
+			ssUser.setUpdateTime(currentTime);
+			UserDAO.Update(ssUser);
 		}
-		
-		String json=Global.gson.toJson(props);
+		props.put("wellForm", wellForm);
+		String json = Global.gson.toJson(props);
 		System.out.println(json);
 		return json;
 	}
@@ -132,16 +154,9 @@ public class ProfileController {
 		return "profile";
 	}
 
-	@RequestMapping(value = "updateBasicInfo", method = RequestMethod.POST)
-	public String updateBasicInfo(HttpServletRequest request, HttpServletResponse response, User user) {
-		System.out.println(user.getLastName());
-		System.out.println(user.getFirstName());
-		return "redirect:";
-	}
-	
 	@RequestMapping(value = "taotest", method = RequestMethod.GET)
 	public String taotest(HttpServletRequest request, HttpServletResponse response, String name) {
-		System.out.println("TEST "+name);
+		System.out.println("TEST " + name);
 		return "redirect:";
 	}
 

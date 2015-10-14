@@ -44,11 +44,16 @@ public class UserDAO {
 	}
 
 	public static void Update(User user) {
+		if(user.getSalt()==null){
+			String newSalt=HashUtil.generateSalt(user.getUsername());
+			String newPasswordHashed=newSalt=HashUtil.hashPassword(user.getPassword(), newSalt);
+			user.setPassword(newPasswordHashed);
+			user.setSalt(newSalt);
+		}
 		Session ss = HibernateUtil.session;
-		org.hibernate.Transaction tran=ss.beginTransaction();
+		ss.getTransaction().begin();
 		ss.update(user);
-		tran.commit();
-		// ss.close();
+		ss.getTransaction().commit();
 	}
 
 	public static User findByUsername(String id) {

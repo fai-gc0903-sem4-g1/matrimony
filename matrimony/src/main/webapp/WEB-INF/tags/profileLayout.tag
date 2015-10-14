@@ -10,6 +10,7 @@
                         
                         <t:layout>
                             <jsp:attribute name="head">
+                            <meta charset="utf-8" />
                                 <link rel="stylesheet" type="text/css" href="/matrimony/resources/css/home-style.css">
                                 <script src="/matrimony/resources/js/chat/entity.js"></script>
                                 <script src="/matrimony/resources/js/chat/chat-process.js"></script>

@@ -31,23 +31,23 @@ public class UserPreferenceDAO {
     	UserPreference userPreference=new UserPreference();
     	
     	userPreference.setUserId(user.getId());
-    	userPreference.setCountrysideLike(user.getCountryside()==null?"":user.getCountryside());
-    	userPreference.setHometownLike(user.getHometown()==null?"":user.getHometown());
-    	userPreference.setReligionLike(user.getReligion()==null?"":user.getReligion());
-    	userPreference.setMaritalStatusLike(user.getMaritalStatus()==null?"":user.getMaritalStatus());
-    	userPreference.setHeightGapLike(String.valueOf(user.getHeight()-15)+"-"+String.valueOf(user.getHeight()+15));
-    	userPreference.setWeightGapLike(String.valueOf(user.getWeight()-15)+"-"+String.valueOf(user.getWeight()+15));
+    	userPreference.setCountryside(user.getCountryside()==null?"":user.getCountryside());
+    	userPreference.setHometown(user.getHometown()==null?"":user.getHometown());
+    	userPreference.setReligion(user.getReligion()==null?"":user.getReligion());
+    	userPreference.setMaritalStatus(user.getMaritalStatus()==null?"":user.getMaritalStatus());
+    	userPreference.setHeightGap(String.valueOf(user.getHeight()-15)+"-"+String.valueOf(user.getHeight()+15));
+    	userPreference.setWeightGap(String.valueOf(user.getWeight()-15)+"-"+String.valueOf(user.getWeight()+15));
     	
     	Calendar calendar=DateUtils.toCalendar(user.getBirthday());
     	Calendar currentCalendar=DateUtils.toCalendar(new Date());
     	int age=currentCalendar.get(Calendar.YEAR)-calendar.get(Calendar.YEAR);
-    	userPreference.setAgeGapLike(String.valueOf(age-5)+"-"+String.valueOf(age+5));
+    	userPreference.setAgeGap(String.valueOf(age-5)+"-"+String.valueOf(age+5));
     	
     	if(user.getGender().equals(Convention.FEMALE)){
-    		userPreference.setGenderLike(Convention.MALE);
+    		userPreference.setGender(Convention.MALE);
     	}
     	else{
-    		userPreference.setGenderLike(Convention.FEMALE);
+    		userPreference.setGender(Convention.FEMALE);
     	}
     	
     	UserPreferenceDAO.add(userPreference);
