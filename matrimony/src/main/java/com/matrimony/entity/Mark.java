@@ -1,14 +1,16 @@
 /**
  * 
  */
-package com.matrimony.database;
+package com.matrimony.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import com.matrimony.entity.City;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 /**
  * @author SON
@@ -17,8 +19,8 @@ import com.matrimony.entity.City;
 @Entity(name="mark")
 public class Mark {
 	@Id
-//	@GenericGenerator(name="gen", strategy="foreign", parameters={@Parameter(name = "property", value="city") })
-//	@GeneratedValue(generator="gen")
+	@GenericGenerator(name="gen", strategy="foreign", parameters={@Parameter(name = "property", value="city") })
+	@GeneratedValue(generator="gen")
 	private long id;
 	private String choi;
 	@OneToOne

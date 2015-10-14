@@ -14,8 +14,6 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import com.matrimony.database.Mark;
-
 /**
  * @author SON
  *
