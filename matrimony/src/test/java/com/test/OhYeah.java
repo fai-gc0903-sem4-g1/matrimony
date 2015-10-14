@@ -17,14 +17,6 @@ import com.matrimony.util.HibernateUtil;
  */
 public class OhYeah {
 	public static void main(String[] args) {
-		User u=new User();
-		u.setUsername("son");
-		u.setPassword("1234");
-		try {
-			UserDAO.login(u);
-		} catch (WrongPassword | NotNativeAccount | UserNotExists e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		HibernateUtil.getCurrentSession();
 	}
 }

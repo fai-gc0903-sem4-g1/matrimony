@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 
 /**
@@ -20,7 +22,9 @@ public class UserPreference implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	private String userId;
+	@OneToOne
+	@PrimaryKeyJoinColumn
+	private User user;
 	private String gender;
 	private String ageGap;
 	private String hometown;
@@ -30,11 +34,15 @@ public class UserPreference implements Serializable {
 	private String weightGap;
 	private String heightGap;
 	
-	public String getUserId() {
-		return userId;
+
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	public String getGender() {
 		return gender;

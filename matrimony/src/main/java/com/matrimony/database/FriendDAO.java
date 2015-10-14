@@ -6,21 +6,15 @@
 package com.matrimony.database;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.matrimony.entity.Friend;
-import com.matrimony.entity.Friend.RequestComparator;
 import com.matrimony.entity.User;
 import com.matrimony.util.HibernateUtil;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  *

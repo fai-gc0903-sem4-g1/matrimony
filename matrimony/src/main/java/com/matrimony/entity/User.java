@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -28,12 +29,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity(name = "user")
 public class User implements Serializable {
 
-    /**
+	/**
      *
      */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(nullable=false, updatable=false, insertable=false)
+	@Column(nullable = false, updatable = false, insertable = false)
 	@GenericGenerator(name = "gen", strategy = "uuid")
 	@GeneratedValue(generator = "gen")
 	private String id;
@@ -53,7 +54,7 @@ public class User implements Serializable {
 	private String roleName;
 	private String socialNetwork;
 	private String hometown;
-	private String countryside; 
+	private String countryside;
 	private String introduction;
 	private String locale;
 	private String maritalStatus;
@@ -62,7 +63,7 @@ public class User implements Serializable {
 	private String activeKey;
 	private String ipLogin;
 	private String registrationIP;
-	@Column(length=1000)
+	@Column(length = 1000)
 	private String introduce;
 	private Date birthday;
 	private Timestamp expiries;
@@ -72,30 +73,30 @@ public class User implements Serializable {
 	private Timestamp verifiedTime;
 	private Timestamp createAt;
 	private boolean verified;
-    @OneToMany(mappedBy = "userFromId", fetch=FetchType.EAGER)
-    @JsonIgnore
-    private Set<Friend> friendFromId;
-    @OneToMany(mappedBy = "userToId", fetch=FetchType.EAGER)
-    @JsonIgnore
-    private Set<Friend> friendToId;
-    @OneToMany(mappedBy = "user")
-    private Set<Transaction> transactions;
-    @OneToMany(mappedBy = "userId")
-    private Set<SocialNetwork> socialNetworks;
-    @OneToMany(mappedBy = "userId")
-    private Set<FavoriteBook> favoriteBooks;
-    @OneToMany(mappedBy = "userId")
-    private Set<FavoriteFitness> favoriteFitnesses;
-    @OneToMany(mappedBy = "userId")
-    private Set<FavoriteMusic> favoriteMusics;
-    @OneToMany(mappedBy = "userId")
-    private Set<FavoriteTVShow> favoriteTVShows;
-    @OneToMany(mappedBy = "userId")
-    private Set<FavoriteMovie> favoriteMovies;
-    @OneToMany(mappedBy = "userId", fetch=FetchType.EAGER)
-    private Set<UserPreference> userPreferences;
-    
-    public String getIntroduce() {
+	@OneToMany(mappedBy = "userFromId", fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Set<Friend> friendFromId;
+	@OneToMany(mappedBy = "userToId", fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Set<Friend> friendToId;
+	@OneToMany(mappedBy = "user")
+	private Set<Transaction> transactions;
+	@OneToMany(mappedBy = "userId")
+	private Set<SocialNetwork> socialNetworks;
+	@OneToMany(mappedBy = "userId")
+	private Set<FavoriteBook> favoriteBooks;
+	@OneToMany(mappedBy = "userId")
+	private Set<FavoriteFitness> favoriteFitnesses;
+	@OneToMany(mappedBy = "userId")
+	private Set<FavoriteMusic> favoriteMusics;
+	@OneToMany(mappedBy = "userId")
+	private Set<FavoriteTVShow> favoriteTVShows;
+	@OneToMany(mappedBy = "userId")
+	private Set<FavoriteMovie> favoriteMovies;
+	@OneToOne
+	private UserPreference userPreference;
+
+	public String getIntroduce() {
 		return introduce;
 	}
 
@@ -103,346 +104,345 @@ public class User implements Serializable {
 		this.introduce = introduce;
 	}
 
-	public Set<UserPreference> getUserPreferences() {
-		return userPreferences;
+	public UserPreference getUserPreference() {
+		return userPreference;
 	}
 
-	public void setUserPreferences(Set<UserPreference> userPreferences) {
-		this.userPreferences = userPreferences;
+	public void setUserPreference(UserPreference userPreference) {
+		this.userPreference = userPreference;
 	}
 
 	public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getRegMethod() {
-        return regMethod;
-    }
-
-    public void setRegMethod(String regMethod) {
-        this.regMethod = regMethod;
-    }
-
-    public String getReligion() {
-        return religion;
-    }
-
-    public void setReligion(String religion) {
-        this.religion = religion;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getSocialNetwork() {
-        return socialNetwork;
-    }
-
-    public void setSocialNetwork(String socialNetwork) {
-        this.socialNetwork = socialNetwork;
-    }
-
-    public String getHometown() {
-        return hometown;
-    }
-
-    public void setHometown(String hometown) {
-        this.hometown = hometown;
-    }
-
-    public String getCountryside() {
-        return countryside;
-    }
-
-    public void setCountryside(String countryside) {
-        this.countryside = countryside;
-    }
-
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
-    }
-
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-
-    public String getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
-
-    public String getAvatarPhoto() {
-        return avatarPhoto;
-    }
-
-    public void setAvatarPhoto(String avatarPhoto) {
-        this.avatarPhoto = avatarPhoto;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getActiveKey() {
-        return activeKey;
-    }
-
-    public void setActiveKey(String activeKey) {
-        this.activeKey = activeKey;
-    }
-
-    public String getIpLogin() {
-        return ipLogin;
-    }
-
-    public void setIpLogin(String ipLogin) {
-        this.ipLogin = ipLogin;
-    }
-
-    public String getRegistrationIP() {
-        return registrationIP;
-    }
-
-    public void setRegistrationIP(String registrationIP) {
-        this.registrationIP = registrationIP;
-    }
-
-    public Timestamp getExpiries() {
-        return expiries;
-    }
-
-    public void setExpiries(Timestamp expiries) {
-        this.expiries = expiries;
-    }
-
-    public Timestamp getChangedPasswordTime() {
-        return changedPasswordTime;
-    }
-
-    public void setChangedPasswordTime(Timestamp changedPasswordTime) {
-        this.changedPasswordTime = changedPasswordTime;
-    }
-
-    public Timestamp getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Timestamp loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Timestamp getVerifiedTime() {
-        return verifiedTime;
-    }
-
-    public void setVerifiedTime(Timestamp verifiedTime) {
-        this.verifiedTime = verifiedTime;
-    }
-
-    public Timestamp getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Timestamp createAt) {
-        this.createAt = createAt;
-    }
-
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
-    }
-
-    public Set<Friend> getFriendFromId() {
-        return friendFromId;
-    }
-
-    public void setFriendFromId(Set<Friend> friendFromId) {
-        this.friendFromId = friendFromId;
-    }
-
-
-    public Set<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(Set<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-
-    public Set<SocialNetwork> getSocialNetworks() {
-        return socialNetworks;
-    }
-
-    public void setSocialNetworks(Set<SocialNetwork> socialNetworks) {
-        this.socialNetworks = socialNetworks;
-    }
-
-    public Set<FavoriteBook> getFavoriteBooks() {
-        return favoriteBooks;
-    }
-
-    public void setFavoriteBooks(Set<FavoriteBook> favoriteBooks) {
-        this.favoriteBooks = favoriteBooks;
-    }
-
-    public Set<FavoriteFitness> getFavoriteFitnesses() {
-        return favoriteFitnesses;
-    }
-
-    public void setFavoriteFitnesses(Set<FavoriteFitness> favoriteFitnesses) {
-        this.favoriteFitnesses = favoriteFitnesses;
-    }
-
-    public Set<FavoriteMusic> getFavoriteMusics() {
-        return favoriteMusics;
-    }
-
-    public void setFavoriteMusics(Set<FavoriteMusic> favoriteMusics) {
-        this.favoriteMusics = favoriteMusics;
-    }
-
-    public Set<FavoriteTVShow> getFavoriteTVShows() {
-        return favoriteTVShows;
-    }
-
-    public void setFavoriteTVShows(Set<FavoriteTVShow> favoriteTVShows) {
-        this.favoriteTVShows = favoriteTVShows;
-    }
-
-    public Set<FavoriteMovie> getFavoriteMovies() {
-        return favoriteMovies;
-    }
-
-    public void setFavoriteMovies(Set<FavoriteMovie> favoriteMovies) {
-        this.favoriteMovies = favoriteMovies;
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getRegMethod() {
+		return regMethod;
+	}
+
+	public void setRegMethod(String regMethod) {
+		this.regMethod = regMethod;
+	}
+
+	public String getReligion() {
+		return religion;
+	}
+
+	public void setReligion(String religion) {
+		this.religion = religion;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public String getSocialNetwork() {
+		return socialNetwork;
+	}
+
+	public void setSocialNetwork(String socialNetwork) {
+		this.socialNetwork = socialNetwork;
+	}
+
+	public String getHometown() {
+		return hometown;
+	}
+
+	public void setHometown(String hometown) {
+		this.hometown = hometown;
+	}
+
+	public String getCountryside() {
+		return countryside;
+	}
+
+	public void setCountryside(String countryside) {
+		this.countryside = countryside;
+	}
+
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public String getAvatarPhoto() {
+		return avatarPhoto;
+	}
+
+	public void setAvatarPhoto(String avatarPhoto) {
+		this.avatarPhoto = avatarPhoto;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getActiveKey() {
+		return activeKey;
+	}
+
+	public void setActiveKey(String activeKey) {
+		this.activeKey = activeKey;
+	}
+
+	public String getIpLogin() {
+		return ipLogin;
+	}
+
+	public void setIpLogin(String ipLogin) {
+		this.ipLogin = ipLogin;
+	}
+
+	public String getRegistrationIP() {
+		return registrationIP;
+	}
+
+	public void setRegistrationIP(String registrationIP) {
+		this.registrationIP = registrationIP;
+	}
+
+	public Timestamp getExpiries() {
+		return expiries;
+	}
+
+	public void setExpiries(Timestamp expiries) {
+		this.expiries = expiries;
+	}
+
+	public Timestamp getChangedPasswordTime() {
+		return changedPasswordTime;
+	}
+
+	public void setChangedPasswordTime(Timestamp changedPasswordTime) {
+		this.changedPasswordTime = changedPasswordTime;
+	}
+
+	public Timestamp getLoginTime() {
+		return loginTime;
+	}
+
+	public void setLoginTime(Timestamp loginTime) {
+		this.loginTime = loginTime;
+	}
+
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Timestamp getVerifiedTime() {
+		return verifiedTime;
+	}
+
+	public void setVerifiedTime(Timestamp verifiedTime) {
+		this.verifiedTime = verifiedTime;
+	}
+
+	public Timestamp getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Timestamp createAt) {
+		this.createAt = createAt;
+	}
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+
+	public Set<Friend> getFriendFromId() {
+		return friendFromId;
+	}
+
+	public void setFriendFromId(Set<Friend> friendFromId) {
+		this.friendFromId = friendFromId;
+	}
+
+	public Set<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(Set<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+
+	public Set<SocialNetwork> getSocialNetworks() {
+		return socialNetworks;
+	}
+
+	public void setSocialNetworks(Set<SocialNetwork> socialNetworks) {
+		this.socialNetworks = socialNetworks;
+	}
+
+	public Set<FavoriteBook> getFavoriteBooks() {
+		return favoriteBooks;
+	}
+
+	public void setFavoriteBooks(Set<FavoriteBook> favoriteBooks) {
+		this.favoriteBooks = favoriteBooks;
+	}
+
+	public Set<FavoriteFitness> getFavoriteFitnesses() {
+		return favoriteFitnesses;
+	}
+
+	public void setFavoriteFitnesses(Set<FavoriteFitness> favoriteFitnesses) {
+		this.favoriteFitnesses = favoriteFitnesses;
+	}
+
+	public Set<FavoriteMusic> getFavoriteMusics() {
+		return favoriteMusics;
+	}
+
+	public void setFavoriteMusics(Set<FavoriteMusic> favoriteMusics) {
+		this.favoriteMusics = favoriteMusics;
+	}
+
+	public Set<FavoriteTVShow> getFavoriteTVShows() {
+		return favoriteTVShows;
+	}
+
+	public void setFavoriteTVShows(Set<FavoriteTVShow> favoriteTVShows) {
+		this.favoriteTVShows = favoriteTVShows;
+	}
+
+	public Set<FavoriteMovie> getFavoriteMovies() {
+		return favoriteMovies;
+	}
+
+	public void setFavoriteMovies(Set<FavoriteMovie> favoriteMovies) {
+		this.favoriteMovies = favoriteMovies;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public String getMiddleName() {
 		return middleName;
@@ -459,8 +459,5 @@ public class User implements Serializable {
 	public void setFriendToId(Set<Friend> friendToId) {
 		this.friendToId = friendToId;
 	}
-
-
-    
 
 }

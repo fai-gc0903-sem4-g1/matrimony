@@ -29,7 +29,7 @@ public class UserPreferenceDAO {
 	public static void initUserPrefrence(User user) {
     	UserPreference userPreference=new UserPreference();
     	
-    	userPreference.setUserId(user.getId());
+    	userPreference.setUser(user);
     	userPreference.setCountryside(user.getCountryside()==null?"":user.getCountryside());
     	userPreference.setHometown(user.getHometown()==null?"":user.getHometown());
     	userPreference.setReligion(user.getReligion()==null?"":user.getReligion());

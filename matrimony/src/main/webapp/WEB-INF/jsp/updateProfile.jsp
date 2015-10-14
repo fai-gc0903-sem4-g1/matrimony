@@ -4,7 +4,7 @@
             <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
                     <jsp:useBean id="userDAO" class="com.matrimony.database.UserDAO" />
-                    <c:set var="prefer" value="${sessionScope.user.userPreferences.iterator().next()}"/>
+                    <c:set var="prefer" value="${sessionScope.user.userPreference}"/>
                     
                     <t:homeLayout>
                         <jsp:attribute name="head">
