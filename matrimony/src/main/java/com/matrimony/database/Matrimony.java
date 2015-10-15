@@ -36,7 +36,6 @@ public class Matrimony {
 		for (User u : UserDAO.allUsers()) {
 			if (u.getGender().equals(preference.getGender())) {
 				int percent = 0;
-
 				int uage = -1;
 				if (u.getBirthday() != null)
 					UserDAO.getAgeByBirthday(u.getBirthday());

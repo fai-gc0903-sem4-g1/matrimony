@@ -4,8 +4,10 @@
 package com.matrimony.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -23,7 +25,7 @@ public class UserPreference implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@PrimaryKeyJoinColumn
 	private User user;
 	private String gender;
@@ -34,9 +36,15 @@ public class UserPreference implements Serializable {
 	private String maritalStatus;
 	private String weightGap;
 	private String heightGap;
-	
+	private Timestamp updatedTime;
 
 	
+	public Timestamp getUpdatedTime() {
+		return updatedTime;
+	}
+	public void setUpdatedTime(Timestamp updatedTime) {
+		this.updatedTime = updatedTime;
+	}
 	public String getId() {
 		return id;
 	}

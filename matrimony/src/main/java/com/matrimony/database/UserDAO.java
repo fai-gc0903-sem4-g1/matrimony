@@ -47,7 +47,7 @@ public class UserDAO {
 	public static void Update(User user) {
 		if (user.getSalt() == null) {
 			String newSalt = HashUtil.generateSalt(user.getUsername());
-			String newPasswordHashed = newSalt = HashUtil.hashPassword(user.getPassword(), newSalt);
+			String newPasswordHashed = HashUtil.hashPassword(user.getPassword(), newSalt);
 			user.setPassword(newPasswordHashed);
 			user.setSalt(newSalt);
 		}
@@ -164,7 +164,7 @@ public class UserDAO {
 	}
 
 	public static void main(String[] args) {
-		User user = UserDAO.findById("990258dd4ff88341014ff88349b50001");
+		User user = UserDAO.findById("990258dd5067188c01506718b09e0003");
 		System.out.println(hasExpiries(user));
 	}
 }

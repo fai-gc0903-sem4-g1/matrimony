@@ -24,13 +24,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.matrimony.database.UserDAO;
+import com.matrimony.database.UserPreferenceDAO;
 import com.matrimony.entity.User;
+import com.matrimony.entity.UserPreference;
 import com.matrimony.model.Regex;
 import com.matrimony.model.SessionKey;
 import com.matrimony.model.StringResouces;
 import com.matrimony.model.UploadImageToServer;
 import com.matrimony.util.Global;
-import com.paypal.sdk.util.UserAgentHeader;
 import com.websocket.SortUserProfile;
 
 /**
@@ -78,15 +79,11 @@ public class ProfileController {
 			wellForm = false;
 			props.put("txtPhone", sr.getData().get("phoneInvalid"));
 		}
-		if ("12345678".equals(userBasic.getPassword())) {
+		if (!"12345678".equals(userBasic.getPassword())) {
 			if (!Pattern.matches(Regex.PASSWORD, userBasic.getPassword())) {
 				wellForm = false;
 				props.put("txtPassword", sr.getData().get("passwordInvalid"));
 			}
-		}
-		if (!Pattern.matches(Regex.GENDER, userBasic.getGender())) {
-			wellForm = false;
-			props.put("radioGender", sr.getData().get("genderInvalid"));
 		}
 		if (wellForm) {
 			ssUser.setUsername(userBasic.getUsername());
@@ -95,7 +92,6 @@ public class ProfileController {
 			ssUser.setMiddleName(userBasic.getMiddleName());
 			ssUser.setName(ssUser.getLastName() + " " + ssUser.getMiddleName() + " " + ssUser.getFirstName());
 			ssUser.setEmail(userBasic.getEmail());
-			ssUser.setGender(userBasic.getGender());
 			System.out.println(userBasic.getPassword());
 			if (!"12345678".equals(userBasic.getPassword())) {
 				ssUser.setPassword(userBasic.getPassword());
@@ -107,6 +103,50 @@ public class ProfileController {
 		props.put("wellForm", wellForm);
 		String json = Global.gson.toJson(props);
 		System.out.println(json);
+		return json;
+	}
+
+	@RequestMapping(value = "updateMyMeasurements", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public String doUpdateMyMeasurements(HttpServletRequest request, User userMeasurement) {
+		User ssUser = (User) request.getSession().getAttribute("user");
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		if (ssUser == null)
+			return null;
+		Properties props = new Properties();
+		props.put("wellForm", true);
+		ssUser.setHeight(userMeasurement.getHeight());
+		ssUser.setWeight(userMeasurement.getWeight());
+		ssUser.setUpdateTime(currentTime);
+		UserDAO.Update(ssUser);
+		String json = Global.gson.toJson(props);
+		return json;
+	}
+
+	@RequestMapping(value = "updateLikeMeasurements", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public String doUpdateMeasurements(HttpServletRequest request, String gender, int ageFrom, int ageTo,
+			int heightFrom, int heightTo, int weightFrom, int weightTo, String maritalStatus, String religion,
+			String country, String city) {
+		User ssUser = (User) request.getSession().getAttribute("user");
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		if (ssUser == null)
+			return null;
+		UserPreference uPreference = ssUser.getUserPreference();
+		uPreference.setGender(gender);
+		uPreference.setAgeGap(ageFrom+"-"+ageTo);
+		uPreference.setHeightGap(heightFrom+"-"+heightTo);
+		uPreference.setWeightGap(weightFrom+"-"+weightTo);
+		uPreference.setMaritalStatus(maritalStatus);
+		uPreference.setReligion(religion);
+		uPreference.setCountryside(country);
+		uPreference.setHometown(city);
+		uPreference.setUpdatedTime(currentTime);
+		UserPreferenceDAO.update(uPreference);
+		Properties props = new Properties();
+		props.put("wellForm", true);
+		// uPreference.setAgeGap(ageGap);
+		String json = Global.gson.toJson(props);
 		return json;
 	}
 

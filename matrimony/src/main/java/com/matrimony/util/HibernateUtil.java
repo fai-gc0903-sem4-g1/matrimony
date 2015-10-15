@@ -32,6 +32,10 @@ public class HibernateUtil {
 		return sessionFactory.getCurrentSession();
 	}
 	
+	public static void closeSessionFactory(){
+		sessionFactory.close();
+	}
+	
 	public static void main(String[] args) {
 		HibernateUtil.getCurrentSession();
 	}

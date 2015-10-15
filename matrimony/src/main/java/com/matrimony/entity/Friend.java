@@ -29,37 +29,45 @@ public class Friend implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(nullable = false)
 	@GenericGenerator(name = "gen", strategy = "uuid")
 	@GeneratedValue(generator = "gen")
-	private String friendId;
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "userFrom", nullable=false, updatable=false, insertable=false)
-	private User userFrom;
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "userFromId", nullable=false, updatable=false, insertable=false)
-	private User userTo;
+	private String id;
+	@ManyToOne
+	@JoinColumn(name = "userInvite", updatable=false, insertable=false)
+	private User userInvite;
+	@ManyToOne
+	@JoinColumn(name = "userBeInvite", updatable=false, insertable=false)
+	private User userBeInvite;
 	private int status;
+	private String state;
 	private Timestamp timeInvited;
 	private Timestamp timeDenied;
 	private Timestamp timeAccepted;
 
-	public String getFriendId() {
-		return friendId;
-	}
-
-	public void setFriendId(String friendId) {
-		this.friendId = friendId;
-	}
-
 	
 
-	public User getUserFrom() {
-		return userFrom;
+	public String getId() {
+		return id;
 	}
 
-	public void setUserFrom(User userFrom) {
-		this.userFrom = userFrom;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public User getUserInvite() {
+		return userInvite;
+	}
+
+	public void setUserInvite(User userFrom) {
+		this.userInvite = userFrom;
 	}
 
 	public static long getSerialversionuid() {
@@ -100,12 +108,21 @@ public class Friend implements Serializable {
 
 	
 
-	public User getUserTo() {
-		return userTo;
+	public User getUserBeInvite() {
+		return userBeInvite;
 	}
 
-	public void setUserTo(User userTo) {
-		this.userTo = userTo;
+	public void setUserBeInvite(User userTo) {
+		this.userBeInvite = userTo;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Friend [friendId=" + id + ", userInvite=" + userInvite + ", userBeInvite=" + userBeInvite
+				+ ", status=" + status + ", state=" + state + ", timeInvited=" + timeInvited + ", timeDenied="
+				+ timeDenied + ", timeAccepted=" + timeAccepted + "]";
 	}
 
 

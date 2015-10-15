@@ -14,7 +14,7 @@
                                 <script src="/matrimony/resources/js/chat/chat-process.js"></script>
                                 <script src="/matrimony/resources/js/chat/emoticon.js"></script>
                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-                                <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script>
+<!--                                 <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script> -->
                                 <jsp:invoke fragment="head"></jsp:invoke>
 								
 								<style>
@@ -46,6 +46,7 @@
                                     globalWSocket.onerror = function() {
                                         processError();
                                     }
+                                    
                                     $(document).ready(function(){
                                     	$("#avatar").click(function() {
                                             $("#uploadAvatarPhoto").click();
@@ -100,27 +101,7 @@
                                     </div>
 
                                     <div id='right' class='col-lg-3' style='background-color: #ffffff; border-radius: 6px;'>
-                                        <ul class='nav nav-tabs tabs'>
-                                            <li class="active"><a href="#tab1"><span
-							class="glyphicon glyphicon-user"></span> Friend</a>
-                                            </li>
-                                            <li><a href="#tab2"><span
-							class="glyphicon glyphicon-record"></span> Invite</a>
-                                            </li>
-
-                                            <li><a href="#tab3"><span
-							class="glyphicon glyphicon-envelope"></span> Request</a>
-                                            </li>
-                                        </ul>
-                                        <div id='tab1' style="padding: 2%; width: 100%; background: #fff; border: solid 2px #f4f4f4; border-top: #fff solid 2px;">
-                                            <div id="friend"></div>
-                                        </div>
-                                        <div id='tab2' style="padding: 2%; width: 100%; background: #fff; border: solid 2px #f4f4f4; border-top: #fff solid 2px;">
-                                            <div id="invite"></div>
-                                        </div>
-                                        <div id='tab3' style="padding: 2%; width: 100%; background: #fff; border: solid 2px #f4f4f4; border-top: #fff solid 2px;">
-                                            <div id="request"></div>
-                                        </div>
+									<span class="glyphicon glyphicon-user"></span> Đã kết bạn
                                     </div>
 
                                     <!-- CHAT BOX START HERE -->

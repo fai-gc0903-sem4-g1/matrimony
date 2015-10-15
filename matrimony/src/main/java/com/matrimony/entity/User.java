@@ -22,8 +22,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  *
  * @author SON
@@ -74,29 +72,45 @@ public class User implements Serializable {
 	private Timestamp verifiedTime;
 	private Timestamp createAt;
 	private boolean verified;
-	@OneToMany(mappedBy = "userFrom", fetch = FetchType.EAGER)
-	@JsonIgnore
-	private Set<Friend> friendFrom;
-	@OneToMany(mappedBy = "userTo", fetch = FetchType.EAGER)
-	@JsonIgnore
-	private Set<Friend> friendTo;
-	@OneToMany(mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userInvite")
+	@Cascade(value = CascadeType.ALL)
+	private Set<Friend> userInvite;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userBeInvite")
+	@Cascade(value = CascadeType.ALL)
+	private Set<Friend> userBeInvite;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	@Cascade(value = CascadeType.ALL)
 	private Set<Transaction> transactions;
-	@OneToMany(mappedBy = "userId")
-	private Set<SocialNetwork> socialNetworks;
-	@OneToMany(mappedBy = "userId")
-	private Set<FavoriteBook> favoriteBooks;
-	@OneToMany(mappedBy = "userId")
-	private Set<FavoriteFitness> favoriteFitnesses;
-	@OneToMany(mappedBy = "userId")
-	private Set<FavoriteMusic> favoriteMusics;
-	@OneToMany(mappedBy = "userId")
-	private Set<FavoriteTVShow> favoriteTVShows;
-	@OneToMany(mappedBy = "userId")
-	private Set<FavoriteMovie> favoriteMovies;
-	@OneToOne(mappedBy="user")
-	@Cascade(value=CascadeType.ALL)
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user1")
+	@Cascade(value = CascadeType.ALL)
+	private Set<Notification> notifications1;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user2")
+	@Cascade(value = CascadeType.ALL)
+	private Set<Notification> notifications2;
+	
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
+	@Cascade(value = CascadeType.ALL)
 	private UserPreference userPreference;
+	/* not use */
+	/* not use */
+	/* not use */
+	/* not use */
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
+	private Set<SocialNetwork> socialNetworks;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
+	private Set<FavoriteBook> favoriteBooks;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
+	private Set<FavoriteFitness> favoriteFitnesses;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
+	private Set<FavoriteMusic> favoriteMusics;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
+	private Set<FavoriteTVShow> favoriteTVShows;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
+	private Set<FavoriteMovie> favoriteMovies;
 
 	public String getIntroduce() {
 		return introduce;
@@ -446,20 +460,37 @@ public class User implements Serializable {
 		this.middleName = middleName;
 	}
 
-	public Set<Friend> getFriendFrom() {
-		return friendFrom;
+	public Set<Friend> getUserInvite() {
+		return userInvite;
+	}
+	
+
+	public Set<Notification> getNotifications1() {
+		return notifications1;
 	}
 
-	public void setFriendFrom(Set<Friend> friendFrom) {
-		this.friendFrom = friendFrom;
+	public void setNotifications1(Set<Notification> notifications1) {
+		this.notifications1 = notifications1;
 	}
 
-	public Set<Friend> getFriendTo() {
-		return friendTo;
+	public Set<Notification> getNotifications2() {
+		return notifications2;
 	}
 
-	public void setFriendTo(Set<Friend> friendTo) {
-		this.friendTo = friendTo;
+	public void setNotifications2(Set<Notification> notifications2) {
+		this.notifications2 = notifications2;
+	}
+
+	public void setUserInvite(Set<Friend> userInvite) {
+		this.userInvite = userInvite;
+	}
+
+	public Set<Friend> getUserBeInvite() {
+		return userBeInvite;
+	}
+
+	public void setUserBeInvite(Set<Friend> userBeInvite) {
+		this.userBeInvite = userBeInvite;
 	}
 
 }

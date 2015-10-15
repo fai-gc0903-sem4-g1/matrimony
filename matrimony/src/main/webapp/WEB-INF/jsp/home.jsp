@@ -32,6 +32,29 @@
         			openEffect	: 'elastic',
         			closeEffect	: 'elastic',
         		});
+        		
+        		$('.btn-make-friend').click(function(e){
+        			var btn=$(this);
+        			console.log('this is stupid dd');
+        			$.ajax({
+        				url: 'makeFriend',
+                        method: 'POST',
+                        data: {userBeInviteId:btn.data('suggest-user-id')},
+                        async: false,
+                        success: function(obj){
+        					console.log('dasend');
+        					console.log(obj);
+        					if(obj=='SUCCESS'){
+        						console.log('db saved');
+        					}else{
+        						alert('Không thể kết bạn');
+        					}
+        				},
+        				error: function(){
+        					alert('Kiểm tra lại đường truyền');
+        				}
+        			});
+        		});
         	});
         </script>
     </jsp:attribute>
@@ -67,7 +90,8 @@
                         <span id='person-status'><span id="label-basic">Hôn nhân </span> ${i.key.maritalStatus }</span>
                         <br />
                         <br />
-                        <span id='person-btna'><input type="button" class="btnAdd btn btn-primary" onclick="addFriend('${i.key.id}', '${myIndex.index}')" value="Add Friend"/></span>
+<%--                         <span id='person-btna'><input type="button" class="btnAdd btn btn-primary btn-make-friend" onclick="addFriend('${i.key.id}', '${myIndex.index}')" value="Add Friend"/></span> --%>
+<span id='person-btna'><input type="button" class="btnAdd btn btn-primary btn-make-friend" data-suggest-user-id="${i.key.id }" value="Make Friend"/></span>
                         <span id='person-btna'><input type="button" class='showDialog' onclick="show('${i.key.id}', '${myIndex.index}')" value="Cancel" hidden="true"/></span>
                         <br/>
                     </div>

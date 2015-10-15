@@ -26,6 +26,13 @@ public class UserPreferenceDAO {
 		ss.getTransaction().commit();
 	}
 	
+	public static void update(UserPreference up){
+		Session ss=HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
+		ss.update(up);
+		ss.getTransaction().commit();
+	}
+	
 	public static void initUserPrefrence(User user) {
     	UserPreference userPreference=new UserPreference();
     	

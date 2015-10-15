@@ -24,7 +24,7 @@ public class Transaction implements Serializable {
 	@Id
 	private String id;
 	@ManyToOne
-	@JoinColumn(name="userId", updatable=false, insertable=false)
+	@JoinColumn(name="user", updatable=false, insertable=false)
 	private User user;
 	private String method;
 	private String decription;

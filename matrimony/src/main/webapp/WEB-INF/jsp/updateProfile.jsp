@@ -131,39 +131,19 @@
                                     //update basic
                                     $("#form-update-basic-info").submit(function(e) {
                                         e.preventDefault();
-                                        var form = $(this);
-                                        $.ajax({
-                                            url: form.attr('action'),
-                                            method: form.attr('method'),
-                                            data: form.serialize(),
-                                            async: false,
-                                            success: function(obj) {
-                                                if (obj.wellForm == true) {
-                                                	console.log('da thay doi');
-                                                	$('#success-dialog-notice').modal('show');
-                                                } else {
-                                                    for (var prop in obj) {
-                                                        console.log(prop + ' ' + obj[prop] + '\n');
-                                                        var t = $('#' + prop);
-                                                        t.data('content', obj[prop]);
-                                                        t.parents('.has-feedback').find('i').css('display', 'block');
-                                                    }
-                                                    $('.form-control').popover({
-                                                        placement: 'left'
-                                                    });
-                                                }
-
-                                            },
-                                            error: function() {
-
-                                            }
-                                        });
+                                        callUpdateForm($(this));
                                     });
-
-                                    $('#txtPassword').click(function() {
-                                        $(this).val('');
+                                    
+                                    //update measurement
+                                    $("#form-update-my-measurement").submit(function(e) {
+                                        e.preventDefault();
+                                        callUpdateForm($(this));
                                     });
-
+                                    $("#updateLikeMeasurements").submit(function(e) {
+                                        e.preventDefault();
+                                        callUpdateForm($(this));
+                                    });u
+                                    
                                     $('#txtPassword').click(function() {
                                         $(this).val('');
                                     });
@@ -186,8 +166,35 @@
                                     // 										}
                                     // 									});
 
+			function callUpdateForm(form){
+				$.ajax({
+                    url: form.attr('action'),
+                    method: form.attr('method'),
+                    data: form.serialize(),
+                    async: false,
+                    success: function(obj) {
+                        if (obj.wellForm == true) {
+                        	console.log('da thay doi');
+                        	$('#success-dialog-notice').modal('show');
+                        } else {
+                            for (var prop in obj) {
+                                console.log(prop + ' ' + obj[prop] + '\n');
+                                var t = $('#' + prop);
+                                t.data('content', obj[prop]);
+                                t.parents('.has-feedback').find('i').css('display', 'block');
+                            }
+                            $('.form-control').popover({
+                                placement: 'left'
+                            });
+                        }
 
-                                });
+                    },
+                    error: function() {
+
+                    }
+                });
+			}
+           });
                             </script>
                         </jsp:attribute>
                         <jsp:attribute name="middle">
@@ -279,19 +286,6 @@
 
                                             </div>
                                             <hr />
-                                            <!-- gender -->
-                                            <div class="form-group">
-                                                <label class="col-lg-3 control-label">Giới tính</label>
-                                                <div class='radio has-feedback col-lg-7' style="font-size: 16px;">
-                                                    <label>
-                                                        <input type="radio" name="gender" value="FEMALE" ${sessionScope.user.gender=='FEMALE' ? 'checked': ''} /> Nữ</label>
-                                                    &nbsp;
-                                                    <label>
-                                                        <input type="radio" name="gender" value="MALE" ${sessionScope.user.gender=='MALE' ? 'checked': ''}/> Nam</label>
-                                                </div>
-                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
-                                            </div>
-											<hr/>
                                         	<div class="form-group">
                                                 <label class="col-lg-3 control-label">Quốc gia</label>
                                                 <div class='col-lg-7'>
@@ -320,7 +314,7 @@
                                     <div class="bhoechie-tab-content">
                                         <h3 class="st-caption-tab">Cập nhập ngoại hình</h3>
                                         <hr />
-                                        <form id='form-update-basic-info' action="updateBasicProfile" method="post" class="form-horizontal">
+                                        <form id='form-update-my-measurement' action="updateMyMeasurements" method="post" class="form-horizontal">
                                             <!-- height -->
                                             <div class="form-group">
                                                 <label class="col-lg-4 control-label">Chiều cao(cm)</label>
@@ -340,8 +334,6 @@
                                                 </div>
                                                 <input type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' value='Thay đổi' />
                                             </div>
-                                            
-
                                         </form>
                                     </div>
 
@@ -368,15 +360,15 @@
                                     <div class="bhoechie-tab-content">
                                         <h3 class="st-caption-tab">Người bạn thích</h3>
                                         <hr/>
-                                         <form id='form-update-basic-info' action="updateBasicProfile" method="post" class="form-horizontal">
+                                         <form id='updateLikeMeasurements' action="updateLikeMeasurements" method="post" class="form-horizontal">
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Bạn thích</label>
                                                 <div class='radio has-feedback col-lg-7' style="font-size: 16px;">
                                                     <label>
-                                                        <input type="radio" name="gender" value="FEMALE" ${sessionScope.user.gender=='FEMALE' ? 'checked': ''} /> Nữ</label>
+                                                        <input type="radio" name="gender" value="FEMALE" ${prefer.gender=='FEMALE' ? 'checked': ''} /> Nữ</label>
                                                     &nbsp;
                                                     <label>
-                                                        <input type="radio" name="gender" value="MALE" ${sessionScope.user.gender=='MALE' ? 'checked': ''}/> Nam</label>
+                                                        <input type="radio" name="gender" value="MALE" ${prefer.gender=='MALE' ? 'checked': ''}/> Nam</label>
                                                 </div>
                                                 <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
                                             </div>
@@ -385,7 +377,7 @@
                                                 <label class="col-lg-2 control-label">Tuổi</label>
                                                 <label class="col-lg-1 control-label">Từ</label>
                                                 <div class='col-lg-3'>
-	                                                <select class='form-control'>
+	                                                <select class='form-control' name="ageFrom">
 	                                                	<option>${fn:split(prefer.ageGap, '-')[0] }</option>
 	                                                	<c:forEach var='i' begin="18" end="100">
 	                                                		<option>${i}</option>
@@ -394,7 +386,7 @@
                                                 </div>
                                                 <label class="col-lg-1 control-label">Đến</label>
                                                 <div class='col-lg-3'>
-	                                                <select class='form-control'>
+	                                                <select class='form-control' name="ageTo">
 	                                                	<option>${fn:split(prefer.ageGap, '-')[1] }</option>
 	                                                	<c:forEach var='i' begin="18" end="100">
 	                                                		<option>${i}</option>
@@ -408,41 +400,42 @@
                                                 <label class="col-lg-2 control-label">Chiều cao(cm)</label>
                                                 <label class="col-lg-1 control-label">Từ</label>
 	                                              <div class="has-feedback col-lg-3">
-                                                    <input type="text" id='txtFirstName' class="form-control" data-toggle="popover" data-st='false' name='firstName' value="${fn:split(prefer.heightGap,'-' )[0]}">
+                                                    <input type="text" id='txtFirstName' class="form-control" data-toggle="popover" data-st='false' name='heightFrom' value="${fn:split(prefer.heightGap,'-' )[0]}">
                                                     <i class="glyphicon glyphicon-exclamation-sign form-control-feedback"></i>
                                                 </div>
                                                 <label class="col-lg-1 control-label">Đến</label>
 	                                               <div class="has-feedback col-lg-3">
-                                                    <input type="text" id='txtFirstName' class="form-control" data-toggle="popover" data-st='false' name='firstName' value="${fn:split(prefer.heightGap,'-' )[1]}">
+                                                    <input type="text" id='txtFirstName' class="form-control" data-toggle="popover" data-st='false' name='heightTo' value="${fn:split(prefer.heightGap,'-' )[1]}">
                                                     <i class="glyphicon glyphicon-exclamation-sign form-control-feedback"></i>
                                                 </div>
-                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
+                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
                                             </div>
                                             <hr/>
                                             <div class="form-group">
                                                 <label class="col-lg-2 control-label">Cân nặng(kg)</label>
                                                 <label class="col-lg-1 control-label">Từ</label>
 	                                              <div class="has-feedback col-lg-3">
-                                                    <input type="text" id='txtFirstName' class="form-control" data-toggle="popover" data-st='false' name='firstName' value="${fn:split(prefer.weightGap,'-' )[0]}">
+                                                    <input type="text" id='txtFirstName' class="form-control" data-toggle="popover" data-st='false' name='weightFrom' value="${fn:split(prefer.weightGap,'-' )[0]}">
                                                     <i class="glyphicon glyphicon-exclamation-sign form-control-feedback"></i>
                                                 </div>
                                                 <label class="col-lg-1 control-label">Đến</label>
 	                                               <div class="has-feedback col-lg-3">
-                                                    <input type="text" id='txtFirstName' class="form-control" data-toggle="popover" data-st='false' name='firstName' value="${fn:split(prefer.weightGap,'-' )[1]}">
+                                                    <input type="text" id='txtFirstName' class="form-control" data-toggle="popover" data-st='false' name='weightTo' value="${fn:split(prefer.weightGap,'-' )[1]}">
                                                     <i class="glyphicon glyphicon-exclamation-sign form-control-feedback"></i>
                                                 </div>
-                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
+                                                <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
                                             </div>
                                         	<hr/>
                                         	<div class="form-group">
                                                 <label class="col-lg-3 control-label">Tình trạng hôn nhân</label>
                                                 <div class='col-lg-7'>
-	                                                <select class='form-control'>
-	                                                		<option>Độc thân</option>
-	                                                		<option>Đã ly dị</option>
-	                                                		<option>Ly thân</option>
-	                                                		<option>Góa vợ/chồng</option>
-	                                                		<option>Đã có gia đình</option>
+	                                                <select class='form-control' name="maritalStatus">
+	                                                		<option value="">${prefer.maritalStatus }</option>
+	                                                		<option value="SINGLE">Độc thân</option>
+	                                                		<option value="DIVORCED">Đã ly dị</option>
+	                                                		<option value="SEPARATED">Ly thân</option>
+	                                                		<option value="WIDOWED">Góa vợ/chồng</option>
+	                                                		<option value="MARIED">Đã có gia đình</option>
 	                                                </select>
                                                 </div>
                                                 <input id='btn-submit-uprofile' type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' name='password' data-loading-text="Đang thay đổi..." value='Thay đổi' autocomplete="off" />
@@ -451,7 +444,7 @@
                                         	<div class="form-group">
                                                 <label class="col-lg-3 control-label">Tôn giáo</label>
                                                 <div class='col-lg-7'>
-	                                                <select class='form-control'>
+	                                                <select class='form-control' name="religion">
 	                                                		<option>Không</option>
 	                                                </select>
                                                 </div>
@@ -461,7 +454,7 @@
                                         	<div class="form-group">
                                                 <label class="col-lg-3 control-label">Quốc gia</label>
                                                 <div class='col-lg-7'>
-	                                                <select class='form-control'>
+	                                                <select class='form-control' name="country">
 	                                                		<option>Việt nam</option>
 	                                                </select>
                                                 </div>
@@ -471,7 +464,7 @@
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">Tỉnh/thành phố</label>
                                                 <div class='col-lg-7'>
-	                                                <select class='form-control'>
+	                                                <select class='form-control' name="city">
 	                                                		<option>Hà Nội</option>
 	                                                </select>
                                                 </div>
