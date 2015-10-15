@@ -9,24 +9,17 @@
 		<property name="connection.url">jdbc:mysql://127.0.0.1/matrimony?useUnicode=true&amp;characterEncoding=utf8</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password">1234</property>
-		<property name="connection.pool_size">11</property>
+		<property name="connection.pool_size">1</property>
 
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="show_sql">true</property>
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
 
 		<mapping class="com.matrimony.entity.User" />
 		<mapping class="com.matrimony.entity.Friend" />
 		<mapping class="com.matrimony.entity.Transaction" />
-		<mapping class="com.matrimony.entity.SocialNetwork" />
-		<mapping class="com.matrimony.entity.FavoriteBook" />
-		<mapping class="com.matrimony.entity.FavoriteMovie" />
-		<mapping class="com.matrimony.entity.FavoriteFitness" />
-		<mapping class="com.matrimony.entity.FavoriteMusic" />
-		<mapping class="com.matrimony.entity.FavoriteTVShow" />
 		<mapping class="com.matrimony.entity.UserPreference" />
-		<mapping class="com.matrimony.entity.City" />
-		<mapping class="com.matrimony.entity.Country" />
 		<mapping class="com.matrimony.entity.Notification" />
+		
 	</session-factory>
 </hibernate-configuration>

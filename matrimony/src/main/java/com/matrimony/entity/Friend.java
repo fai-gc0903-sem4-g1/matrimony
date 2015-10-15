@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Comparator;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,11 +32,11 @@ public class Friend implements Serializable {
 	@GenericGenerator(name = "gen", strategy = "uuid")
 	@GeneratedValue(generator = "gen")
 	private String id;
-	@ManyToOne
-	@JoinColumn(name = "userInvite", updatable=false, insertable=false)
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "userInviteId",nullable=false, updatable=false)
 	private User userInvite;
-	@ManyToOne
-	@JoinColumn(name = "userBeInvite", updatable=false, insertable=false)
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "userBeInviteId",nullable=false, updatable=false)
 	private User userBeInvite;
 	private int status;
 	private String state;

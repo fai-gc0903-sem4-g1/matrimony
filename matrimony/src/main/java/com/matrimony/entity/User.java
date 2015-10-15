@@ -74,43 +74,23 @@ public class User implements Serializable {
 	private boolean verified;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userInvite")
 	@Cascade(value = CascadeType.ALL)
-	private Set<Friend> userInvite;
+	private Set<Friend> requestInvited;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userBeInvite")
 	@Cascade(value = CascadeType.ALL)
-	private Set<Friend> userBeInvite;
+	private Set<Friend> requestAskedInvited;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	@Cascade(value = CascadeType.ALL)
 	private Set<Transaction> transactions;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user1")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	@Cascade(value = CascadeType.ALL)
-	private Set<Notification> notifications1;
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user2")
-	@Cascade(value = CascadeType.ALL)
-	private Set<Notification> notifications2;
+	private Set<Notification> notifications;
 	
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
 	@Cascade(value = CascadeType.ALL)
 	private UserPreference userPreference;
-	/* not use */
-	/* not use */
-	/* not use */
-	/* not use */
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
-	private Set<SocialNetwork> socialNetworks;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
-	private Set<FavoriteBook> favoriteBooks;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
-	private Set<FavoriteFitness> favoriteFitnesses;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
-	private Set<FavoriteMusic> favoriteMusics;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
-	private Set<FavoriteTVShow> favoriteTVShows;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userId")
-	private Set<FavoriteMovie> favoriteMovies;
 
 	public String getIntroduce() {
 		return introduce;
@@ -400,54 +380,6 @@ public class User implements Serializable {
 		this.transactions = transactions;
 	}
 
-	public Set<SocialNetwork> getSocialNetworks() {
-		return socialNetworks;
-	}
-
-	public void setSocialNetworks(Set<SocialNetwork> socialNetworks) {
-		this.socialNetworks = socialNetworks;
-	}
-
-	public Set<FavoriteBook> getFavoriteBooks() {
-		return favoriteBooks;
-	}
-
-	public void setFavoriteBooks(Set<FavoriteBook> favoriteBooks) {
-		this.favoriteBooks = favoriteBooks;
-	}
-
-	public Set<FavoriteFitness> getFavoriteFitnesses() {
-		return favoriteFitnesses;
-	}
-
-	public void setFavoriteFitnesses(Set<FavoriteFitness> favoriteFitnesses) {
-		this.favoriteFitnesses = favoriteFitnesses;
-	}
-
-	public Set<FavoriteMusic> getFavoriteMusics() {
-		return favoriteMusics;
-	}
-
-	public void setFavoriteMusics(Set<FavoriteMusic> favoriteMusics) {
-		this.favoriteMusics = favoriteMusics;
-	}
-
-	public Set<FavoriteTVShow> getFavoriteTVShows() {
-		return favoriteTVShows;
-	}
-
-	public void setFavoriteTVShows(Set<FavoriteTVShow> favoriteTVShows) {
-		this.favoriteTVShows = favoriteTVShows;
-	}
-
-	public Set<FavoriteMovie> getFavoriteMovies() {
-		return favoriteMovies;
-	}
-
-	public void setFavoriteMovies(Set<FavoriteMovie> favoriteMovies) {
-		this.favoriteMovies = favoriteMovies;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -460,37 +392,30 @@ public class User implements Serializable {
 		this.middleName = middleName;
 	}
 
-	public Set<Friend> getUserInvite() {
-		return userInvite;
-	}
-	
 
-	public Set<Notification> getNotifications1() {
-		return notifications1;
+	public Set<Friend> getRequestInvited() {
+		return requestInvited;
 	}
 
-	public void setNotifications1(Set<Notification> notifications1) {
-		this.notifications1 = notifications1;
+	public void setRequestInvited(Set<Friend> requestInvited) {
+		this.requestInvited = requestInvited;
 	}
 
-	public Set<Notification> getNotifications2() {
-		return notifications2;
+	public Set<Friend> getRequestAskedInvited() {
+		return requestAskedInvited;
 	}
 
-	public void setNotifications2(Set<Notification> notifications2) {
-		this.notifications2 = notifications2;
+	public void setRequestAskedInvited(Set<Friend> requestAskedInvited) {
+		this.requestAskedInvited = requestAskedInvited;
 	}
 
-	public void setUserInvite(Set<Friend> userInvite) {
-		this.userInvite = userInvite;
+	public Set<Notification> getNotifications() {
+		return notifications;
 	}
 
-	public Set<Friend> getUserBeInvite() {
-		return userBeInvite;
+	public void setNotifications(Set<Notification> notifications) {
+		this.notifications = notifications;
 	}
 
-	public void setUserBeInvite(Set<Friend> userBeInvite) {
-		this.userBeInvite = userBeInvite;
-	}
 
 }

@@ -30,33 +30,27 @@ public class Notification implements Serializable {
 	@GeneratedValue(generator = "gen")
 	private String id;
 	@ManyToOne
-	@JoinColumn(name="user1", insertable=false, updatable=false)
-	private User user1;
-	@ManyToOne
-	@JoinColumn(name="user2", insertable=false, updatable=false)
-	private User user2;
+	@JoinColumn(name="userId")
+	private User user;
 	
 	private String caption;
 	private String content;
-	private boolean read;
+	private String state;
 	private Timestamp pushTime;
+	
+	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public User getUser1() {
-		return user1;
+	
+	public User getUser() {
+		return user;
 	}
-	public void setUser1(User user1) {
-		this.user1 = user1;
-	}
-	public User getUser2() {
-		return user2;
-	}
-	public void setUser2(User user2) {
-		this.user2 = user2;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getCaption() {
 		return caption;
@@ -70,11 +64,12 @@ public class Notification implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public boolean isRead() {
-		return read;
+	
+	public String getState() {
+		return state;
 	}
-	public void setRead(boolean read) {
-		this.read = read;
+	public void setState(String state) {
+		this.state = state;
 	}
 	public Timestamp getPushTime() {
 		return pushTime;
