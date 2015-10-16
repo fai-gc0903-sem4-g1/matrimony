@@ -14,13 +14,15 @@
 		</jsp:attribute>
 	<jsp:attribute name="middle">
 			<br />
-			Các lần giao dịch của bạn
+			<h4>Các lần giao dịch của bạn</h4>
 			<c:forEach var="i" items="${transactionDAO.viewAllBillTransaction(sessionScope.user.id) }">
-			<h4>${i.key}</h4>
-			<div>
-				<span>${i.value }</span>
+			<div class='thumbnail'>
+			<h5><b>Giao dịch: ${i.key}</b></h5>
+			<div class="">
+				${i.value }
 			</div>
 			<br/>
+			</div>
 			</c:forEach>
 					
 	</jsp:attribute>

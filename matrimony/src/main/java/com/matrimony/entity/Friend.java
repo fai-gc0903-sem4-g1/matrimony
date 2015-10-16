@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Comparator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,10 +33,10 @@ public class Friend implements Serializable {
 	@GenericGenerator(name = "gen", strategy = "uuid")
 	@GeneratedValue(generator = "gen")
 	private String id;
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name = "userInviteId",nullable=false, updatable=false)
 	private User userInvite;
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name = "userBeInviteId",nullable=false, updatable=false)
 	private User userBeInvite;
 	private int status;
@@ -114,17 +115,6 @@ public class Friend implements Serializable {
 	public void setUserBeInvite(User userTo) {
 		this.userBeInvite = userTo;
 	}
-
-
-
-	@Override
-	public String toString() {
-		return "Friend [friendId=" + id + ", userInvite=" + userInvite + ", userBeInvite=" + userBeInvite
-				+ ", status=" + status + ", state=" + state + ", timeInvited=" + timeInvited + ", timeDenied="
-				+ timeDenied + ", timeAccepted=" + timeAccepted + "]";
-	}
-
-
 
 	public static class RequestComparator implements Comparator<Friend> {
 

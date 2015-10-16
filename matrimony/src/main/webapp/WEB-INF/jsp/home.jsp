@@ -45,6 +45,7 @@
         					console.log(obj);
         					if(obj=='SUCCESS'){
         						console.log('db saved');
+        						btn.prop('disabled', true);
         					}else{
         						alert('Không thể kết bạn');
         					}
@@ -89,9 +90,20 @@
                         <span id='person-status'><span id="label-basic">Hôn nhân </span> ${i.key.maritalStatus }</span>
                         <br />
                         <br />
-<%--                         <span id='person-btna'><input type="button" class="btnAdd btn btn-primary btn-make-friend" onclick="addFriend('${i.key.id}', '${myIndex.index}')" value="Add Friend"/></span> --%>
-<span id='person-btna'><input type="button" class="btnAdd btn btn-primary btn-make-friend" data-suggest-user-id="${i.key.id }" value="Make Friend"/></span>
-                        <span id='person-btna'><input type="button" class='showDialog' onclick="show('${i.key.id}', '${myIndex.index}')" value="Cancel" hidden="true"/></span>
+					<%--                         <span id='person-btna'><input type="button" class="btnAdd btn btn-primary btn-make-friend" onclick="addFriend('${i.key.id}', '${myIndex.index}')" value="Add Friend"/></span> --%>
+					<%-- <span id='person-btna'><input type="button" class='showDialog' onclick="show('${i.key.id}', '${myIndex.index}')" value="Cancel" hidden="true"/></span> --%>
+					<span id='person-btna'></span>
+						<c:set var="state" value="${friendDAO.getRelationshipState(sessionScope.user, i.key) }" />
+						<c:choose>
+							<c:when test="${state=='WAITTING' }">
+								<input type="button" class="btnAdd btn btn-primary btn-make-friend" data-suggest-user-id="${i.key.id }" value="Hủy yêu cầu kết bạn"/>
+							</c:when>
+							<c:otherwise>
+								<input type="button" class="btnAdd btn btn-primary btn-make-friend" data-suggest-user-id="${i.key.id }" value="Make Friend"/>
+							</c:otherwise>
+						</c:choose>
+						
+					
                         <br/>
                     </div>
                 </div>

@@ -65,9 +65,27 @@ public class FriendDAO {
 		lst.addAll(getRequestAskInvited(user));
 		return lst;
 	}
+	
+	public static String getRelationshipState(User me,User person){
+		System.out.println("================");
+		System.out.println("My id"+ me.getId());
+		System.out.println("My invite: "+me.getRequestInvited().size());
+		System.out.println("Person check: "+person.getId());
+		for(Friend f: me.getRequestInvited()){
+			System.out.println(f.getUserBeInvite().getId());
+			if(f.getUserBeInvite().getId().equals(person.getId())){
+				return f.getState();
+			}
+		}
+		
+		
+		return "chiu.";
+	}
 
 	public static void main(String[] args) {
-		User user = UserDAO.findById("990258dd506c243201506c24685b0000");
+		User me=UserDAO.findById("990258dd506f431d01506f4347b20000");
+		User person=UserDAO.findById("990258dd506f431d01506f43e27c0020");
+		System.out.println(getRelationshipState(me, person ));
 		
 	}
 
