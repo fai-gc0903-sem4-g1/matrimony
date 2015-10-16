@@ -14,7 +14,7 @@
 
 <t:homeLayout>
     <jsp:attribute name="head">
-        <title>Payment confirm</title>
+        <title>Trang chủ</title>
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.key.css" />
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.key.min.js"></script>
         
