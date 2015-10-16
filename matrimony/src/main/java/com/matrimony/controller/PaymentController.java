@@ -42,6 +42,15 @@ public class PaymentController {
 		else
 			return "payment";
 	}
+	
+	@RequestMapping(value = "paymentHistory", method = RequestMethod.GET)
+	public String viewHistoryTransaction(HttpServletRequest request) {
+		User ssUser = (User) request.getSession().getAttribute(SessionKey.USER);
+		if (ssUser == null)
+			return "joinUs";
+		else
+			return "paymentHistory";
+	}
 
 	@RequestMapping(value = "payment", method = RequestMethod.POST)
 	public String doPayment(HttpServletRequest request, String pack, String payWith) {
@@ -139,10 +148,10 @@ public class PaymentController {
 					
 					//send bill to email
 					Printer printer=new Printer();
-					String bill=printer.printBillPos(pdr, timeNow, payMonth);
+					String bill=printer.printBillPos(pdr, timeNow);
 					StringBuilder sb=new StringBuilder("Xác nhận chuyển khoản qua paypal\n\n");
 					sb.append(bill);
-					MailUtil mailUtil=new MailUtil("sondcgc00681@fpt.edu.vn", "Xác nhận thanh toán chuyển khoản qua Paypal", sb.toString());
+					MailUtil mailUtil=new MailUtil(ssUser.getEmail(), "Xác nhận thanh toán chuyển khoản qua Paypal", sb.toString());
 					mailUtil.run();
 				} catch (TransactionAlready e) {
 					// TODO Auto-generated catch block
@@ -152,7 +161,9 @@ public class PaymentController {
 			} else {
 				request.setAttribute("paymentResultFailed", "paymentResultFailed");
 			}
+			
 			return "paymentResult";
+			
 		} else
 			return "code_khong_trung_hoac_biNull";
 	}

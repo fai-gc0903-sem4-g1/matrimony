@@ -417,5 +417,22 @@ public class User implements Serializable {
 		this.notifications = notifications;
 	}
 
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", weight=" + weight + ", height=" + height + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", middleName=" + middleName + ", username=" + username + ", email="
+				+ email + ", password=" + password + ", salt=" + salt + ", contactNumber=" + contactNumber
+				+ ", gender=" + gender + ", regMethod=" + regMethod + ", religion=" + religion + ", roleName="
+				+ roleName + ", socialNetwork=" + socialNetwork + ", hometown=" + hometown + ", countryside="
+				+ countryside + ", introduction=" + introduction + ", locale=" + locale + ", maritalStatus="
+				+ maritalStatus + ", avatarPhoto=" + avatarPhoto + ", name=" + name + ", activeKey=" + activeKey
+				+ ", ipLogin=" + ipLogin + ", registrationIP=" + registrationIP + ", introduce=" + introduce
+				+ ", birthday=" + birthday + ", expiries=" + expiries + ", changedPasswordTime=" + changedPasswordTime
+				+ ", loginTime=" + loginTime + ", updateTime=" + updateTime + ", verifiedTime=" + verifiedTime
+				+ ", createAt=" + createAt + ", verified=" + verified + ", requestInvited=" + requestInvited
+				+ ", requestAskedInvited=" + requestAskedInvited + ", transactions=" + transactions
+				+ ", notifications=" + notifications + ", userPreference=" + userPreference + "]";
+	}
+
 
 }

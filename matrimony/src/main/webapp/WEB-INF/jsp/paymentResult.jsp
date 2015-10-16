@@ -19,6 +19,8 @@
 					  <span class="sr-only">Success:</span>
 					  Tài khoản của bạn đã được gia tăng thời hạn sử dụng đến ngày ${sessionScope.user.expiries }
 					</div>
+					<span>Chúng tôi đã gửi hóa đơn đến email của bạn, vui lòng kiểm tra</span>
+					<span>Hoặc có thể click vào <a href='/matrimony/paymentHistory'>đây</a> để xem</span>
 					</c:when>
 					<c:when test="${not empty paymentResultFailed }">
 					<div class="alert alert-danger" role="alert">
