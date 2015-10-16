@@ -35,17 +35,17 @@ public class FriendController {
 
 	@RequestMapping(value = "makeFriend", method = RequestMethod.POST)
 	@ResponseBody
-	public String makeFriend(HttpServletRequest request, String userBeInviteId){
+	public String makeFriend(HttpServletRequest request, String userBeInviteId) {
 		User ssUser = (User) request.getSession().getAttribute("user");
-		Timestamp currentTime=new Timestamp(System.currentTimeMillis());
-		Friend friend=new Friend();
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		System.out.println(ssUser.getName() + " mời " + userBeInviteId + " làm bạn");
+		
+		Friend friend = new Friend();
 		friend.setState("WAITTING");
 		friend.setUserInvite(ssUser);
-		User temp=UserDAO.findById(userBeInviteId);
-		System.out.println("user nay"+temp);
-		friend.setUserBeInvite(temp);
+		friend.setUserBeInvite(UserDAO.findById(userBeInviteId));
 		friend.setTimeInvited(currentTime);
-		
+
 		FriendDAO.addFriend(friend);
 		return "SUCCESS";
 	}
@@ -105,21 +105,21 @@ public class FriendController {
 		return data;
 	}
 
-//	@RequestMapping(value = "addFriend", method = RequestMethod.POST)
-//	@ResponseBody
-//	public static String addFriend(String id, HttpSession ss) {
-//		User u = (User) ss.getAttribute("user");
-//		int status = 1;
-//		Friend f = new Friend();
-//		f.setUserInvite(u);
-//		User toUser = new User();
-//		toUser.setId(id);
-//		f.setUserTo(toUser);
-//		f.setStatus(status);
-//		f.setTimeInvited(new Timestamp(System.currentTimeMillis()));
-//		FriendDAO.addFriend(f);
-//		return "success";// mo database ktra lai xem
-//	}
+	// @RequestMapping(value = "addFriend", method = RequestMethod.POST)
+	// @ResponseBody
+	// public static String addFriend(String id, HttpSession ss) {
+	// User u = (User) ss.getAttribute("user");
+	// int status = 1;
+	// Friend f = new Friend();
+	// f.setUserInvite(u);
+	// User toUser = new User();
+	// toUser.setId(id);
+	// f.setUserTo(toUser);
+	// f.setStatus(status);
+	// f.setTimeInvited(new Timestamp(System.currentTimeMillis()));
+	// FriendDAO.addFriend(f);
+	// return "success";// mo database ktra lai xem
+	// }
 
 	@RequestMapping(value = "remove", method = RequestMethod.POST)
 	@ResponseBody

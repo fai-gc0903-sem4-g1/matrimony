@@ -102,8 +102,11 @@
 
                                     <div id='right' class='col-lg-3' style='background-color: #ffffff; border-radius: 6px;'>
 									<span class="glyphicon glyphicon-user"></span> Đã kết bạn
-                                    </div>
-
+									
+									<div class='st-friend-container'>
+									
+	                                    </div>
+									</div>
                                     <!-- CHAT BOX START HERE -->
                                     <div style='z-index: 9999;'>
                                         <div id='chat-container' class="container">

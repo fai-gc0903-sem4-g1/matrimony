@@ -27,15 +27,16 @@ public class OhYeah {
 		
 		Session ss = HibernateUtil.getCurrentSession();
 		
-//		ss.beginTransaction();
-//		User user=(User) ss.get(User.class, "990258dd506b74d301506b74d9860000");
-//		System.out.println(user);
-//		Transaction tran=new Transaction();
-//		tran.setId("OIUOIU");
-//		ss.save(tran);
-//		System.out.println("added");
-//		
-//		ss.getTransaction().commit();
+		ss.beginTransaction();
+		User user=(User) ss.get(User.class, "990258dd506c243201506c24685b0000");
+		System.out.println(user);
+		Transaction tran=new Transaction();
+		tran.setId("OIUOIU");
+		tran.setUser(user);
+		ss.save(tran);
+		System.out.println("added");
+		
+		ss.getTransaction().commit();
 		
 	}
 }

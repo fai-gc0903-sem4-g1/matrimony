@@ -100,7 +100,6 @@ public class PaymentController {
 			return "redirect:payment";
 
 		if (code != null && code.equals(request.getSession().getAttribute("paymentConfirmCode"))) {
-			System.out.println("da chay vao day");
 			PaymentDetailsResponse pdr = PaypalPayment.checkPaymentByPayKey(pr.getPayKey());
 			if ("COMPLETED".equals(pdr.getStatus())) {
 				System.out.println("Thanh toán: Xác nhận đã thanh toán");
@@ -124,7 +123,7 @@ public class PaymentController {
 				transaction.setCreateAt(timeNow);
 				transaction.setUser(ssUser);
 				transaction.setCurrencyCode(pdr.getCurrencyCode());
-				transaction.setMethod("Paypal");
+				transaction.setMethod("PAYPAL");
 				transaction.setDecription("ghi chú");
 				transaction.setAmount(pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount());
 				try {

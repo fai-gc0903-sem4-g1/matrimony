@@ -5,7 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:useBean id="userDAO" class="com.matrimony.database.UserDAO" />
-<jsp:useBean id="FriendBean" class="com.matrimony.database.FriendDAO" />
+<jsp:useBean id="friendDAO" class="com.matrimony.database.FriendDAO" />
 <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
 <jsp:useBean id="jstl" class="com.matrimony.model.JSLTFunctionUtil" />
 <c:set var="peopleSugguestMap" value="${matrimony.suggest(sessionScope.user) }" />
@@ -33,9 +33,8 @@
         			closeEffect	: 'elastic',
         		});
         		
-        		$('.btn-make-friend').click(function(e){
+        		$(document).on('click', '.btn-make-friend',function(e){
         			var btn=$(this);
-        			console.log('this is stupid dd');
         			$.ajax({
         				url: 'makeFriend',
                         method: 'POST',

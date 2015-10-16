@@ -43,7 +43,6 @@ public class Friend implements Serializable {
 	private Timestamp timeInvited;
 	private Timestamp timeDenied;
 	private Timestamp timeAccepted;
-
 	
 
 	public String getId() {
