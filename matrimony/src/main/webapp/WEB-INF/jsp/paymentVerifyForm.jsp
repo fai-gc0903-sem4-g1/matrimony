@@ -13,8 +13,8 @@
 </jsp:attribute>
 	<jsp:body>
 		<form action="paymentVerify" method="POST">
-			<label>Your transaction id from paypal</label><br/>
-			<input type="text" name="transactionId"/><br/>
+			<label>Để xác nhận giao dịch, vui lòng nhập mã giao dịch Paypal</label><br/>
+			<input type="text" name="transactionId"/>
 			<input type="submit"/>
 		</form>
 	</jsp:body>

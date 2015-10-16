@@ -1,0 +1,36 @@
+﻿                             Chi tiết giao dịch
+Thanh toán đến
+	Mã giao dịch    : transactionId
+	Tên doanh nghiệp: Matrimony
+	Email           : matrimony_master@gmail.com
+	-------------------------------------------------------------------------------
+	
+Thông tin liên hệ doanh nghiệp
+	Website                  : http://www.localhost/matrimony
+	Email chăm sóc khách hàng: matrimony_master@gmail.com
+	-------------------------------------------------------------------------------
+	
+Thông tin người thanh toán
+	Email     : payEmail
+	Điện thoại: payPhone
+	-------------------------------------------------------------------------------
+	
+Chi tiết hóa đơn
+	STT	Tên sản phẩm	Đơn vị tính	số lượng	thành tiền
+	===============================================================================
+	1	Dịch vụ 	Tháng		payMonth	totalMoney USD
+
+	Số tiền    : totalMoney USD
+	Dư	   : 0 USD
+	Tổng	   : totalMoney 
+
+	-------------------------------------------------------------------------------
+	Ngày	   : payDate
+	Thời gian  : payTime
+	Trạng thái : status
+
+	-------------------------------------------------------------------------------
+	Nội dung   : Bạn đã chuyển $totalMoney USD tới doanh nghiệp Matrimony qua Paypal
+	Phương thức: Paypal
+	
+	
