@@ -18,7 +18,7 @@
 			<c:forEach var="i" items="${transactionDAO.viewAllBillTransaction(sessionScope.user.id) }">
 			<h4>${i.key}</h4>
 			<div>
-				${i.value }
+				<span>${i.value }</span>
 			</div>
 			<br/>
 			</c:forEach>

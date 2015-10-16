@@ -48,13 +48,17 @@ public class TransactionDAO {
 		for(Transaction tran:ssUser.getTransactions()){
 			PaymentDetailsResponse pdr=PaypalPayment.checkPaymentByTransactionId(tran.getId());
 			String bill=printer.printBillPos(pdr, tran.getCreateAt());
+			bill=bill.replaceAll(" ", "&nbsp;");
+			bill=bill.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+			bill=bill.replaceAll("\n", "<br/>");
 			map.put(tran.getCreateAt(), bill);
 		}
 		return map;
 	}
 	
 	public static void main(String[] args) {
-		Map<Timestamp, String> map=viewAllBillTransaction("990258dd506c243201506c24685b0000");
-		map.forEach((k,v)->System.out.println("ngay: "+k+"\n"+v));
+//		Map<Timestamp, String> map=viewAllBillTransaction("990258dd506c243201506c24685b0000");
+//		map.forEach((k,v)->System.out.println("ngay: "+k+"\n"+v));
+		System.out.println(findById("4T751068EB580751G"));
 	}
 }

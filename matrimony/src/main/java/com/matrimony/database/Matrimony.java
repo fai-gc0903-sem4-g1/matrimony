@@ -9,6 +9,11 @@ import java.util.stream.Collectors;
 
 import com.matrimony.entity.User;
 import com.matrimony.entity.UserPreference;
+import com.matrimony.exception.STException.ContactNumberAlready;
+import com.matrimony.exception.STException.EmailAlready;
+import com.matrimony.exception.STException.NotNativeAccount;
+import com.matrimony.exception.STException.UserNotExists;
+import com.matrimony.exception.STException.WrongPassword;
 import com.matrimony.model.MeasureHeart;
 
 public class Matrimony {
@@ -29,7 +34,7 @@ public class Matrimony {
 	public static Map<User, MeasureHeart> suggest(User user) {
 		Map<User, MeasureHeart> map = new HashMap<User, MeasureHeart>();
 		UserPreference preference = user.getUserPreference();
-		System.out.println(preference);
+		System.out.println("like : "+preference);
 		String[] ageGap = preference.getAgeGap().split("-");
 		String[] heightGap = preference.getHeightGap().split("-");
 		String[] weightGap = preference.getWeightGap().split("-");
@@ -67,11 +72,5 @@ public class Matrimony {
 		return sortedMap;
 	}
 
-	public static void main(String[] args) {
-		String a = null;
-		String b = null;
-		if (a.equals(b)) {
-			System.out.println("ok");
-		}
-	}
+	
 }

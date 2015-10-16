@@ -41,11 +41,6 @@ public final class MailUtil extends Thread {
         this.content = content;
         ini();
     }
-//
-//    public MailUtil() {
-//        ini();
-//    }
-    
     
 
     public void ini() {
@@ -81,4 +76,20 @@ public final class MailUtil extends Thread {
             Logger.getLogger(MailUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /* (non-Javadoc)
+     * @see java.lang.Thread#start()
+     */
+    @Override
+    public synchronized void start() {
+    	// TODO Auto-generated method stub
+    	super.start();
+    }
+    
+    
+    public static void main(String[] args) {
+		MailUtil mailUtil=new MailUtil("sondcgc00681@fpt.edu.vn", "sdfdsfs", "asfsfsdsadas");
+		mailUtil.start();
+		System.out.println("TEstcai nao");
+	}
 }

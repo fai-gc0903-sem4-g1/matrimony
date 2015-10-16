@@ -23,11 +23,11 @@
 					<span>Hoặc có thể click vào <a href='/matrimony/paymentHistory'>đây</a> để xem</span>
 					</c:when>
 					<c:when test="${not empty paymentResultFailed }">
-					<div class="alert alert-danger" role="alert">
-					  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-					  <span class="sr-only">Error:</span>
-					Có lỗi xảy ra, thanh toán không thành công
-					</div>
+						<div class="alert alert-danger" role="alert">
+						  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						  <span class="sr-only">Error:</span>
+						Có lỗi xảy ra, thanh toán không thành công
+						</div>
 					</c:when>
 					<c:otherwise>
 						Không xác định

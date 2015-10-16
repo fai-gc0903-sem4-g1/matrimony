@@ -111,6 +111,8 @@ public class PaymentController {
 			return "redirect:payment";
 
 		if (code != null && code.equals(request.getSession().getAttribute("paymentConfirmCode"))) {
+			request.getSession().setAttribute("paymentConfirmCode", null);
+			request.getSession().setAttribute("paypalPayResponse", null);
 			PaymentDetailsResponse pdr = PaypalPayment.checkPaymentByPayKey(pr.getPayKey());
 			if ("COMPLETED".equals(pdr.getStatus())) {
 				System.out.println("Thanh toán: Xác nhận đã thanh toán");
@@ -143,20 +145,18 @@ public class PaymentController {
 				try {
 					TransactionDAO.add(transaction);
 					UserDAO.Update(ssUser);
-					request.getSession().setAttribute("paypalPayResponse", null);
-					request.setAttribute("paymentResultSuccess", "paymentResultSuccess");
-					
 					//send bill to email
 					Printer printer=new Printer();
 					String bill=printer.printBillPos(pdr, timeNow);
 					StringBuilder sb=new StringBuilder("Xác nhận chuyển khoản qua paypal\n\n");
 					sb.append(bill);
 					MailUtil mailUtil=new MailUtil(ssUser.getEmail(), "Xác nhận thanh toán chuyển khoản qua Paypal", sb.toString());
-					mailUtil.run();
+					mailUtil.start();
+					request.setAttribute("paymentResultSuccess", "paymentResultSuccess");
+					System.out.println("Thanh toan thanh cong");
 				} catch (TransactionAlready e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-					request.setAttribute("paymentResultFailed", "paymentTransactionAlready");
+					System.out.println("Ma giao dich da ton tai: "+e.getMessage());
 				}
 			} else {
 				request.setAttribute("paymentResultFailed", "paymentResultFailed");

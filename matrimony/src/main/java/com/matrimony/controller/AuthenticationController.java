@@ -80,6 +80,7 @@ public class AuthenticationController {
 			// userLogin.setIpLogin(request.getRemoteAddr());
 			User user = UserDAO.login(userLogin);
 			request.getSession().setAttribute(SessionKey.USER, user);
+			System.out.println(user);
 			if (user.isVerified()) {
 				if (keepLoggin != null) {
 					keepMeLoggedIn(response, user);
@@ -290,7 +291,7 @@ public class AuthenticationController {
 		cont.append("\n");
 		cont.append("Cam on da su dung dich vu cua chung toi!");
 		MailUtil mail = new MailUtil(email, sub, cont.toString());
-		mail.run();
+		mail.start();
 	}
 
 }

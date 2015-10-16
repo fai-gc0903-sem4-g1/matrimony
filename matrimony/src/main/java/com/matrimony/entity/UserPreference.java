@@ -108,14 +108,6 @@ public class UserPreference implements Serializable {
 	public void setHeightGap(String heightGap) {
 		this.heightGap = heightGap;
 	}
-	@Override
-	public String toString() {
-		return "UserPreference [id=" + id + ", user=" + user + ", gender=" + gender + ", ageGap=" + ageGap
-				+ ", hometown=" + hometown + ", countryside=" + countryside + ", religion=" + religion
-				+ ", maritalStatus=" + maritalStatus + ", weightGap=" + weightGap + ", heightGap=" + heightGap + "]";
-	}
-	
-	
 	
 	
 	

@@ -88,12 +88,11 @@
                                         <span id='name' style='font-weight: 600;' class='col-lg-21'>${sessionScope.user.name }</span>
                                         <br/>
                                         <div class="list-group">
-                                            <a class="list-group-item" href="/matrimony/update"><i
-						class="fa fa-user"></i>&nbsp;Cập nhập</a>
+                                            <a class="list-group-item" href="/matrimony/update"><i class="fa fa-user"></i>&nbsp;Cập nhập</a>
                                             <a class="list-group-item" href="#"> <i class="fa fa-cog"></i>&nbsp;Cài đặt</a>
-                                            <a class="list-group-item" href="/matrimony/payment"> <i class="fa fa-cog"></i>&nbsp;Thanh toán</a>
-                                            <a class="list-group-item" id='btn-logout' href="#"><i
-						class="fa fa-sign-out"></i>&nbsp;Thoát</a>
+                                            <a class="list-group-item" href="/matrimony/payment"> <i class="fa fa-money"></i>&nbsp;Gia hạn tài khoản</a>
+                                            <a class="list-group-item" href="/matrimony/paymentHistory"> <i class="fa fa-book"></i>&nbsp;Lịch sử T.toán</a>
+                                            <a class="list-group-item" id='btn-logout' href="#"><i class="fa fa-sign-out"></i>&nbsp;Thoát</a>
                                         </div>
                                     </div>
                                     <div id='middle' class='col-lg-7' style='background-color: #ffffff; border: solid 2px #f4f4f4; border-radius: 6px;'>

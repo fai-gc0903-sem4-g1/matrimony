@@ -20,6 +20,7 @@ import com.matrimony.exception.STException.ContactNumberAlready;
 import com.matrimony.exception.STException.EmailAlready;
 import com.matrimony.exception.STException.NotNativeAccount;
 import com.matrimony.exception.STException.UserNotExists;
+import com.matrimony.exception.STException.WrongPassword;
 import com.matrimony.security.HashUtil;
 import com.matrimony.util.HibernateUtil;
 
@@ -128,15 +129,12 @@ public class UserDAO {
 	}
 
 	public static User login(User user) throws STException.WrongPassword, NotNativeAccount, UserNotExists {
-
 		User userFind = findByEmailOrContactNumberOrUsername(user.getUsername());
 		if (userFind == null) {
 			throw new STException.UserNotExists("Login: user not exists");
 		} else if (!userFind.getRegMethod().equalsIgnoreCase("Native")) {
 			throw new STException.NotNativeAccount("Login: This account login with social network");
 		}
-
-		System.out.println(user);
 		String passwordHased = HashUtil.hashPassword(user.getPassword(), userFind.getSalt());
 		if (userFind.getPassword().equals(passwordHased)) {
 			// userFind.setLoginTime(new Timestamp(System.currentTimeMillis()));
@@ -164,7 +162,7 @@ public class UserDAO {
 	}
 
 	public static void main(String[] args) {
-		User user = UserDAO.findById("990258dd5067188c01506718b09e0003");
-		System.out.println(hasExpiries(user));
+		User u1=findById("990258dd506f431d01506f4347b20000");
+		System.out.println(u1.isVerified());
 	}
 }

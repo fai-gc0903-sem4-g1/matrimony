@@ -17,7 +17,7 @@ Thông tin người thanh toán
 	
 Chi tiết hóa đơn
 	STT	Tên sản phẩm	Đơn vị tính	số lượng	thành tiền
-	===============================================================================
+	=================================================================
 	1	Dịch vụ 	Tháng		payMonth	totalMoney USD
 
 	Số tiền    : totalMoney USD
