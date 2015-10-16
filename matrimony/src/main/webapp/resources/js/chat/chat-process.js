@@ -11,8 +11,8 @@ $(document).on(
 		'click',
 		'#btn-chat-inbox',
 		function(e) {
-			var chatWindow = createChatWindow($(this).parents('#person-panel')
-					.data('user-id'));
+			e.preventDefault();
+			var chatWindow = createChatWindow($(this).data('id'));
 		});
 
 // $(document).on('click', "#btn-chat-send-msg", function(e) {
@@ -155,17 +155,17 @@ function createChatWindow(userId) {
 	if (duplicate) {
 		alert('Bạn đang chat với người này');
 	} else {
-		var sortUserObj;
+		var shortUserObj;
 		$.ajax({
-			url : 'sortUserProfile',
+			url : 'shortUserProfile',
 			method : 'POST',
 			data : {
 				id : userId
 			},
 			async : false,
-			success : function(data) {
-				sortUserObj = JSON.parse(data);
-				console.log(data);
+			success : function(obj) {
+				shortUserObj = obj
+				console.log(obj);
 			},
 			error : function() {
 				alert('can not connect to server');
@@ -173,10 +173,10 @@ function createChatWindow(userId) {
 		});
 		var clone = $("#chat-window").clone().appendTo("#chat-container");
 		clone.data('user-id', userId);
-		clone.find('#name').html(sortUserObj.name);
+		clone.find('#name').html(shortUserObj.name);
 		clone.find('.img-sender').attr('src', $('#mini-avatar').attr('src'));
 		clone.find('.img-receive').attr('src',
-				'/matrimony/resources/profile/avatar/' + sortUserObj.avatar);
+				'/matrimony/resources/profile/avatar/' + shortUserObj.avatar);
 		clone.find('#txt-chat-msg').focus();
 		clone.css("margin-right", margin);
 		clone.css('display', 'block');

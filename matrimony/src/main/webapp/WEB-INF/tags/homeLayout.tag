@@ -6,6 +6,7 @@
                 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
                         <jsp:useBean id="matrimony" class="com.matrimony.database.Matrimony" />
+                        <jsp:useBean id="friendDAO" class="com.matrimony.database.FriendDAO" />
                         <c:set var="alias" value="matrimony" />
                         <t:layout>
                             <jsp:attribute name="head">
@@ -13,7 +14,7 @@
                                 <script src="/matrimony/resources/js/chat/entity.js"></script>
                                 <script src="/matrimony/resources/js/chat/chat-process.js"></script>
                                 <script src="/matrimony/resources/js/chat/emoticon.js"></script>
-                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
 <!--                                 <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script> -->
                                 <jsp:invoke fragment="head"></jsp:invoke>
 								
@@ -28,6 +29,9 @@
 								  padding: 30px 15px;
 								  background-image:url(http://demo.fearlessflyer.com/html/demo/pretty-hovers/images/wood.png);
 								  
+								}
+								.st-friend-container div:hover{
+								background-color:antiquewhite;
 								}
 								</style>
                                 <script>
@@ -46,8 +50,9 @@
                                     globalWSocket.onerror = function() {
                                         processError();
                                     }
-                                    
+//                                 	$.noConflict();
                                     $(document).ready(function(){
+
                                     	$("#avatar").click(function() {
                                             $("#uploadAvatarPhoto").click();
                                         });
@@ -99,18 +104,29 @@
                                         <jsp:invoke fragment="middle"></jsp:invoke>
                                     </div>
 
-                                    <div id='right' class='col-lg-3' style='background-color: #ffffff; border-radius: 6px;'>
-									<span class="glyphicon glyphicon-user"></span> Đã kết bạn
-									
-									<div class='st-friend-container'>
-										<c:forEach var="i" items="${friendDAO.getMyFriends(sessionScope.user) }">
-											<div>
-												<div>
-													<img src="http://localhost/matrimony/resources/profile/avatar/hUeyZ1uEa9YnaNYVLyR4cIkNow.jpg" />
+                                    <div id='right' class='col-lg-3'>
+										<div  class='thumbnail' style='height: 100%;'>
+										<h5 style='text-align: center;'>
+										Những người đã làm quen
+										</h5>
+										<hr/>
+										<div class='st-friend-container'>
+											<c:forEach var="i" items="${friendDAO.getMyFriends(sessionScope.user) }">
+												<div class='col-lg-12'>
+												
+													<img style='height: 40px;width: 40px;' src="/matrimony/resources/profile/avatar/${i.avatarPhoto }" />
+														
+														<span><a href='/matrimony/${i.username }'>${i.name }</a></span>
+														<span style='float: right;'>
+														<span style='float: right;padding-top: 10px;'>&nbsp;&nbsp;&nbsp;<i class='fa fa-circle' style='color:#0DC9F7;font-size: 11px;'></i></span>
+														<a href="#" id='btn-chat-inbox' data-id='${i.id }' ><i style='font-size: 26px;' class="fa fa-commenting"></i></a></span>
+														
+														
 												</div>
-											</div>
-										</c:forEach>
-	                                   
+											</c:forEach>
+		                                   <br/><br/><br/>
+										</div>
+										</div>
 									</div>
                                     <!-- CHAT BOX START HERE -->
                                     <div style='z-index: 9999;'>

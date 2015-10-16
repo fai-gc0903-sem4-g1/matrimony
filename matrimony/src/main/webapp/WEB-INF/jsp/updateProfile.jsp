@@ -117,7 +117,6 @@
                                 $(document).on('click', '.col-lg-2 btn-submit-update-basic-form', function(e) {
                                     $('#form-update-basic-info').submit();
                                 })
-                                $.noConflict();
                                 $(document).ready(function() {
                                     $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
                                         e.preventDefault();
@@ -142,7 +141,7 @@
                                     $("#updateLikeMeasurements").submit(function(e) {
                                         e.preventDefault();
                                         callUpdateForm($(this));
-                                    });u
+                                    });
                                     
                                     $('#txtPassword').click(function() {
                                         $(this).val('');

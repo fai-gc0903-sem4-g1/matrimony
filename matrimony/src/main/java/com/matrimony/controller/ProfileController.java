@@ -32,7 +32,7 @@ import com.matrimony.model.SessionKey;
 import com.matrimony.model.StringResouces;
 import com.matrimony.model.UploadImageToServer;
 import com.matrimony.util.Global;
-import com.websocket.SortUserProfile;
+import com.websocket.ShortUserProfile;
 
 /**
  *
@@ -200,7 +200,7 @@ public class ProfileController {
 		return "redirect:";
 	}
 
-	@RequestMapping(value = "sortUserProfile", method = RequestMethod.POST)
+	@RequestMapping(value = "shortUserProfile", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String getInfoUserByUserId(HttpServletRequest request, HttpServletResponse response, String id) {
 		System.out.println("Tim id: " + id);
@@ -213,7 +213,7 @@ public class ProfileController {
 		}
 
 		User user = UserDAO.findById(id);
-		SortUserProfile sortUserProfile = new SortUserProfile();
+		ShortUserProfile sortUserProfile = new ShortUserProfile();
 		sortUserProfile.setAvatar(user.getAvatarPhoto());
 		sortUserProfile.setName(user.getName());
 		sortUserProfile.setUsername(user.getUsername());

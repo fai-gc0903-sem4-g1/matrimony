@@ -7,7 +7,7 @@ package com.websocket;
  * @author SON
  *
  */
-public class SortUserProfile {
+public class ShortUserProfile {
 	public String avatar;
 	public String name;
 	public String username;

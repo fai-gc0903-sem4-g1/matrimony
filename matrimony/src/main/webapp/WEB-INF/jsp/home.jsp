@@ -15,8 +15,8 @@
 <t:homeLayout>
     <jsp:attribute name="head">
         <title>Trang chủ</title>
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.key.css" />
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.key.min.js"></script>
+<!--         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.key.css" /> -->
+<!--         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.key.min.js"></script> -->
         
         <link rel="stylesheet" href="/matrimony/resources/fancybox/jquery.fancybox.css" />
         <script src="/matrimony/resources/fancybox/jquery.fancybox.js"></script>
@@ -27,6 +27,7 @@
     	}
         </style>
         <script>
+//         $.noConflict();
         	$(document).ready(function(){
         		$(".st-avatar-suggester-link").fancybox({
         			openEffect	: 'elastic',
@@ -78,8 +79,6 @@
                         <span id='person-gender'><span id="label-basic">Giới tính </span>${i.key.gender =='FEMALE' ?'Nữ':'Nam'}</span>
                         <br />
                         <br />
-                        <span><input id='btn-chat-inbox' type='button' class="btn btn-info" value='Gửi tin nhắn'/></span>
-                        <span id='person-btna'>1 friend</span>
                         
                     </div>
                     <div id='person-right' class='col-sm-4'>

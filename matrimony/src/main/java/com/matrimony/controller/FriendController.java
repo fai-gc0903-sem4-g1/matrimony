@@ -55,9 +55,25 @@ public class FriendController {
 	@ResponseBody
 	public String acceptFriend(HttpServletRequest request, String userInviteId) {
 		User ssUser = (User) request.getSession().getAttribute("user");
+		
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 		Friend friend=FriendDAO.getFriendByUsers(userInviteId, ssUser.getId());
+		System.out.println("day la friend"+friend);
 		friend.setState("FRIEND");
+		friend.setTimeAccepted(currentTime);
+		FriendDAO.update(friend);
+		return "SUCCESS";
+	}
+	
+	@RequestMapping(value = "denyFriend", method = RequestMethod.POST)
+	@ResponseBody
+	public String denyFriend(HttpServletRequest request, String userInviteId) {
+		User ssUser = (User) request.getSession().getAttribute("user");
+		
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		Friend friend=FriendDAO.getFriendByUsers(userInviteId, ssUser.getId());
+		System.out.println("day la friend"+friend);
+		friend.setState("DENY");
 		friend.setTimeAccepted(currentTime);
 		FriendDAO.update(friend);
 		return "SUCCESS";

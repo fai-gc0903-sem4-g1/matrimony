@@ -33,10 +33,10 @@ public class Friend implements Serializable {
 	@GenericGenerator(name = "gen", strategy = "uuid")
 	@GeneratedValue(generator = "gen")
 	private String id;
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "userInviteId",nullable=false, updatable=false)
 	private User userInvite;
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "userBeInviteId",nullable=false, updatable=false)
 	private User userBeInvite;
 	private int status;

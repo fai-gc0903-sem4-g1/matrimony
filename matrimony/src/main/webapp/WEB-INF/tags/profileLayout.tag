@@ -15,8 +15,8 @@
                                 <script src="/matrimony/resources/js/chat/entity.js"></script>
                                 <script src="/matrimony/resources/js/chat/chat-process.js"></script>
                                 <script src="/matrimony/resources/js/chat/emoticon.js"></script>
-                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-                                <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script>
+<!--                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
+<!--                                 <script src="/matrimony/resources/js/friend.js" type="text/javascript"></script> -->
                                 <jsp:invoke fragment="head"></jsp:invoke>
 
 									<jsp:useBean id="friendDAO" class="com.matrimony.database.FriendDAO" />
