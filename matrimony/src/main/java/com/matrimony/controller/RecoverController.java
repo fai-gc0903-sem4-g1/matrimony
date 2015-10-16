@@ -81,7 +81,7 @@ public class RecoverController {
 		cont.append("\n");
 		cont.append("Cam on da su dung dich vu cua chung toi!");
 		MailUtil mail = new MailUtil(user.getEmail(), sub, cont.toString());
-		mail.send();
+		mail.run();
 		return code;
 	}
 

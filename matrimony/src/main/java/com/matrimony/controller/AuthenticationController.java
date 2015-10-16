@@ -290,7 +290,7 @@ public class AuthenticationController {
 		cont.append("\n");
 		cont.append("Cam on da su dung dich vu cua chung toi!");
 		MailUtil mail = new MailUtil(email, sub, cont.toString());
-		mail.send();
+		mail.run();
 	}
 
 }

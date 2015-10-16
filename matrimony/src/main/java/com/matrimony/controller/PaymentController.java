@@ -19,7 +19,9 @@ import com.matrimony.database.UserDAO;
 import com.matrimony.entity.Transaction;
 import com.matrimony.entity.User;
 import com.matrimony.exception.STException.TransactionAlready;
+import com.matrimony.model.Printer;
 import com.matrimony.model.SessionKey;
+import com.matrimony.util.MailUtil;
 import com.paypal.api.CredentialsConfiguration;
 import com.paypal.api.PaypalPayment;
 import com.paypal.svcs.types.ap.PayResponse;
@@ -111,10 +113,13 @@ public class PaymentController {
 				else
 					calendar = DateUtils.toCalendar(timeNow);
 
+				int payMonth=0;
 				if (pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount() == 49.99)
-					calendar.set(Calendar.MONTH, calendar.get(Calendar.MONDAY)+1);
+					payMonth=1;
 				else if (pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount() == 499.99)
-					calendar.set(Calendar.MONTH, calendar.get(Calendar.MONDAY)+12);
+					payMonth=12;
+				
+				calendar.set(Calendar.MONTH, calendar.get(Calendar.MONDAY)+payMonth);
 
 				ssUser.setExpiries(new Timestamp(calendar.getTimeInMillis()));
 				
@@ -124,14 +129,21 @@ public class PaymentController {
 				transaction.setUser(ssUser);
 				transaction.setCurrencyCode(pdr.getCurrencyCode());
 				transaction.setMethod("PAYPAL");
-				transaction.setDecription("ghi chú");
+				transaction.setDecription("Pay for "+payMonth+" month");
 				transaction.setAmount(pdr.getPaymentInfoList().getPaymentInfo().get(0).getReceiver().getAmount());
 				try {
 					TransactionDAO.add(transaction);
 					UserDAO.Update(ssUser);
-//					request.getSession().setAttribute("user", ssUser);
 					request.getSession().setAttribute("paypalPayResponse", null);
 					request.setAttribute("paymentResultSuccess", "paymentResultSuccess");
+					
+					//send bill to email
+					Printer printer=new Printer();
+					String bill=printer.printBillPos(pdr, timeNow, payMonth);
+					StringBuilder sb=new StringBuilder("Xác nhận chuyển khoản qua paypal\n\n");
+					sb.append(bill);
+					MailUtil mailUtil=new MailUtil("sondcgc00681@fpt.edu.vn", "Xác nhận thanh toán chuyển khoản qua Paypal", sb.toString());
+					mailUtil.run();
 				} catch (TransactionAlready e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

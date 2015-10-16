@@ -41,10 +41,10 @@ public final class MailUtil extends Thread {
         this.content = content;
         ini();
     }
-
-    public MailUtil() {
-        ini();
-    }
+//
+//    public MailUtil() {
+//        ini();
+//    }
     
     
 
@@ -76,36 +76,9 @@ public final class MailUtil extends Thread {
             message.setSubject(this.subject);
             message.setText(this.content);
             Transport.send(message);
-            System.out.println("Sent to " + destinationEmail);
+            System.out.println("MailUtil log: Sent email to " + destinationEmail);
         } catch (MessagingException ex) {
             Logger.getLogger(MailUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public void SendActiveMail(String dstEmail, String key) {
-        /*=====Tao noi dung email can gui=====*/
-        String sub = "Chao mung den voi matrimony, kich hoat tai khoan";
-        StringBuilder cont = new StringBuilder();
-        cont.append("Day la key active: ");
-        cont.append(key);
-        cont.append("\n");
-        cont.append("Cam on da su dung dich vu cua chung toi!");
-
-        destinationEmail = dstEmail;
-        subject = sub;
-        content = cont.toString();
-        start();
-    }
-    
-    public void send(){
-        start();
-    }
-    
-    
-    public static void main(String[] args) {
-        MailUtil mailUtil=new MailUtil("sondcgc00681@fpt.edu.vn", "xin chao ban", "xin chao ban lan nua");
-        System.out.println("Starting..");
-        mailUtil.start();
-        System.out.println("Sending..");
     }
 }

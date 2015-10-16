@@ -11,13 +11,17 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import javassist.expr.NewArray;
+
 import javax.imageio.ImageIO;
 import javax.print.DocFlavor.INPUT_STREAM;
 
 import com.matrimony.util.IOUtils;
+import com.matrimony.util.MailUtil;
 import com.paypal.api.PaypalPayment;
 import com.paypal.svcs.types.ap.PaymentDetailsResponse;
 import com.paypal.svcs.types.ap.PaymentInfo;
+import com.paypal.svcs.types.common.PhoneNumberType;
 
 /**
  * @author SON
@@ -37,22 +41,37 @@ public class Printer {
 			e.printStackTrace();
 		}
 	}
-	public String printBillPos(PaymentInfo pi, Timestamp time, int month){
-		PaymentDetailsResponse pdr=PaypalPayment.checkPaymentByPayKey("AP-8X8899913N648960S");
-		pi=pdr.getPaymentInfoList().getPaymentInfo().get(0);
+	public String printBillPos(PaymentDetailsResponse pdr, Timestamp time, int payMonth){
+		PaymentInfo pi=pdr.getPaymentInfoList().getPaymentInfo().get(0);
 		String billText=billDocument;
-		System.out.println(billText.contains("totalMoney"));
 		billText=billText.replaceAll("totalMoney", String.valueOf(pi.getReceiver().getAmount()));
 		billText=billText.replace("status", pi.getSenderTransactionStatus());
+		billText=billText.replace("transactionId", pi.getSenderTransactionId());
+		billText=billText.replace("payEmail", pdr.getSender().getEmail());
+		PhoneNumberType numberType=pdr.getSender().getPhone();
+		System.out.println(numberType);
+		if(numberType!=null){
+			billText=billText.replace("payPhone", numberType.getCountryCode()+" "+ numberType.getPhoneNumber());
+		}else{
+			billText=billText.replace("payPhone", "");
+		}
+		
 		SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat df2=new SimpleDateFormat("HH:mm:ss");
+		SimpleDateFormat df3=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		billText=billText.replace("payDate", df.format(time));
 		billText=billText.replace("payTime", df2.format(time));
-		billText=billText.replace("payMonth", String.valueOf(month));
+		billText=billText.replace("payMonth", String.valueOf(payMonth));
+		billText=billText.replace("currentTime", df3.format(new Timestamp(System.currentTimeMillis())));
 		return billText;
 	}
 	public static void main(String[] args) {
 		Printer p=new Printer();
-		System.out.println(p.printBillPos(null, new Timestamp(System.currentTimeMillis()), 12));
+		String bill=p.printBillPos(null, new Timestamp(System.currentTimeMillis()), 12);
+		System.out.println(bill);
+		StringBuilder sb=new StringBuilder("Xác nhận chuyển khoản qua paypal\n\n");
+		sb.append(bill);
+		MailUtil mailUtil=new MailUtil("sondcgc00681@fpt.edu.vn", "Xác nhận thanh toán chuyển khoản qua Paypal", sb.toString());
+		mailUtil.run();
 	}
 }
