@@ -7,6 +7,7 @@ package com.matrimony.database;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collector;
 
@@ -39,6 +40,14 @@ public class FriendDAO {
 		ss.getTransaction().commit();
 	}
 
+	public static void update(Friend friend){
+		Session ss=HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
+		ss.update(friend);
+		ss.getTransaction().commit();
+	}
+	
+	// not used
 	public static List<User> getRequestInvited(User user) {
 		List<User> lst = new ArrayList<User>();
 		for (Friend f : user.getRequestInvited()) {
@@ -48,25 +57,46 @@ public class FriendDAO {
 		}
 		return lst;
 	}
-
+	
 
 	public static List<User> getRequestAskInvited(User user) {
+		User me=UserDAO.findById(user.getId());
 		List<User> lst = new ArrayList<User>();
-		for (Friend f : user.getRequestAskedInvited()) {
+		for (Friend f : me.getRequestAskedInvited()) {
+			System.out.println(f.getUserInvite().getId());
 			if (f.getState().equals("WAITTING"))
 				lst.add(f.getUserInvite());
 		}
 		return lst;
 	}
-
-	public static List<User> getAllRequest(User user) {
-		List<User> lst = new ArrayList<User>();
-		lst.addAll(getRequestInvited(user));
-		lst.addAll(getRequestAskInvited(user));
+	
+	public static List<User> getMyFriends(User user){
+		User me=UserDAO.findById(user.getId());
+		List<User> lst=new ArrayList<User>();
+		for(Friend f: me.getRequestInvited()){
+			if("FRIEND".equals(f.getState()))
+				lst.add(f.getUserBeInvite());
+		}
+		for(Friend f:me.getRequestAskedInvited()){
+			if("FRIEND".equals(f.getState()))
+				lst.add(f.getUserInvite());
+		}
 		return lst;
 	}
 	
+	public static Friend getFriendByUsers(String userInviteId, String userBeInviteId){
+		Session ss=HibernateUtil.getCurrentSession();
+		ss.beginTransaction();
+		Query q=ss.createQuery("from friend where userInviteId=? and userBeInviteId=?");
+		q.setString(0, userInviteId);
+		q.setString(1, userBeInviteId);
+		Friend friend=(Friend) q.uniqueResult();
+		ss.getTransaction().commit();
+		return friend;
+	}
+	
 	public static String getRelationshipState(User me,User person){
+		me=UserDAO.findById(me.getId());
 		System.out.println("================");
 		System.out.println("My id"+ me.getId());
 		System.out.println("My invite: "+me.getRequestInvited().size());
@@ -85,7 +115,9 @@ public class FriendDAO {
 	public static void main(String[] args) {
 		User me=UserDAO.findById("990258dd506f431d01506f4347b20000");
 		User person=UserDAO.findById("990258dd506f431d01506f43e27c0020");
-		System.out.println(getRelationshipState(me, person ));
+//		System.out.println(getRelationshipState(me, person ));
+		
+		System.out.println(getFriendByUsers("990258dd506f431d01506f4347b20000", "990258dd506f431d01506f43e27c0020"));
 		
 	}
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonFactory.Feature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matrimony.database.FriendDAO;
 import com.matrimony.database.Matrimony;
@@ -47,6 +48,18 @@ public class FriendController {
 		friend.setTimeInvited(currentTime);
 
 		FriendDAO.addFriend(friend);
+		return "SUCCESS";
+	}
+	
+	@RequestMapping(value = "acceptFriend", method = RequestMethod.POST)
+	@ResponseBody
+	public String acceptFriend(HttpServletRequest request, String userInviteId) {
+		User ssUser = (User) request.getSession().getAttribute("user");
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		Friend friend=FriendDAO.getFriendByUsers(userInviteId, ssUser.getId());
+		friend.setState("FRIEND");
+		friend.setTimeAccepted(currentTime);
+		FriendDAO.update(friend);
 		return "SUCCESS";
 	}
 
@@ -130,11 +143,11 @@ public class FriendController {
 		return "success";
 	}
 
-	@RequestMapping(value = "acceptFriend", method = RequestMethod.POST)
-	@ResponseBody
-	public static String acceptFriend(String user, HttpSession ss) {
-		User u = (User) ss.getAttribute("user");
-		FriendDAO.AcceptFriend(u.getId(), user);
-		return "success";// mo database ktra lai xem
-	}
+//	@RequestMapping(value = "acceptFriend", method = RequestMethod.POST)
+//	@ResponseBody
+//	public static String acceptFriend(String user, HttpSession ss) {
+//		User u = (User) ss.getAttribute("user");
+//		FriendDAO.AcceptFriend(u.getId(), user);
+//		return "success";// mo database ktra lai xem
+//	}
 }

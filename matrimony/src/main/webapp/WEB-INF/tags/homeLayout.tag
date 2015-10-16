@@ -103,8 +103,14 @@
 									<span class="glyphicon glyphicon-user"></span> Đã kết bạn
 									
 									<div class='st-friend-container'>
-									
-	                                    </div>
+										<c:forEach var="i" items="${friendDAO.getMyFriends(sessionScope.user) }">
+											<div>
+												<div>
+													<img src="http://localhost/matrimony/resources/profile/avatar/hUeyZ1uEa9YnaNYVLyR4cIkNow.jpg" />
+												</div>
+											</div>
+										</c:forEach>
+	                                   
 									</div>
                                     <!-- CHAT BOX START HERE -->
                                     <div style='z-index: 9999;'>

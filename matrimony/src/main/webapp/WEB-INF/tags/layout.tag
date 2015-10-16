@@ -6,6 +6,7 @@
                     <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
                         <jsp:useBean id="test" class="com.matrimony.database.UserDAO" />
+                        <jsp:useBean id="friendDAO" class="com.matrimony.database.FriendDAO" />
                         <c:choose>
 	                        <c:when test="${not empty login }">
 								<c:set var="loginValue" value="${login }" />
@@ -55,17 +56,7 @@
                             <script>
                                 $(document).ready(function() { 
                                 	$('.st-login-input-group').popover({placement: 'bottom'});
-//                                 	$('.st-reg-form-group').click(function(){
-//                                 		var popoverWin;
-//                                 		var formGroup=$(this);
-//                                         $('.popover').each(function(i){
-//                                         	if(!$(this).children('.popover-content').html()==formGroup.data('content'))
-//                                         	{
-//                                         		alert($(this));
-//                                         		$(this).remove();
-//                                         	}
-//                                         });
-//                                 	});
+                                	
                                 });
                             </script>
                             <jsp:invoke fragment="head" />
@@ -86,7 +77,6 @@
                                                 </div>
 
                                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
                                                     <form:form modelAttribute="userLogin" id="signin" action='login' method='POST' class="navbar-form navbar-right" role="form">
                                                         <div class="input-group st-login-input-group" data-toggle='popover' data-content='${loginNameInvalid }'>
                                                             <span class="input-group-addon"><i
@@ -147,19 +137,35 @@
                                                     <div class="col-lg-6">
                                                         
                                                     </div>
-
+													<c:set var="askRequest" value="${friendDAO.getRequestAskInvited(sessionScope.user)  }" />
                                                     <ul class="nav navbar-nav navbar-right">
                                                     <li><a href="/matrimony"><i style='font-size:22px;' class="fa fa-newspaper-o st-icon-nav-bar"></i></a></li>
                                                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users st-icon-nav-bar" style='font-size:19px'></i> <span
-										class="label label-primary st-label-number-notify">5</span> </a>
+										class="label label-primary st-label-number-notify">${fn:length(askRequest) }</span> </a>
                                                             <ul class="dropdown-menu" style="width:400px;">
                                                                 
-                                                                <li><a href="#"><div id="request"><span class="label label-warning"></span></div></a>
-                                                                </li>
-                                                                
+<!--                                                                 <li><a href="#"><div id="request"><span class="label label-warning"></span></div></a></li> -->
+                                                                <li class='disabled'><a>Lời mời làm quen</a></li>
                                                                 <li class="divider"></li>
-                                                                <li><a href="#" class="text-center">View All</a>
+                                                                <c:forEach var="i" items="${askRequest}">
+                                                                <li>
+                                                                	<a class='col-lg-12'>
+                                                                	<span>
+                                                                		<img alt="" class='col-lg-3' src="http://localhost/matrimony/resources/profile/avatar/5UYKiPIpsCG5nmkHnhI1Iho5HH.jpg">
+                                                                	</span>
+                                                                	<span class='col-lg-9'>
+	                                                                	<span style='cursor: pointer'>${i.name }</span><br/>
+	                                                                	<span>${i.gender } đến từ ${i.hometown }</span>
+		                                                                	<br/>
+		                                                                	<span><input class='btn-success' type='button' value='Đồng ý'/></span>
+		                                                                	<span class='pull-right'><input type='button' class='btn-warning' value='Từ chối'/></span>
+                                                               		</span>
+                                                                	</a>
                                                                 </li>
+                                                                <li class='disabled'><a><hr style='margin:0'/></a></li>
+                                                                
+                                                                </c:forEach>
+                                                                <li><a href="#" class="text-center">View All</a>
                                                             </ul>
                                                         </li>
                                                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o st-icon-nav-bar" style='font-size:19px'></i> <span
