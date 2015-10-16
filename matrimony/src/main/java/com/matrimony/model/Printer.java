@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.imageio.ImageIO;
 import javax.print.DocFlavor.INPUT_STREAM;
@@ -36,18 +37,22 @@ public class Printer {
 			e.printStackTrace();
 		}
 	}
-	public String printBillPos(PaymentInfo pi, Timestamp time){
+	public String printBillPos(PaymentInfo pi, Timestamp time, int month){
 		PaymentDetailsResponse pdr=PaypalPayment.checkPaymentByPayKey("AP-8X8899913N648960S");
 		pi=pdr.getPaymentInfoList().getPaymentInfo().get(0);
 		String billText=billDocument;
 		System.out.println(billText.contains("totalMoney"));
 		billText=billText.replaceAll("totalMoney", String.valueOf(pi.getReceiver().getAmount()));
 		billText=billText.replace("status", pi.getSenderTransactionStatus());
+		SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat df2=new SimpleDateFormat("HH:mm:ss");
+		billText=billText.replace("payDate", df.format(time));
+		billText=billText.replace("payTime", df2.format(time));
+		billText=billText.replace("payMonth", String.valueOf(month));
 		return billText;
-		
 	}
 	public static void main(String[] args) {
 		Printer p=new Printer();
-		System.out.println(p.printBillPos(null, null));
+		System.out.println(p.printBillPos(null, new Timestamp(System.currentTimeMillis()), 12));
 	}
 }
