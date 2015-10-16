@@ -21,8 +21,8 @@ Chi tiết hóa đơn
 	1	Dịch vụ 	Tháng		payMonth	totalMoney USD
 
 	Số tiền    : totalMoney USD
-	Dư	   : 0 USD
-	Tổng	   : totalMoney 
+	Dư	       : 0 USD
+	Tổng	   : totalMoney USD
 
 	-------------------------------------------------------------------------------
 	Ngày	   : payDate

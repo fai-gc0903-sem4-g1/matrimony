@@ -5,10 +5,12 @@ package com.matrimony.model;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Timestamp;
 
+import javax.imageio.ImageIO;
 import javax.print.DocFlavor.INPUT_STREAM;
 
 import com.matrimony.util.IOUtils;
@@ -27,25 +29,25 @@ public class Printer {
 	private String billDocument;
 	public Printer() {
 		InputStream is=getClass().getResourceAsStream("/resoucres/billTemplate.txt");
-		System.out.println(is);
 		try {
-			System.out.println(IOUtils.toString(is));
+			billDocument=IOUtils.toString(is);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public BufferedImage printBillPos(PaymentInfo pi, Timestamp time){
+	public String printBillPos(PaymentInfo pi, Timestamp time){
 		PaymentDetailsResponse pdr=PaypalPayment.checkPaymentByPayKey("AP-8X8899913N648960S");
 		pi=pdr.getPaymentInfoList().getPaymentInfo().get(0);
-		System.out.println(pdr.getPaymentInfoList().getPaymentInfo().get(0).getSenderTransactionId());
-		System.out.println(pdr.getPaymentInfoList().getPaymentInfo().get(0).getSenderTransactionStatus());
-		System.out.println(pdr.getStatus());
-		return null;
+		String billText=billDocument;
+		System.out.println(billText.contains("totalMoney"));
+		billText=billText.replaceAll("totalMoney", String.valueOf(pi.getReceiver().getAmount()));
+		billText=billText.replace("status", pi.getSenderTransactionStatus());
+		return billText;
 		
 	}
 	public static void main(String[] args) {
 		Printer p=new Printer();
-//		p.printBillPos(null, null);
+		System.out.println(p.printBillPos(null, null));
 	}
 }
