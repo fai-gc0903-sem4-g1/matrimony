@@ -93,10 +93,10 @@
                                         <span id='name' style='font-weight: 600;' class='col-lg-21'>${sessionScope.user.name }</span>
                                         <br/>
                                         <div class="list-group">
-                                            <a class="list-group-item" href="/matrimony/update"><i class="fa fa-user"></i>&nbsp;Cập nhập</a>
+                                            <a class="list-group-item" href="/matrimony/update"><i class="fa fa-user"></i>&nbsp;Cập nhập t.tin</a>
                                             <a class="list-group-item" href="#"> <i class="fa fa-cog"></i>&nbsp;Cài đặt</a>
                                             <a class="list-group-item" href="/matrimony/payment"> <i class="fa fa-money"></i>&nbsp;Gia hạn tài khoản</a>
-                                            <a class="list-group-item" href="/matrimony/paymentHistory"> <i class="fa fa-book"></i>&nbsp;Lịch sử T.toán</a>
+                                            <a class="list-group-item" href="/matrimony/paymentHistory"> <i class="fa fa-book"></i>&nbsp;Lịch sử t.toán</a>
                                             <a class="list-group-item" id='btn-logout' href="#"><i class="fa fa-sign-out"></i>&nbsp;Thoát</a>
                                         </div>
                                     </div>
@@ -120,7 +120,6 @@
 														<span style='float: right;'>
 														<span style='float: right;padding-top: 10px;'>&nbsp;&nbsp;&nbsp;<i class='fa fa-circle' style='color:#0DC9F7;font-size: 11px;'></i></span>
 														<a href="#" id='btn-chat-inbox' data-id='${i.id }' ><i style='font-size: 26px;' class="fa fa-commenting"></i></a></span>
-														
 														
 												</div>
 											</c:forEach>

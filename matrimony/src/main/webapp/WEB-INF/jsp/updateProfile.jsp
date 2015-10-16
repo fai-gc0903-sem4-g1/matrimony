@@ -202,11 +202,11 @@
                                     <div class="list-group">
                                         <a href="#" class="list-group-item active text-center">Cơ bản</a>
                                         <a href="#" class="list-group-item text-center">Ngoại hình</a>
-                                        <a href="#" class="list-group-item text-center">Sở thích</a>
-                                        <a href="#" class="list-group-item text-center">Học vấn</a>
-                                        <a href="#" class="list-group-item text-center">Nghề nghiệp</a>
+<!--                                         <a href="#" class="list-group-item text-center">Sở thích</a> -->
+<!--                                         <a href="#" class="list-group-item text-center">Học vấn</a> -->
+<!--                                         <a href="#" class="list-group-item text-center">Nghề nghiệp</a> -->
                                         <a href="#" class="list-group-item text-center">Người bạn thích</a>
-                                        <a href="#" class="list-group-item text-center">Khác</a>
+<!--                                         <a href="#" class="list-group-item text-center">Khác</a> -->
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
@@ -337,22 +337,22 @@
                                     </div>
 
 
-                                    <!-- hobby section -->
-                                    <div class="bhoechie-tab-content">
-                                        <h3 class="st-caption-tab">Cập nhập thích</h3>
-                                        <hr />
+<!--                                     hobby section -->
+<!--                                     <div class="bhoechie-tab-content"> -->
+<!--                                         <h3 class="st-caption-tab">Cập nhập thích</h3> -->
+<!--                                         <hr /> -->
                                       
-                                    </div>
+<!--                                     </div> -->
 
-                                    <!-- knowleged search -->
-                                    <div class="bhoechie-tab-content">
-                                        <h3 class="st-caption-tab">Học vấn</h3>
-                                    </div>
+<!--                                     knowleged search -->
+<!--                                     <div class="bhoechie-tab-content"> -->
+<!--                                         <h3 class="st-caption-tab">Học vấn</h3> -->
+<!--                                     </div> -->
 
-                                    <!-- job search -->
-                                    <div class="bhoechie-tab-content">
-                                        <h3 class="st-caption-tab">Nghề nghiệp</h3>
-                                    </div>
+<!--                                     job search -->
+<!--                                     <div class="bhoechie-tab-content"> -->
+<!--                                         <h3 class="st-caption-tab">Nghề nghiệp</h3> -->
+<!--                                     </div> -->
                                     
                                     
 									<!-- people like -->
@@ -473,23 +473,23 @@
 
                                     </div>
                                     <!-- others search -->
-                                    <div class="bhoechie-tab-content">
-                                        <h3 class="st-caption-tab">Ngôn ngữ</h3>
-                                        <form action="#" method="post" class="form-horizontal">
-                                            <!-- password -->
-                                            <div class="form-group">
-                                                <label class="col-lg-5 control-label">Ngôn ngữ hiển thị</label>
-                                                <div class='col-lg-5'>
-	                                                <select class='form-control'>
-	                                                		<option>Tiếng việt</option>
-	                                                		<option>English</option>
-	                                                </select>
-                                                </div>
-                                                <input type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' value='Thay đổi' />
-                                            </div>
-                                        </form>
+<!--                                     <div class="bhoechie-tab-content"> -->
+<!--                                         <h3 class="st-caption-tab">Ngôn ngữ</h3> -->
+<!--                                         <form action="#" method="post" class="form-horizontal"> -->
+<!--                                             password -->
+<!--                                             <div class="form-group"> -->
+<!--                                                 <label class="col-lg-5 control-label">Ngôn ngữ hiển thị</label> -->
+<!--                                                 <div class='col-lg-5'> -->
+<!-- 	                                                <select class='form-control'> -->
+<!-- 	                                                		<option>Tiếng việt</option> -->
+<!-- 	                                                		<option>English</option> -->
+<!-- 	                                                </select> -->
+<!--                                                 </div> -->
+<!--                                                 <input type='submit' class='btn btn-primary col-lg-2 btn-submit-update-basic-form' value='Thay đổi' /> -->
+<!--                                             </div> -->
+<!--                                         </form> -->
 
-                                    </div>
+<!--                                     </div> -->
                                 </div>
                             </div>
                             

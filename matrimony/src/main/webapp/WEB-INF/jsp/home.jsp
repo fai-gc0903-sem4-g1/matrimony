@@ -70,27 +70,40 @@
                 <div id='person-panel' class='row col-sm-12' data-user-id='${i.key.id}'>
                     <div class='col-sm-3'>
                         <a class='st-avatar-suggester-link' href="/matrimony/resources/profile/avatar/${i.key.avatarPhoto}"><img id='person-avatar' alt='person-avatar' src='/matrimony/resources/profile/avatar/${i.key.avatarPhoto }' style='width: 100%;min-height: 130px;max-height: 200px;' /></a>
-                        <br />
-                        <a class='st-name-suggester' target="_blank" href='${i.key.username }' id='person-name'>${i.key.name }</a>
-                    </div>
-                    <div id='person-left' class='col-sm-4'>
-                        <span id='person-age'><span id="label-basic">Tuổi </span> ${jstl.yearUntilToDay(i.key.birthday) } tuổi</span>
-                        <br />
-                        <span id='person-gender'><span id="label-basic">Giới tính </span>${i.key.gender =='FEMALE' ?'Nữ':'Nam'}</span>
-                        <br />
-                        <br />
                         
                     </div>
+                    <div id='person-left' class='col-sm-5'>
+                        <span id='person-gender' class='col-lg-3'>
+                        <c:choose>
+                        	<c:when test="${i.key.gender =='FEMALE'}">
+                        		<i style='font-size: 42px; color:pink;' class="fa fa-female"></i>
+                        	</c:when>
+                        	
+                        	<c:otherwise>
+                        		<i style='font-size: 42px; color:blue;' class="fa fa-male"></i>
+                        	</c:otherwise>
+                        </c:choose>
+                        
+                        </span>
+                      	<a class='st-name-suggester' target="_blank" href='${i.key.username }' id='person-name'>${i.key.name }</a>
+                      	<br/><span id='person-age' class='' style='font-weight: 600;'>${jstl.yearUntilToDay(i.key.birthday) } tuổi</span>
+                      	<br/><br/>
+                      	<div class='col-lg-12'>
+                      	<span style='font-weight: 600;'>Giới thiệu</span>
+                       <div class='thumbnail col-lg-12'>
+                       	${i.key.introduce }
+                       </div>
+                       </div>
+                    </div>
                     <div id='person-right' class='col-sm-4'>
-                        <span id='person-name'><span id="label-basic">Đất nước </span>${i.key.countryside }</span>
+                        <span id='person-name'><i class="fa fa-globe"></i>&nbsp;${i.key.countryside }</span>
                         <br />
-                        <span id='person-city'><span id="label-basic">Tỉnh/thành phố </span>${i.key.hometown }</span>
+                        <span id='person-city'><i class="fa fa-map-marker"></i>&nbsp;${i.key.hometown }</span>
                         <br />
-                        <span id='person-status'><span id="label-basic">Hôn nhân </span> ${i.key.maritalStatus }</span>
-                        <br />
-                        <br />
+                        <span id='person-status'>${i.key.maritalStatus }</span>
 					<%--                         <span id='person-btna'><input type="button" class="btnAdd btn btn-primary btn-make-friend" onclick="addFriend('${i.key.id}', '${myIndex.index}')" value="Add Friend"/></span> --%>
 					<%-- <span id='person-btna'><input type="button" class='showDialog' onclick="show('${i.key.id}', '${myIndex.index}')" value="Cancel" hidden="true"/></span> --%>
+					<br/><br/>
 					<span id='person-btna'></span>
 						<c:set var="state" value="${friendDAO.getRelationshipState(sessionScope.user, i.key) }" />
 						<c:choose>
@@ -98,12 +111,9 @@
 								<input type="button" class="btnAdd btn btn-primary btn-make-friend" data-suggest-user-id="${i.key.id }" value="Hủy yêu cầu kết bạn"/>
 							</c:when>
 							<c:otherwise>
-								<input type="button" class="btnAdd btn btn-primary btn-make-friend" data-suggest-user-id="${i.key.id }" value="Make Friend"/>
+								<input type="button" class="btnAdd btn btn-primary btn-make-friend" data-suggest-user-id="${i.key.id }" value="Làm quen"/>
 							</c:otherwise>
 						</c:choose>
-						
-					
-                        <br/>
                     </div>
                 </div>
             </c:forEach>
